@@ -1,30 +1,66 @@
 .App {
+  box-sizing: border-box;
+
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.game-page {
+  /* display-related props */
+  display: grid;
+  grid-template-rows: auto 80% auto;
+
+  /* layouts: width, height, margin, padding, etc.*/
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+
+  /* element-specific props */
+  background-color: darkslategray;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.play-area {
+  display: block;
+  grid-row: 2;
+  margin: 0 auto;
+
+  position: relative;
+  height: 100%;
+  aspect-ratio: auto 18 / 11;
+  box-sizing: border-box;
+
+  background-color: black;
 }
 
-.App-link {
-  color: #61dafb;
+.play-area__canvas-grid {
+  display: grid;
+  grid-template-columns: repeat(18, 1fr);
+  grid-template-rows: repeat(11, 1fr);
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.test {
+  display: block;
+  position: relative;
+  grid-row: 5;
+  grid-column: 5;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: white;
 }
 
 body,
 html,
 #___gatsby {
-  height: 100%;
+  margin: 0;
+
+  height: 100vh;
+  max-height: 100vh;
+  min-height: 100vh;
+  box-sizing: border-box;
 }

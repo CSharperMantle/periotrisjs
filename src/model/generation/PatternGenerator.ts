@@ -7,12 +7,12 @@ import { Direction, RotationDirection } from "../Direction"
 import { Tetrimino } from "../Tetrimino"
 import { TetriminoKind } from "../TetriminoKind"
 import { getInitialPositionByKind } from "./GeneratorHelper"
-import defaultPeriodicTable from "./defaultPeriodicTable.json"
+import defaultPeriodicTable from "./DefaultPeriodicTable.json"
 import { sort } from "./TetriminoSorter"
 
 function getPlayablePattern(): Tetrimino[] {
-  const dim0len: number = defaultPeriodicTable.periodicTable.length
-  const dim1len: number = defaultPeriodicTable.periodicTable[0].length
+  const dim0len: number = PlayAreaHeight
+  const dim1len: number = PlayAreaWidth
   const template: Block[][] = []
 
   for (let i = 0; i < dim0len; i++) {

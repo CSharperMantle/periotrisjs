@@ -1,0 +1,27 @@
+.block-control {
+  display: flex;
+  /* grid-row to be filled */
+  /* grid-column to be filled */
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+  height: 100%;
+  width: 100%;
+  padding: 5% 5% 5% 5%;
+  box-sizing: border-box;
+
+  /* background-color to be filled */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.block-control__symbol {
+  display: block;
+
+  position: relative;
+  margin: 0 auto;
+
+  user-select: none;
+  text-align: center;
+  font-size: 24px;
+}

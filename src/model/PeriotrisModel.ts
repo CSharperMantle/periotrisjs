@@ -5,7 +5,7 @@ import _ from "lodash"
 import { MoveDirection, RotationDirection } from "./Direction"
 import { PlayAreaWidth, PlayAreaHeight } from "../common/PeriotrisConst"
 import { getPlayablePattern } from "./generation/PatternGenerator"
-import defaultPeriodicTable from "./generation/defaultPeriodicTable.json"
+import defaultPeriodicTable from "./generation/DefaultPeriodicTable.json"
 
 class PeriotrisModel extends EventTarget {
   private readonly _frozenBlocks: Block[] = []
