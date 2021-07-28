@@ -1,20 +1,12 @@
 import "./BlockControl.css"
 import React from "react"
+import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
 
-interface IBlockControlProps {
-  symbol: string
-  column: number
-  row: number
-  backgroundColor: string
-  symbolColor: string
+interface IBlockControlProps extends IDisplayBlock {
+  key: number
 }
 
-interface IBlockControlState {}
-
-class BlockControl extends React.Component<
-  IBlockControlProps,
-  IBlockControlState
-> {
+class BlockControl extends React.Component<IBlockControlProps> {
   public constructor(props: IBlockControlProps) {
     super(props)
   }
@@ -39,7 +31,7 @@ class BlockControl extends React.Component<
             color: this.props.symbolColor,
           }}
         >
-          {this.props.symbol}
+          {this.props.atomicNumber}
         </div>
       </div>
     )

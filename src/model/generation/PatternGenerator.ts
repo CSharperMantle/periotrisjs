@@ -7,7 +7,7 @@ import { Direction, RotationDirection } from "../Direction"
 import { Tetrimino } from "../Tetrimino"
 import { TetriminoKind } from "../TetriminoKind"
 import { getInitialPositionByKind } from "./GeneratorHelper"
-import defaultPeriodicTable from "./DefaultPeriodicTable.json"
+import defaultMap from "../../json/DefaultMap.json"
 import { sort } from "./TetriminoSorter"
 
 function getPlayablePattern(): Tetrimino[] {
@@ -23,7 +23,7 @@ function getPlayablePattern(): Tetrimino[] {
         filledBy: number
         identifier: number
         position: { X: number; Y: number }
-      } = defaultPeriodicTable.periodicTable[i][j]
+      } = defaultMap.periodicTable[i][j]
       template[i][j] = new Block(
         origElem.filledBy,
         new Position(origElem.position.X, origElem.position.Y),
@@ -91,7 +91,7 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
       return settledTetrimino
     }
 
-    let currentKindDirectionsPairStack: KindDirectionsPair[] = null
+    let currentKindDirectionsPairStack: KindDirectionsPair[] | null = null
     if (!rewindingRequired) {
       currentKindDirectionsPairStack = _.shuffle([
         new KindDirectionsPair(TetriminoKind.Cubic),
@@ -106,8 +106,8 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
       if (settledTetrimino.length === 0) {
         return settledTetrimino
       }
-      currentKindDirectionsPairStack = pendingTetriminoKinds.pop()
-      const lastTetrimino = settledTetrimino.pop()
+      currentKindDirectionsPairStack = pendingTetriminoKinds.pop()!
+      const lastTetrimino = settledTetrimino.pop()!
       lastTetrimino.blocks.forEach((block: Block) => {
         workspace[block.position.Y][block.position.X].filledBy =
           TetriminoKind.AvailableToFill
@@ -115,10 +115,10 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
     }
 
     let solutionFound: boolean = false
-    while (currentKindDirectionsPairStack.length > 0) {
-      const currentPair: KindDirectionsPair = currentKindDirectionsPairStack.pop()
+    while (currentKindDirectionsPairStack!.length > 0) {
+      const currentPair: KindDirectionsPair = currentKindDirectionsPairStack!.pop()!
       while (currentPair.Directions.length > 0) {
-        const direction: Direction = currentPair.Directions.pop()
+        const direction: Direction = currentPair.Directions.pop()!
         const tetrimino: Tetrimino = Tetrimino.createTetriminoByFirstBlockPosition(
           currentPair.Kind,
           firstBlockCoord,
@@ -126,7 +126,9 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
         )
         if (!_.some(tetrimino.blocks, collisionChecker)) {
           settledTetrimino.push(tetrimino)
-          pendingTetriminoKinds.push(currentKindDirectionsPairStack)
+          pendingTetriminoKinds.push(
+            currentKindDirectionsPairStack as KindDirectionsPair[]
+          )
           tetrimino.blocks.forEach((block: Block) => {
             block.atomicNumber =
               workspace[block.position.Y][block.position.X].atomicNumber

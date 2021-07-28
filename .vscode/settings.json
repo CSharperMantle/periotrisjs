@@ -1,12 +1,16 @@
 {
   "cSpell.words": [
     "Coord",
+    "Offseted",
+    "blockchanged",
     "fluentui",
+    "gameend",
     "periotris",
+    "periotrisjs",
     "semibold",
     "tetrimino",
     "tetriminos",
-    "periotrisjs"
+    "viewmodel"
   ],
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,

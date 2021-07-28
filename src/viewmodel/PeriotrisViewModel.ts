@@ -1,52 +1,38 @@
 import _ from "lodash"
-import { observable, computed, action } from "mobx"
-import React from "react"
-import {
-  GameUpdateIntervalMilliseconds,
-  PlayAreaWidth,
-} from "../common/PeriotrisConst"
+import { makeAutoObservable } from "mobx"
+import { GameUpdateIntervalMilliseconds } from "../common/PeriotrisConst"
 import { Position } from "../common/Position"
 import { BlockChangedEventArgs } from "../model/BlockChangedEventArgs"
 import { MoveDirection, RotationDirection } from "../model/Direction"
 import { PeriotrisModel } from "../model/PeriotrisModel"
+import { IDisplayBlock } from "./IDisplayBlock"
+import React from "react"
+import { Block } from "../model/Block"
 
 class PeriotrisViewModel {
   public constructor() {
-    PeriotrisViewModel.scale = 1
+    makeAutoObservable(this)
 
-    this._model.addEventListener(
-      "blockchanged",
-      this.modelBlockChangedEventHandler
-    )
-    this._model.addEventListener("gameend", this.modelGameEndEventHandler)
+    this._model.addEventListener("blockchanged", (ev: Event) => {
+      this.modelBlockChangedEventHandler(ev)
+    })
+    this._model.addEventListener("gameend", (ev: Event) => {
+      this.modelGameEndEventHandler(ev)
+    })
 
     this.endGame()
   }
 
-  @observable
-  private static _scale: number = 0
-
-  @computed
-  public static get scale(): number {
-    return this._scale
-  }
-
-  private static set scale(v: number) {
-    this._scale = v
-  }
-
-  @computed
   public get gameOver(): boolean {
     return this._model.gameEnded && !this._model.victory
   }
 
-  @observable public get gameWon(): boolean {
+  public get gameWon(): boolean {
     return this._model.gameEnded && this._model.victory
   }
 
-  @observable private _paused: boolean = false
+  private _paused: boolean = false
 
-  @computed
   public get paused(): boolean {
     return this._paused
   }
@@ -55,36 +41,27 @@ class PeriotrisViewModel {
     this._paused = v
   }
 
-  public set playAreaSize(v: { width: number; height: number }) {
-    PeriotrisViewModel.scale = v.width / PlayAreaWidth
-    this._model.updateAllBlocks()
-    this.recreateAssistGrid()
-  }
+  private _sprites: IDisplayBlock[] = []
 
-  @observable
-  private _sprites: React.Component[] = []
-
-  @computed
-  public get sprites(): React.Component[] {
+  public get sprites(): IDisplayBlock[] {
     return this._sprites
   }
 
-  private set sprites(v: React.Component[]) {
+  private set sprites(v: IDisplayBlock[]) {
     this._sprites = v
   }
 
   private readonly _model: PeriotrisModel = new PeriotrisModel()
 
-  private readonly _blocksByPosition: Map<Position, React.Component> = new Map()
+  private readonly _blocksByPosition: Map<Position, IDisplayBlock> = new Map()
 
-  private readonly _assistGridLines: React.Component[] = []
-
-  private _gameIntervalTimerHandle: number = null
+  private _gameIntervalTimerHandle: number = -1
 
   private _lastPaused: boolean = true
 
-  @action
-  public onKeyDown(ev: KeyboardEvent): boolean {
+  private _that: PeriotrisViewModel = this
+
+  public onKeyDown(ev: React.KeyboardEvent<HTMLElement>): boolean {
     const key: string = _.toLower(ev.key)
     if (this.paused) {
       if (key === "escape") {
@@ -119,17 +96,15 @@ class PeriotrisViewModel {
   }
 
   public startGame(): void {
-    this.recreateAssistGrid()
     for (const element of this._blocksByPosition.values()) {
       _.remove(this.sprites, () => element)
     }
     this._blocksByPosition.clear()
     this._model.startGame()
     this.paused = false
-    this._gameIntervalTimerHandle = window.setInterval(
-      this.intervalTickEventHandler,
-      GameUpdateIntervalMilliseconds
-    )
+    this._gameIntervalTimerHandle = window.setInterval(() => {
+      this.intervalTickEventHandler()
+    }, GameUpdateIntervalMilliseconds)
   }
 
   private endGame(): void {
@@ -149,19 +124,41 @@ class PeriotrisViewModel {
     }
   }
 
-  private modelBlockChangedEventHandler(args: {
-    detail: BlockChangedEventArgs
-  }): void {
+  private modelBlockChangedEventHandler(evt: Event): void {
+    const args = evt as CustomEvent<BlockChangedEventArgs>
     const e: BlockChangedEventArgs = args.detail
+    const block: Block = e.block
+
     if (!e.disappeared) {
       if (!this._blocksByPosition.has(e.block.position)) {
-        const newBlockControl = annotatedBlockControlFactory(
-          e.block,
-          PeriotrisViewModel.scale
-        )
-        this._blocksByPosition.set(e.block.position, newBlockControl)
-        this.sprites.push(newBlockControl)
+        const displayBlock: IDisplayBlock = {
+          atomicNumber: block.atomicNumber,
+          row: block.position.Y,
+          column: block.position.X,
+          backgroundColor: "white",
+          symbolColor: "black",
+        }
+        this._blocksByPosition.set(block.position, displayBlock)
+        this.sprites.push(displayBlock)
+      }
+    } else {
+      if (this._blocksByPosition.has(block.position)) {
+        const displayBlock: IDisplayBlock = this._blocksByPosition.get(
+          block.position
+        )!
+        _.remove(this.sprites, () => displayBlock)
+        this._blocksByPosition.delete(block.position)
       }
     }
   }
+
+  private modelGameEndEventHandler(evt: Event): void {
+    // TODO: Empty is okay?
+  }
+
+  public test(): void {
+    this.startGame()
+  }
 }
+
+export { PeriotrisViewModel }

@@ -1,30 +1,25 @@
 import React from "react"
-import { Stack, Text, Link, FontWeights, DefaultButton } from "@fluentui/react"
 import "./index.css"
-import { BlockControl } from "../components/BlockControl"
+import { PeriotrisViewModel } from "../viewmodel/PeriotrisViewModel"
+import { BlocksGrid } from "../components/BlocksGrid"
 
-interface IAppProps {}
+class App extends React.Component<{}, {}> {
+  private _viewModel: PeriotrisViewModel = new PeriotrisViewModel()
 
-interface IAppState {}
-
-class App extends React.Component<IAppProps, IAppState> {
-  public constructor(props: IAppProps) {
+  public constructor(props: {}) {
     super(props)
   }
 
   public render() {
     return (
-      <main className="game-page">
-        <div className="play-area">
-          <div className="play-area__canvas-grid">
-            <BlockControl
-              symbol="El"
-              row={1}
-              column={1}
-              backgroundColor="white"
-              symbolColor="black"
-            />
-          </div>
+      <main className="game-page" onKeyDown={this._viewModel.onKeyDown}>
+        <div
+          className="play-area"
+          onClick={() => {
+            this._viewModel.test()
+          }}
+        >
+          <BlocksGrid blocksList={this._viewModel.sprites} />
         </div>
       </main>
     )

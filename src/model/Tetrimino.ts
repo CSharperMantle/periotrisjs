@@ -14,7 +14,7 @@ import { TetriminoKind } from "./TetriminoKind"
 type BlockCollisionChecker = (block: Block) => boolean
 
 class Tetrimino {
-  private _facingDirection: Direction = null
+  private _facingDirection: Direction
   public get facingDirection(): Direction {
     return this._facingDirection
   }
@@ -22,7 +22,7 @@ class Tetrimino {
     this._facingDirection = v
   }
 
-  private _firstBlockPosition: Position = null
+  private _firstBlockPosition: Position
   public get firstBlockPosition(): Position {
     return this._firstBlockPosition
   }
@@ -30,7 +30,7 @@ class Tetrimino {
     this._firstBlockPosition = v
   }
 
-  private _kind: TetriminoKind = null
+  private _kind: TetriminoKind
   public get kind(): TetriminoKind {
     return this._kind
   }
@@ -38,7 +38,7 @@ class Tetrimino {
     this._kind = v
   }
 
-  private _position: Position = null
+  private _position: Position
   public get position(): Position {
     return this._position
   }
@@ -46,7 +46,7 @@ class Tetrimino {
     this._position = v
   }
 
-  private _blocks: Block[] = []
+  private _blocks: Block[]
   public get blocks(): Block[] {
     return this._blocks
   }
@@ -68,12 +68,12 @@ class Tetrimino {
       position = new Position(column, position.Y)
     }
 
-    const newBlocks: Block[] = createOffsetedBlocks(
+    let newBlocks: Block[] = createOffsetedBlocks(
       this.kind,
       position,
       this.facingDirection
     )
-    mapAtomicNumberForNewBlocks(this.blocks, newBlocks)
+    newBlocks = mapAtomicNumberForNewBlocks(this.blocks, newBlocks)
     if (_.some(newBlocks, collisionChecker)) {
       return false
     }
@@ -103,14 +103,14 @@ class Tetrimino {
         this.position.X + adjust,
         this.position.Y
       )
-      const newBlocks: Block[] = createOffsetedBlocks(
+      let newBlocks: Block[] = createOffsetedBlocks(
         this.kind,
         newPos,
         direction
       )
 
       if (!_.some(newBlocks, collisionChecker)) {
-        mapAtomicNumberForNewBlocks(this.blocks, newBlocks)
+        newBlocks = mapAtomicNumberForNewBlocks(this.blocks, newBlocks)
         this.facingDirection = direction
         this.position = newPos
         this.blocks = newBlocks
@@ -152,11 +152,11 @@ class Tetrimino {
     firstBlockPos: Position,
     facingDirection: Direction
   ) {
-    this.position = position
-    this.kind = kind
-    this.firstBlockPosition = firstBlockPos
-    this.facingDirection = facingDirection
-    this.blocks = createOffsetedBlocks(kind, position, facingDirection)
+    this._position = position
+    this._kind = kind
+    this._firstBlockPosition = firstBlockPos
+    this._facingDirection = facingDirection
+    this._blocks = createOffsetedBlocks(kind, position, facingDirection)
   }
 }
 

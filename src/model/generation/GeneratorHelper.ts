@@ -443,18 +443,19 @@ function createOffsetedBlocks(
 function mapAtomicNumberForNewBlocks(
   oldBlocks: Block[],
   newBlocks: Block[]
-): void {
+): Block[] {
+  const result: Block[] = []
   oldBlocks.forEach((oldBlock: Block) => {
-    const correspondingNewBlocks: Block[] = []
-    newBlocks.forEach((newBlock: Block) => {
-      if (newBlock.atomicNumber === oldBlock.atomicNumber) {
-        correspondingNewBlocks.push(newBlock)
-      }
-    })
-    correspondingNewBlocks.forEach((element: Block) => {
-      element.atomicNumber = oldBlock.atomicNumber
+    const correspondingNewBlocks: Block[] = _.filter(
+      newBlocks,
+      (newBlock: Block) => newBlock.id === oldBlock.id
+    )
+    correspondingNewBlocks.forEach((block: Block) => {
+      block.atomicNumber = oldBlock.atomicNumber
+      result.push(block)
     })
   })
+  return result
 }
 
 export {

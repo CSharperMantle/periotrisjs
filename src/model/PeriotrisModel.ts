@@ -5,13 +5,13 @@ import _ from "lodash"
 import { MoveDirection, RotationDirection } from "./Direction"
 import { PlayAreaWidth, PlayAreaHeight } from "../common/PeriotrisConst"
 import { getPlayablePattern } from "./generation/PatternGenerator"
-import defaultPeriodicTable from "./generation/DefaultPeriodicTable.json"
+import defaultMap from "../json/DefaultMap.json"
+import { Nullable } from "../common/Nullable"
 
 class PeriotrisModel extends EventTarget {
   private readonly _frozenBlocks: Block[] = []
   private readonly _pendingTetriminos: Tetrimino[] = []
-  private _startTime: Date = null
-  private _activeTetrimino: Tetrimino = null
+  private _activeTetrimino: Nullable<Tetrimino> = null
 
   private _gameEnded: boolean = true
   public get gameEnded(): boolean {
@@ -40,7 +40,7 @@ class PeriotrisModel extends EventTarget {
     if (this.gameEnded) return
     this.updateActiveTetrimino(true)
     while (
-      this._activeTetrimino.tryMove(
+      this._activeTetrimino!.tryMove(
         MoveDirection.Down,
         PeriotrisModel.checkBlockCollisionFunFactory(this)
       )
@@ -81,7 +81,7 @@ class PeriotrisModel extends EventTarget {
     }
 
     this.updateActiveTetrimino(true)
-    this._activeTetrimino.tryRotate(
+    this._activeTetrimino!.tryRotate(
       direction,
       PeriotrisModel.checkBlockCollisionFunFactory(this)
     )
@@ -116,17 +116,14 @@ class PeriotrisModel extends EventTarget {
     this.moveActiveTetrimino(MoveDirection.Down)
     this._frozenBlocks.forEach((block: Block) => {
       if (
-        defaultPeriodicTable.periodicTable[block.position.Y][block.position.X]
+        defaultMap.periodicTable[block.position.Y][block.position.X]
           .atomicNumber !== block.atomicNumber
       ) {
         this.endGame(false)
       }
     })
 
-    if (
-      this._frozenBlocks.length >=
-      defaultPeriodicTable.totalAvailableBlocksCount
-    ) {
+    if (this._frozenBlocks.length >= defaultMap.totalAvailableBlocksCount) {
       this.endGame(true)
     }
   }
@@ -174,6 +171,10 @@ class PeriotrisModel extends EventTarget {
   }
 
   private freezeActiveTetrimino(): void {
+    if (_.isNil(this._activeTetrimino)) {
+      console.warn("PeriotrisModel.freezeActiveTetrimino() null check")
+      return
+    }
     this._activeTetrimino.blocks.forEach((block: Block) => {
       this._frozenBlocks.push(block)
     })
@@ -181,7 +182,13 @@ class PeriotrisModel extends EventTarget {
 
   private spawnNextTetrimino(): void {
     if (this._pendingTetriminos.length > 0) {
-      this._activeTetrimino = this._pendingTetriminos.pop()
+      const poppedTetrimino = this._pendingTetriminos.pop()
+      if (!_.isNil(poppedTetrimino)) {
+        this._activeTetrimino = poppedTetrimino
+      } else {
+        console.warn("PeriotrisModel.spawnNextTetrimino() null check")
+        return
+      }
       this.updateActiveTetrimino(false)
     }
   }

@@ -13,6 +13,7 @@
 
   /* background-color to be filled */
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  border: solid 1px black;
 }
 
 .block-control__symbol {
