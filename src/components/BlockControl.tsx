@@ -1,6 +1,9 @@
 import "./BlockControl.css"
 import React from "react"
 import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
+import defaultPeriodicTable from "../json/DefaultPeriodicTable.json"
+import defaultColorScheme from "../json/DefaultColorScheme.json"
+import _ from "lodash"
 
 interface IBlockControlProps extends IDisplayBlock {
   key: number
@@ -22,7 +25,9 @@ class BlockControl extends React.Component<IBlockControlProps> {
            */
           gridRow: this.props.row + 1,
           gridColumn: this.props.column + 1,
-          backgroundColor: this.props.backgroundColor,
+          backgroundColor: getBackgroundColorByAtomicNumber(
+            this.props.atomicNumber
+          ),
         }}
       >
         <div
@@ -31,11 +36,29 @@ class BlockControl extends React.Component<IBlockControlProps> {
             color: this.props.symbolColor,
           }}
         >
-          {this.props.atomicNumber}
+          {this.props.atomicNumber > 0
+            ? defaultPeriodicTable.elements[this.props.atomicNumber - 1].symbol
+            : -this.props.atomicNumber}
         </div>
       </div>
     )
   }
 }
 
-export { BlockControl }
+function getBackgroundColorByAtomicNumber(atomicNumber: number): string {
+  for (let i = 0; i < defaultColorScheme.rules.length; i++) {
+    const rule = defaultColorScheme.rules[i]
+    if (
+      _.inRange(
+        atomicNumber,
+        rule.atomicNumberRange.from,
+        rule.atomicNumberRange.to + 1
+      )
+    ) {
+      return rule.color
+    }
+  }
+  throw new Error("atomicNumber")
+}
+
+export { BlockControl, getBackgroundColorByAtomicNumber }

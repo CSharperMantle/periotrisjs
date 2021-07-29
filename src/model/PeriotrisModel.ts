@@ -128,18 +128,16 @@ class PeriotrisModel extends EventTarget {
     }
   }
 
-  public updateAllBlocks(): void {
-    this.updateActiveTetrimino(true)
-    this.updateActiveTetrimino(false)
+  public constructor() {
+    super()
+    this.endGame(false)
+  }
+
+  private updateFrozenBlocks(): void {
     this._frozenBlocks.forEach((block: Block) => {
       this.onBlockChanged(block, true)
       this.onBlockChanged(block, false)
     })
-  }
-
-  public constructor() {
-    super()
-    this.endGame(false)
   }
 
   private onGameEnd(): void {
@@ -157,15 +155,15 @@ class PeriotrisModel extends EventTarget {
   private static checkBlockCollisionFunFactory(
     that: PeriotrisModel
   ): BlockCollisionChecker {
-    return (block: Block) => {
+    return (block: Block): boolean => {
       if (block.position.X < 0 || block.position.X >= PlayAreaWidth) {
         return true
       }
       if (block.position.Y >= PlayAreaHeight) {
         return true
       }
-      return _.some(that._frozenBlocks, (frozenBlock: Block) => {
-        frozenBlock.position.equals(block.position)
+      return _.some(that._frozenBlocks, (frozenBlock: Block): boolean => {
+        return frozenBlock.position.equals(block.position)
       })
     }
   }
@@ -178,6 +176,7 @@ class PeriotrisModel extends EventTarget {
     this._activeTetrimino.blocks.forEach((block: Block) => {
       this._frozenBlocks.push(block)
     })
+    this.updateFrozenBlocks()
   }
 
   private spawnNextTetrimino(): void {

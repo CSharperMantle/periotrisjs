@@ -24,12 +24,12 @@ function sort(
 
   const result: TetriminoNode[] = []
   while (startNodes.length !== 0) {
-    const n: TetriminoNode = startNodes.pop()
+    const n: TetriminoNode = startNodes.pop()!
     result.push(n)
     const dependedBy: TetriminoNode[] = _.clone(n.dependedBy)
     dependedBy.forEach((m: TetriminoNode) => {
-      _.remove(n.dependedBy, () => m)
-      _.remove(m.depending, () => n)
+      _.remove(n.dependedBy, (value: TetriminoNode) => _.isEqual(value, m))
+      _.remove(m.depending, (value: TetriminoNode) => _.isEqual(value, n))
       if (m.depending.length === 0) {
         startNodes.push(m)
       }

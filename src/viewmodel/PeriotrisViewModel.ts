@@ -6,7 +6,6 @@ import { BlockChangedEventArgs } from "../model/BlockChangedEventArgs"
 import { MoveDirection, RotationDirection } from "../model/Direction"
 import { PeriotrisModel } from "../model/PeriotrisModel"
 import { IDisplayBlock } from "./IDisplayBlock"
-import React from "react"
 import { Block } from "../model/Block"
 
 class PeriotrisViewModel {
@@ -16,8 +15,8 @@ class PeriotrisViewModel {
     this._model.addEventListener("blockchanged", (ev: Event) => {
       this.modelBlockChangedEventHandler(ev)
     })
-    this._model.addEventListener("gameend", (ev: Event) => {
-      this.modelGameEndEventHandler(ev)
+    this._model.addEventListener("gameend", () => {
+      this.modelGameEndEventHandler()
     })
 
     this.endGame()
@@ -59,9 +58,7 @@ class PeriotrisViewModel {
 
   private _lastPaused: boolean = true
 
-  private _that: PeriotrisViewModel = this
-
-  public onKeyDown(ev: React.KeyboardEvent<HTMLElement>): boolean {
+  public onKeyDown(ev: KeyboardEvent): boolean {
     const key: string = _.toLower(ev.key)
     if (this.paused) {
       if (key === "escape") {
@@ -83,7 +80,7 @@ class PeriotrisViewModel {
       case "w":
         this._model.rotateActiveTetrimino(RotationDirection.Right)
         break
-      case "space":
+      case " ":
         this._model.instantDropActiveTetrimino()
         break
       case "escape":
@@ -97,7 +94,9 @@ class PeriotrisViewModel {
 
   public startGame(): void {
     for (const element of this._blocksByPosition.values()) {
-      _.remove(this.sprites, () => element)
+      _.remove(this.sprites, (value: IDisplayBlock) =>
+        _.isEqual(value, element)
+      )
     }
     this._blocksByPosition.clear()
     this._model.startGame()
@@ -135,7 +134,6 @@ class PeriotrisViewModel {
           atomicNumber: block.atomicNumber,
           row: block.position.Y,
           column: block.position.X,
-          backgroundColor: "white",
           symbolColor: "black",
         }
         this._blocksByPosition.set(block.position, displayBlock)
@@ -146,18 +144,16 @@ class PeriotrisViewModel {
         const displayBlock: IDisplayBlock = this._blocksByPosition.get(
           block.position
         )!
-        _.remove(this.sprites, () => displayBlock)
+        _.remove(this.sprites, (value: IDisplayBlock) =>
+          _.isEqual(value, displayBlock)
+        )
         this._blocksByPosition.delete(block.position)
       }
     }
   }
 
-  private modelGameEndEventHandler(evt: Event): void {
-    // TODO: Empty is okay?
-  }
-
-  public test(): void {
-    this.startGame()
+  private modelGameEndEventHandler(): void {
+    this.endGame()
   }
 }
 

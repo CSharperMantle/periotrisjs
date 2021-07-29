@@ -24,7 +24,6 @@ const BlocksGrid = observer(
               row={block.row}
               column={block.column}
               symbolColor={block.symbolColor}
-              backgroundColor={block.backgroundColor}
             />
           )
         }

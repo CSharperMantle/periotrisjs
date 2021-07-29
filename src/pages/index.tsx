@@ -10,14 +10,26 @@ class App extends React.Component<{}, {}> {
     super(props)
   }
 
+  public componentDidMount(): void {
+    window.addEventListener(
+      "keydown",
+      this._viewModel.onKeyDown.bind(this._viewModel)
+    )
+  }
+
+  public componentWillUnmount(): void {
+    window.removeEventListener(
+      "keydown",
+      this._viewModel.onKeyDown.bind(this._viewModel)
+    )
+  }
+
   public render() {
     return (
-      <main className="game-page" onKeyDown={this._viewModel.onKeyDown}>
+      <main className="game-page">
         <div
           className="play-area"
-          onClick={() => {
-            this._viewModel.test()
-          }}
+          onClick={this._viewModel.startGame.bind(this._viewModel)}
         >
           <BlocksGrid blocksList={this._viewModel.sprites} />
         </div>
