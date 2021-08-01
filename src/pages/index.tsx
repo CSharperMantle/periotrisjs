@@ -1,9 +1,13 @@
 import React from "react"
 import "./index.css"
-import { PeriotrisViewModel } from "../viewmodel/PeriotrisViewModel"
+import {
+  PeriotrisViewModel,
+  PeriotrisViewModelContext,
+} from "../viewmodel/PeriotrisViewModel"
 import { BlocksGrid } from "../components/BlocksGrid"
+import { StartGamePanel } from "../components/StartGamePanel"
 
-class App extends React.Component<{}, {}> {
+class App extends React.Component {
   private _viewModel: PeriotrisViewModel = new PeriotrisViewModel()
 
   public constructor(props: {}) {
@@ -26,14 +30,19 @@ class App extends React.Component<{}, {}> {
 
   public render() {
     return (
-      <main className="game-page">
-        <div
-          className="play-area"
-          onClick={this._viewModel.startGame.bind(this._viewModel)}
-        >
-          <BlocksGrid blocksList={this._viewModel.sprites} />
-        </div>
-      </main>
+      <PeriotrisViewModelContext.Provider value={this._viewModel}>
+        <main className="game-page">
+          <div className="game-page__row-2">
+            <div
+              className="play-area"
+              onClick={this._viewModel.startGame.bind(this._viewModel)}
+            >
+              <BlocksGrid />
+            </div>
+            <StartGamePanel />
+          </div>
+        </main>
+      </PeriotrisViewModelContext.Provider>
     )
   }
 }

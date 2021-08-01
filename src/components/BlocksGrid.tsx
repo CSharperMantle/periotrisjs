@@ -1,21 +1,29 @@
 import { observer } from "mobx-react"
 import React from "react"
+import { useContext } from "react"
 import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
+import {
+  PeriotrisViewModel,
+  PeriotrisViewModelContext,
+} from "../viewmodel/PeriotrisViewModel"
 import { BlockControl } from "./BlockControl"
 import "./BlocksGrid.css"
 
-interface IBlocksGridProps {
-  blocksList: IDisplayBlock[]
-}
+interface IBlocksGridProps {}
 
 const BlocksGrid = observer(
   class BlocksGrid extends React.Component<IBlocksGridProps> {
+    static contextType = PeriotrisViewModelContext
+    declare context: React.ContextType<typeof PeriotrisViewModelContext>
+
     public constructor(props: IBlocksGridProps) {
       super(props)
     }
 
     public render() {
-      const blocks = this.props.blocksList.map(
+      const viewModel: PeriotrisViewModel = this.context
+
+      const blocks = viewModel.sprites.map(
         (block: IDisplayBlock, index: number) => {
           return (
             <BlockControl

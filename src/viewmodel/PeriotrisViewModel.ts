@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { makeAutoObservable } from "mobx"
+import { computed, makeAutoObservable, observable } from "mobx"
 import { GameUpdateIntervalMilliseconds } from "../common/PeriotrisConst"
 import { Position } from "../common/Position"
 import { BlockChangedEventArgs } from "../model/BlockChangedEventArgs"
@@ -7,6 +7,8 @@ import { MoveDirection, RotationDirection } from "../model/Direction"
 import { PeriotrisModel } from "../model/PeriotrisModel"
 import { IDisplayBlock } from "./IDisplayBlock"
 import { Block } from "../model/Block"
+import { createContext } from "react"
+import { GameState } from "../model/GameState"
 
 class PeriotrisViewModel {
   public constructor() {
@@ -22,12 +24,22 @@ class PeriotrisViewModel {
     this.endGame()
   }
 
+  private _gameOver: boolean = true
+
   public get gameOver(): boolean {
-    return this._model.gameEnded && !this._model.victory
+    return this._gameOver
+  }
+  public set gameOver(v: boolean) {
+    this._gameOver = v
   }
 
+  private _gameWon: boolean = false
+
   public get gameWon(): boolean {
-    return this._model.gameEnded && this._model.victory
+    return this._gameWon
+  }
+  public set gameWon(v: boolean) {
+    this._gameWon = v
   }
 
   private _paused: boolean = false
@@ -100,6 +112,7 @@ class PeriotrisViewModel {
     }
     this._blocksByPosition.clear()
     this._model.startGame()
+    this.refreshGameStatus()
     this.paused = false
     this._gameIntervalTimerHandle = window.setInterval(() => {
       this.intervalTickEventHandler()
@@ -110,6 +123,12 @@ class PeriotrisViewModel {
     if (!_.isNil(this._gameIntervalTimerHandle)) {
       clearInterval(this._gameIntervalTimerHandle)
     }
+    this.refreshGameStatus()
+  }
+
+  private refreshGameStatus(): void {
+    this.gameOver = this._model.gameState === GameState.Lost
+    this.gameWon = this._model.gameState === GameState.Won
   }
 
   private intervalTickEventHandler(): void {
@@ -157,4 +176,8 @@ class PeriotrisViewModel {
   }
 }
 
-export { PeriotrisViewModel }
+const PeriotrisViewModelContext = createContext<PeriotrisViewModel>(
+  new PeriotrisViewModel() // Only a placeholder; use Provider when needed
+)
+
+export { PeriotrisViewModel, PeriotrisViewModelContext }

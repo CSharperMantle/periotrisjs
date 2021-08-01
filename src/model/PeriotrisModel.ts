@@ -7,37 +7,33 @@ import { PlayAreaWidth, PlayAreaHeight } from "../common/PeriotrisConst"
 import { getPlayablePattern } from "./generation/PatternGenerator"
 import defaultMap from "../json/DefaultMap.json"
 import { Nullable } from "../common/Nullable"
+import { GameState } from "./GameState"
 
 class PeriotrisModel extends EventTarget {
   private readonly _frozenBlocks: Block[] = []
   private readonly _pendingTetriminos: Tetrimino[] = []
   private _activeTetrimino: Nullable<Tetrimino> = null
 
-  private _gameEnded: boolean = true
-  public get gameEnded(): boolean {
-    return this._gameEnded
+  private _gameState: GameState = GameState.NotStarted
+  public get gameState(): GameState {
+    return this._gameState
   }
-  public set gameEnded(v: boolean) {
-    this._gameEnded = v
-  }
-
-  private _victory: boolean = false
-  public get victory(): boolean {
-    return this._victory
-  }
-  public set victory(v: boolean) {
-    this._victory = v
+  public set gameState(v: GameState) {
+    this._gameState = v
   }
 
   private endGame(victory: boolean): void {
-    this.gameEnded = true
-    this.victory = victory
+    if (victory) {
+      this.gameState = GameState.Won
+    } else {
+      this.gameState = GameState.Lost
+    }
     this._pendingTetriminos.length = 0
     this.onGameEnd()
   }
 
   public instantDropActiveTetrimino(): void {
-    if (this.gameEnded) return
+    if (this.gameState !== GameState.InProgress) return
     this.updateActiveTetrimino(true)
     while (
       this._activeTetrimino!.tryMove(
@@ -49,7 +45,10 @@ class PeriotrisModel extends EventTarget {
   }
 
   public moveActiveTetrimino(direction: MoveDirection): void {
-    if (this.gameEnded || _.isNil(this._activeTetrimino)) {
+    if (
+      this.gameState !== GameState.InProgress ||
+      _.isNil(this._activeTetrimino)
+    ) {
       return
     }
 
@@ -76,7 +75,7 @@ class PeriotrisModel extends EventTarget {
   }
 
   public rotateActiveTetrimino(direction: RotationDirection): void {
-    if (this.gameEnded) {
+    if (this.gameState !== GameState.InProgress) {
       return
     }
 
@@ -99,17 +98,18 @@ class PeriotrisModel extends EventTarget {
       this._activeTetrimino = null
     }
 
+    this.gameState = GameState.Preparing
     const generatedTetrimino: Tetrimino[] = getPlayablePattern().reverse()
     generatedTetrimino.forEach((tetrimino: Tetrimino) => {
       this._pendingTetriminos.push(tetrimino)
     })
 
     this.spawnNextTetrimino()
-    this.gameEnded = false
+    this.gameState = GameState.InProgress
   }
 
   public update(): void {
-    if (this.gameEnded) {
+    if (this.gameState !== GameState.InProgress) {
       return
     }
 
@@ -162,9 +162,9 @@ class PeriotrisModel extends EventTarget {
       if (block.position.Y >= PlayAreaHeight) {
         return true
       }
-      return _.some(that._frozenBlocks, (frozenBlock: Block): boolean => {
-        return frozenBlock.position.equals(block.position)
-      })
+      return _.some(that._frozenBlocks, (frozenBlock: Block): boolean =>
+        frozenBlock.position.equals(block.position)
+      )
     }
   }
 

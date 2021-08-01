@@ -1,6 +1,14 @@
 {
   "presets": ["@babel/preset-react"],
   "plugins": [
+    [
+      "@babel/plugin-transform-typescript",
+      {
+        "allowDeclareFields": true,
+        "isTSX": true,
+        "jsxPragma": "React"
+      }
+    ],
     ["@babel/plugin-proposal-decorators", { "legacy": true }],
     ["@babel/plugin-proposal-class-properties", { "loose": true }]
   ]

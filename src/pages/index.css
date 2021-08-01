@@ -16,7 +16,15 @@
   box-sizing: border-box;
 
   /* element-specific props */
-  background-color: darkslategray;
+  /* background-color to be filled */
+}
+
+.game-page__row-2 {
+  display: block;
+  grid-row: 2;
+
+  position: relative;
+  box-sizing: border-box;
 }
 
 body,
