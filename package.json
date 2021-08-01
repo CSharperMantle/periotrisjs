@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/CSharperMantle/periotrisjs#readme",
   "dependencies": {
-    "@fluentui/react": "^8.5.0",
+    "@fluentui/react": "^8.26.0",
     "@fluentui/theme": "^2.0.2",
     "@types/react-dom": "^17.0.2",
     "babel-eslint": "^10.0.0",
