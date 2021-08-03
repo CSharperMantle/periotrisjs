@@ -1,66 +1,69 @@
 import React from "react"
-import { Stack, Text, Link, FontWeights } from "@fluentui/react"
 import "./index.css"
+import {
+  PeriotrisViewModel,
+  PeriotrisViewModelContext,
+} from "../viewmodel/PeriotrisViewModel"
+import { BlocksGrid } from "../components/BlocksGrid"
+import { AppStartSplash } from "../components/AppStartSplash"
+import { GameControlButton } from "../components/GameControlButton"
+import { Grid } from "@material-ui/core"
+import { SuccessBanner } from "../components/SuccessBanner"
 
-const boldStyle = { root: { fontWeight: FontWeights.semibold } }
+class App extends React.Component {
+  private _viewModel: PeriotrisViewModel = new PeriotrisViewModel()
 
-const App: React.FunctionComponent = () => {
-  return (
-    <Stack
-      horizontalAlign="center"
-      verticalAlign="center"
-      verticalFill
-      styles={{
-        root: {
-          width: "960px",
-          margin: "0 auto",
-          textAlign: "center",
-          color: "#605e5c",
-        },
-      }}
-      className="App"
-      gap={15}
-    >
-      <img
-        src="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE1Mu3b?ver=5c31"
-        alt="logo"
-      />
-      <Text variant="xxLarge" styles={boldStyle}>
-        Welcome to Your UI Fabric App
-      </Text>
-      <Text variant="large">
-        For a guide on how to customize this project, check out the UI Fabric
-        documentation.
-      </Text>
-      <Text variant="large" styles={boldStyle}>
-        Essential Links
-      </Text>
-      <Stack horizontal gap={15} horizontalAlign="center">
-        <Link href="https://developer.microsoft.com/en-us/fabric">Docs</Link>
-        <Link href="https://stackoverflow.com/questions/tagged/office-ui-fabric">
-          Stack Overflow
-        </Link>
-        <Link href="https://github.com/officeDev/office-ui-fabric-react/">
-          Github
-        </Link>
-        <Link href="https://twitter.com/officeuifabric">Twitter</Link>
-      </Stack>
-      <Text variant="large" styles={boldStyle}>
-        Design System
-      </Text>
-      <Stack horizontal gap={15} horizontalAlign="center">
-        <Link href="https://developer.microsoft.com/en-us/fabric#/styles/icons">
-          Icons
-        </Link>
-        <Link href="https://developer.microsoft.com/en-us/fabric#/styles/typography">
-          Typography
-        </Link>
-        <Link href="https://developer.microsoft.com/en-us/fabric#/styles/themegenerator">
-          Theme
-        </Link>
-      </Stack>
-    </Stack>
-  )
+  public constructor(props: {}) {
+    super(props)
+  }
+
+  public componentDidMount(): void {
+    window.addEventListener(
+      "keydown",
+      this._viewModel.onKeyDown.bind(this._viewModel)
+    )
+  }
+
+  public componentWillUnmount(): void {
+    window.removeEventListener(
+      "keydown",
+      this._viewModel.onKeyDown.bind(this._viewModel)
+    )
+  }
+
+  public render() {
+    return (
+      <PeriotrisViewModelContext.Provider value={this._viewModel}>
+        <main className="game-page">
+          <div className="game-page__row-1">
+            <SuccessBanner />
+          </div>
+          <div className="game-page__row-2">
+            <div className="play-area">
+              <BlocksGrid />
+            </div>
+            <AppStartSplash goOutTimeout={3000} />
+          </div>
+          <div className="game-page__row-3">
+            <Grid
+              container
+              className="game-page__row-3__container"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Grid item>
+                <GameControlButton
+                  onClick={this._viewModel.invokeGameControl.bind(
+                    this._viewModel
+                  )}
+                />
+              </Grid>
+            </Grid>
+          </div>
+        </main>
+      </PeriotrisViewModelContext.Provider>
+    )
+  }
 }
 
 export default App

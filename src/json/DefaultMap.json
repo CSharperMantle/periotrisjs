@@ -1,0 +1,1215 @@
+{
+  "periodicTable": [
+    [
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 0, "Y": 0 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 1, "Y": 0 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 2, "Y": 0 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 3, "Y": 0 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 4, "Y": 0 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 5, "Y": 0 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 6, "Y": 0 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 7, "Y": 0 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 8, "Y": 0 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 9, "Y": 0 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 10, "Y": 0 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 11, "Y": 0 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 12, "Y": 0 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 13, "Y": 0 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 14, "Y": 0 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 15, "Y": 0 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 16, "Y": 0 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 17, "Y": 0 }
+      }
+    ],
+    [
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 0, "Y": 1 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 1, "Y": 1 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 2, "Y": 1 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 3, "Y": 1 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 4, "Y": 1 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 5, "Y": 1 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 6, "Y": 1 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 7, "Y": 1 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 8, "Y": 1 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 9, "Y": 1 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 10, "Y": 1 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 11, "Y": 1 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 12, "Y": 1 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 13, "Y": 1 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 14, "Y": 1 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 15, "Y": 1 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 16, "Y": 1 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 17, "Y": 1 }
+      }
+    ],
+    [
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 0, "Y": 2 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 1, "Y": 2 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 2, "Y": 2 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 3, "Y": 2 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 4, "Y": 2 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 5, "Y": 2 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 6, "Y": 2 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 7, "Y": 2 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 8, "Y": 2 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 9, "Y": 2 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 10, "Y": 2 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 11, "Y": 2 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 12, "Y": 2 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 13, "Y": 2 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 14, "Y": 2 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 15, "Y": 2 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 16, "Y": 2 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 17, "Y": 2 }
+      }
+    ],
+    [
+      {
+        "atomicNumber": -1,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 0, "Y": 3 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 1, "Y": 3 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 2, "Y": 3 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 3, "Y": 3 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 4, "Y": 3 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 5, "Y": 3 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 6, "Y": 3 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 7, "Y": 3 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 8, "Y": 3 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 9, "Y": 3 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 10, "Y": 3 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 11, "Y": 3 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 12, "Y": 3 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 13, "Y": 3 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 14, "Y": 3 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 15, "Y": 3 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 16, "Y": 3 }
+      },
+      {
+        "atomicNumber": -18,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 17, "Y": 3 }
+      }
+    ],
+    [
+      {
+        "atomicNumber": 1,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 0, "Y": 4 }
+      },
+      {
+        "atomicNumber": -2,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 1, "Y": 4 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 2, "Y": 4 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 3, "Y": 4 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 4, "Y": 4 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 5, "Y": 4 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 6, "Y": 4 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 7, "Y": 4 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 8, "Y": 4 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 9, "Y": 4 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 10, "Y": 4 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 11, "Y": 4 }
+      },
+      {
+        "atomicNumber": -13,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 12, "Y": 4 }
+      },
+      {
+        "atomicNumber": -14,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 13, "Y": 4 }
+      },
+      {
+        "atomicNumber": -15,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 14, "Y": 4 }
+      },
+      {
+        "atomicNumber": -16,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 15, "Y": 4 }
+      },
+      {
+        "atomicNumber": -17,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 16, "Y": 4 }
+      },
+      {
+        "atomicNumber": 2,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 17, "Y": 4 }
+      }
+    ],
+    [
+      {
+        "atomicNumber": 3,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 0, "Y": 5 }
+      },
+      {
+        "atomicNumber": 4,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 1, "Y": 5 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 2, "Y": 5 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 3, "Y": 5 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 4, "Y": 5 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 5, "Y": 5 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 6, "Y": 5 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 7, "Y": 5 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 8, "Y": 5 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 9, "Y": 5 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 10, "Y": 5 }
+      },
+      {
+        "atomicNumber": 0,
+        "filledBy": 8,
+        "identifier": 0,
+        "position": { "X": 11, "Y": 5 }
+      },
+      {
+        "atomicNumber": 5,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 12, "Y": 5 }
+      },
+      {
+        "atomicNumber": 6,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 13, "Y": 5 }
+      },
+      {
+        "atomicNumber": 7,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 14, "Y": 5 }
+      },
+      {
+        "atomicNumber": 8,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 15, "Y": 5 }
+      },
+      {
+        "atomicNumber": 9,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 16, "Y": 5 }
+      },
+      {
+        "atomicNumber": 10,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 17, "Y": 5 }
+      }
+    ],
+    [
+      {
+        "atomicNumber": 11,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 0, "Y": 6 }
+      },
+      {
+        "atomicNumber": 12,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 1, "Y": 6 }
+      },
+      {
+        "atomicNumber": -3,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 2, "Y": 6 }
+      },
+      {
+        "atomicNumber": -4,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 3, "Y": 6 }
+      },
+      {
+        "atomicNumber": -5,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 4, "Y": 6 }
+      },
+      {
+        "atomicNumber": -6,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 5, "Y": 6 }
+      },
+      {
+        "atomicNumber": -7,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 6, "Y": 6 }
+      },
+      {
+        "atomicNumber": -8,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 7, "Y": 6 }
+      },
+      {
+        "atomicNumber": -9,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 8, "Y": 6 }
+      },
+      {
+        "atomicNumber": -10,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 9, "Y": 6 }
+      },
+      {
+        "atomicNumber": -11,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 10, "Y": 6 }
+      },
+      {
+        "atomicNumber": -12,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 11, "Y": 6 }
+      },
+      {
+        "atomicNumber": 13,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 12, "Y": 6 }
+      },
+      {
+        "atomicNumber": 14,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 13, "Y": 6 }
+      },
+      {
+        "atomicNumber": 15,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 14, "Y": 6 }
+      },
+      {
+        "atomicNumber": 16,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 15, "Y": 6 }
+      },
+      {
+        "atomicNumber": 17,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 16, "Y": 6 }
+      },
+      {
+        "atomicNumber": 18,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 17, "Y": 6 }
+      }
+    ],
+    [
+      {
+        "atomicNumber": 19,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 0, "Y": 7 }
+      },
+      {
+        "atomicNumber": 20,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 1, "Y": 7 }
+      },
+      {
+        "atomicNumber": 21,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 2, "Y": 7 }
+      },
+      {
+        "atomicNumber": 22,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 3, "Y": 7 }
+      },
+      {
+        "atomicNumber": 23,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 4, "Y": 7 }
+      },
+      {
+        "atomicNumber": 24,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 5, "Y": 7 }
+      },
+      {
+        "atomicNumber": 25,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 6, "Y": 7 }
+      },
+      {
+        "atomicNumber": 26,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 7, "Y": 7 }
+      },
+      {
+        "atomicNumber": 27,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 8, "Y": 7 }
+      },
+      {
+        "atomicNumber": 28,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 9, "Y": 7 }
+      },
+      {
+        "atomicNumber": 29,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 10, "Y": 7 }
+      },
+      {
+        "atomicNumber": 30,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 11, "Y": 7 }
+      },
+      {
+        "atomicNumber": 31,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 12, "Y": 7 }
+      },
+      {
+        "atomicNumber": 32,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 13, "Y": 7 }
+      },
+      {
+        "atomicNumber": 33,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 14, "Y": 7 }
+      },
+      {
+        "atomicNumber": 34,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 15, "Y": 7 }
+      },
+      {
+        "atomicNumber": 35,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 16, "Y": 7 }
+      },
+      {
+        "atomicNumber": 36,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 17, "Y": 7 }
+      }
+    ],
+    [
+      {
+        "atomicNumber": 37,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 0, "Y": 8 }
+      },
+      {
+        "atomicNumber": 38,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 1, "Y": 8 }
+      },
+      {
+        "atomicNumber": 39,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 2, "Y": 8 }
+      },
+      {
+        "atomicNumber": 40,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 3, "Y": 8 }
+      },
+      {
+        "atomicNumber": 41,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 4, "Y": 8 }
+      },
+      {
+        "atomicNumber": 42,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 5, "Y": 8 }
+      },
+      {
+        "atomicNumber": 43,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 6, "Y": 8 }
+      },
+      {
+        "atomicNumber": 44,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 7, "Y": 8 }
+      },
+      {
+        "atomicNumber": 45,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 8, "Y": 8 }
+      },
+      {
+        "atomicNumber": 46,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 9, "Y": 8 }
+      },
+      {
+        "atomicNumber": 47,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 10, "Y": 8 }
+      },
+      {
+        "atomicNumber": 48,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 11, "Y": 8 }
+      },
+      {
+        "atomicNumber": 49,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 12, "Y": 8 }
+      },
+      {
+        "atomicNumber": 50,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 13, "Y": 8 }
+      },
+      {
+        "atomicNumber": 51,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 14, "Y": 8 }
+      },
+      {
+        "atomicNumber": 52,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 15, "Y": 8 }
+      },
+      {
+        "atomicNumber": 53,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 16, "Y": 8 }
+      },
+      {
+        "atomicNumber": 54,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 17, "Y": 8 }
+      }
+    ],
+    [
+      {
+        "atomicNumber": 55,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 0, "Y": 9 }
+      },
+      {
+        "atomicNumber": 56,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 1, "Y": 9 }
+      },
+      {
+        "atomicNumber": 57,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 2, "Y": 9 }
+      },
+      {
+        "atomicNumber": 72,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 3, "Y": 9 }
+      },
+      {
+        "atomicNumber": 73,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 4, "Y": 9 }
+      },
+      {
+        "atomicNumber": 74,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 5, "Y": 9 }
+      },
+      {
+        "atomicNumber": 75,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 6, "Y": 9 }
+      },
+      {
+        "atomicNumber": 76,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 7, "Y": 9 }
+      },
+      {
+        "atomicNumber": 77,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 8, "Y": 9 }
+      },
+      {
+        "atomicNumber": 78,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 9, "Y": 9 }
+      },
+      {
+        "atomicNumber": 79,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 10, "Y": 9 }
+      },
+      {
+        "atomicNumber": 80,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 11, "Y": 9 }
+      },
+      {
+        "atomicNumber": 81,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 12, "Y": 9 }
+      },
+      {
+        "atomicNumber": 82,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 13, "Y": 9 }
+      },
+      {
+        "atomicNumber": 83,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 14, "Y": 9 }
+      },
+      {
+        "atomicNumber": 84,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 15, "Y": 9 }
+      },
+      {
+        "atomicNumber": 85,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 16, "Y": 9 }
+      },
+      {
+        "atomicNumber": 86,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 17, "Y": 9 }
+      }
+    ],
+    [
+      {
+        "atomicNumber": 87,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 0, "Y": 10 }
+      },
+      {
+        "atomicNumber": 88,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 1, "Y": 10 }
+      },
+      {
+        "atomicNumber": 89,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 2, "Y": 10 }
+      },
+      {
+        "atomicNumber": 104,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 3, "Y": 10 }
+      },
+      {
+        "atomicNumber": 105,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 4, "Y": 10 }
+      },
+      {
+        "atomicNumber": 106,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 5, "Y": 10 }
+      },
+      {
+        "atomicNumber": 107,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 6, "Y": 10 }
+      },
+      {
+        "atomicNumber": 108,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 7, "Y": 10 }
+      },
+      {
+        "atomicNumber": 109,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 8, "Y": 10 }
+      },
+      {
+        "atomicNumber": 110,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 9, "Y": 10 }
+      },
+      {
+        "atomicNumber": 111,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 10, "Y": 10 }
+      },
+      {
+        "atomicNumber": 112,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 11, "Y": 10 }
+      },
+      {
+        "atomicNumber": 113,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 12, "Y": 10 }
+      },
+      {
+        "atomicNumber": 114,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 13, "Y": 10 }
+      },
+      {
+        "atomicNumber": 115,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 14, "Y": 10 }
+      },
+      {
+        "atomicNumber": 116,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 15, "Y": 10 }
+      },
+      {
+        "atomicNumber": 117,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 16, "Y": 10 }
+      },
+      {
+        "atomicNumber": 118,
+        "filledBy": 7,
+        "identifier": 0,
+        "position": { "X": 17, "Y": 10 }
+      }
+    ]
+  ],
+  "totalAvailableBlocksCount": 108
+}

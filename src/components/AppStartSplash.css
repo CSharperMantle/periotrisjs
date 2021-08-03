@@ -1,0 +1,15 @@
+.app-start-splash {
+  display: block;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.app-start-splash__grid {
+  width: 100%;
+  height: 100%;
+}

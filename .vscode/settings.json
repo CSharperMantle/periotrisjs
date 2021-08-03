@@ -1,6 +1,47 @@
 {
-    "cSpell.words": [
-        "fluentui",
-        "semibold"
-    ]
+  "cSpell.words": [
+    "Coord",
+    "Offseted",
+    "Unmount",
+    "blockchanged",
+    "fluentui",
+    "fontawesome",
+    "fortawesome",
+    "gameend",
+    "lightgreen",
+    "periotris",
+    "periotrisjs",
+    "semibold",
+    "tetrimino",
+    "tetriminos",
+    "viewmodel"
+  ],
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.detectIndentation": true,
+  "importSorter.importStringConfiguration.hasSemicolon": false,
+  "importSorter.importStringConfiguration.quoteMark": "double",
+  "importSorter.importStringConfiguration.tabSize": 2,
+  "importSorter.sortConfiguration.customOrderingRules.rules": [
+    {
+      "type": "importMember",
+      "regex": "^$",
+      "orderLevel": 5,
+      "disableSort": true
+    },
+    {
+      "regex": "^[^.@]",
+      "orderLevel": 10
+    },
+    {
+      "regex": "^[@]",
+      "orderLevel": 15
+    },
+    {
+      "regex": "^[.]",
+      "orderLevel": 30
+    }
+  ],
+  "importSorter.sortConfiguration.removeUnusedImports": true,
+  "editor.tabSize": 2
 }
