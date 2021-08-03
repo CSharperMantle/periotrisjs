@@ -1,6 +1,5 @@
 import { observer } from "mobx-react"
 import React from "react"
-import { useContext } from "react"
 import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
 import {
   PeriotrisViewModel,
