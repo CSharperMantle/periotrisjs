@@ -9,16 +9,10 @@ import {
 import { BlockControl } from "./BlockControl"
 import "./BlocksGrid.css"
 
-interface IBlocksGridProps {}
-
 const BlocksGrid = observer(
-  class BlocksGrid extends React.Component<IBlocksGridProps> {
+  class BlocksGrid extends React.Component {
     static contextType = PeriotrisViewModelContext
     declare context: React.ContextType<typeof PeriotrisViewModelContext>
-
-    public constructor(props: IBlocksGridProps) {
-      super(props)
-    }
 
     public render() {
       const viewModel: PeriotrisViewModel = this.context

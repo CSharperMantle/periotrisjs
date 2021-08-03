@@ -7,7 +7,7 @@ import { MoveDirection, RotationDirection } from "../model/Direction"
 import { PeriotrisModel } from "../model/PeriotrisModel"
 import { IDisplayBlock } from "./IDisplayBlock"
 import { Block } from "../model/Block"
-import { createContext } from "react"
+import { createContext, MouseEvent } from "react"
 import { GameState } from "../model/GameState"
 
 class PeriotrisViewModel {
@@ -40,6 +40,14 @@ class PeriotrisViewModel {
   }
   public set gameWon(v: boolean) {
     this._gameWon = v
+  }
+
+  private _gameState: GameState = GameState.NotStarted
+  public get gameState(): GameState {
+    return this._gameState
+  }
+  public set gameState(v: GameState) {
+    this._gameState = v
   }
 
   private _paused: boolean = false
@@ -101,10 +109,26 @@ class PeriotrisViewModel {
       default:
         return false
     }
+    ev.preventDefault()
     return true
   }
 
-  public startGame(): void {
+  public invokeGameControl(): void {
+    switch (this.gameState) {
+      case GameState.InProgress:
+        this.paused = !this.paused
+        break
+      case GameState.Lost:
+      case GameState.Won:
+      case GameState.NotStarted:
+        this.startGame()
+        break
+      default:
+        throw new RangeError("gameState")
+    }
+  }
+
+  private startGame(): void {
     for (const element of this._blocksByPosition.values()) {
       _.remove(this.sprites, (value: IDisplayBlock) =>
         _.isEqual(value, element)
@@ -129,6 +153,7 @@ class PeriotrisViewModel {
   private refreshGameStatus(): void {
     this.gameOver = this._model.gameState === GameState.Lost
     this.gameWon = this._model.gameState === GameState.Won
+    this.gameState = this._model.gameState
   }
 
   private intervalTickEventHandler(): void {

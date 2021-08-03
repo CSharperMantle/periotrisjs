@@ -1,4 +1,4 @@
-.start-game-panel {
+.app-start-splash {
   display: block;
 
   position: absolute;
@@ -7,4 +7,9 @@
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+}
+
+.app-start-splash__grid {
+  width: 100%;
+  height: 100%;
 }

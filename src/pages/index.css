@@ -19,11 +19,40 @@
   /* background-color to be filled */
 }
 
+.game-page__row-1 {
+  display: block;
+  grid-row: 1;
+
+  position: relative;
+  box-sizing: border-box;
+}
+
 .game-page__row-2 {
   display: block;
   grid-row: 2;
 
   position: relative;
+  box-sizing: border-box;
+}
+
+.game-page__row-3 {
+  display: block;
+  grid-row: 3;
+
+  position: relative;
+  box-sizing: border-box;
+}
+
+.game-page__row-3__container {
+  height: 100%;
+  width: 100%;
+}
+
+.game-page__row-3__container__game-control-button {
+  display: block;
+
+  position: relative;
+  margin: auto auto 15% auto;
   box-sizing: border-box;
 }
 
