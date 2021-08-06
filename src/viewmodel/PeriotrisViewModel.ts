@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { computed, makeAutoObservable, observable } from "mobx"
+import { makeAutoObservable } from "mobx"
 import { GameUpdateIntervalMilliseconds } from "../common/PeriotrisConst"
 import { Position } from "../common/Position"
 import { BlockChangedEventArgs } from "../model/BlockChangedEventArgs"

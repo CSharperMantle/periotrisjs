@@ -1,3 +1,8 @@
+/**
+ * Represents a coordination in the game field.
+ *
+ * The top-left corner is the O point.
+ */
 class Position {
   public X: number
   public Y: number

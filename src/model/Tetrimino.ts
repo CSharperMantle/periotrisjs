@@ -11,6 +11,11 @@ import {
 } from "./generation/GeneratorHelper"
 import { TetriminoKind } from "./TetriminoKind"
 
+/**
+ * The type for block collision checker.
+ *
+ * @returns 'false' if no collision found. Otherwise 'true'.
+ */
 type BlockCollisionChecker = (block: Block) => boolean
 
 class Tetrimino {
@@ -22,6 +27,9 @@ class Tetrimino {
     this._facingDirection = v
   }
 
+  /**
+   * The position of the most bottom-right Block.
+   */
   private _firstBlockPosition: Position
   public get firstBlockPosition(): Position {
     return this._firstBlockPosition
@@ -54,6 +62,13 @@ class Tetrimino {
     this._blocks = v
   }
 
+  /**
+   * Moves the Tetrimino instance.
+   *
+   * @param direction The direction to move.
+   * @param collisionChecker The BlockCollisionChecker function to use.
+   * @returns 'true' for a successful move, otherwise 'false'.
+   */
   public tryMove(
     direction: MoveDirection,
     collisionChecker: BlockCollisionChecker
@@ -83,6 +98,13 @@ class Tetrimino {
     return true
   }
 
+  /**
+   * Rotates the Tetrimino instance.
+   *
+   * @param rotationDirection The direction to rotate.
+   * @param collisionChecker The BlockCollisionChecker function to use.
+   * @returns 'true' for a successful rotation, otherwise 'false'.
+   */
   public tryRotate(
     rotationDirection: RotationDirection,
     collisionChecker: BlockCollisionChecker
@@ -98,7 +120,9 @@ class Tetrimino {
     }
     const adjustPattern: number[] =
       this.kind === TetriminoKind.Linear ? [0, 1, -1, 2, -2] : [0, 1, -1]
-    adjustPattern.forEach((adjust: number) => {
+
+    for (let i = 0; i < adjustPattern.length; i++) {
+      const adjust = adjustPattern[i]
       const newPos: Position = new Position(
         this.position.X + adjust,
         this.position.Y
@@ -108,7 +132,6 @@ class Tetrimino {
         newPos,
         direction
       )
-
       if (!_.some(newBlocks, collisionChecker)) {
         newBlocks = mapAtomicNumberForNewBlocks(this.blocks, newBlocks)
         this.facingDirection = direction
@@ -116,7 +139,7 @@ class Tetrimino {
         this.blocks = newBlocks
         return true
       }
-    })
+    }
     return false
   }
 
