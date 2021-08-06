@@ -1,6 +1,6 @@
 {
   "name": "periotrisjs",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Periotris game built with React and Fluent UI",
   "scripts": {
     "build": "gatsby build",
@@ -8,13 +8,13 @@
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,html}",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
+    "test": "npx jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CSharperMantle/periotrisjs.git"
   },
-  "author": "CSharperMantle",
+  "author": "CSharperMantle <baorong2005@126.com>",
   "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/CSharperMantle/periotrisjs/issues"
@@ -41,11 +41,17 @@
     "mobx-react": "^7.2.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-helmet": "^6.1.0",
-    "typescript": "^4.2.3"
+    "react-helmet": "^6.1.0"
   },
   "devDependencies": {
+    "@testing-library/react": "^12.0.0",
+    "@types/jest": "^26.0.24",
+    "babel-jest": "^27.0.6",
     "eslint": "^7.32.0",
-    "prettier": "^2.3.2"
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.0.6",
+    "prettier": "^2.3.2",
+    "ts-jest": "^27.0.4",
+    "typescript": "^4.2.3"
   }
 }

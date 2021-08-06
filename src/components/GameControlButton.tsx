@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Button, PropTypes } from "@material-ui/core"
 import { observer } from "mobx-react"
 import React, { MouseEventHandler } from "react"
-import { EventHandler } from "react"
 import { GameState } from "../model/GameState"
 import {
   PeriotrisViewModel,

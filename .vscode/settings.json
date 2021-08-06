@@ -43,5 +43,9 @@
     }
   ],
   "importSorter.sortConfiguration.removeUnusedImports": true,
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "jest.jestCommandLine": "npx jest",
+  "jest.autoRun": {
+    "watch": true
+  }
 }
