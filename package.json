@@ -8,7 +8,7 @@
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,html}",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "test": "jest"
+    "test": "npx jest"
   },
   "repository": {
     "type": "git",
