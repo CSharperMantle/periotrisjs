@@ -1,0 +1,33 @@
+name: Node.js with Gatsby
+
+on: [ push, pull_request ]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+    
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+        
+    - name: Set up global scripts
+      run: |
+        npm i -g gatsby-cli jest
+
+    - name: Build
+      run: |
+        npm ci
+        npm build
+
+    - name: Test
+      run: |
+        npm test
+        
