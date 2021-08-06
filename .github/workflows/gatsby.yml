@@ -18,16 +18,16 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         
-    - name: Set up global scripts
+    - name: Set up dependencies
       run: |
         npm i -g gatsby-cli jest
+        npm ci
 
     - name: Build
       run: |
-        npm ci
-        npm run build
+        gatsby build
 
     - name: Test
       run: |
-        npm run test
+        npx jest
         
