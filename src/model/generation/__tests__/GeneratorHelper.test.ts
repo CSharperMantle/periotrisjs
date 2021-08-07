@@ -1,8 +1,12 @@
 import _ from "lodash"
 import { Position } from "../../../common/Position"
+import { Block } from "../../Block"
 import { Direction } from "../../Direction"
 import { TetriminoKind } from "../../TetriminoKind"
-import { createOffsetedBlocks } from "../GeneratorHelper"
+import {
+  createOffsetedBlocks,
+  mapAtomicNumberForNewBlocks,
+} from "../GeneratorHelper"
 
 describe("createOffsetedBlocks", () => {
   it("should have correct behavior", () => {
@@ -25,7 +29,7 @@ describe("createOffsetedBlocks", () => {
     })
   })
 
-  it("should handle incorrect arguments correctly", () => {
+  it("should handle incorrect arguments gracefully", () => {
     expect(() => {
       createOffsetedBlocks(
         TetriminoKind.AvailableToFill,
@@ -40,5 +44,45 @@ describe("createOffsetedBlocks", () => {
         Direction.Down
       )
     }).toThrowError(new RangeError("kind"))
+    expect(() => {
+      createOffsetedBlocks(TetriminoKind.Cubic, new Position(0, 0), 5)
+    }).toThrowError(new RangeError("direction"))
+  })
+})
+
+describe("mapAtomicNumberForNewBlocks", () => {
+  it("should have correct behavior", () => {
+    const oldBlocks = [
+      new Block(TetriminoKind.Cubic, new Position(0, 0), 0, 0),
+      new Block(TetriminoKind.Cubic, new Position(1, 0), 1, 1),
+    ]
+    const newBlocks = [
+      new Block(TetriminoKind.Cubic, new Position(1, 0), -1, 0),
+      new Block(TetriminoKind.Cubic, new Position(2, 0), -1, 1),
+    ]
+    const r = mapAtomicNumberForNewBlocks(oldBlocks, newBlocks)
+    r.forEach((block) => {
+      const corrOldBlks = _.filter(oldBlocks, (blk) => blk.id === block.id)
+      const corrNewBlks = _.filter(newBlocks, (blk) => blk.id === block.id)
+      expect(corrOldBlks).toHaveLength(1)
+      expect(corrNewBlks).toHaveLength(1)
+      expect(block.atomicNumber).toBe<number>(corrOldBlks[0].atomicNumber)
+      expect(corrNewBlks[0].atomicNumber).toBe<number>(-1)
+    })
+  })
+
+  it("should handle incorrect arguments gracefully", () => {
+    expect(() => {
+      mapAtomicNumberForNewBlocks(
+        [],
+        [new Block(TetriminoKind.Cubic, new Position(0, 0), 0, 0)]
+      )
+    }).toThrowError(new Error("oldBlocks.length !== newBlocks.length"))
+    expect(() => {
+      mapAtomicNumberForNewBlocks(
+        [new Block(TetriminoKind.Cubic, new Position(0, 0), 0, 0)],
+        []
+      )
+    }).toThrowError(new Error("oldBlocks.length !== newBlocks.length"))
   })
 })
