@@ -4,7 +4,7 @@ import { Direction, MoveDirection, RotationDirection } from "../Direction"
 import { Tetrimino } from "../Tetrimino"
 import { TetriminoKind } from "../TetriminoKind"
 
-describe(Tetrimino, () => {
+describe("Tetrimino", () => {
   it("should create proper blocks by position", () => {
     const t = Tetrimino.createTetriminoByPosition(
       TetriminoKind.Cubic,
@@ -19,7 +19,7 @@ describe(Tetrimino, () => {
       new Position(1, 1),
     ]
 
-    expect(t.blocks.length).toBe<number>(4)
+    expect(t.blocks).toHaveLength(4)
     t.blocks.forEach((block) => {
       expect(
         _.filter(expectedBlocksPos, (pos) => pos.equals(block.position)).length
@@ -41,7 +41,7 @@ describe(Tetrimino, () => {
       new Position(3, 0),
     ]
 
-    expect(t.blocks.length).toBe<number>(4)
+    expect(t.blocks).toHaveLength(4)
     t.blocks.forEach((block) => {
       expect(
         _.filter(expectedBlocksPos, (pos) => pos.equals(block.position)).length
@@ -64,7 +64,7 @@ describe(Tetrimino, () => {
     // Make sure all blocks are in their position.
     b.forEach((block) => {
       const corrNewBlks = _.filter(t.blocks, (newBlk) => newBlk.id === block.id)
-      expect(corrNewBlks.length).toBe<number>(1)
+      expect(corrNewBlks).toHaveLength(1)
       const blk = corrNewBlks[0]
       expect(
         blk.position.equals(
@@ -79,7 +79,7 @@ describe(Tetrimino, () => {
     )
     b.forEach((block) => {
       const corrNewBlks = _.filter(t.blocks, (newBlk) => newBlk.id === block.id)
-      expect(corrNewBlks.length).toBe<number>(1)
+      expect(corrNewBlks).toHaveLength(1)
       const blk = corrNewBlks[0]
       expect(
         blk.position.equals(
@@ -94,7 +94,7 @@ describe(Tetrimino, () => {
     )
     b.forEach((block) => {
       const corrNewBlks = _.filter(t.blocks, (newBlk) => newBlk.id === block.id)
-      expect(corrNewBlks.length).toBe<number>(1)
+      expect(corrNewBlks).toHaveLength(1)
       const blk = corrNewBlks[0]
       expect(
         blk.position.equals(
@@ -120,7 +120,7 @@ describe(Tetrimino, () => {
     expect(t.tryRotate(RotationDirection.Left, () => false)).toBe<boolean>(true)
     t.blocks.forEach((block) => {
       const origBlks = _.filter(b, (origBlk) => origBlk.id === block.id)
-      expect(origBlks.length).toBe<number>(1)
+      expect(origBlks).toHaveLength(1)
       expect(origBlks[0].position.equals(block.position)).toBe<boolean>(true)
     })
     // This should not change the state
@@ -129,7 +129,7 @@ describe(Tetrimino, () => {
     )
     t.blocks.forEach((block) => {
       const origBlks = _.filter(b, (origBlk) => origBlk.id === block.id)
-      expect(origBlks.length).toBe<number>(1)
+      expect(origBlks).toHaveLength(1)
       expect(origBlks[0].position.equals(block.position)).toBe<boolean>(true)
     })
   })

@@ -173,6 +173,14 @@ const ZTransUpMask: number[][] = [
   [0, 0, 0],
 ]
 
+/**
+ * Creates mask for blocks.
+ * @param kind Kind of the tetrimino.
+ * @param direction Direction of the tetrimino.
+ * @returns An 'number[][]' of the mask.
+ *
+ * @throws RangeError
+ */
 function createBlocksMask(
   kind: TetriminoKind,
   direction: Direction

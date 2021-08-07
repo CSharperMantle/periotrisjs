@@ -3,6 +3,7 @@
     "Coord",
     "Offseted",
     "Unmount",
+    "blks",
     "blockchanged",
     "fluentui",
     "fontawesome",
@@ -43,9 +44,5 @@
     }
   ],
   "importSorter.sortConfiguration.removeUnusedImports": true,
-  "editor.tabSize": 2,
-  "jest.jestCommandLine": "npx jest",
-  "jest.autoRun": {
-    "watch": true
-  }
+  "editor.tabSize": 2
 }
