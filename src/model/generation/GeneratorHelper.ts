@@ -408,7 +408,6 @@ function getInitialPositionByKind(kind: TetriminoKind): Position {
       break
     case TetriminoKind.LShapedCis:
     case TetriminoKind.LShapedTrans:
-    case TetriminoKind.Linear:
     case TetriminoKind.TeeShaped:
     case TetriminoKind.ZigZagCis:
     case TetriminoKind.ZigZagTrans:
