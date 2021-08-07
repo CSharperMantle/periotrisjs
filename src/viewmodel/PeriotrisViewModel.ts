@@ -7,17 +7,17 @@ import { MoveDirection, RotationDirection } from "../model/Direction"
 import { PeriotrisModel } from "../model/PeriotrisModel"
 import { IDisplayBlock } from "./IDisplayBlock"
 import { Block } from "../model/Block"
-import { createContext, MouseEvent } from "react"
+import { createContext } from "react"
 import { GameState } from "../model/GameState"
 
 class PeriotrisViewModel {
   public constructor() {
     makeAutoObservable(this)
 
-    this._model.addEventListener("blockchanged", (ev: Event) => {
-      this.modelBlockChangedEventHandler(ev)
+    this._model.addListener("blockchanged", (eventArgs) => {
+      this.modelBlockChangedEventHandler(eventArgs)
     })
-    this._model.addEventListener("gameend", () => {
+    this._model.addListener("gameend", () => {
       this.modelGameEndEventHandler()
     })
 
@@ -167,13 +167,13 @@ class PeriotrisViewModel {
     }
   }
 
-  private modelBlockChangedEventHandler(evt: Event): void {
-    const args = evt as CustomEvent<BlockChangedEventArgs>
-    const e: BlockChangedEventArgs = args.detail
-    const block: Block = e.block
+  private modelBlockChangedEventHandler(
+    eventArgs: BlockChangedEventArgs
+  ): void {
+    const block: Block = eventArgs.block
 
-    if (!e.disappeared) {
-      if (!this._blocksByPosition.has(e.block.position)) {
+    if (!eventArgs.disappeared) {
+      if (!this._blocksByPosition.has(eventArgs.block.position)) {
         const displayBlock: IDisplayBlock = {
           atomicNumber: block.atomicNumber,
           row: block.position.Y,
