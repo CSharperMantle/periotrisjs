@@ -8,8 +8,9 @@ import { getPlayablePattern } from "./generation/PatternGenerator"
 import defaultMap from "../json/DefaultMap.json"
 import { Nullable } from "../common/Nullable"
 import { GameState } from "./GameState"
+import { EventEmitter } from "events"
 
-class PeriotrisModel extends EventTarget {
+class PeriotrisModel extends EventEmitter {
   private readonly _frozenBlocks: Block[] = []
   private readonly _pendingTetriminos: Tetrimino[] = []
   private _activeTetrimino: Nullable<Tetrimino> = null
@@ -141,15 +142,11 @@ class PeriotrisModel extends EventTarget {
   }
 
   private onGameEnd(): void {
-    this.dispatchEvent(new Event("gameend"))
+    this.emit("gameend")
   }
 
   private onBlockChanged(block: Block, disappeared: boolean): void {
-    this.dispatchEvent(
-      new CustomEvent("blockchanged", {
-        detail: new BlockChangedEventArgs(block, disappeared),
-      })
-    )
+    this.emit("blockchanged", new BlockChangedEventArgs(block, disappeared))
   }
 
   private static checkBlockCollisionFunFactory(
