@@ -173,6 +173,14 @@ const ZTransUpMask: number[][] = [
   [0, 0, 0],
 ]
 
+/**
+ * Creates mask for blocks.
+ * @param kind Kind of the tetrimino.
+ * @param direction Direction of the tetrimino.
+ * @returns An 'number[][]' of the mask.
+ *
+ * @throws RangeError
+ */
 function createBlocksMask(
   kind: TetriminoKind,
   direction: Direction
@@ -400,7 +408,6 @@ function getInitialPositionByKind(kind: TetriminoKind): Position {
       break
     case TetriminoKind.LShapedCis:
     case TetriminoKind.LShapedTrans:
-    case TetriminoKind.Linear:
     case TetriminoKind.TeeShaped:
     case TetriminoKind.ZigZagCis:
     case TetriminoKind.ZigZagTrans:
@@ -440,15 +447,26 @@ function createOffsetedBlocks(
   return offsetBlocks
 }
 
+/**
+ * Maps the atomicNumber prop in the oldBlocks to newBlocks by id.
+ * Note that this function does not change newBlocks but return a new
+ * array of mapped blocks.
+ * @param oldBlocks Old blocks to be mapped from.
+ * @param newBlocks New blocks to be mapped to.
+ * @returns Mapped newBlocks.
+ * @throws Error
+ */
 function mapAtomicNumberForNewBlocks(
   oldBlocks: Block[],
   newBlocks: Block[]
 ): Block[] {
+  if (oldBlocks.length !== newBlocks.length) {
+    throw new Error("oldBlocks.length !== newBlocks.length")
+  }
   const result: Block[] = []
   oldBlocks.forEach((oldBlock: Block) => {
-    const correspondingNewBlocks: Block[] = _.filter(
-      newBlocks,
-      (newBlock: Block) => newBlock.id === oldBlock.id
+    const correspondingNewBlocks: Block[] = _.cloneDeep(
+      _.filter(newBlocks, (newBlock: Block) => newBlock.id === oldBlock.id)
     )
     correspondingNewBlocks.forEach((block: Block) => {
       block.atomicNumber = oldBlock.atomicNumber
@@ -459,7 +477,6 @@ function mapAtomicNumberForNewBlocks(
 }
 
 export {
-  createBlocksMask,
   createOffsetedBlocks,
   getFirstBlockCoordByType,
   getFirstBlockPositionByPosition,

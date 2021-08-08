@@ -1,6 +1,6 @@
 import { Position } from "../Position"
 
-describe(Position, () => {
+describe("Position", () => {
   it("should be initialized with correct props", () => {
     const p = new Position(0, 1)
 
