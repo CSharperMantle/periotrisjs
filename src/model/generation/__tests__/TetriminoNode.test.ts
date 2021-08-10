@@ -18,7 +18,9 @@ describe("TetriminoNode", () => {
       t.facingDirection
     )
 
-    expect(n.depending).toHaveLength(0)
-    expect(n.dependedBy).toHaveLength(0)
+    expect(n.depending).toBeInstanceOf(Set)
+    expect(n.depending.size).toBe<number>(0)
+    expect(n.dependedBy).toBeInstanceOf(Set)
+    expect(n.dependedBy.size).toBe<number>(0)
   })
 })
