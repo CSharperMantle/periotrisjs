@@ -4,6 +4,7 @@ module.exports = {
   testEnvironment: "node",
   transform: {
     "^.+\\.jsx?$": `<rootDir>/jest-preprocess.js`,
+    "^.+\\.worker.[t|j]sx?$": "workerloader-jest-transformer",
   },
   moduleNameMapper: {
     ".+\\.(css|styl|less|sass|scss)$": `identity-obj-proxy`,

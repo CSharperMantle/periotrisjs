@@ -19,48 +19,18 @@ import { TetriminoKind } from "./TetriminoKind"
 type BlockCollisionChecker = (block: Block) => boolean
 
 class Tetrimino {
-  private _facingDirection: Direction
-  public get facingDirection(): Direction {
-    return this._facingDirection
-  }
-  public set facingDirection(v: Direction) {
-    this._facingDirection = v
-  }
+  public facingDirection: Direction
 
   /**
    * The position of the most bottom-right Block.
    */
-  private _firstBlockPosition: Position
-  public get firstBlockPosition(): Position {
-    return this._firstBlockPosition
-  }
-  public set firstBlockPosition(v: Position) {
-    this._firstBlockPosition = v
-  }
+  public firstBlockPosition: Position
 
-  private _kind: TetriminoKind
-  public get kind(): TetriminoKind {
-    return this._kind
-  }
-  public set kind(v: TetriminoKind) {
-    this._kind = v
-  }
+  public kind: TetriminoKind
 
-  private _position: Position
-  public get position(): Position {
-    return this._position
-  }
-  public set position(v: Position) {
-    this._position = v
-  }
+  public position: Position
 
-  private _blocks: Block[]
-  public get blocks(): Block[] {
-    return this._blocks
-  }
-  public set blocks(v: Block[]) {
-    this._blocks = v
-  }
+  public blocks: Block[]
 
   /**
    * Moves the Tetrimino instance.
@@ -169,17 +139,22 @@ class Tetrimino {
     )
   }
 
-  protected constructor(
+  /**
+   * The constructor. Not for direct use.
+   * Use Tetrimino.createTetriminoByFirstBlockPosition()
+   * and Tetrimino.createTetriminoByPosition() instead.
+   */
+  public constructor(
     kind: TetriminoKind,
     position: Position,
     firstBlockPos: Position,
     facingDirection: Direction
   ) {
-    this._position = position
-    this._kind = kind
-    this._firstBlockPosition = firstBlockPos
-    this._facingDirection = facingDirection
-    this._blocks = createOffsetedBlocks(kind, position, facingDirection)
+    this.position = position
+    this.kind = kind
+    this.firstBlockPosition = firstBlockPos
+    this.facingDirection = facingDirection
+    this.blocks = createOffsetedBlocks(kind, position, facingDirection)
   }
 }
 

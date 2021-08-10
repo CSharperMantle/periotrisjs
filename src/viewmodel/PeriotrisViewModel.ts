@@ -20,6 +20,9 @@ class PeriotrisViewModel {
     this._model.addListener("gameend", () => {
       this.modelGameEndEventHandler()
     })
+    this._model.addListener("gamestart", () => {
+      this.modelGameStartEventHandler()
+    })
 
     this.endGame()
   }
@@ -121,21 +124,25 @@ class PeriotrisViewModel {
       case GameState.Lost:
       case GameState.Won:
       case GameState.NotStarted:
-        this.startGame()
+        this.prepareStartGame()
         break
       default:
         throw new RangeError("gameState")
     }
   }
 
-  private startGame(): void {
+  private prepareStartGame(): void {
     for (const element of this._blocksByPosition.values()) {
       _.remove(this.sprites, (value: IDisplayBlock) =>
         _.isEqual(value, element)
       )
     }
     this._blocksByPosition.clear()
-    this._model.startGame()
+    this._model.prepareStartGame()
+    this.refreshGameStatus()
+  }
+
+  private realStartGame(): void {
     this.refreshGameStatus()
     this.paused = false
     this._gameIntervalTimerHandle = window.setInterval(() => {
@@ -198,6 +205,10 @@ class PeriotrisViewModel {
 
   private modelGameEndEventHandler(): void {
     this.endGame()
+  }
+
+  private modelGameStartEventHandler(): void {
+    this.realStartGame()
   }
 }
 

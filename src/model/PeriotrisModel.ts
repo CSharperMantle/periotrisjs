@@ -9,19 +9,18 @@ import defaultMap from "../json/DefaultMap.json"
 import { Nullable } from "../common/Nullable"
 import { GameState } from "./GameState"
 import { EventEmitter } from "events"
+import PatternGeneratorWorker from "worker-loader!./generation/PatternGeneratorWorker"
+import { isBrowserEnv } from "../common/IsBrowserEnv"
+import { MessageType } from "./generation/MessageType"
+import { IGeneratorMessage } from "./generation/IGeneratorMessage"
+import { mapAtomicNumberForNewBlocks } from "./generation/GeneratorHelper"
 
 class PeriotrisModel extends EventEmitter {
   private readonly _frozenBlocks: Block[] = []
   private readonly _pendingTetriminos: Tetrimino[] = []
   private _activeTetrimino: Nullable<Tetrimino> = null
 
-  private _gameState: GameState = GameState.NotStarted
-  public get gameState(): GameState {
-    return this._gameState
-  }
-  public set gameState(v: GameState) {
-    this._gameState = v
-  }
+  public gameState: GameState = GameState.NotStarted
 
   private endGame(victory: boolean): void {
     if (victory) {
@@ -88,7 +87,7 @@ class PeriotrisModel extends EventEmitter {
     this.updateActiveTetrimino(false)
   }
 
-  public startGame(): void {
+  public prepareStartGame(): void {
     this._frozenBlocks.forEach((block: Block) => {
       this.onBlockChanged(block, true)
     })
@@ -100,13 +99,67 @@ class PeriotrisModel extends EventEmitter {
     }
 
     this.gameState = GameState.Preparing
-    const generatedTetrimino: Tetrimino[] = getPlayablePattern().reverse()
+
+    if (isBrowserEnv()) {
+      // Use Web Worker
+      const worker = new PatternGeneratorWorker()
+
+      worker.onmessage = (eventArgs) => {
+        const data = eventArgs.data as IGeneratorMessage
+        if (data.type === MessageType.ResponseSuccess) {
+          const content = data.content as Tetrimino[]
+          const fixedTetriminos = this.repairBrokenTetriminos(content)
+          this.realStartGame(fixedTetriminos)
+          worker.terminate()
+        } else {
+          console.warn(data)
+        }
+      }
+
+      const message: IGeneratorMessage = {
+        type: MessageType.RequestGeneration,
+        content: null,
+      }
+      worker.postMessage(message)
+    } else {
+      // Use single-threaded approach
+      this.realStartGame(getPlayablePattern())
+    }
+  }
+
+  private repairBrokenTetriminos(brokenTetriminos: Tetrimino[]): Tetrimino[] {
+    /*
+     * HACK: Object's prototype chain will be lost when
+     * transferred through messages. The following code's
+     * purpose is to restore the method mapping of the
+     * objects.
+     */
+    const repairedTetriminos: Tetrimino[] = []
+    brokenTetriminos.forEach((brokenTetrimino) => {
+      const repairedTetrimino = new Tetrimino(
+        brokenTetrimino.kind,
+        brokenTetrimino.position,
+        brokenTetrimino.firstBlockPosition,
+        brokenTetrimino.facingDirection
+      )
+      repairedTetrimino.blocks = mapAtomicNumberForNewBlocks(
+        brokenTetrimino.blocks,
+        repairedTetrimino.blocks
+      )
+      repairedTetriminos.push(repairedTetrimino)
+    })
+    return repairedTetriminos
+  }
+
+  private realStartGame(tetriminos: Tetrimino[]): void {
+    const generatedTetrimino: Tetrimino[] = tetriminos.reverse()
     generatedTetrimino.forEach((tetrimino: Tetrimino) => {
       this._pendingTetriminos.push(tetrimino)
     })
 
     this.spawnNextTetrimino()
     this.gameState = GameState.InProgress
+    this.onGameStart()
   }
 
   public update(): void {
@@ -139,6 +192,10 @@ class PeriotrisModel extends EventEmitter {
       this.onBlockChanged(block, true)
       this.onBlockChanged(block, false)
     })
+  }
+
+  private onGameStart(): void {
+    this.emit("gamestart")
   }
 
   private onGameEnd(): void {

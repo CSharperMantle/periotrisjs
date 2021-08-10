@@ -17,7 +17,7 @@ function sort(
 
   const startNodes: TetriminoNode[] = []
   graph.forEach((node: TetriminoNode) => {
-    if (node.depending.length === 0) {
+    if (node.depending.size === 0) {
       startNodes.push(node)
     }
   })
@@ -26,11 +26,11 @@ function sort(
   while (startNodes.length !== 0) {
     const n: TetriminoNode = startNodes.pop()!
     result.push(n)
-    const dependedBy: TetriminoNode[] = _.clone(n.dependedBy)
+    const dependedBy = [...n.dependedBy]
     dependedBy.forEach((m: TetriminoNode) => {
-      _.remove(n.dependedBy, (value: TetriminoNode) => _.isEqual(value, m))
-      _.remove(m.depending, (value: TetriminoNode) => _.isEqual(value, n))
-      if (m.depending.length === 0) {
+      n.dependedBy.delete(m)
+      m.depending.delete(n)
+      if (m.depending.size === 0) {
         startNodes.push(m)
       }
     })
@@ -40,7 +40,7 @@ function sort(
     _.some(
       graph,
       (node: TetriminoNode) =>
-        node.dependedBy.length !== 0 || node.depending.length !== 0
+        node.dependedBy.size !== 0 || node.depending.size !== 0
     )
   ) {
     throw new RangeError("tetriminos")
