@@ -1,10 +1,12 @@
 import _ from "lodash"
+import { PlayAreaWidth } from "../../../common/PeriotrisConst"
 import { Position } from "../../../common/Position"
 import { Block } from "../../Block"
 import { Direction } from "../../Direction"
 import { TetriminoKind } from "../../TetriminoKind"
 import {
   createOffsetedBlocks,
+  getInitialPositionByKind,
   mapAtomicNumberForNewBlocks,
 } from "../GeneratorHelper"
 
@@ -45,7 +47,10 @@ describe("createOffsetedBlocks", () => {
       )
     }).toThrowError(new RangeError("kind"))
     expect(() => {
-      createOffsetedBlocks(TetriminoKind.Cubic, new Position(0, 0), 5)
+      createOffsetedBlocks(9, new Position(0, 0), Direction.Down)
+    }).toThrowError(new RangeError("kind"))
+    expect(() => {
+      createOffsetedBlocks(TetriminoKind.Cubic, new Position(0, 0), 4)
     }).toThrowError(new RangeError("direction"))
   })
 })
@@ -84,5 +89,75 @@ describe("mapAtomicNumberForNewBlocks", () => {
         []
       )
     }).toThrowError(new Error("oldBlocks.length !== newBlocks.length"))
+    expect(() => {
+      mapAtomicNumberForNewBlocks(
+        [new Block(TetriminoKind.Cubic, new Position(0, 0), 0, 0)],
+        [
+          new Block(TetriminoKind.Cubic, new Position(0, 0), 0, 0),
+          new Block(TetriminoKind.Cubic, new Position(0, 0), 0, 0),
+        ]
+      )
+    }).toThrowError(new Error("oldBlocks.length !== newBlocks.length"))
+    expect(() => {
+      mapAtomicNumberForNewBlocks(
+        [
+          new Block(TetriminoKind.Cubic, new Position(0, 0), 0, 0),
+          new Block(TetriminoKind.Cubic, new Position(0, 0), 0, 0),
+        ],
+        [new Block(TetriminoKind.Cubic, new Position(0, 0), 0, 0)]
+      )
+    }).toThrowError(new Error("oldBlocks.length !== newBlocks.length"))
+  })
+})
+
+describe("getInitialPositionByKind", () => {
+  it("should have correct behavior", () => {
+    expect(
+      getInitialPositionByKind(TetriminoKind.Cubic).equals(
+        new Position(_.floor((PlayAreaWidth - 2) / 2), 0)
+      )
+    ).toBe<boolean>(true)
+    expect(
+      getInitialPositionByKind(TetriminoKind.Linear).equals(
+        new Position(_.floor((PlayAreaWidth - 4) / 2), 0)
+      )
+    ).toBe<boolean>(true)
+    expect(
+      getInitialPositionByKind(TetriminoKind.TeeShaped).equals(
+        new Position(_.floor((PlayAreaWidth - 3) / 2), 0)
+      )
+    ).toBe<boolean>(true)
+    expect(
+      getInitialPositionByKind(TetriminoKind.LShapedCis).equals(
+        new Position(_.floor((PlayAreaWidth - 3) / 2), 0)
+      )
+    ).toBe<boolean>(true)
+    expect(
+      getInitialPositionByKind(TetriminoKind.LShapedTrans).equals(
+        new Position(_.floor((PlayAreaWidth - 3) / 2), 0)
+      )
+    ).toBe<boolean>(true)
+    expect(
+      getInitialPositionByKind(TetriminoKind.ZigZagCis).equals(
+        new Position(_.floor((PlayAreaWidth - 3) / 2), 0)
+      )
+    ).toBe<boolean>(true)
+    expect(
+      getInitialPositionByKind(TetriminoKind.ZigZagTrans).equals(
+        new Position(_.floor((PlayAreaWidth - 3) / 2), 0)
+      )
+    ).toBe<boolean>(true)
+  })
+
+  it("should handle incorrect arguments gracefully", () => {
+    expect(() => {
+      getInitialPositionByKind(TetriminoKind.AvailableToFill)
+    }).toThrowError(new RangeError("kind"))
+    expect(() => {
+      getInitialPositionByKind(TetriminoKind.UnavailableToFill)
+    }).toThrowError(new RangeError("kind"))
+    expect(() => {
+      getInitialPositionByKind(9)
+    }).toThrowError(new RangeError("kind"))
   })
 })
