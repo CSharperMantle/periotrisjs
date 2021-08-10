@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-node@v2.4.0
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "npm"
 
       - name: Set up dependencies
         run: |
