@@ -4,13 +4,7 @@ import { TetriminoKind } from "../TetriminoKind"
 import { TetriminoNode } from "./TetriminoNode"
 
 class MemoizedBlock extends Block {
-  private _owner: TetriminoNode = null
-  public get owner(): TetriminoNode {
-    return this._owner
-  }
-  public set owner(v: TetriminoNode) {
-    this._owner = v
-  }
+  public owner: TetriminoNode
 
   public constructor(
     filledBy: TetriminoKind,

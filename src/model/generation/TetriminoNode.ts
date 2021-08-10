@@ -5,23 +5,11 @@ import { TetriminoKind } from "../TetriminoKind"
 import { MemoizedBlock } from "./MemoizedBlock"
 
 class TetriminoNode extends Tetrimino {
-  private _memoizedBlocks: MemoizedBlock[] = []
-  public get memoizedBlocks(): MemoizedBlock[] {
-    return this._memoizedBlocks
-  }
-  public set memoizedBlocks(v: MemoizedBlock[]) {
-    this._memoizedBlocks = v
-  }
+  public memoizedBlocks: MemoizedBlock[] = []
 
-  private _dependedBy: TetriminoNode[] = []
-  public get dependedBy(): TetriminoNode[] {
-    return this._dependedBy
-  }
+  public readonly dependedBy: Set<TetriminoNode> = new Set<TetriminoNode>()
 
-  private _depending: TetriminoNode[] = []
-  public get depending(): TetriminoNode[] {
-    return this._depending
-  }
+  public readonly depending: Set<TetriminoNode> = new Set<TetriminoNode>()
 
   public constructor(
     kind: TetriminoKind,

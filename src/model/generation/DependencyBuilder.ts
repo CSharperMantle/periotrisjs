@@ -57,8 +57,8 @@ function createTetriminoDependencyGraph(
       if (!isSuccessful || result === tetriminoNode) {
         return
       }
-      result.dependedBy.push(tetriminoNode)
-      tetriminoNode.depending.push(result)
+      result.dependedBy.add(tetriminoNode)
+      tetriminoNode.depending.add(result)
     })
   })
   return tetriminoNodes
