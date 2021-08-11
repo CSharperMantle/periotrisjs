@@ -1,12 +1,14 @@
+import "./BlocksGrid.css"
+
 import { observer } from "mobx-react"
 import React from "react"
+
 import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
 import {
   PeriotrisViewModel,
   PeriotrisViewModelContext,
 } from "../viewmodel/PeriotrisViewModel"
 import { BlockControl } from "./BlockControl"
-import "./BlocksGrid.css"
 
 const BlocksGrid = observer(
   class BlocksGrid extends React.Component {

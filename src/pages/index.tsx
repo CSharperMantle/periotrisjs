@@ -1,14 +1,17 @@
-import React from "react"
 import "./index.css"
+
+import React from "react"
+
+import { Grid } from "@material-ui/core"
+
+import { AppStartSplash } from "../components/AppStartSplash"
+import { BlocksGrid } from "../components/BlocksGrid"
+import { GameControlButton } from "../components/GameControlButton"
+import { SuccessBanner } from "../components/SuccessBanner"
 import {
   PeriotrisViewModel,
   PeriotrisViewModelContext,
 } from "../viewmodel/PeriotrisViewModel"
-import { BlocksGrid } from "../components/BlocksGrid"
-import { AppStartSplash } from "../components/AppStartSplash"
-import { GameControlButton } from "../components/GameControlButton"
-import { Grid } from "@material-ui/core"
-import { SuccessBanner } from "../components/SuccessBanner"
 
 class App extends React.Component {
   private _viewModel: PeriotrisViewModel = new PeriotrisViewModel()

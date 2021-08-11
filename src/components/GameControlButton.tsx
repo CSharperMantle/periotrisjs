@@ -1,19 +1,47 @@
+import "./GameControlButton.css"
+
+import { observer } from "mobx-react"
+import React, { MouseEventHandler } from "react"
+
 import {
   faClock,
   faPause,
   faPlay,
   faQuestion,
+  IconDefinition,
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Button, PropTypes } from "@material-ui/core"
-import { observer } from "mobx-react"
-import React, { MouseEventHandler } from "react"
+import {
+  createStyles,
+  Fab,
+  makeStyles,
+  PropTypes,
+  Theme,
+} from "@material-ui/core"
+
 import { GameState } from "../model/GameState"
 import {
   PeriotrisViewModel,
   PeriotrisViewModelContext,
 } from "../viewmodel/PeriotrisViewModel"
-import "./GameControlButton.css"
+
+const useButtonLabelIconStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    extendedIcon: {
+      marginRight: theme.spacing(1),
+    },
+  })
+)
+
+interface IButtonLabelIconWrapper {
+  icon: IconDefinition
+}
+
+function ButtonLabelIconWrapper(props: IButtonLabelIconWrapper) {
+  const classes = useButtonLabelIconStyles()
+
+  return <FontAwesomeIcon icon={props.icon} className={classes.extendedIcon} />
+}
 
 interface IGameControlButtonProps {
   onClick: MouseEventHandler
@@ -27,48 +55,55 @@ const GameControlButton = observer(
     public render() {
       const viewModel: PeriotrisViewModel = this.context
 
-      let buttonLabelElement: JSX.Element
+      let buttonLabelIcon: IconDefinition
       let buttonDisabled: boolean
       let buttonColor: PropTypes.Color
+      let ariaLabel: string
       switch (viewModel.gameState) {
         case GameState.NotStarted:
         case GameState.Lost:
         case GameState.Won:
-          buttonLabelElement = <FontAwesomeIcon icon={faPlay} />
+          buttonLabelIcon = faPlay
           buttonDisabled = false
           buttonColor = "primary"
+          ariaLabel = "start"
           break
         case GameState.InProgress:
           buttonDisabled = false
           buttonColor = "secondary"
           if (viewModel.paused) {
-            buttonLabelElement = <FontAwesomeIcon icon={faPlay} />
+            buttonLabelIcon = faPlay
+            ariaLabel = "resume"
           } else {
-            buttonLabelElement = <FontAwesomeIcon icon={faPause} />
+            buttonLabelIcon = faPause
+            ariaLabel = "pause"
           }
           break
         case GameState.Preparing:
-          buttonLabelElement = <FontAwesomeIcon icon={faClock} />
+          buttonLabelIcon = faClock
           buttonDisabled = true
           buttonColor = "primary"
+          ariaLabel = "preparing"
           break
         default:
-          buttonLabelElement = <FontAwesomeIcon icon={faQuestion} />
           buttonDisabled = true
+          buttonLabelIcon = faQuestion
           buttonColor = "primary"
+          ariaLabel = "unknown"
           break
       }
 
       return (
-        <Button
-          variant="contained"
-          className="game-control-button"
+        <Fab
+          variant="extended"
           color={buttonColor}
           disabled={buttonDisabled}
           onClick={this.props.onClick}
+          aria-label={ariaLabel}
         >
-          {buttonLabelElement}
-        </Button>
+          <ButtonLabelIconWrapper icon={buttonLabelIcon} />
+          {ariaLabel}
+        </Fab>
       )
     }
   }

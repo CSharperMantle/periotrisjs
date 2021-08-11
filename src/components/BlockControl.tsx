@@ -1,9 +1,11 @@
 import "./BlockControl.css"
-import React from "react"
-import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
-import defaultPeriodicTable from "../json/DefaultPeriodicTable.json"
-import defaultColorScheme from "../json/DefaultColorScheme.json"
+
 import _ from "lodash"
+import React from "react"
+
+import defaultColorScheme from "../json/DefaultColorScheme.json"
+import defaultPeriodicTable from "../json/DefaultPeriodicTable.json"
+import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
 
 interface IBlockControlProps extends IDisplayBlock {
   key: number

@@ -1,13 +1,13 @@
 import _ from "lodash"
-import { PlayAreaHeight, PlayAreaWidth } from "../../common/PeriotrisConst"
 
+import { PlayAreaHeight, PlayAreaWidth } from "../../common/PeriotrisConst"
 import { Position } from "../../common/Position"
+import defaultMap from "../../json/DefaultMap.json"
 import { Block } from "../Block"
 import { Direction, RotationDirection } from "../Direction"
 import { Tetrimino } from "../Tetrimino"
 import { TetriminoKind } from "../TetriminoKind"
 import { getInitialPositionByKind } from "./GeneratorHelper"
-import defaultMap from "../../json/DefaultMap.json"
 import { sort } from "./TetriminoSorter"
 
 function getPlayablePattern(): Tetrimino[] {
@@ -116,14 +116,16 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
 
     let solutionFound: boolean = false
     while (currentKindDirectionsPairStack!.length > 0) {
-      const currentPair: KindDirectionsPair = currentKindDirectionsPairStack!.pop()!
+      const currentPair: KindDirectionsPair =
+        currentKindDirectionsPairStack!.pop()!
       while (currentPair.Directions.length > 0) {
         const direction: Direction = currentPair.Directions.pop()!
-        const tetrimino: Tetrimino = Tetrimino.createTetriminoByFirstBlockPosition(
-          currentPair.Kind,
-          firstBlockCoord,
-          direction
-        )
+        const tetrimino: Tetrimino =
+          Tetrimino.createTetriminoByFirstBlockPosition(
+            currentPair.Kind,
+            firstBlockCoord,
+            direction
+          )
         if (!_.some(tetrimino.blocks, collisionChecker)) {
           settledTetrimino.push(tetrimino)
           pendingTetriminoKinds.push(

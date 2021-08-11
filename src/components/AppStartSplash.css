@@ -9,7 +9,10 @@
   box-sizing: border-box;
 }
 
-.app-start-splash__grid {
-  width: 100%;
+.app-start-splash__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
   height: 100%;
 }
