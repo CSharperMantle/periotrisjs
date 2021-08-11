@@ -33,6 +33,7 @@ const GameControlButton = observer(
       let buttonLabelElement: JSX.Element
       let buttonDisabled: boolean
       let buttonColor: PropTypes.Color
+      let ariaLabel: string
       switch (viewModel.gameState) {
         case GameState.NotStarted:
         case GameState.Lost:
@@ -40,25 +41,30 @@ const GameControlButton = observer(
           buttonLabelElement = <FontAwesomeIcon icon={faPlay} />
           buttonDisabled = false
           buttonColor = "primary"
+          ariaLabel = "start game"
           break
         case GameState.InProgress:
           buttonDisabled = false
           buttonColor = "secondary"
           if (viewModel.paused) {
             buttonLabelElement = <FontAwesomeIcon icon={faPlay} />
+            ariaLabel = "resume game"
           } else {
             buttonLabelElement = <FontAwesomeIcon icon={faPause} />
+            ariaLabel = "pause game"
           }
           break
         case GameState.Preparing:
           buttonLabelElement = <FontAwesomeIcon icon={faClock} />
           buttonDisabled = true
           buttonColor = "primary"
+          ariaLabel = "preparing game"
           break
         default:
           buttonLabelElement = <FontAwesomeIcon icon={faQuestion} />
           buttonDisabled = true
           buttonColor = "primary"
+          ariaLabel = "unknown status"
           break
       }
 
@@ -69,6 +75,7 @@ const GameControlButton = observer(
           color={buttonColor}
           disabled={buttonDisabled}
           onClick={this.props.onClick}
+          aria-label={ariaLabel}
         >
           {buttonLabelElement}
         </Button>
