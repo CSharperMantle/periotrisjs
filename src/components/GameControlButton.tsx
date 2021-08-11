@@ -1,3 +1,8 @@
+import "./GameControlButton.css"
+
+import { observer } from "mobx-react"
+import React, { MouseEventHandler } from "react"
+
 import {
   faClock,
   faPause,
@@ -6,14 +11,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Button, PropTypes } from "@material-ui/core"
-import { observer } from "mobx-react"
-import React, { MouseEventHandler } from "react"
+
 import { GameState } from "../model/GameState"
 import {
   PeriotrisViewModel,
   PeriotrisViewModelContext,
 } from "../viewmodel/PeriotrisViewModel"
-import "./GameControlButton.css"
 
 interface IGameControlButtonProps {
   onClick: MouseEventHandler

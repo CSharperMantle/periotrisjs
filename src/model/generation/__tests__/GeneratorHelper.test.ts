@@ -1,4 +1,5 @@
 import _ from "lodash"
+
 import { PlayAreaWidth } from "../../../common/PeriotrisConst"
 import { Position } from "../../../common/Position"
 import { Block } from "../../Block"

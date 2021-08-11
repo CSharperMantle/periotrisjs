@@ -1,11 +1,11 @@
-import { Container, Grid, Grow, Paper, Typography } from "@material-ui/core"
+import "./AppStartSplash.css"
+
 import { observer } from "mobx-react"
 import React from "react"
-import {
-  PeriotrisViewModel,
-  PeriotrisViewModelContext,
-} from "../viewmodel/PeriotrisViewModel"
-import "./AppStartSplash.css"
+
+import { Grid, Grow, Paper, Typography } from "@material-ui/core"
+
+import { PeriotrisViewModelContext } from "../viewmodel/PeriotrisViewModel"
 
 interface IAppStartSplashProps {
   goOutTimeout: number
