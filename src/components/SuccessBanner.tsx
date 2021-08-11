@@ -1,11 +1,14 @@
-import { Container, Fade, Grid, Typography } from "@material-ui/core"
+import "./SuccessBanner.css"
+
 import { observer } from "mobx-react"
 import React from "react"
+
+import { Container, Fade, Grid, Typography } from "@material-ui/core"
+
 import {
   PeriotrisViewModel,
   PeriotrisViewModelContext,
 } from "../viewmodel/PeriotrisViewModel"
-import "./SuccessBanner.css"
 
 const SuccessBanner = observer(
   class SuccessBanner extends React.Component {

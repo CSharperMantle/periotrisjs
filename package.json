@@ -1,6 +1,6 @@
 {
   "name": "periotrisjs",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Periotris game built with React and Fluent UI",
   "scripts": {
     "build": "gatsby build",

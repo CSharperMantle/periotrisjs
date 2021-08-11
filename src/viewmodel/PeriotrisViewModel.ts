@@ -1,14 +1,15 @@
 import _ from "lodash"
 import { makeAutoObservable } from "mobx"
+import { createContext } from "react"
+
 import { GameUpdateIntervalMilliseconds } from "../common/PeriotrisConst"
 import { Position } from "../common/Position"
+import { Block } from "../model/Block"
 import { BlockChangedEventArgs } from "../model/BlockChangedEventArgs"
 import { MoveDirection, RotationDirection } from "../model/Direction"
+import { GameState } from "../model/GameState"
 import { PeriotrisModel } from "../model/PeriotrisModel"
 import { IDisplayBlock } from "./IDisplayBlock"
-import { Block } from "../model/Block"
-import { createContext } from "react"
-import { GameState } from "../model/GameState"
 
 class PeriotrisViewModel {
   public constructor() {
