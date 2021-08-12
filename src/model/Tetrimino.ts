@@ -144,7 +144,7 @@ class Tetrimino {
    * Use Tetrimino.createTetriminoByFirstBlockPosition()
    * and Tetrimino.createTetriminoByPosition() instead.
    */
-  public constructor(
+  protected constructor(
     kind: TetriminoKind,
     position: Position,
     firstBlockPos: Position,

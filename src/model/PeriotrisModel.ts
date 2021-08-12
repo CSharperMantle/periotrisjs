@@ -131,21 +131,16 @@ class PeriotrisModel extends EventEmitter {
   private repairBrokenTetriminos(brokenTetriminos: Tetrimino[]): Tetrimino[] {
     /*
      * HACK: Object's prototype chain will be lost when
-     * transferred through messages. The following code's
+     * transferred through messages, thanks to the limitations
+     * of structured clone. The following code's
      * purpose is to restore the method mapping of the
      * objects.
      */
     const repairedTetriminos: Tetrimino[] = []
     brokenTetriminos.forEach((brokenTetrimino) => {
-      const repairedTetrimino = new Tetrimino(
-        brokenTetrimino.kind,
-        brokenTetrimino.position,
-        brokenTetrimino.firstBlockPosition,
-        brokenTetrimino.facingDirection
-      )
-      repairedTetrimino.blocks = mapAtomicNumberForNewBlocks(
-        brokenTetrimino.blocks,
-        repairedTetrimino.blocks
+      const repairedTetrimino = Object.create(
+        Tetrimino.prototype,
+        Object.getOwnPropertyDescriptors(brokenTetrimino)
       )
       repairedTetriminos.push(repairedTetrimino)
     })
