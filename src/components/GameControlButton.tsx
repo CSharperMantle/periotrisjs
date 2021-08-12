@@ -55,54 +55,54 @@ const GameControlButton = observer(
     public render() {
       const viewModel: PeriotrisViewModel = this.context
 
-      let buttonLabelIcon: IconDefinition
-      let buttonDisabled: boolean
-      let buttonColor: PropTypes.Color
-      let ariaLabel: string
+      let icon: IconDefinition
+      let isDisabled: boolean
+      let color: PropTypes.Color
+      let label: string
       switch (viewModel.gameState) {
         case GameState.NotStarted:
         case GameState.Lost:
         case GameState.Won:
-          buttonLabelIcon = faPlay
-          buttonDisabled = false
-          buttonColor = "primary"
-          ariaLabel = "start"
+          icon = faPlay
+          isDisabled = false
+          color = "primary"
+          label = "start"
           break
         case GameState.InProgress:
-          buttonDisabled = false
-          buttonColor = "secondary"
+          isDisabled = false
+          color = "secondary"
           if (viewModel.paused) {
-            buttonLabelIcon = faPlay
-            ariaLabel = "resume"
+            icon = faPlay
+            label = "resume"
           } else {
-            buttonLabelIcon = faPause
-            ariaLabel = "pause"
+            icon = faPause
+            label = "pause"
           }
           break
         case GameState.Preparing:
-          buttonLabelIcon = faClock
-          buttonDisabled = true
-          buttonColor = "primary"
-          ariaLabel = "preparing"
+          icon = faClock
+          isDisabled = true
+          color = "primary"
+          label = "preparing"
           break
         default:
-          buttonDisabled = true
-          buttonLabelIcon = faQuestion
-          buttonColor = "primary"
-          ariaLabel = "unknown"
+          isDisabled = true
+          icon = faQuestion
+          color = "primary"
+          label = "unknown"
           break
       }
 
       return (
         <Fab
           variant="extended"
-          color={buttonColor}
-          disabled={buttonDisabled}
+          color={color}
+          disabled={isDisabled}
           onClick={this.props.onClick}
-          aria-label={ariaLabel}
+          aria-label={label}
         >
-          <ButtonLabelIconWrapper icon={buttonLabelIcon} />
-          {ariaLabel}
+          <ButtonLabelIconWrapper icon={icon} />
+          {label}
         </Fab>
       )
     }
