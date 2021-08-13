@@ -53,8 +53,8 @@ interface IGameControlButtonProps extends WithTheme {
   onClick: MouseEventHandler
 }
 
-const GameControlButton = observer(
-  withTheme(
+const GameControlButton = withTheme(
+  observer(
     class GameControlButton extends React.Component<IGameControlButtonProps> {
       static contextType = PeriotrisViewModelContext
       declare context: React.ContextType<typeof PeriotrisViewModelContext>
