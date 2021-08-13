@@ -28,13 +28,13 @@ class PeriotrisViewModel {
     this.endGame()
   }
 
-  private _gameOver: boolean = true
+  private _gameLost: boolean = true
 
-  public get gameOver(): boolean {
-    return this._gameOver
+  public get gameLost(): boolean {
+    return this._gameLost
   }
-  public set gameOver(v: boolean) {
-    this._gameOver = v
+  private set gameLost(v: boolean) {
+    this._gameLost = v
   }
 
   private _gameWon: boolean = false
@@ -42,7 +42,7 @@ class PeriotrisViewModel {
   public get gameWon(): boolean {
     return this._gameWon
   }
-  public set gameWon(v: boolean) {
+  private set gameWon(v: boolean) {
     this._gameWon = v
   }
 
@@ -159,7 +159,7 @@ class PeriotrisViewModel {
   }
 
   private refreshGameStatus(): void {
-    this.gameOver = this._model.gameState === GameState.Lost
+    this.gameLost = this._model.gameState === GameState.Lost
     this.gameWon = this._model.gameState === GameState.Won
     this.gameState = this._model.gameState
   }

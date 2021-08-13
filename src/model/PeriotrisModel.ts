@@ -26,7 +26,9 @@ class PeriotrisModel extends EventEmitter {
     if (victory) {
       this.gameState = GameState.Won
     } else {
-      this.gameState = GameState.Lost
+      if (this.gameState !== GameState.NotStarted) {
+        this.gameState = GameState.Lost
+      }
     }
     this._pendingTetriminos.length = 0
     this.onGameEnd()

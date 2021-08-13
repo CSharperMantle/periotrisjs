@@ -4,6 +4,7 @@ import React from "react"
 
 import { AppStartSplash } from "../components/AppStartSplash"
 import { BlocksGrid } from "../components/BlocksGrid"
+import { FailedSnackbar } from "../components/FailedSnackbar"
 import { GameControlButton } from "../components/GameControlButton"
 import { SuccessBanner } from "../components/SuccessBanner"
 import {
@@ -45,6 +46,7 @@ class App extends React.Component {
             </div>
             <AppStartSplash goOutTimeout={3000} />
           </div>
+          <FailedSnackbar />
           <GameControlButton
             onClick={this._viewModel.invokeGameControl.bind(this._viewModel)}
           />
