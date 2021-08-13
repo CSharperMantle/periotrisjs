@@ -2,10 +2,9 @@ import "./index.css"
 
 import React from "react"
 
-import { Grid } from "@material-ui/core"
-
 import { AppStartSplash } from "../components/AppStartSplash"
 import { BlocksGrid } from "../components/BlocksGrid"
+import { FailedSnackbar } from "../components/FailedSnackbar"
 import { GameControlButton } from "../components/GameControlButton"
 import { SuccessBanner } from "../components/SuccessBanner"
 import {
@@ -47,22 +46,10 @@ class App extends React.Component {
             </div>
             <AppStartSplash goOutTimeout={3000} />
           </div>
-          <div className="game-page__row-3">
-            <Grid
-              container
-              className="game-page__row-3__container"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Grid item>
-                <GameControlButton
-                  onClick={this._viewModel.invokeGameControl.bind(
-                    this._viewModel
-                  )}
-                />
-              </Grid>
-            </Grid>
-          </div>
+          <FailedSnackbar />
+          <GameControlButton
+            onClick={this._viewModel.invokeGameControl.bind(this._viewModel)}
+          />
         </main>
       </PeriotrisViewModelContext.Provider>
     )

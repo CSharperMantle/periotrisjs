@@ -10,7 +10,6 @@ import { Block } from "./Block"
 import { BlockChangedEventArgs } from "./BlockChangedEventArgs"
 import { MoveDirection, RotationDirection } from "./Direction"
 import { GameState } from "./GameState"
-import { mapAtomicNumberForNewBlocks } from "./generation/GeneratorHelper"
 import { IGeneratorMessage } from "./generation/IGeneratorMessage"
 import { MessageType } from "./generation/MessageType"
 import { getPlayablePattern } from "./generation/PatternGenerator"
@@ -27,7 +26,9 @@ class PeriotrisModel extends EventEmitter {
     if (victory) {
       this.gameState = GameState.Won
     } else {
-      this.gameState = GameState.Lost
+      if (this.gameState !== GameState.NotStarted) {
+        this.gameState = GameState.Lost
+      }
     }
     this._pendingTetriminos.length = 0
     this.onGameEnd()
@@ -131,21 +132,16 @@ class PeriotrisModel extends EventEmitter {
   private repairBrokenTetriminos(brokenTetriminos: Tetrimino[]): Tetrimino[] {
     /*
      * HACK: Object's prototype chain will be lost when
-     * transferred through messages. The following code's
+     * transferred through messages, thanks to the limitations
+     * of structured clone. The following code's
      * purpose is to restore the method mapping of the
      * objects.
      */
     const repairedTetriminos: Tetrimino[] = []
     brokenTetriminos.forEach((brokenTetrimino) => {
-      const repairedTetrimino = new Tetrimino(
-        brokenTetrimino.kind,
-        brokenTetrimino.position,
-        brokenTetrimino.firstBlockPosition,
-        brokenTetrimino.facingDirection
-      )
-      repairedTetrimino.blocks = mapAtomicNumberForNewBlocks(
-        brokenTetrimino.blocks,
-        repairedTetrimino.blocks
+      const repairedTetrimino = Object.create(
+        Tetrimino.prototype,
+        Object.getOwnPropertyDescriptors(brokenTetrimino)
       )
       repairedTetriminos.push(repairedTetrimino)
     })

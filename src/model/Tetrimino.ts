@@ -139,12 +139,7 @@ class Tetrimino {
     )
   }
 
-  /**
-   * The constructor. Not for direct use.
-   * Use Tetrimino.createTetriminoByFirstBlockPosition()
-   * and Tetrimino.createTetriminoByPosition() instead.
-   */
-  public constructor(
+  protected constructor(
     kind: TetriminoKind,
     position: Position,
     firstBlockPos: Position,
