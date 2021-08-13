@@ -53,6 +53,56 @@ interface IGameControlButtonProps extends WithTheme {
   onClick: MouseEventHandler
 }
 
+function getIconByGameState(
+  gameState: GameState,
+  paused: boolean
+): IconDefinition {
+  switch (gameState) {
+    case GameState.NotStarted:
+    case GameState.Lost:
+    case GameState.Won:
+      return faPlay
+    case GameState.InProgress:
+      if (paused) {
+        return faPlay
+      } else {
+        return faPause
+      }
+    case GameState.Preparing:
+      return faClock
+    default:
+      return faQuestion
+  }
+}
+
+function getColorByGameState(gameState: GameState): PropTypes.Color {
+  switch (gameState) {
+    case GameState.InProgress:
+      return "secondary"
+    default:
+      return "primary"
+  }
+}
+
+function getLabelByGameState(gameState: GameState, paused: boolean): string {
+  switch (gameState) {
+    case GameState.NotStarted:
+    case GameState.Lost:
+    case GameState.Won:
+      return "start"
+    case GameState.InProgress:
+      if (paused) {
+        return "resume"
+      } else {
+        return "pause"
+      }
+    case GameState.Preparing:
+      return "preparing"
+    default:
+      return "unknown"
+  }
+}
+
 const GameControlButton = withTheme(
   observer(
     class GameControlButton extends React.Component<IGameControlButtonProps> {
@@ -62,43 +112,16 @@ const GameControlButton = withTheme(
       public render() {
         const viewModel: PeriotrisViewModel = this.context
 
-        let icon: IconDefinition
-        let isDisabled: boolean
-        let color: PropTypes.Color
-        let label: string
-        switch (viewModel.gameState) {
-          case GameState.NotStarted:
-          case GameState.Lost:
-          case GameState.Won:
-            icon = faPlay
-            isDisabled = false
-            color = "primary"
-            label = "start"
-            break
-          case GameState.InProgress:
-            isDisabled = false
-            color = "secondary"
-            if (viewModel.paused) {
-              icon = faPlay
-              label = "resume"
-            } else {
-              icon = faPause
-              label = "pause"
-            }
-            break
-          case GameState.Preparing:
-            icon = faClock
-            isDisabled = true
-            color = "primary"
-            label = "preparing"
-            break
-          default:
-            isDisabled = true
-            icon = faQuestion
-            color = "primary"
-            label = "unknown"
-            break
-        }
+        let icon: IconDefinition = getIconByGameState(
+          viewModel.gameState,
+          viewModel.paused
+        )
+        let isDisabled: boolean = viewModel.gameState === GameState.Preparing
+        let color: PropTypes.Color = getColorByGameState(viewModel.gameState)
+        let label: string = getLabelByGameState(
+          viewModel.gameState,
+          viewModel.paused
+        )
 
         return (
           <Fab
