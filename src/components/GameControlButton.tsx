@@ -17,6 +17,8 @@ import {
   makeStyles,
   PropTypes,
   Theme,
+  WithTheme,
+  withTheme,
 } from "@material-ui/core"
 
 import { GameState } from "../model/GameState"
@@ -29,6 +31,10 @@ const useButtonLabelIconStyles = makeStyles((theme: Theme) =>
   createStyles({
     extendedIcon: {
       marginRight: theme.spacing(1),
+    },
+    fab: {
+      bottom: theme.spacing(1),
+      right: theme.spacing(1),
     },
   })
 )
@@ -43,70 +49,77 @@ function ButtonLabelIconWrapper(props: IButtonLabelIconWrapper) {
   return <FontAwesomeIcon icon={props.icon} className={classes.extendedIcon} />
 }
 
-interface IGameControlButtonProps {
+interface IGameControlButtonProps extends WithTheme {
   onClick: MouseEventHandler
 }
 
 const GameControlButton = observer(
-  class GameControlButton extends React.Component<IGameControlButtonProps> {
-    static contextType = PeriotrisViewModelContext
-    declare context: React.ContextType<typeof PeriotrisViewModelContext>
+  withTheme(
+    class GameControlButton extends React.Component<IGameControlButtonProps> {
+      static contextType = PeriotrisViewModelContext
+      declare context: React.ContextType<typeof PeriotrisViewModelContext>
 
-    public render() {
-      const viewModel: PeriotrisViewModel = this.context
+      public render() {
+        const viewModel: PeriotrisViewModel = this.context
 
-      let icon: IconDefinition
-      let isDisabled: boolean
-      let color: PropTypes.Color
-      let label: string
-      switch (viewModel.gameState) {
-        case GameState.NotStarted:
-        case GameState.Lost:
-        case GameState.Won:
-          icon = faPlay
-          isDisabled = false
-          color = "primary"
-          label = "start"
-          break
-        case GameState.InProgress:
-          isDisabled = false
-          color = "secondary"
-          if (viewModel.paused) {
+        let icon: IconDefinition
+        let isDisabled: boolean
+        let color: PropTypes.Color
+        let label: string
+        switch (viewModel.gameState) {
+          case GameState.NotStarted:
+          case GameState.Lost:
+          case GameState.Won:
             icon = faPlay
-            label = "resume"
-          } else {
-            icon = faPause
-            label = "pause"
-          }
-          break
-        case GameState.Preparing:
-          icon = faClock
-          isDisabled = true
-          color = "primary"
-          label = "preparing"
-          break
-        default:
-          isDisabled = true
-          icon = faQuestion
-          color = "primary"
-          label = "unknown"
-          break
-      }
+            isDisabled = false
+            color = "primary"
+            label = "start"
+            break
+          case GameState.InProgress:
+            isDisabled = false
+            color = "secondary"
+            if (viewModel.paused) {
+              icon = faPlay
+              label = "resume"
+            } else {
+              icon = faPause
+              label = "pause"
+            }
+            break
+          case GameState.Preparing:
+            icon = faClock
+            isDisabled = true
+            color = "primary"
+            label = "preparing"
+            break
+          default:
+            isDisabled = true
+            icon = faQuestion
+            color = "primary"
+            label = "unknown"
+            break
+        }
 
-      return (
-        <Fab
-          variant="extended"
-          color={color}
-          disabled={isDisabled}
-          onClick={this.props.onClick}
-          aria-label={label}
-        >
-          <ButtonLabelIconWrapper icon={icon} />
-          {label}
-        </Fab>
-      )
+        return (
+          <Fab
+            className="game-control-button"
+            variant="extended"
+            color={color}
+            disabled={isDisabled}
+            onClick={this.props.onClick}
+            aria-label={label}
+            style={{
+              bottom: this.props.theme.spacing(5),
+              right: this.props.theme.spacing(5),
+            }}
+          >
+            <ButtonLabelIconWrapper icon={icon} />
+            {label}
+          </Fab>
+        )
+      }
     }
-  }
+  )
 )
 
 export { GameControlButton }
