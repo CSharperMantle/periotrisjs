@@ -26,7 +26,7 @@ You may omit the `--depth=1` flag if you want a complete history rather than a g
 
 #### Install dependencies
 
-The project need **Node.js v16.x+** environment to run. Please refer to their documents for installation guide on Node.js.
+The project need [**Node.js v16.x+**](https://nodejs.org/) environment to run. Please refer to their documents for installation guide on Node.js.
 
 Once you have installed correct Node version, run the following:
 ```sh
@@ -36,7 +36,7 @@ npm install -g gatsby-cli # for convenience in running Gatsby commands
 
 #### Build
 
-Run the following commands to build and serve a static, release-ready site:
+Run the following commands to build and serve a static, release-ready [Gatsby](https://gatsbyjs.com/) site:
 ```sh
 gatsby build && gatsby serve
 # ...or...
@@ -51,7 +51,7 @@ gatsby develop
 
 #### *OPTIONAL:* Test
 
-Run the following to start `jest` unit testing framework:
+Run the following to start [`jest`](https://jestjs.io/) unit testing framework:
 ```sh
 npm run test
 ```
