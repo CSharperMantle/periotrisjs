@@ -1,43 +1,62 @@
-import "./SuccessBanner.css"
-
 import { observer } from "mobx-react"
 import React from "react"
 
-import { Container, Fade, Grid, Typography } from "@material-ui/core"
+import {
+  Container,
+  createStyles,
+  Fade,
+  Grid,
+  Typography,
+  WithStyles,
+  withStyles,
+} from "@material-ui/core"
 
 import {
   PeriotrisViewModel,
   PeriotrisViewModelContext,
 } from "../viewmodel/PeriotrisViewModel"
 
-const SuccessBanner = observer(
-  class SuccessBanner extends React.Component {
-    static contextType = PeriotrisViewModelContext
-    declare context: React.ContextType<typeof PeriotrisViewModelContext>
+const styles = () => {
+  return createStyles({
+    successBannerGrid: {
+      width: "100%",
+      height: "100%",
+    },
+  })
+}
 
-    public render() {
-      const viewModel: PeriotrisViewModel = this.context
+interface ISuccessBannerProps extends WithStyles<typeof styles> {}
 
-      return (
-        <Fade in={viewModel.gameWon}>
-          <Grid
-            container
-            className="success-banner__grid"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Grid item xs={12}>
-              <Container maxWidth="lg">
-                <Typography variant="h2" style={{ textAlign: "center" }}>
-                  The Periodic Table of Elements
-                </Typography>
-              </Container>
+const SuccessBanner = withStyles(styles)(
+  observer(
+    class SuccessBanner extends React.Component<ISuccessBannerProps> {
+      static contextType = PeriotrisViewModelContext
+      declare context: React.ContextType<typeof PeriotrisViewModelContext>
+
+      public render() {
+        const viewModel: PeriotrisViewModel = this.context
+
+        return (
+          <Fade in={viewModel.gameWon}>
+            <Grid
+              container
+              className={this.props.classes.successBannerGrid}
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Grid item xs={12}>
+                <Container maxWidth="lg">
+                  <Typography variant="h2" style={{ textAlign: "center" }}>
+                    The Periodic Table of Elements
+                  </Typography>
+                </Container>
+              </Grid>
             </Grid>
-          </Grid>
-        </Fade>
-      )
+          </Fade>
+        )
+      }
     }
-  }
+  )
 )
 
 export { SuccessBanner }

@@ -41,9 +41,7 @@ class App extends React.Component {
             <SuccessBanner />
           </div>
           <div className="game-page__row-2">
-            <div className="play-area">
-              <BlocksGrid />
-            </div>
+            <BlocksGrid />
             <AppStartSplash goOutTimeout={3000} />
           </div>
           <FailedSnackbar />

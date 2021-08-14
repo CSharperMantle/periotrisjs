@@ -1,5 +1,3 @@
-import "./GameControlButton.css"
-
 import { observer } from "mobx-react"
 import React, { MouseEventHandler } from "react"
 
@@ -17,6 +15,8 @@ import {
   makeStyles,
   PropTypes,
   Theme,
+  withStyles,
+  WithStyles,
   WithTheme,
   withTheme,
 } from "@material-ui/core"
@@ -27,29 +27,31 @@ import {
   PeriotrisViewModelContext,
 } from "../viewmodel/PeriotrisViewModel"
 
-const useButtonLabelIconStyles = makeStyles((theme: Theme) =>
-  createStyles({
+const styles = (theme: Theme) => {
+  return createStyles({
     extendedIcon: {
       marginRight: theme.spacing(1),
     },
     fab: {
-      bottom: theme.spacing(1),
-      right: theme.spacing(1),
+      position: "absolute",
+      bottom: theme.spacing(5),
+      right: theme.spacing(5),
     },
   })
-)
+}
 
 interface IButtonLabelIconWrapper {
   icon: IconDefinition
 }
 
 function ButtonLabelIconWrapper(props: IButtonLabelIconWrapper) {
-  const classes = useButtonLabelIconStyles()
+  const useStyles = makeStyles(styles)
+  const classes = useStyles()
 
   return <FontAwesomeIcon icon={props.icon} className={classes.extendedIcon} />
 }
 
-interface IGameControlButtonProps extends WithTheme {
+interface IGameControlButtonProps extends WithTheme, WithStyles<typeof styles> {
   onClick: MouseEventHandler
 }
 
@@ -104,44 +106,42 @@ function getLabelByGameState(gameState: GameState, paused: boolean): string {
 }
 
 const GameControlButton = withTheme(
-  observer(
-    class GameControlButton extends React.Component<IGameControlButtonProps> {
-      static contextType = PeriotrisViewModelContext
-      declare context: React.ContextType<typeof PeriotrisViewModelContext>
+  withStyles(styles)(
+    observer(
+      class GameControlButton extends React.Component<IGameControlButtonProps> {
+        static contextType = PeriotrisViewModelContext
+        declare context: React.ContextType<typeof PeriotrisViewModelContext>
 
-      public render() {
-        const viewModel: PeriotrisViewModel = this.context
+        public render() {
+          const viewModel: PeriotrisViewModel = this.context
 
-        let icon: IconDefinition = getIconByGameState(
-          viewModel.gameState,
-          viewModel.paused
-        )
-        let isDisabled: boolean = viewModel.gameState === GameState.Preparing
-        let color: PropTypes.Color = getColorByGameState(viewModel.gameState)
-        let label: string = getLabelByGameState(
-          viewModel.gameState,
-          viewModel.paused
-        )
+          let icon: IconDefinition = getIconByGameState(
+            viewModel.gameState,
+            viewModel.paused
+          )
+          let isDisabled: boolean = viewModel.gameState === GameState.Preparing
+          let color: PropTypes.Color = getColorByGameState(viewModel.gameState)
+          let label: string = getLabelByGameState(
+            viewModel.gameState,
+            viewModel.paused
+          )
 
-        return (
-          <Fab
-            className="game-control-button"
-            variant="extended"
-            color={color}
-            disabled={isDisabled}
-            onClick={this.props.onClick}
-            aria-label={label}
-            style={{
-              bottom: this.props.theme.spacing(5),
-              right: this.props.theme.spacing(5),
-            }}
-          >
-            <ButtonLabelIconWrapper icon={icon} />
-            {label}
-          </Fab>
-        )
+          return (
+            <Fab
+              className={this.props.classes.fab}
+              variant="extended"
+              color={color}
+              disabled={isDisabled}
+              onClick={this.props.onClick}
+              aria-label={label}
+            >
+              <ButtonLabelIconWrapper icon={icon} />
+              {label}
+            </Fab>
+          )
+        }
       }
-    }
+    )
   )
 )
 
