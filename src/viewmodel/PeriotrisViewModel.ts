@@ -2,6 +2,7 @@ import _ from "lodash"
 import { makeAutoObservable } from "mobx"
 import { createContext } from "react"
 
+import { isBrowserEnv } from "../common/IsBrowserEnv"
 import { GameUpdateIntervalMilliseconds } from "../common/PeriotrisConst"
 import { Position } from "../common/Position"
 import { Block } from "../model/Block"
@@ -10,6 +11,8 @@ import { MoveDirection, RotationDirection } from "../model/Direction"
 import { GameState } from "../model/GameState"
 import { PeriotrisModel } from "../model/PeriotrisModel"
 import { IDisplayBlock } from "./IDisplayBlock"
+
+const Hammer = isBrowserEnv() ? require("hammerjs") : null
 
 class PeriotrisViewModel {
   public constructor() {
