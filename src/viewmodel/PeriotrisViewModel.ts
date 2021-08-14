@@ -47,32 +47,17 @@ class PeriotrisViewModel {
   }
 
   private _gameState: GameState = GameState.NotStarted
+
   public get gameState(): GameState {
     return this._gameState
   }
-  public set gameState(v: GameState) {
+  private set gameState(v: GameState) {
     this._gameState = v
   }
 
-  private _paused: boolean = false
+  public paused: boolean = false
 
-  public get paused(): boolean {
-    return this._paused
-  }
-
-  public set paused(v: boolean) {
-    this._paused = v
-  }
-
-  private _sprites: IDisplayBlock[] = []
-
-  public get sprites(): IDisplayBlock[] {
-    return this._sprites
-  }
-
-  private set sprites(v: IDisplayBlock[]) {
-    this._sprites = v
-  }
+  public readonly sprites: IDisplayBlock[] = []
 
   private readonly _model: PeriotrisModel = new PeriotrisModel()
 
@@ -213,8 +198,6 @@ class PeriotrisViewModel {
   }
 }
 
-const PeriotrisViewModelContext = createContext<PeriotrisViewModel>(
-  new PeriotrisViewModel() // Only a placeholder; use Provider when needed
-)
+const PeriotrisViewModelContext = createContext<PeriotrisViewModel>(undefined)
 
 export { PeriotrisViewModel, PeriotrisViewModelContext }
