@@ -102,6 +102,42 @@ class PeriotrisViewModel {
     return true
   }
 
+  public onTap(): boolean {
+    if (this.paused) {
+      return false
+    }
+    this._model.rotateActiveTetrimino(RotationDirection.Right)
+    return true
+  }
+
+  public onSwipe(ev: HammerInput): boolean {
+    if (this.paused) {
+      return false
+    }
+    switch (ev.direction) {
+      case Hammer.DIRECTION_LEFT:
+        this._model.moveActiveTetrimino(MoveDirection.Left)
+        break
+      case Hammer.DIRECTION_RIGHT:
+        this._model.moveActiveTetrimino(MoveDirection.Right)
+        break
+      case Hammer.DIRECTION_DOWN:
+        this._model.moveActiveTetrimino(MoveDirection.Down)
+        break
+      default:
+        return false
+    }
+    return true
+  }
+
+  public onPressUp(): boolean {
+    if (this.paused) {
+      return false
+    }
+    this._model.instantDropActiveTetrimino()
+    return true
+  }
+
   public invokeGameControl(): void {
     switch (this.gameState) {
       case GameState.InProgress:
