@@ -9,8 +9,8 @@ import {
   PeriotrisViewModelContext,
 } from "../viewmodel/PeriotrisViewModel"
 
-const FailedSnackbar = observer(
-  class FailedSnackbar extends React.Component {
+const SuccessSnackbar = observer(
+  class SuccessSnackbar extends React.Component {
     static contextType = PeriotrisViewModelContext
     declare context: React.ContextType<typeof PeriotrisViewModelContext>
 
@@ -18,12 +18,12 @@ const FailedSnackbar = observer(
       const viewModel: PeriotrisViewModel = this.context
 
       return (
-        <Snackbar open={viewModel.gameLost}>
-          <Alert severity="error">You lost the game.</Alert>
+        <Snackbar open={viewModel.gameWon}>
+          <Alert severity="success">You won the game!</Alert>
         </Snackbar>
       )
     }
   }
 )
 
-export { FailedSnackbar }
+export { SuccessSnackbar }

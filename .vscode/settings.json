@@ -13,10 +13,12 @@
     "lightgreen",
     "periotris",
     "periotrisjs",
+    "pressup",
     "semibold",
     "tetrimino",
     "tetriminos",
-    "viewmodel"
+    "viewmodel",
+    "workerloader"
   ],
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,

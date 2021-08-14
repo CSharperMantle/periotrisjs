@@ -7,7 +7,7 @@
 .game-page {
   /* display-related props */
   display: grid;
-  grid-template-rows: auto 80% auto;
+  grid-template-rows: 1fr 80% 1fr;
 
   /* layouts: width, height, margin, padding, etc.*/
   position: relative;
@@ -60,6 +60,7 @@ body,
 html,
 #___gatsby {
   margin: 0;
+  padding: 0;
 
   height: 100vh;
   max-height: 100vh;

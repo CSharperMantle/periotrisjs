@@ -65,10 +65,20 @@ npm run test
 
 You should see green outputs like 'success' in the terminal after a while.
 
-### Gameplay
+### In-game controls
+
+#### Keyboard
 
 - `W`: Rotate
 - `A`: Move left
 - `D`: Move right
 - `S`: Move down
-- `Space`: Rotate
+- `Space`: Instant drop
+
+#### Pointer gesture
+
+- `Tap`: Rotate
+- `Swipe left`: Move left
+- `Swipe right`: Move right
+- `Swipe down`: Move down
+- `Long press`: Instant drop
