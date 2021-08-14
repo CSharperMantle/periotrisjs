@@ -15,4 +15,5 @@ module.exports = {
   siteMetadata: {
     title: "PeriotrisJS",
   },
+  pathPrefix: "/periotrisjs",
 }

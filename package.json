@@ -4,6 +4,7 @@
   "description": "Periotris game built with Gatsby, React and Material UI",
   "scripts": {
     "build": "gatsby build",
+    "build-prefixed": "gatsby build --prefix-paths",
     "develop": "gatsby develop",
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,html}",
     "start": "npm run develop",
