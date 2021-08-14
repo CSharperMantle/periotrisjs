@@ -2,6 +2,7 @@ import "./index.css"
 
 import React from "react"
 
+import { isBrowserEnv } from "../common/IsBrowserEnv"
 import { AppStartSplash } from "../components/AppStartSplash"
 import { BlocksGrid } from "../components/BlocksGrid"
 import { FailedSnackbar } from "../components/FailedSnackbar"
@@ -11,6 +12,8 @@ import {
   PeriotrisViewModel,
   PeriotrisViewModelContext,
 } from "../viewmodel/PeriotrisViewModel"
+
+const Hammer = isBrowserEnv() ? require("hammerjs") : null
 
 class App extends React.Component {
   private readonly _viewModel: PeriotrisViewModel = new PeriotrisViewModel()
