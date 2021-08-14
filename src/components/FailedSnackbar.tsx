@@ -3,11 +3,11 @@ import React from "react"
 
 import { Snackbar } from "@material-ui/core"
 import { Alert } from "@material-ui/lab"
+
 import {
   PeriotrisViewModel,
   PeriotrisViewModelContext,
 } from "../viewmodel/PeriotrisViewModel"
-import { GameState } from "../model/GameState"
 
 const FailedSnackbar = observer(
   class FailedSnackbar extends React.Component {
