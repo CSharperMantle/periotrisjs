@@ -75,18 +75,18 @@ const AppStartSplash = withStyles(styles)(
                   justifyContent="center"
                   spacing={3}
                 >
-                  <Grid item xs={6}>
+                  <Grid item xs={12}>
                     <Typography variant="h1" style={{ textAlign: "center" }}>
                       Periotris.js
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="body1">
+                  <Grid item xs={12}>
+                    <Typography variant="body1" style={{ textAlign: "center" }}>
                       Periotris.js is a TypeScript porting of CSharperMantle's
                       Periotris game.
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12}>
                     <Link
                       href="https://github.com/CSharperMantle/periotrisjs/"
                       variant="body1"
