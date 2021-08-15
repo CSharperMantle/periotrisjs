@@ -11,9 +11,23 @@ module.exports = {
       },
     },
     "gatsby-plugin-react-helmet",
+    {
+      resolve: "gatsby-plugin-manifest",
+      options: {
+        name: "Periotris.js",
+        short_name: "Periotris.js",
+        start_url: ".",
+        display: "fullscreen",
+        icon: "src/assets/icon.png",
+        background_color: "#303030",
+        theme_color: "#7a84e8",
+        orientation: "landscape",
+      },
+    },
+    "gatsby-plugin-offline",
   ],
   siteMetadata: {
-    title: "PeriotrisJS",
+    title: "Periotris.js",
   },
   pathPrefix: "/periotrisjs",
 }
