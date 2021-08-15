@@ -12,7 +12,14 @@ Periotris game built with [React](https://reactjs.org/), [Gatsby](https://www.ga
 
 ## Getting started
 
-### Build the project
+### Way One: Play in browsers directly
+
+An instance of Periotris.js is hosted on GitHub Pages. Try it [here](https://csharpermantle.github.io/periotrisjs).
+
+**Tips:** The app runs best on screens larger than 1024*768. If you are using mobile browsers please switch to *landscape mode* for better experience.
+
+
+### Way Two: Build the project
 
 #### Clone
 
