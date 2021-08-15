@@ -31,7 +31,7 @@ const styles = (theme: Theme) => {
 
       userSelect: "none",
       textAlign: "center",
-      fontSize: "24px",
+      fontSize: "3vh",
     },
   })
 }
