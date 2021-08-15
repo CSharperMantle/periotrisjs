@@ -5,6 +5,7 @@ import PatternGeneratorWorker from "worker-loader!./generation/PatternGeneratorW
 import { isBrowserEnv } from "../common/IsBrowserEnv"
 import { Nullable } from "../common/Nullable"
 import { PlayAreaHeight, PlayAreaWidth } from "../common/PeriotrisConst"
+import { Position } from "../common/Position"
 import defaultMap from "../json/DefaultMap.json"
 import { Block } from "./Block"
 import { BlockChangedEventArgs } from "./BlockChangedEventArgs"
@@ -13,7 +14,7 @@ import { GameState } from "./GameState"
 import { IGeneratorMessage } from "./generation/IGeneratorMessage"
 import { MessageType } from "./generation/MessageType"
 import { getPlayablePattern } from "./generation/PatternGenerator"
-import { BlockCollisionChecker, Tetrimino } from "./Tetrimino"
+import { Tetrimino } from "./Tetrimino"
 
 class PeriotrisModel extends EventEmitter {
   private readonly _frozenBlocks: Block[] = []
@@ -40,7 +41,7 @@ class PeriotrisModel extends EventEmitter {
     while (
       this._activeTetrimino!.tryMove(
         MoveDirection.Down,
-        PeriotrisModel.checkBlockCollisionFunFactory(this)
+        this.checkBlockCollision.bind(this)
       )
     ) {}
     this.updateActiveTetrimino(false)
@@ -60,7 +61,7 @@ class PeriotrisModel extends EventEmitter {
       if (
         !this._activeTetrimino.tryMove(
           direction,
-          PeriotrisModel.checkBlockCollisionFunFactory(this)
+          this.checkBlockCollision.bind(this)
         )
       ) {
         this.freezeActiveTetrimino()
@@ -70,7 +71,7 @@ class PeriotrisModel extends EventEmitter {
     } else {
       this._activeTetrimino.tryMove(
         direction,
-        PeriotrisModel.checkBlockCollisionFunFactory(this)
+        this.checkBlockCollision.bind(this)
       )
     }
     this.updateActiveTetrimino(false)
@@ -84,7 +85,7 @@ class PeriotrisModel extends EventEmitter {
     this.updateActiveTetrimino(true)
     this._activeTetrimino!.tryRotate(
       direction,
-      PeriotrisModel.checkBlockCollisionFunFactory(this)
+      this.checkBlockCollision.bind(this)
     )
     this.updateActiveTetrimino(false)
   }
@@ -137,14 +138,45 @@ class PeriotrisModel extends EventEmitter {
      * purpose is to restore the method mapping of the
      * objects.
      */
-    const repairedTetriminos: Tetrimino[] = []
-    brokenTetriminos.forEach((brokenTetrimino) => {
-      const repairedTetrimino = Object.create(
-        Tetrimino.prototype,
-        Object.getOwnPropertyDescriptors(brokenTetrimino)
-      )
-      repairedTetriminos.push(repairedTetrimino)
-    })
+    const repairedTetriminos: Tetrimino[] = Array.from(
+      brokenTetriminos,
+      (brokenTetrimino: Tetrimino) => {
+        // Fix tetrimino itself
+        const repairedTetrimino = Object.create(
+          Tetrimino.prototype,
+          Object.getOwnPropertyDescriptors(brokenTetrimino)
+        ) as Tetrimino
+
+        // Fix its block positions
+        const repairedBlocks: Block[] = Array.from(
+          repairedTetrimino.blocks,
+          (block: Block) => {
+            const repairedBlock = Object.create(
+              Block.prototype,
+              Object.getOwnPropertyDescriptors(block)
+            ) as Block
+            repairedBlock.position = Object.create(
+              Position.prototype,
+              Object.getOwnPropertyDescriptors(repairedBlock.position)
+            ) as Position
+            return repairedBlock
+          }
+        )
+        repairedTetrimino.blocks = repairedBlocks
+
+        // Fix its own positions
+        repairedTetrimino.firstBlockPosition = Object.create(
+          Position.prototype,
+          Object.getOwnPropertyDescriptors(repairedTetrimino.firstBlockPosition)
+        ) as Position
+        repairedTetrimino.position = Object.create(
+          Position.prototype,
+          Object.getOwnPropertyDescriptors(repairedTetrimino.position)
+        ) as Position
+
+        return repairedTetrimino
+      }
+    )
     return repairedTetriminos
   }
 
@@ -203,20 +235,16 @@ class PeriotrisModel extends EventEmitter {
     this.emit("blockchanged", new BlockChangedEventArgs(block, disappeared))
   }
 
-  private static checkBlockCollisionFunFactory(
-    that: PeriotrisModel
-  ): BlockCollisionChecker {
-    return (block: Block): boolean => {
-      if (block.position.X < 0 || block.position.X >= PlayAreaWidth) {
-        return true
-      }
-      if (block.position.Y >= PlayAreaHeight) {
-        return true
-      }
-      return _.some(that._frozenBlocks, (frozenBlock: Block): boolean =>
-        frozenBlock.position.equals(block.position)
-      )
+  private checkBlockCollision(block: Block): boolean {
+    if (block.position.X < 0 || block.position.X >= PlayAreaWidth) {
+      return true
     }
+    if (block.position.Y >= PlayAreaHeight) {
+      return true
+    }
+    return _.some(this._frozenBlocks, (frozenBlock: Block): boolean => {
+      return frozenBlock.position.equals(block.position)
+    })
   }
 
   private freezeActiveTetrimino(): void {
