@@ -1,6 +1,6 @@
 # Periotris.js
 
-Periotris game built with [React](https://reactjs.org/), [Gatsby](https://www.gatsbyjs.com/) and [Material UI](https://material-ui.com/).
+A PWA-compliant Periotris game built with [React](https://reactjs.org/), [Gatsby](https://www.gatsbyjs.com/) and [Material UI](https://material-ui.com/).
 
 ![Periotris.js v0.1.1 screenshot](https://user-images.githubusercontent.com/32665105/128012524-9e989993-b7a5-4133-a68c-b15a62cd56ce.png)
 
@@ -14,7 +14,7 @@ Periotris game built with [React](https://reactjs.org/), [Gatsby](https://www.ga
 
 ### Way One: Play in browsers directly
 
-An instance of Periotris.js is hosted on GitHub Pages. Try it [here](https://csharpermantle.github.io/periotrisjs).
+An instance of Periotris.js is hosted on GitHub Pages as a Progressive Web Application ([PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps)). Try it [here](https://csharpermantle.github.io/periotrisjs).
 
 **Tips:** The app runs best on screens larger than 1024*768. If you are using mobile browsers please switch to *landscape mode* for better experience.
 
