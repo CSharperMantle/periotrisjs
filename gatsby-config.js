@@ -16,7 +16,7 @@ module.exports = {
       options: {
         name: "Periotris.js",
         short_name: "Periotris.js",
-        start_url: ".",
+        start_url: "./",
         display: "fullscreen",
         icon: "src/assets/icon.png",
         background_color: "#303030",
