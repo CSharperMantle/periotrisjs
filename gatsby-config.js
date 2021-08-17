@@ -28,6 +28,8 @@ module.exports = {
   ],
   siteMetadata: {
     title: "Periotris.js",
+    description: "Periotris game built with Gatsby, React and Material UI.",
+    url: "https://csharpermantle.github.io/periotrisjs/",
   },
   pathPrefix: "/periotrisjs",
 }
