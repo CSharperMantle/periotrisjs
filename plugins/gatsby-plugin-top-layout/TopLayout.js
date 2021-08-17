@@ -8,10 +8,14 @@ import { theme } from "../../src/ThemeOptions"
 export default function TopLayout(props) {
   return (
     <>
-      <Helmet>
+      <Helmet title="Periotris.js">
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
+        <meta
+          name="description"
+          content="Periotris game built with Gatsby, React and Material UI"
         />
         <link
           href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap"
