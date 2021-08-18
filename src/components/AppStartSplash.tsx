@@ -1,5 +1,5 @@
 import { observer } from "mobx-react"
-import React from "react"
+import React, { useState } from "react"
 
 import {
   Container,
@@ -7,16 +7,12 @@ import {
   Grid,
   Grow,
   Link,
+  makeStyles,
   Paper,
-  Theme,
   Typography,
-  WithStyles,
-  withStyles,
 } from "@material-ui/core"
 
-import { PeriotrisViewModelContext } from "../viewmodel/PeriotrisViewModel"
-
-const styles = (theme: Theme) => {
+const useStyles = makeStyles(() => {
   return createStyles({
     paper: {
       position: "absolute",
@@ -32,76 +28,55 @@ const styles = (theme: Theme) => {
       height: "100%",
     },
   })
-}
+})
 
-interface IAppStartSplashProps extends WithStyles<typeof styles> {
+interface IAppStartSplashProps {
   goOutTimeout: number
 }
 
-interface IAppStartSplashState {
-  visible: boolean
-}
+const AppStartSplash = observer(({ goOutTimeout }: IAppStartSplashProps) => {
+  const styles = useStyles()
+  const [visibleState, setVisibleState] = useState(true)
 
-const AppStartSplash = withStyles(styles)(
-  observer(
-    class AppStartSplash extends React.Component<
-      IAppStartSplashProps,
-      IAppStartSplashState
-    > {
-      static contextType = PeriotrisViewModelContext
-      declare context: React.ContextType<typeof PeriotrisViewModelContext>
+  setTimeout(() => {
+    setVisibleState(false)
+  }, goOutTimeout)
 
-      public constructor(props: IAppStartSplashProps) {
-        super(props)
-
-        this.state = {
-          visible: true,
-        }
-      }
-
-      public render() {
-        setTimeout(() => {
-          this.setState({ visible: false })
-        }, this.props.goOutTimeout)
-
-        return (
-          <Grow in={this.state.visible}>
-            <Paper className={this.props.classes.paper} elevation={3}>
-              <Container className={this.props.classes.container}>
-                <Grid
-                  container
-                  direction="column"
-                  alignItems="center"
-                  justifyContent="center"
-                  spacing={3}
-                >
-                  <Grid item xs={12}>
-                    <Typography variant="h1" style={{ textAlign: "center" }}>
-                      Periotris.js
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="body1" style={{ textAlign: "center" }}>
-                      Periotris.js is a TypeScript porting of CSharperMantle's
-                      Periotris game.
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Link
-                      href="https://github.com/CSharperMantle/periotrisjs/"
-                      variant="body1"
-                    >
-                      Repository
-                    </Link>
-                  </Grid>
-                </Grid>
-              </Container>
-            </Paper>
-          </Grow>
-        )
-      }
-    }
+  return (
+    <Grow in={visibleState}>
+      <Paper className={styles.paper} elevation={3}>
+        <Container className={styles.container}>
+          <Grid
+            container
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            spacing={3}
+          >
+            <Grid item xs={12}>
+              <Typography variant="h1" style={{ textAlign: "center" }}>
+                Periotris.js
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="body1" style={{ textAlign: "center" }}>
+                Periotris.js is a TypeScript porting of CSharperMantle&apos;s
+                Periotris game.
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Link
+                href="https://github.com/CSharperMantle/periotrisjs/"
+                variant="body1"
+              >
+                Repository
+              </Link>
+            </Grid>
+          </Grid>
+        </Container>
+      </Paper>
+    </Grow>
   )
-)
+})
 
 export { AppStartSplash }

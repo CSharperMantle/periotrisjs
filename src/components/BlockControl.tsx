@@ -1,13 +1,13 @@
 import _ from "lodash"
 import React from "react"
 
-import { createStyles, Theme, withStyles, WithStyles } from "@material-ui/core"
+import { createStyles, makeStyles } from "@material-ui/core"
 
 import defaultColorScheme from "../json/DefaultColorScheme.json"
 import defaultPeriodicTable from "../json/DefaultPeriodicTable.json"
 import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
 
-const styles = (theme: Theme) => {
+const useStyles = makeStyles(() => {
   return createStyles({
     blockControl: {
       display: "flex",
@@ -34,50 +34,46 @@ const styles = (theme: Theme) => {
       fontSize: "3vh",
     },
   })
-}
+})
 
-interface IBlockControlProps extends IDisplayBlock, WithStyles<typeof styles> {
+interface IBlockControlProps extends IDisplayBlock {
   key: number
 }
 
-const BlockControl = withStyles(styles)(
-  class BlockControl extends React.Component<IBlockControlProps> {
-    public constructor(props: IBlockControlProps) {
-      super(props)
-    }
+const BlockControl = ({
+  atomicNumber,
+  row,
+  column,
+  symbolColor,
+}: IBlockControlProps): React.ReactElement => {
+  const styles = useStyles()
 
-    public render() {
-      return (
-        <div
-          className={this.props.classes.blockControl}
-          style={{
-            /*
-             * Add one to grid-row and grid-column because CSS
-             * properties of grid start from 1.
-             */
-            gridRow: this.props.row + 1,
-            gridColumn: this.props.column + 1,
-            backgroundColor: getBackgroundColorByAtomicNumber(
-              this.props.atomicNumber
-            ),
-          }}
-        >
-          <div
-            className={this.props.classes.symbol}
-            style={{
-              color: this.props.symbolColor,
-            }}
-          >
-            {this.props.atomicNumber > 0
-              ? defaultPeriodicTable.elements[this.props.atomicNumber - 1]
-                  .symbol
-              : -this.props.atomicNumber}
-          </div>
-        </div>
-      )
-    }
-  }
-)
+  return (
+    <div
+      className={styles.blockControl}
+      style={{
+        /*
+         * Add one to grid-row and grid-column because CSS
+         * properties of grid start from 1.
+         */
+        gridRow: row + 1,
+        gridColumn: column + 1,
+        backgroundColor: getBackgroundColorByAtomicNumber(atomicNumber),
+      }}
+    >
+      <div
+        className={styles.symbol}
+        style={{
+          color: symbolColor,
+        }}
+      >
+        {atomicNumber > 0
+          ? defaultPeriodicTable.elements[atomicNumber - 1].symbol
+          : -atomicNumber}
+      </div>
+    </div>
+  )
+}
 
 function getBackgroundColorByAtomicNumber(atomicNumber: number): string {
   for (let i = 0; i < defaultColorScheme.rules.length; i++) {
