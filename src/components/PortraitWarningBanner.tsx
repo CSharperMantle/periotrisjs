@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) => {
   })
 })
 
-const PortraitWarningBanner = (props: {}) => {
+const PortraitWarningBanner = (): React.ReactElement => {
   const styles = useStyles()
   const isPortrait = useMediaQuery("(orientation: portrait)")
 
