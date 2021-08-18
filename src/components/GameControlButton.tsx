@@ -97,28 +97,30 @@ function getLabelByGameState(gameState: GameState, paused: boolean): string {
   }
 }
 
-const GameControlButton = observer(({ onClick }: IGameControlButtonProps) => {
-  const viewModel = useContext(PeriotrisViewModelContext)
-  const styles = useStyles()
+const GameControlButton = observer(
+  ({ onClick }: IGameControlButtonProps): React.ReactElement => {
+    const viewModel = useContext(PeriotrisViewModelContext)
+    const styles = useStyles()
 
-  const icon = getIconByGameState(viewModel.gameState, viewModel.paused)
-  const isDisabled = viewModel.gameState === GameState.Preparing
-  const color = getColorByGameState(viewModel.gameState)
-  const label = getLabelByGameState(viewModel.gameState, viewModel.paused)
+    const icon = getIconByGameState(viewModel.gameState, viewModel.paused)
+    const isDisabled = viewModel.gameState === GameState.Preparing
+    const color = getColorByGameState(viewModel.gameState)
+    const label = getLabelByGameState(viewModel.gameState, viewModel.paused)
 
-  return (
-    <Fab
-      className={styles.fab}
-      variant="extended"
-      color={color}
-      disabled={isDisabled}
-      onClick={onClick}
-      aria-label={label}
-    >
-      <ButtonLabelIconWrapper icon={icon} />
-      {label}
-    </Fab>
-  )
-})
+    return (
+      <Fab
+        className={styles.fab}
+        variant="extended"
+        color={color}
+        disabled={isDisabled}
+        onClick={onClick}
+        aria-label={label}
+      >
+        <ButtonLabelIconWrapper icon={icon} />
+        {label}
+      </Fab>
+    )
+  }
+)
 
 export { GameControlButton }
