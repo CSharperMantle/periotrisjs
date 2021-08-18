@@ -7,6 +7,7 @@ import { AppStartSplash } from "../components/AppStartSplash"
 import { BlocksGrid } from "../components/BlocksGrid"
 import { FailedSnackbar } from "../components/FailedSnackbar"
 import { GameControlButton } from "../components/GameControlButton"
+import { MainAppBar } from "../components/MainAppBar"
 import { PortraitWarningBanner } from "../components/PortraitWarningBanner"
 import { SuccessSnackbar } from "../components/SuccessSnackbar"
 import {
@@ -21,7 +22,7 @@ class App extends React.Component {
   private readonly _thisRef: React.RefObject<HTMLElement>
   private _hammer: HammerManager
 
-  public constructor(props: {}) {
+  public constructor(props: unknown) {
     super(props)
 
     this._thisRef = React.createRef<HTMLElement>()
@@ -50,10 +51,11 @@ class App extends React.Component {
     this._hammer.off("pressup", this._viewModel.onPressUp.bind(this._viewModel))
   }
 
-  public render() {
+  public render(): React.ReactElement {
     return (
       <PeriotrisViewModelContext.Provider value={this._viewModel}>
         <main ref={this._thisRef} className="game-page">
+          <MainAppBar />
           <PortraitWarningBanner />
           <div className="game-page__row-2">
             <BlocksGrid />
