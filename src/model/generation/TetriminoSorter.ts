@@ -24,7 +24,8 @@ function sort(
 
   const result: TetriminoNode[] = []
   while (startNodes.length !== 0) {
-    const n: TetriminoNode = startNodes.pop()!
+    const n: TetriminoNode = _.sample(startNodes)
+    _.remove(startNodes, (node: TetriminoNode) => node === n)
     result.push(n)
     const dependedBy = [...n.dependedBy]
     dependedBy.forEach((m: TetriminoNode) => {
