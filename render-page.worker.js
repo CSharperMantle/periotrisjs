@@ -284,8 +284,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var lodash_some__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/some */ "./node_modules/lodash/some.js");
 /* harmony import */ var lodash_some__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_some__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _DependencyBuilder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DependencyBuilder */ "./src/model/generation/DependencyBuilder.ts");
-function sort(tetriminos,playAreaWidth,playAreaHeight){const graph=(0,_DependencyBuilder__WEBPACK_IMPORTED_MODULE_1__.createTetriminoDependencyGraph)(tetriminos,playAreaWidth,playAreaHeight);const startNodes=[];graph.forEach(node=>{if(node.depending.size===0){startNodes.push(node);}});const result=[];while(startNodes.length!==0){const n=startNodes.pop();result.push(n);const dependedBy=[...n.dependedBy];dependedBy.forEach(m=>{n.dependedBy.delete(m);m.depending.delete(n);if(m.depending.size===0){startNodes.push(m);}});}if(lodash_some__WEBPACK_IMPORTED_MODULE_0___default()(graph,node=>node.dependedBy.size!==0||node.depending.size!==0)){throw new RangeError("tetriminos");}return result;}
+/* harmony import */ var lodash_remove__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/remove */ "./node_modules/lodash/remove.js");
+/* harmony import */ var lodash_remove__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_remove__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash_sample__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash/sample */ "./node_modules/lodash/sample.js");
+/* harmony import */ var lodash_sample__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash_sample__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _DependencyBuilder__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DependencyBuilder */ "./src/model/generation/DependencyBuilder.ts");
+function sort(tetriminos,playAreaWidth,playAreaHeight){const graph=(0,_DependencyBuilder__WEBPACK_IMPORTED_MODULE_3__.createTetriminoDependencyGraph)(tetriminos,playAreaWidth,playAreaHeight);const startNodes=[];graph.forEach(node=>{if(node.depending.size===0){startNodes.push(node);}});const result=[];while(startNodes.length!==0){const n=lodash_sample__WEBPACK_IMPORTED_MODULE_2___default()(startNodes);lodash_remove__WEBPACK_IMPORTED_MODULE_1___default()(startNodes,node=>node===n);result.push(n);const dependedBy=[...n.dependedBy];dependedBy.forEach(m=>{n.dependedBy.delete(m);m.depending.delete(n);if(m.depending.size===0){startNodes.push(m);}});}if(lodash_some__WEBPACK_IMPORTED_MODULE_0___default()(graph,node=>node.dependedBy.size!==0||node.depending.size!==0)){throw new RangeError("tetriminos");}return result;}
 
 /***/ }),
 
@@ -789,6 +793,31 @@ function arrayPush(array, values) {
 }
 
 module.exports = arrayPush;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_arraySample.js":
+/*!*********************************************!*\
+  !*** ./node_modules/lodash/_arraySample.js ***!
+  \*********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseRandom = __webpack_require__(/*! ./_baseRandom */ "./node_modules/lodash/_baseRandom.js");
+
+/**
+ * A specialized version of `_.sample` for arrays.
+ *
+ * @private
+ * @param {Array} array The array to sample.
+ * @returns {*} Returns the random element.
+ */
+function arraySample(array) {
+  var length = array.length;
+  return length ? array[baseRandom(0, length - 1)] : undefined;
+}
+
+module.exports = arraySample;
 
 
 /***/ }),
@@ -2120,6 +2149,53 @@ module.exports = basePropertyDeep;
 
 /***/ }),
 
+/***/ "./node_modules/lodash/_basePullAt.js":
+/*!********************************************!*\
+  !*** ./node_modules/lodash/_basePullAt.js ***!
+  \********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseUnset = __webpack_require__(/*! ./_baseUnset */ "./node_modules/lodash/_baseUnset.js"),
+    isIndex = __webpack_require__(/*! ./_isIndex */ "./node_modules/lodash/_isIndex.js");
+
+/** Used for built-in method references. */
+var arrayProto = Array.prototype;
+
+/** Built-in value references. */
+var splice = arrayProto.splice;
+
+/**
+ * The base implementation of `_.pullAt` without support for individual
+ * indexes or capturing the removed elements.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {number[]} indexes The indexes of elements to remove.
+ * @returns {Array} Returns `array`.
+ */
+function basePullAt(array, indexes) {
+  var length = array ? indexes.length : 0,
+      lastIndex = length - 1;
+
+  while (length--) {
+    var index = indexes[length];
+    if (length == lastIndex || index !== previous) {
+      var previous = index;
+      if (isIndex(index)) {
+        splice.call(array, index, 1);
+      } else {
+        baseUnset(array, index);
+      }
+    }
+  }
+  return array;
+}
+
+module.exports = basePullAt;
+
+
+/***/ }),
+
 /***/ "./node_modules/lodash/_baseRandom.js":
 /*!********************************************!*\
   !*** ./node_modules/lodash/_baseRandom.js ***!
@@ -2148,6 +2224,31 @@ module.exports = baseRandom;
 
 /***/ }),
 
+/***/ "./node_modules/lodash/_baseSample.js":
+/*!********************************************!*\
+  !*** ./node_modules/lodash/_baseSample.js ***!
+  \********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var arraySample = __webpack_require__(/*! ./_arraySample */ "./node_modules/lodash/_arraySample.js"),
+    values = __webpack_require__(/*! ./values */ "./node_modules/lodash/values.js");
+
+/**
+ * The base implementation of `_.sample`.
+ *
+ * @private
+ * @param {Array|Object} collection The collection to sample.
+ * @returns {*} Returns the random element.
+ */
+function baseSample(collection) {
+  return arraySample(values(collection));
+}
+
+module.exports = baseSample;
+
+
+/***/ }),
+
 /***/ "./node_modules/lodash/_baseShuffle.js":
 /*!*********************************************!*\
   !*** ./node_modules/lodash/_baseShuffle.js ***!
@@ -2169,6 +2270,47 @@ function baseShuffle(collection) {
 }
 
 module.exports = baseShuffle;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseSlice.js":
+/*!*******************************************!*\
+  !*** ./node_modules/lodash/_baseSlice.js ***!
+  \*******************************************/
+/***/ ((module) => {
+
+/**
+ * The base implementation of `_.slice` without an iteratee call guard.
+ *
+ * @private
+ * @param {Array} array The array to slice.
+ * @param {number} [start=0] The start position.
+ * @param {number} [end=array.length] The end position.
+ * @returns {Array} Returns the slice of `array`.
+ */
+function baseSlice(array, start, end) {
+  var index = -1,
+      length = array.length;
+
+  if (start < 0) {
+    start = -start > length ? 0 : (length + start);
+  }
+  end = end > length ? length : end;
+  if (end < 0) {
+    end += length;
+  }
+  length = start > end ? 0 : ((end - start) >>> 0);
+  start >>>= 0;
+
+  var result = Array(length);
+  while (++index < length) {
+    result[index] = array[index + start];
+  }
+  return result;
+}
+
+module.exports = baseSlice;
 
 
 /***/ }),
@@ -2331,6 +2473,36 @@ function baseUnary(func) {
 }
 
 module.exports = baseUnary;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseUnset.js":
+/*!*******************************************!*\
+  !*** ./node_modules/lodash/_baseUnset.js ***!
+  \*******************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var castPath = __webpack_require__(/*! ./_castPath */ "./node_modules/lodash/_castPath.js"),
+    last = __webpack_require__(/*! ./last */ "./node_modules/lodash/last.js"),
+    parent = __webpack_require__(/*! ./_parent */ "./node_modules/lodash/_parent.js"),
+    toKey = __webpack_require__(/*! ./_toKey */ "./node_modules/lodash/_toKey.js");
+
+/**
+ * The base implementation of `_.unset`.
+ *
+ * @private
+ * @param {Object} object The object to modify.
+ * @param {Array|string} path The property path to unset.
+ * @returns {boolean} Returns `true` if the property is deleted, else `false`.
+ */
+function baseUnset(object, path) {
+  path = castPath(path, object);
+  object = parent(object, path);
+  return object == null || delete object[toKey(last(path))];
+}
+
+module.exports = baseUnset;
 
 
 /***/ }),
@@ -4734,6 +4906,32 @@ module.exports = overArg;
 
 /***/ }),
 
+/***/ "./node_modules/lodash/_parent.js":
+/*!****************************************!*\
+  !*** ./node_modules/lodash/_parent.js ***!
+  \****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseGet = __webpack_require__(/*! ./_baseGet */ "./node_modules/lodash/_baseGet.js"),
+    baseSlice = __webpack_require__(/*! ./_baseSlice */ "./node_modules/lodash/_baseSlice.js");
+
+/**
+ * Gets the parent value at `path` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array} path The path to get the parent value of.
+ * @returns {*} Returns the parent value.
+ */
+function parent(object, path) {
+  return path.length < 2 ? object : baseGet(object, baseSlice(path, 0, -1));
+}
+
+module.exports = parent;
+
+
+/***/ }),
+
 /***/ "./node_modules/lodash/_root.js":
 /*!**************************************!*\
   !*** ./node_modules/lodash/_root.js ***!
@@ -6072,6 +6270,36 @@ module.exports = keysIn;
 
 /***/ }),
 
+/***/ "./node_modules/lodash/last.js":
+/*!*************************************!*\
+  !*** ./node_modules/lodash/last.js ***!
+  \*************************************/
+/***/ ((module) => {
+
+/**
+ * Gets the last element of `array`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Array
+ * @param {Array} array The array to query.
+ * @returns {*} Returns the last element of `array`.
+ * @example
+ *
+ * _.last([1, 2, 3]);
+ * // => 3
+ */
+function last(array) {
+  var length = array == null ? 0 : array.length;
+  return length ? array[length - 1] : undefined;
+}
+
+module.exports = last;
+
+
+/***/ }),
+
 /***/ "./node_modules/lodash/memoize.js":
 /*!****************************************!*\
   !*** ./node_modules/lodash/memoize.js ***!
@@ -6285,6 +6513,103 @@ function random(lower, upper, floating) {
 }
 
 module.exports = random;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/remove.js":
+/*!***************************************!*\
+  !*** ./node_modules/lodash/remove.js ***!
+  \***************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseIteratee = __webpack_require__(/*! ./_baseIteratee */ "./node_modules/lodash/_baseIteratee.js"),
+    basePullAt = __webpack_require__(/*! ./_basePullAt */ "./node_modules/lodash/_basePullAt.js");
+
+/**
+ * Removes all elements from `array` that `predicate` returns truthy for
+ * and returns an array of the removed elements. The predicate is invoked
+ * with three arguments: (value, index, array).
+ *
+ * **Note:** Unlike `_.filter`, this method mutates `array`. Use `_.pull`
+ * to pull elements from an array by value.
+ *
+ * @static
+ * @memberOf _
+ * @since 2.0.0
+ * @category Array
+ * @param {Array} array The array to modify.
+ * @param {Function} [predicate=_.identity] The function invoked per iteration.
+ * @returns {Array} Returns the new array of removed elements.
+ * @example
+ *
+ * var array = [1, 2, 3, 4];
+ * var evens = _.remove(array, function(n) {
+ *   return n % 2 == 0;
+ * });
+ *
+ * console.log(array);
+ * // => [1, 3]
+ *
+ * console.log(evens);
+ * // => [2, 4]
+ */
+function remove(array, predicate) {
+  var result = [];
+  if (!(array && array.length)) {
+    return result;
+  }
+  var index = -1,
+      indexes = [],
+      length = array.length;
+
+  predicate = baseIteratee(predicate, 3);
+  while (++index < length) {
+    var value = array[index];
+    if (predicate(value, index, array)) {
+      result.push(value);
+      indexes.push(index);
+    }
+  }
+  basePullAt(array, indexes);
+  return result;
+}
+
+module.exports = remove;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/sample.js":
+/*!***************************************!*\
+  !*** ./node_modules/lodash/sample.js ***!
+  \***************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var arraySample = __webpack_require__(/*! ./_arraySample */ "./node_modules/lodash/_arraySample.js"),
+    baseSample = __webpack_require__(/*! ./_baseSample */ "./node_modules/lodash/_baseSample.js"),
+    isArray = __webpack_require__(/*! ./isArray */ "./node_modules/lodash/isArray.js");
+
+/**
+ * Gets a random element from `collection`.
+ *
+ * @static
+ * @memberOf _
+ * @since 2.0.0
+ * @category Collection
+ * @param {Array|Object} collection The collection to sample.
+ * @returns {*} Returns the random element.
+ * @example
+ *
+ * _.sample([1, 2, 3, 4]);
+ * // => 2
+ */
+function sample(collection) {
+  var func = isArray(collection) ? arraySample : baseSample;
+  return func(collection);
+}
+
+module.exports = sample;
 
 
 /***/ }),
