@@ -1,8 +1,8 @@
 import { MessageType } from "./MessageType"
 
-interface IGeneratorMessage {
+interface IGeneratorMessage<T = unknown> {
   type: MessageType
-  content: any
+  content: T
 }
 
 export { IGeneratorMessage }

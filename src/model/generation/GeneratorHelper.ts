@@ -378,9 +378,9 @@ function getPositionByFirstBlockPosition(
   kind: TetriminoKind,
   facingDirection: Direction
 ): Position {
-  let firstBlockCoord = getFirstBlockCoordByType(kind, facingDirection)
-  let firstBlockRow = firstBlockCoord.row
-  let firstBlockCol = firstBlockCoord.col
+  const firstBlockCoord = getFirstBlockCoordByType(kind, facingDirection)
+  const firstBlockRow = firstBlockCoord.row
+  const firstBlockCol = firstBlockCoord.col
   return new Position(
     firstBlockPosition.X - firstBlockCol,
     firstBlockPosition.Y - firstBlockRow
@@ -392,9 +392,9 @@ function getFirstBlockPositionByPosition(
   kind: TetriminoKind,
   facingDirection: Direction
 ): Position {
-  let firstBlockCoord = getFirstBlockCoordByType(kind, facingDirection)
-  let firstBlockRow = firstBlockCoord.row
-  let firstBlockCol = firstBlockCoord.col
+  const firstBlockCoord = getFirstBlockCoordByType(kind, facingDirection)
+  const firstBlockRow = firstBlockCoord.row
+  const firstBlockCol = firstBlockCoord.col
   return new Position(position.X + firstBlockCol, position.Y + firstBlockRow)
 }
 
@@ -417,8 +417,8 @@ function getInitialPositionByKind(kind: TetriminoKind): Position {
     default:
       throw new RangeError("kind")
   }
-  let row: number = 0
-  let col: number = _.floor((PlayAreaWidth - length) / 2)
+  const row = 0
+  const col = _.floor((PlayAreaWidth - length) / 2)
   return new Position(col, row)
 }
 
@@ -427,7 +427,7 @@ function createOffsetedBlocks(
   offset: Position,
   direction: Direction = Direction.Up
 ): Block[] {
-  const mask: number[][] = createBlocksMask(kind, direction)
+  const mask = createBlocksMask(kind, direction)
   const offsetBlocks: Block[] = []
   for (let nRow = 0; nRow < mask.length; nRow++) {
     const row = mask[nRow]
@@ -466,7 +466,7 @@ function mapAtomicNumberForNewBlocks(
   }
   const result: Block[] = []
   oldBlocks.forEach((oldBlock: Block) => {
-    const correspondingNewBlocks: Block[] = _.cloneDeep(
+    const correspondingNewBlocks = _.cloneDeep(
       _.filter(newBlocks, (newBlock: Block) => newBlock.id === oldBlock.id)
     )
     correspondingNewBlocks.forEach((block: Block) => {

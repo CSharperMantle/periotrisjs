@@ -31,7 +31,7 @@ class PeriotrisViewModel {
     this.endGame()
   }
 
-  private _gameLost: boolean = true
+  private _gameLost = true
 
   public get gameLost(): boolean {
     return this._gameLost
@@ -40,7 +40,7 @@ class PeriotrisViewModel {
     this._gameLost = v
   }
 
-  private _gameWon: boolean = false
+  private _gameWon = false
 
   public get gameWon(): boolean {
     return this._gameWon
@@ -49,7 +49,7 @@ class PeriotrisViewModel {
     this._gameWon = v
   }
 
-  private _gameState: GameState = GameState.NotStarted
+  private _gameState = GameState.NotStarted
 
   public get gameState(): GameState {
     return this._gameState
@@ -58,7 +58,7 @@ class PeriotrisViewModel {
     this._gameState = v
   }
 
-  public paused: boolean = false
+  public paused = false
 
   public readonly sprites: IDisplayBlock[] = []
 
@@ -66,9 +66,9 @@ class PeriotrisViewModel {
 
   private readonly _blocksByPosition: Map<Position, IDisplayBlock> = new Map()
 
-  private _gameIntervalTimerHandle: number = -1
+  private _gameIntervalTimerHandle = -1
 
-  private _lastPaused: boolean = true
+  private _lastPaused = true
 
   public onKeyDown(ev: KeyboardEvent): boolean {
     const key: string = _.toLower(ev.key)
@@ -219,7 +219,7 @@ class PeriotrisViewModel {
       if (this._blocksByPosition.has(block.position)) {
         const displayBlock: IDisplayBlock = this._blocksByPosition.get(
           block.position
-        )!
+        )
         _.remove(this.sprites, (value: IDisplayBlock) =>
           _.isEqual(value, displayBlock)
         )

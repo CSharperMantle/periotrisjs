@@ -94,7 +94,7 @@ function tryGetOccupiedTetriminoNode(
     return { isSuccessful: false, result: null }
   }
 
-  const cell: MemoizedBlock = map[row][col]
+  const cell = map[row][col]
   if (
     _.isNil(cell) ||
     cell.filledBy === TetriminoKind.AvailableToFill ||

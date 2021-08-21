@@ -39,11 +39,11 @@ class PeriotrisModel extends EventEmitter {
     if (this.gameState !== GameState.InProgress) return
     this.updateActiveTetrimino(true)
     while (
-      this._activeTetrimino!.tryMove(
+      this._activeTetrimino.tryMove(
         MoveDirection.Down,
         this.checkBlockCollision.bind(this)
       )
-    ) {}
+    );
     this.updateActiveTetrimino(false)
   }
 
@@ -83,7 +83,7 @@ class PeriotrisModel extends EventEmitter {
     }
 
     this.updateActiveTetrimino(true)
-    this._activeTetrimino!.tryRotate(
+    this._activeTetrimino.tryRotate(
       direction,
       this.checkBlockCollision.bind(this)
     )
