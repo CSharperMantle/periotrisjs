@@ -1,9 +1,13 @@
+import { EventEmitter } from "events"
 import _ from "lodash"
-import { makeAutoObservable } from "mobx"
+import { action, makeObservable, observable } from "mobx"
 import { createContext } from "react"
 
 import { isBrowserEnv } from "../common/IsBrowserEnv"
-import { GameUpdateIntervalMilliseconds } from "../common/PeriotrisConst"
+import {
+  GameUpdateIntervalMilliseconds,
+  StopwatchUpdateIntervalMilliseconds,
+} from "../common/PeriotrisConst"
 import { Position } from "../common/Position"
 import { Block } from "../model/Block"
 import { BlockChangedEventArgs } from "../model/BlockChangedEventArgs"
@@ -14,9 +18,11 @@ import { IDisplayBlock } from "./IDisplayBlock"
 
 const Hammer = isBrowserEnv() ? require("hammerjs") : null
 
-class PeriotrisViewModel {
+class PeriotrisViewModel extends EventEmitter {
   public constructor() {
-    makeAutoObservable(this)
+    super()
+
+    makeObservable(this)
 
     this._model.addListener("blockchanged", (eventArgs) => {
       this.modelBlockChangedEventHandler(eventArgs)
@@ -31,45 +37,53 @@ class PeriotrisViewModel {
     this.endGame()
   }
 
-  private _gameLost: boolean = true
-
-  public get gameLost(): boolean {
-    return this._gameLost
-  }
-  private set gameLost(v: boolean) {
-    this._gameLost = v
-  }
-
-  private _gameWon: boolean = false
-
-  public get gameWon(): boolean {
-    return this._gameWon
-  }
-  private set gameWon(v: boolean) {
-    this._gameWon = v
-  }
-
-  private _gameState: GameState = GameState.NotStarted
+  @observable
+  private _gameState = GameState.NotStarted
 
   public get gameState(): GameState {
     return this._gameState
   }
-  private set gameState(v: GameState) {
+  public set gameState(v: GameState) {
     this._gameState = v
   }
 
-  public paused: boolean = false
+  @observable
+  private _elapsedMilliseconds = 0
 
+  public get elapsedMilliseconds(): number {
+    return this._elapsedMilliseconds
+  }
+  private set elapsedMilliseconds(v: number) {
+    this._elapsedMilliseconds = v
+  }
+
+  @observable
+  private _isNewRecord = false
+
+  public get isNewRecord(): boolean {
+    return this._isNewRecord
+  }
+  public set isNewRecord(v: boolean) {
+    this._isNewRecord = v
+  }
+
+  @observable
+  public paused = false
+
+  @observable
   public readonly sprites: IDisplayBlock[] = []
 
   private readonly _model: PeriotrisModel = new PeriotrisModel()
 
   private readonly _blocksByPosition: Map<Position, IDisplayBlock> = new Map()
 
-  private _gameIntervalTimerHandle: number = -1
+  private _gameIntervalTimerHandle = -1
 
-  private _lastPaused: boolean = true
+  private _gameStopwatchUpdateTimerHandle = -1
 
+  private _lastPaused = true
+
+  @action
   public onKeyDown(ev: KeyboardEvent): boolean {
     const key: string = _.toLower(ev.key)
     if (this.paused) {
@@ -105,6 +119,7 @@ class PeriotrisViewModel {
     return true
   }
 
+  @action
   public onTap(): boolean {
     if (this.paused) {
       return false
@@ -113,6 +128,7 @@ class PeriotrisViewModel {
     return true
   }
 
+  @action
   public onSwipe(ev: HammerInput): boolean {
     if (this.paused) {
       return false
@@ -133,6 +149,7 @@ class PeriotrisViewModel {
     return true
   }
 
+  @action
   public onPressUp(): boolean {
     if (this.paused) {
       return false
@@ -141,6 +158,7 @@ class PeriotrisViewModel {
     return true
   }
 
+  @action
   public invokeGameControl(): void {
     switch (this.gameState) {
       case GameState.InProgress:
@@ -156,6 +174,7 @@ class PeriotrisViewModel {
     }
   }
 
+  @action
   private prepareStartGame(): void {
     for (const element of this._blocksByPosition.values()) {
       _.remove(this.sprites, (value: IDisplayBlock) =>
@@ -167,27 +186,37 @@ class PeriotrisViewModel {
     this.refreshGameStatus()
   }
 
+  @action
   private realStartGame(): void {
     this.refreshGameStatus()
     this.paused = false
     this._gameIntervalTimerHandle = window.setInterval(() => {
       this.intervalTickEventHandler()
     }, GameUpdateIntervalMilliseconds)
+    this._gameStopwatchUpdateTimerHandle = window.setInterval(() => {
+      this.intervalStopwatchUpdateEventHandler()
+    }, StopwatchUpdateIntervalMilliseconds)
   }
 
+  @action
   private endGame(): void {
-    if (!_.isNil(this._gameIntervalTimerHandle)) {
+    if (this._gameIntervalTimerHandle !== -1) {
       clearInterval(this._gameIntervalTimerHandle)
+    }
+    if (this._gameStopwatchUpdateTimerHandle !== -1) {
+      clearInterval(this._gameStopwatchUpdateTimerHandle)
     }
     this.refreshGameStatus()
   }
 
+  @action
   private refreshGameStatus(): void {
-    this.gameLost = this._model.gameState === GameState.Lost
-    this.gameWon = this._model.gameState === GameState.Won
     this.gameState = this._model.gameState
+    this.isNewRecord = this._model.isNewRecord
+    this.onGameStateChanged()
   }
 
+  @action
   private intervalTickEventHandler(): void {
     if (this._lastPaused !== this.paused) {
       this.paused = !!this.paused // Force update event
@@ -199,6 +228,17 @@ class PeriotrisViewModel {
     }
   }
 
+  @action
+  private intervalStopwatchUpdateEventHandler(): void {
+    this.elapsedMilliseconds = this._model.elapsedMilliseconds
+  }
+
+  @action
+  private onGameStateChanged(): void {
+    this.emit("gamestatechanged")
+  }
+
+  @action
   private modelBlockChangedEventHandler(
     eventArgs: BlockChangedEventArgs
   ): void {
@@ -219,7 +259,7 @@ class PeriotrisViewModel {
       if (this._blocksByPosition.has(block.position)) {
         const displayBlock: IDisplayBlock = this._blocksByPosition.get(
           block.position
-        )!
+        )
         _.remove(this.sprites, (value: IDisplayBlock) =>
           _.isEqual(value, displayBlock)
         )
@@ -228,10 +268,12 @@ class PeriotrisViewModel {
     }
   }
 
+  @action
   private modelGameEndEventHandler(): void {
     this.endGame()
   }
 
+  @action
   private modelGameStartEventHandler(): void {
     this.realStartGame()
   }

@@ -33,16 +33,16 @@ function getPlayablePattern(): Tetrimino[] {
     }
   }
 
-  const tetriminos: Tetrimino[] = sort(
+  const tetriminos = sort(
     getPossibleTetriminoPattern(template),
     dim1len,
     dim0len
   )
   tetriminos.forEach((tetrimino: Tetrimino) => {
-    const originalPos: Position = tetrimino.position
-    const newPos: Position = getInitialPositionByKind(tetrimino.kind)
-    const deltaX: number = newPos.X - originalPos.X
-    const deltaY: number = newPos.Y - originalPos.Y
+    const originalPos = tetrimino.position
+    const newPos = getInitialPositionByKind(tetrimino.kind)
+    const deltaX = newPos.X - originalPos.X
+    const deltaY = newPos.Y - originalPos.Y
     const newBlocks: Block[] = []
     tetrimino.blocks.forEach((block: Block) => {
       newBlocks.push(
@@ -58,9 +58,9 @@ function getPlayablePattern(): Tetrimino[] {
     tetrimino.blocks = newBlocks
     tetrimino.position = newPos
 
-    const rotationCount: number = _.random(0, Object.keys(Direction).length / 2)
+    const rotationCount = _.random(0, Object.keys(Direction).length / 2)
     for (let i = 0; i < rotationCount; i++) {
-      tetrimino.tryRotate(RotationDirection.Right, (_: Block) => false)
+      tetrimino.tryRotate(RotationDirection.Right, () => false)
     }
   })
 
@@ -68,25 +68,26 @@ function getPlayablePattern(): Tetrimino[] {
 }
 
 function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
-  const workspace: Block[][] = template
+  const workspace = template
   const settledTetrimino: Tetrimino[] = []
-  let pendingTetriminoKinds: KindDirectionsPair[][] = []
+  const pendingTetriminoKinds: KindDirectionsPair[][] = []
 
   function collisionChecker(block: Block): boolean {
-    let nRow: number = block.position.Y
-    let nCol: number = block.position.X
+    const nRow = block.position.Y
+    const nCol = block.position.X
     if (nCol < 0 || nCol >= workspace[0].length || nRow >= workspace.length) {
       return true
     }
     return workspace[nRow][nCol].filledBy !== TetriminoKind.AvailableToFill
   }
 
-  let rewindingRequired: boolean = false
+  let rewindingRequired = false
 
+  // eslint-disable-next-line no-constant-condition
   while (true) {
-    let firstBlockCoord: Position = getFirstAvailableBlockCoord(workspace)
-    const firstBlockCol: number = firstBlockCoord.X
-    const firstBlockRow: number = firstBlockCoord.Y
+    const firstBlockCoord = getFirstAvailableBlockCoord(workspace)
+    const firstBlockCol = firstBlockCoord.X
+    const firstBlockRow = firstBlockCoord.Y
     if (!(firstBlockCol >= 0 && firstBlockRow >= 0)) {
       return settledTetrimino
     }
@@ -106,31 +107,27 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
       if (settledTetrimino.length === 0) {
         return settledTetrimino
       }
-      currentKindDirectionsPairStack = pendingTetriminoKinds.pop()!
-      const lastTetrimino = settledTetrimino.pop()!
+      currentKindDirectionsPairStack = pendingTetriminoKinds.pop()
+      const lastTetrimino = settledTetrimino.pop()
       lastTetrimino.blocks.forEach((block: Block) => {
         workspace[block.position.Y][block.position.X].filledBy =
           TetriminoKind.AvailableToFill
       })
     }
 
-    let solutionFound: boolean = false
-    while (currentKindDirectionsPairStack!.length > 0) {
-      const currentPair: KindDirectionsPair =
-        currentKindDirectionsPairStack!.pop()!
+    let solutionFound = false
+    while (currentKindDirectionsPairStack.length > 0) {
+      const currentPair = currentKindDirectionsPairStack.pop()
       while (currentPair.Directions.length > 0) {
-        const direction: Direction = currentPair.Directions.pop()!
-        const tetrimino: Tetrimino =
-          Tetrimino.createTetriminoByFirstBlockPosition(
-            currentPair.Kind,
-            firstBlockCoord,
-            direction
-          )
+        const direction = currentPair.Directions.pop()
+        const tetrimino = Tetrimino.createTetriminoByFirstBlockPosition(
+          currentPair.Kind,
+          firstBlockCoord,
+          direction
+        )
         if (!_.some(tetrimino.blocks, collisionChecker)) {
           settledTetrimino.push(tetrimino)
-          pendingTetriminoKinds.push(
-            currentKindDirectionsPairStack as KindDirectionsPair[]
-          )
+          pendingTetriminoKinds.push(currentKindDirectionsPairStack)
           tetrimino.blocks.forEach((block: Block) => {
             block.atomicNumber =
               workspace[block.position.Y][block.position.X].atomicNumber
@@ -156,12 +153,12 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
 }
 
 function getFirstAvailableBlockCoord(blocks: Block[][]): Position {
-  let firstBlockRow: number = -1
-  let firstBlockCol: number = -1
-  let firstBlockFound: boolean = false
-  for (let nRow: number = blocks.length - 1; nRow >= 0; nRow--) {
+  let firstBlockRow = -1
+  let firstBlockCol = -1
+  let firstBlockFound = false
+  for (let nRow = blocks.length - 1; nRow >= 0; nRow--) {
     const col: Block[] = blocks[nRow]
-    for (let nCol: number = col.length - 1; nCol >= 0; nCol--) {
+    for (let nCol = col.length - 1; nCol >= 0; nCol--) {
       if (col[nCol].filledBy === TetriminoKind.AvailableToFill) {
         firstBlockRow = nRow
         firstBlockCol = nCol

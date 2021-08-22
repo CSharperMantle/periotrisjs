@@ -3,21 +3,29 @@ import { IGeneratorMessage } from "./IGeneratorMessage"
 import { MessageType } from "./MessageType"
 import { getPlayablePattern } from "./PatternGenerator"
 
-const ctx: Worker = self as any
+const ctx: Worker = self as never
 
-ctx.onmessage = (eventArgs) => {
-  const data = eventArgs.data as IGeneratorMessage
+ctx.onmessage = (eventArgs: MessageEvent<IGeneratorMessage>) => {
+  const data = eventArgs.data
   switch (data.type) {
     case MessageType.RequestGeneration:
-      const tetriminos: Tetrimino[] = getPlayablePattern()
-      const message: IGeneratorMessage = {
-        type: MessageType.ResponseSuccess,
-        content: tetriminos,
-      }
-      ctx.postMessage(message)
+      handleRequestGeneration()
       break
     default:
-      console.warn(data.type)
+      handleDefault(data)
       break
   }
+}
+
+function handleRequestGeneration(): void {
+  const tetriminos: Tetrimino[] = getPlayablePattern()
+  const message: IGeneratorMessage = {
+    type: MessageType.ResponseSuccess,
+    content: tetriminos,
+  }
+  ctx.postMessage(message)
+}
+
+function handleDefault(data: IGeneratorMessage): void {
+  console.warn(data.type)
 }

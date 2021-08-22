@@ -9,7 +9,7 @@ function sort(
   playAreaWidth: number,
   playAreaHeight: number
 ): Tetrimino[] {
-  const graph: TetriminoNode[] = createTetriminoDependencyGraph(
+  const graph = createTetriminoDependencyGraph(
     tetriminos,
     playAreaWidth,
     playAreaHeight
@@ -24,7 +24,7 @@ function sort(
 
   const result: TetriminoNode[] = []
   while (startNodes.length !== 0) {
-    const n: TetriminoNode = _.sample(startNodes)
+    const n = _.sample(startNodes)
     _.remove(startNodes, (node: TetriminoNode) => node === n)
     result.push(n)
     const dependedBy = [...n.dependedBy]
