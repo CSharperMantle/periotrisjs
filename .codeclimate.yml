@@ -1,0 +1,20 @@
+version: "2"
+
+plugins:
+  eslint:
+    enabled: true
+    channel: "eslint-7"
+    config:
+      extensions:
+        - .js
+        - .jsx
+        - .ts
+        - .tsx
+
+  csslint:
+    enabled: true
+
+exclude_patterns:
+  - "**/__tests__/"
+  - "**/__mocks__/"
+  - "**/dist/"
