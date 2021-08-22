@@ -6,6 +6,7 @@ import { createStyles, makeStyles } from "@material-ui/core"
 import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
 import { PeriotrisViewModelContext } from "../viewmodel/PeriotrisViewModel"
 import { BlockControl } from "./BlockControl"
+import { TimerDisplay } from "./TimerDisplay"
 
 const useStyles = makeStyles(() => {
   return createStyles({
@@ -50,6 +51,7 @@ const BlocksGrid = observer((): React.ReactElement => {
   )
   return (
     <div className={styles.playArea}>
+      <TimerDisplay />
       <div className={styles.canvasGrid}>{blocks}</div>
     </div>
   )
