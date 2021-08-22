@@ -44,7 +44,7 @@ class PeriotrisModel extends EventEmitter {
   public get endDate(): number {
     return this._endDate
   }
-  public set endDate(v: number) {
+  private set endDate(v: number) {
     this._endDate = v
   }
 
@@ -52,7 +52,7 @@ class PeriotrisModel extends EventEmitter {
   public get isNewRecord(): boolean {
     return this._isNewRecord
   }
-  public set isNewRecord(v: boolean) {
+  private set isNewRecord(v: boolean) {
     this._isNewRecord = v
   }
 
