@@ -21,7 +21,7 @@ class App extends React.Component {
   private readonly _thisRef: React.RefObject<HTMLElement>
   private _hammer: HammerManager
 
-  public constructor(props: {}) {
+  public constructor(props: Record<string, never>) {
     super(props)
 
     this._thisRef = React.createRef<HTMLElement>()
@@ -50,7 +50,7 @@ class App extends React.Component {
     this._hammer.off("pressup", this._viewModel.onPressUp.bind(this._viewModel))
   }
 
-  public render() {
+  public render(): React.ReactElement {
     return (
       <PeriotrisViewModelContext.Provider value={this._viewModel}>
         <main ref={this._thisRef} className="game-page">
@@ -59,8 +59,8 @@ class App extends React.Component {
             <BlocksGrid />
             <AppStartSplash goOutTimeout={3000} />
           </div>
-          <FailedSnackbar />
-          <SuccessSnackbar />
+          <FailedSnackbar goOutTimeout={3000} />
+          <SuccessSnackbar goOutTimeout={3000} />
           <GameControlButton
             onClick={this._viewModel.invokeGameControl.bind(this._viewModel)}
           />

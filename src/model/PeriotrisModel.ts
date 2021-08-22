@@ -1,3 +1,4 @@
+import dayjs from "dayjs"
 import { EventEmitter } from "events"
 import _ from "lodash"
 import PatternGeneratorWorker from "worker-loader!./generation/PatternGeneratorWorker"
@@ -6,6 +7,7 @@ import { isBrowserEnv } from "../common/IsBrowserEnv"
 import { Nullable } from "../common/Nullable"
 import { PlayAreaHeight, PlayAreaWidth } from "../common/PeriotrisConst"
 import { Position } from "../common/Position"
+import { History } from "../customization/history/History"
 import defaultMap from "../json/DefaultMap.json"
 import { Block } from "./Block"
 import { BlockChangedEventArgs } from "./BlockChangedEventArgs"
@@ -20,8 +22,51 @@ class PeriotrisModel extends EventEmitter {
   private readonly _frozenBlocks: Block[] = []
   private readonly _pendingTetriminos: Tetrimino[] = []
   private _activeTetrimino: Nullable<Tetrimino> = null
+  private _history: History = null
 
-  public gameState: GameState = GameState.NotStarted
+  private _gameState: GameState = GameState.NotStarted
+  public get gameState(): GameState {
+    return this._gameState
+  }
+  private set gameState(v: GameState) {
+    this._gameState = v
+  }
+
+  private _startDate: number = Date.now()
+  public get startDate(): number {
+    return this._startDate
+  }
+  private set startDate(v: number) {
+    this._startDate = v
+  }
+
+  private _endDate = Date.now()
+  public get endDate(): number {
+    return this._endDate
+  }
+  public set endDate(v: number) {
+    this._endDate = v
+  }
+
+  private _isNewRecord = false
+  public get isNewRecord(): boolean {
+    return this._isNewRecord
+  }
+  public set isNewRecord(v: boolean) {
+    this._isNewRecord = v
+  }
+
+  public get elapsedMilliseconds(): number {
+    switch (this.gameState) {
+      case GameState.InProgress:
+        return Date.now() - this.startDate
+      case GameState.Lost:
+      case GameState.Won:
+        return this.endDate - this.startDate
+      default:
+        return 0
+    }
+  }
 
   private endGame(victory: boolean): void {
     if (victory) {
@@ -33,6 +78,12 @@ class PeriotrisModel extends EventEmitter {
     }
     this._pendingTetriminos.length = 0
     this.onGameEnd()
+    this.endDate = Date.now()
+
+    if (victory) {
+      this.isNewRecord = this._history.add(dayjs(this.elapsedMilliseconds))
+      History.toLocalStorage(this._history)
+    }
   }
 
   public instantDropActiveTetrimino(): void {
@@ -188,6 +239,7 @@ class PeriotrisModel extends EventEmitter {
 
     this.spawnNextTetrimino()
     this.gameState = GameState.InProgress
+    this.startDate = Date.now()
     this.onGameStart()
   }
 
@@ -213,6 +265,7 @@ class PeriotrisModel extends EventEmitter {
 
   public constructor() {
     super()
+    this._history = History.fromLocalStorage()
     this.endGame(false)
   }
 
