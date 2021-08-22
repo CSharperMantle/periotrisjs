@@ -33,25 +33,18 @@ function getPlayablePattern(): Tetrimino[] {
     }
   }
 
-  const tetriminos = sort(
-    getPossibleTetriminoPattern(template),
-    dim1len,
-    dim0len
-  )
+  const tetriminos = sort(getPossibleTetriminoPattern(template))
   tetriminos.forEach((tetrimino: Tetrimino) => {
     const originalPos = tetrimino.position
     const newPos = getInitialPositionByKind(tetrimino.kind)
     const deltaX = newPos.X - originalPos.X
     const deltaY = newPos.Y - originalPos.Y
-    const newBlocks: Block[] = []
-    tetrimino.blocks.forEach((block: Block) => {
-      newBlocks.push(
-        new Block(
-          block.filledBy,
-          new Position(block.position.X + deltaX, block.position.Y + deltaY),
-          block.atomicNumber,
-          block.id
-        )
+    const newBlocks: Block[] = Array.from(tetrimino.blocks, (block: Block) => {
+      return new Block(
+        block.filledBy,
+        new Position(block.position.X + deltaX, block.position.Y + deltaY),
+        block.atomicNumber,
+        block.id
       )
     })
 
@@ -153,24 +146,15 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
 }
 
 function getFirstAvailableBlockCoord(blocks: Block[][]): Position {
-  let firstBlockRow = -1
-  let firstBlockCol = -1
-  let firstBlockFound = false
   for (let nRow = blocks.length - 1; nRow >= 0; nRow--) {
     const col: Block[] = blocks[nRow]
     for (let nCol = col.length - 1; nCol >= 0; nCol--) {
       if (col[nCol].filledBy === TetriminoKind.AvailableToFill) {
-        firstBlockRow = nRow
-        firstBlockCol = nCol
-        firstBlockFound = true
-        break
+        return new Position(nCol, nRow)
       }
     }
-    if (firstBlockFound) {
-      break
-    }
   }
-  return new Position(firstBlockCol, firstBlockRow)
+  return new Position(-1, -1)
 }
 
 class KindDirectionsPair {
