@@ -24,44 +24,45 @@ An instance of Periotris.js is hosted on GitHub Pages as a Progressive Web Appli
 
 #### Clone
 
-Run:
+Run (if you have not done it previously):
 
 ```sh
 git clone https://github.com/CSharperMantle/periotrisjs.git --depth=1
 cd periotrisjs
 ```
 
-You may omit the `--depth=1` flag if you want a complete history rather than a grafted shallow history.
+You may omit the `--depth=1` flag if you want a complete commit history rather than a grafted shallow history (which saves disk space).
 
 #### Install dependencies
 
-The project need [**Node.js v14.x+**](https://nodejs.org/) environment to run. Please refer to their documents for installation guide on Node.js.
+Though the project is intended to run in browsers, it needs [**Node.js v14.x+**](https://nodejs.org/) environment to build. Please refer to their documents for installation guide on Node.js.
 
-Once you have installed correct Node version, run the following:
+Once you have installed a supported Node.js runtime, run the following commands:
 
 ```sh
 npm install # for runtime deps
-npm install -g gatsby-cli # for convenience in running Gatsby commands
+npm install -g gatsby-cli # for running Gatsby CLI commands
 ```
 
-#### Build
+#### Build and serve
 
 Run the following commands to build and serve a static, release-ready [Gatsby](https://gatsbyjs.com/) site:
 
 ```sh
 gatsby build && gatsby serve
-# ...or...
+# ... or ...
 npm run build
 gatsby serve
 ```
 
-If you prefer hot-reload, friendly exception notice and other development-friendly features of Gatsby, run the following to start a dev server:
+If you prefer hot-reload, friendly exception notice and other development-friendly features of Gatsby, run the following commands to start a dev server:
 
 ```sh
 gatsby develop
 ```
 
 After these commands are executed, you should see in the terminal an address to visit.
+The address is usually `http://localhost:8000/` or `http://localhost:9000/` depending on whether your build is for dev or production.
 
 #### _OPTIONAL:_ Test
 
