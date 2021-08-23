@@ -112,7 +112,7 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
     while (currentKindDirectionsPairStack.length > 0) {
       const currentPair = currentKindDirectionsPairStack.pop()
       while (currentPair.directions.length > 0) {
-        const direction = currentPair.directions.pop()
+        const direction = currentPair.popRandomDirection()
         const tetrimino = Tetrimino.createTetriminoByFirstBlockPosition(
           currentPair.kind,
           firstBlockCoord,
@@ -163,7 +163,12 @@ class KindDirectionsPair {
 
   public constructor(kind: TetriminoKind) {
     this.kind = kind
-    this.directions = _.shuffle(_.clone(AllDirections))
+    this.directions = _.clone(AllDirections)
+  }
+
+  public popRandomDirection(): Direction {
+    const index = _.random(0, this.directions.length - 1)
+    return this.directions.splice(index)[0]
   }
 }
 

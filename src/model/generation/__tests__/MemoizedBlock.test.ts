@@ -1,5 +1,5 @@
-import { Direction } from "../../Direction"
 import { Position } from "../../../common/Position"
+import { Direction } from "../../Direction"
 import { Tetrimino } from "../../Tetrimino"
 import { TetriminoKind } from "../../TetriminoKind"
 import { MemoizedBlock } from "../MemoizedBlock"
@@ -26,6 +26,6 @@ describe("MemoizedBlock", () => {
       n.blocks[0].id
     )
 
-    expect(b.owner).toBe<TetriminoNode>(n)
+    expect(b.owner).toBe(n)
   })
 })

@@ -7,7 +7,7 @@ import { TetriminoNode } from "./TetriminoNode"
 function sort(tetriminos: Tetrimino[]): Tetrimino[] {
   const graph = createTetriminoDependencyGraph(tetriminos)
 
-  const startNodes: TetriminoNode[] = _.filter(graph, (node: TetriminoNode) => {
+  const startNodes: TetriminoNode[] = graph.filter((node: TetriminoNode) => {
     return node.depending.size === 0
   })
 

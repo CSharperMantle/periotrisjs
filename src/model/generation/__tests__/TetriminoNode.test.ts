@@ -19,8 +19,8 @@ describe("TetriminoNode", () => {
     )
 
     expect(n.depending).toBeInstanceOf(Set)
-    expect(n.depending.size).toBe<number>(0)
+    expect(n.depending.size).toBe(0)
     expect(n.dependedBy).toBeInstanceOf(Set)
-    expect(n.dependedBy.size).toBe<number>(0)
+    expect(n.dependedBy.size).toBe(0)
   })
 })
