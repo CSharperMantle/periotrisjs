@@ -27,7 +27,7 @@ function sort(tetriminos: Tetrimino[]): Tetrimino[] {
   }
 
   if (
-    _.some(graph, (node: TetriminoNode) => {
+    graph.some((node: TetriminoNode) => {
       return node.dependedBy.size !== 0 || node.depending.size !== 0
     })
   )

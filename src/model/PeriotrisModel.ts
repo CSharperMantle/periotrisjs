@@ -295,7 +295,7 @@ class PeriotrisModel extends EventEmitter {
     if (block.position.Y >= PlayAreaHeight) {
       return true
     }
-    return _.some(this._frozenBlocks, (frozenBlock: Block): boolean => {
+    return this._frozenBlocks.some((frozenBlock: Block): boolean => {
       return frozenBlock.position.equals(block.position)
     })
   }
