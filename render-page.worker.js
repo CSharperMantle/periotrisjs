@@ -82,12 +82,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Tetrimino": () => (/* binding */ Tetrimino)
 /* harmony export */ });
-/* harmony import */ var lodash_some__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/some */ "./node_modules/lodash/some.js");
-/* harmony import */ var lodash_some__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_some__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _common_Position__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/Position */ "./src/common/Position.ts");
-/* harmony import */ var _Direction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Direction */ "./src/model/Direction.ts");
-/* harmony import */ var _generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./generation/GeneratorHelper */ "./src/model/generation/GeneratorHelper.ts");
-/* harmony import */ var _TetriminoKind__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TetriminoKind */ "./src/model/TetriminoKind.ts");
+/* harmony import */ var _common_Position__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/Position */ "./src/common/Position.ts");
+/* harmony import */ var _Direction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Direction */ "./src/model/Direction.ts");
+/* harmony import */ var _generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./generation/GeneratorHelper */ "./src/model/generation/GeneratorHelper.ts");
+/* harmony import */ var _TetriminoKind__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TetriminoKind */ "./src/model/TetriminoKind.ts");
 /**
  * The type for block collision checker.
  *
@@ -100,13 +98,13 @@ __webpack_require__.r(__webpack_exports__);
    * @param direction The direction to move.
    * @param collisionChecker The BlockCollisionChecker function to use.
    * @returns 'true' for a successful move, otherwise 'false'.
-   */tryMove(direction,collisionChecker){let position=this.position;if(direction===_Direction__WEBPACK_IMPORTED_MODULE_2__.MoveDirection.Down){const row=position.Y+1;position=new _common_Position__WEBPACK_IMPORTED_MODULE_1__.Position(position.X,row);}else{const delta=direction===_Direction__WEBPACK_IMPORTED_MODULE_2__.MoveDirection.Right?1:-1;const column=position.X+delta;position=new _common_Position__WEBPACK_IMPORTED_MODULE_1__.Position(column,position.Y);}let newBlocks=(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_3__.createOffsetedBlocks)(this.kind,position,this.facingDirection);newBlocks=(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_3__.mapAtomicNumberForNewBlocks)(this.blocks,newBlocks);if(lodash_some__WEBPACK_IMPORTED_MODULE_0___default()(newBlocks,collisionChecker)){return false;}this.position=position;this.blocks=newBlocks;return true;}/**
+   */tryMove(direction,collisionChecker){let position=this.position;if(direction===_Direction__WEBPACK_IMPORTED_MODULE_1__.MoveDirection.Down){const row=position.Y+1;position=new _common_Position__WEBPACK_IMPORTED_MODULE_0__.Position(position.X,row);}else{const delta=direction===_Direction__WEBPACK_IMPORTED_MODULE_1__.MoveDirection.Right?1:-1;const column=position.X+delta;position=new _common_Position__WEBPACK_IMPORTED_MODULE_0__.Position(column,position.Y);}let newBlocks=(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_2__.createOffsetedBlocks)(this.kind,position,this.facingDirection);newBlocks=(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_2__.mapAtomicNumberForNewBlocks)(this.blocks,newBlocks);if(newBlocks.some(collisionChecker)){return false;}this.position=position;this.blocks=newBlocks;return true;}/**
    * Rotates the Tetrimino instance.
    *
    * @param rotationDirection The direction to rotate.
    * @param collisionChecker The BlockCollisionChecker function to use.
    * @returns 'true' for a successful rotation, otherwise 'false'.
-   */tryRotate(rotationDirection,collisionChecker){const count=Object.keys(_Direction__WEBPACK_IMPORTED_MODULE_2__.Direction).length/2;const delta=rotationDirection===_Direction__WEBPACK_IMPORTED_MODULE_2__.RotationDirection.Right?1:-1;let direction=this.facingDirection+delta;if(direction<0){direction+=count;}if(direction>=count){direction%=count;}const adjustPattern=this.kind===_TetriminoKind__WEBPACK_IMPORTED_MODULE_4__.TetriminoKind.Linear?[0,1,-1,2,-2]:[0,1,-1];for(let i=0;i<adjustPattern.length;i++){const adjust=adjustPattern[i];const newPos=new _common_Position__WEBPACK_IMPORTED_MODULE_1__.Position(this.position.X+adjust,this.position.Y);let newBlocks=(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_3__.createOffsetedBlocks)(this.kind,newPos,direction);if(!lodash_some__WEBPACK_IMPORTED_MODULE_0___default()(newBlocks,collisionChecker)){newBlocks=(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_3__.mapAtomicNumberForNewBlocks)(this.blocks,newBlocks);this.facingDirection=direction;this.position=newPos;this.blocks=newBlocks;return true;}}return false;}static createTetriminoByPosition(kind,position,facingDirection){return new Tetrimino(kind,position,(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_3__.getFirstBlockPositionByPosition)(position,kind,facingDirection),facingDirection);}static createTetriminoByFirstBlockPosition(kind,firstBlockPos,facingDirection){return new Tetrimino(kind,(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_3__.getPositionByFirstBlockPosition)(firstBlockPos,kind,facingDirection),firstBlockPos,facingDirection);}constructor(kind,position,firstBlockPos,facingDirection){this.facingDirection=void 0;this.firstBlockPosition=void 0;this.kind=void 0;this.position=void 0;this.blocks=void 0;this.position=position;this.kind=kind;this.firstBlockPosition=firstBlockPos;this.facingDirection=facingDirection;this.blocks=(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_3__.createOffsetedBlocks)(kind,position,facingDirection);}}
+   */tryRotate(rotationDirection,collisionChecker){const count=Object.keys(_Direction__WEBPACK_IMPORTED_MODULE_1__.Direction).length/2;const delta=rotationDirection===_Direction__WEBPACK_IMPORTED_MODULE_1__.RotationDirection.Right?1:-1;let direction=this.facingDirection+delta;if(direction<0){direction+=count;}if(direction>=count){direction%=count;}const adjustPattern=this.kind===_TetriminoKind__WEBPACK_IMPORTED_MODULE_3__.TetriminoKind.Linear?[0,1,-1,2,-2]:[0,1,-1];for(let i=0;i<adjustPattern.length;i++){const adjust=adjustPattern[i];const newPos=new _common_Position__WEBPACK_IMPORTED_MODULE_0__.Position(this.position.X+adjust,this.position.Y);let newBlocks=(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_2__.createOffsetedBlocks)(this.kind,newPos,direction);if(!newBlocks.some(collisionChecker)){newBlocks=(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_2__.mapAtomicNumberForNewBlocks)(this.blocks,newBlocks);this.facingDirection=direction;this.position=newPos;this.blocks=newBlocks;return true;}}return false;}static createTetriminoByPosition(kind,position,facingDirection){return new Tetrimino(kind,position,(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_2__.getFirstBlockPositionByPosition)(position,kind,facingDirection),facingDirection);}static createTetriminoByFirstBlockPosition(kind,firstBlockPos,facingDirection){return new Tetrimino(kind,(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_2__.getPositionByFirstBlockPosition)(firstBlockPos,kind,facingDirection),firstBlockPos,facingDirection);}constructor(kind,position,firstBlockPos,facingDirection){this.facingDirection=void 0;this.firstBlockPosition=void 0;this.kind=void 0;this.position=void 0;this.blocks=void 0;this.position=position;this.kind=kind;this.firstBlockPosition=firstBlockPos;this.facingDirection=facingDirection;this.blocks=(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_2__.createOffsetedBlocks)(kind,position,facingDirection);}}
 
 /***/ }),
 
@@ -119,12 +117,9 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "TetriminoKind": () => (/* binding */ TetriminoKind),
-/* harmony export */   "getRandomTetriminoKind": () => (/* binding */ getRandomTetriminoKind)
+/* harmony export */   "TetriminoKind": () => (/* binding */ TetriminoKind)
 /* harmony export */ });
-/* harmony import */ var lodash_random__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/random */ "./node_modules/lodash/random.js");
-/* harmony import */ var lodash_random__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_random__WEBPACK_IMPORTED_MODULE_0__);
-var TetriminoKind;(function(TetriminoKind){TetriminoKind[TetriminoKind["Linear"]=0]="Linear";TetriminoKind[TetriminoKind["Cubic"]=1]="Cubic";TetriminoKind[TetriminoKind["LShapedCis"]=2]="LShapedCis";TetriminoKind[TetriminoKind["LShapedTrans"]=3]="LShapedTrans";TetriminoKind[TetriminoKind["ZigZagCis"]=4]="ZigZagCis";TetriminoKind[TetriminoKind["ZigZagTrans"]=5]="ZigZagTrans";TetriminoKind[TetriminoKind["TeeShaped"]=6]="TeeShaped";TetriminoKind[TetriminoKind["AvailableToFill"]=7]="AvailableToFill";TetriminoKind[TetriminoKind["UnavailableToFill"]=8]="UnavailableToFill";})(TetriminoKind||(TetriminoKind={}));function getRandomTetriminoKind(){let randResult=lodash_random__WEBPACK_IMPORTED_MODULE_0___default()(0,7,false);switch(randResult){case 0:return TetriminoKind.Linear;case 1:return TetriminoKind.Cubic;case 2:return TetriminoKind.LShapedCis;case 3:return TetriminoKind.LShapedTrans;case 4:return TetriminoKind.ZigZagCis;case 5:return TetriminoKind.ZigZagTrans;case 6:return TetriminoKind.TeeShaped;default:throw new RangeError();}}
+var TetriminoKind;(function(TetriminoKind){TetriminoKind[TetriminoKind["Linear"]=0]="Linear";TetriminoKind[TetriminoKind["Cubic"]=1]="Cubic";TetriminoKind[TetriminoKind["LShapedCis"]=2]="LShapedCis";TetriminoKind[TetriminoKind["LShapedTrans"]=3]="LShapedTrans";TetriminoKind[TetriminoKind["ZigZagCis"]=4]="ZigZagCis";TetriminoKind[TetriminoKind["ZigZagTrans"]=5]="ZigZagTrans";TetriminoKind[TetriminoKind["TeeShaped"]=6]="TeeShaped";TetriminoKind[TetriminoKind["AvailableToFill"]=7]="AvailableToFill";TetriminoKind[TetriminoKind["UnavailableToFill"]=8]="UnavailableToFill";})(TetriminoKind||(TetriminoKind={}));
 
 /***/ }),
 
@@ -141,10 +136,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var lodash_isNil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/isNil */ "./node_modules/lodash/isNil.js");
 /* harmony import */ var lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_isNil__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _TetriminoKind__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TetriminoKind */ "./src/model/TetriminoKind.ts");
-/* harmony import */ var _MemoizedBlock__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MemoizedBlock */ "./src/model/generation/MemoizedBlock.ts");
-/* harmony import */ var _TetriminoNode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TetriminoNode */ "./src/model/generation/TetriminoNode.ts");
-function createTetriminoDependencyGraph(tetriminos,playAreaWidth,playAreaHeight){const tetriminoNodes=[];const memoizedMap=[];for(let i=0;i<playAreaHeight;i++){memoizedMap[i]=[];}tetriminos.forEach(tetrimino=>{const tetriminoNode=new _TetriminoNode__WEBPACK_IMPORTED_MODULE_3__.TetriminoNode(tetrimino.kind,tetrimino.position,tetrimino.firstBlockPosition,tetrimino.facingDirection);tetriminoNode.memoizedBlocks=getMemoizedBlocksForTetriminoNode(tetriminoNode,tetrimino);tetriminoNode.blocks=tetriminoNode.memoizedBlocks;tetriminoNode.memoizedBlocks.forEach(block=>{memoizedMap[block.position.Y][block.position.X]=block;});tetriminoNodes.push(tetriminoNode);});tetriminoNodes.forEach(tetriminoNode=>{tetriminoNode.memoizedBlocks.forEach(block=>{const dependedBlockRow=block.position.Y+1;const dependedBlockCol=block.position.X;const{isSuccessful,result}=tryGetOccupiedTetriminoNode(memoizedMap,dependedBlockRow,dependedBlockCol,playAreaWidth,playAreaHeight);if(!isSuccessful||result===tetriminoNode){return;}result.dependedBy.add(tetriminoNode);tetriminoNode.depending.add(result);});});return tetriminoNodes;}function getMemoizedBlocksForTetriminoNode(node,tetrimino){const memoizedBlocks=[];tetrimino.blocks.forEach(block=>{memoizedBlocks.push(new _MemoizedBlock__WEBPACK_IMPORTED_MODULE_2__.MemoizedBlock(block.filledBy,block.position,node,block.atomicNumber,block.id));});return memoizedBlocks;}function tryGetOccupiedTetriminoNode(map,row,col,playAreaWidth,playAreaHeight){if(row<0||row>=playAreaHeight||col<0||col>=playAreaWidth){return{isSuccessful:false,result:null};}const cell=map[row][col];if(lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(cell)||cell.filledBy===_TetriminoKind__WEBPACK_IMPORTED_MODULE_1__.TetriminoKind.AvailableToFill||cell.filledBy===_TetriminoKind__WEBPACK_IMPORTED_MODULE_1__.TetriminoKind.UnavailableToFill){return{isSuccessful:false,result:null};}return{isSuccessful:true,result:cell.owner};}
+/* harmony import */ var _common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../common/PeriotrisConst */ "./src/common/PeriotrisConst.ts");
+/* harmony import */ var _TetriminoKind__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../TetriminoKind */ "./src/model/TetriminoKind.ts");
+/* harmony import */ var _MemoizedBlock__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MemoizedBlock */ "./src/model/generation/MemoizedBlock.ts");
+/* harmony import */ var _TetriminoNode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TetriminoNode */ "./src/model/generation/TetriminoNode.ts");
+function createTetriminoDependencyGraph(tetriminos){const memoizedMap=[];for(let i=0;i<_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_1__.PlayAreaHeight;i++){memoizedMap[i]=[];}const tetriminoNodes=Array.from(tetriminos,tetrimino=>{const tetriminoNode=new _TetriminoNode__WEBPACK_IMPORTED_MODULE_4__.TetriminoNode(tetrimino.kind,tetrimino.position,tetrimino.firstBlockPosition,tetrimino.facingDirection);tetriminoNode.memoizedBlocks=getMemoizedBlocksForTetriminoNode(tetriminoNode,tetrimino);tetriminoNode.blocks=tetriminoNode.memoizedBlocks;tetriminoNode.memoizedBlocks.forEach(block=>{memoizedMap[block.position.Y][block.position.X]=block;});return tetriminoNode;});tetriminoNodes.forEach(tetriminoNode=>{tetriminoNode.memoizedBlocks.forEach(block=>{const dependedBlockRow=block.position.Y+1;const dependedBlockCol=block.position.X;const{isSuccessful,result}=tryGetOccupiedTetriminoNode(memoizedMap,dependedBlockRow,dependedBlockCol,_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_1__.PlayAreaWidth,_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_1__.PlayAreaHeight);if(!isSuccessful||result===tetriminoNode){return;}result.dependedBy.add(tetriminoNode);tetriminoNode.depending.add(result);});});return tetriminoNodes;}function getMemoizedBlocksForTetriminoNode(node,tetrimino){const memoizedBlocks=Array.from(tetrimino.blocks,block=>{return new _MemoizedBlock__WEBPACK_IMPORTED_MODULE_3__.MemoizedBlock(block.filledBy,block.position,node,block.atomicNumber,block.id);});return memoizedBlocks;}function tryGetOccupiedTetriminoNode(map,row,col,playAreaWidth,playAreaHeight){if(row<0||row>=playAreaHeight||col<0||col>=playAreaWidth){return{isSuccessful:false,result:null};}const cell=map[row][col];if(lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(cell)||cell.filledBy===_TetriminoKind__WEBPACK_IMPORTED_MODULE_2__.TetriminoKind.AvailableToFill||cell.filledBy===_TetriminoKind__WEBPACK_IMPORTED_MODULE_2__.TetriminoKind.UnavailableToFill){return{isSuccessful:false,result:null};}return{isSuccessful:true,result:cell.owner};}
 
 /***/ }),
 
@@ -164,17 +160,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getInitialPositionByKind": () => (/* binding */ getInitialPositionByKind),
 /* harmony export */   "mapAtomicNumberForNewBlocks": () => (/* binding */ mapAtomicNumberForNewBlocks)
 /* harmony export */ });
-/* harmony import */ var lodash_filter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/filter */ "./node_modules/lodash/filter.js");
-/* harmony import */ var lodash_filter__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_filter__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/cloneDeep */ "./node_modules/lodash/cloneDeep.js");
-/* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var lodash_floor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash/floor */ "./node_modules/lodash/floor.js");
-/* harmony import */ var lodash_floor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash_floor__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../common/PeriotrisConst */ "./src/common/PeriotrisConst.ts");
-/* harmony import */ var _common_Position__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../common/Position */ "./src/common/Position.ts");
-/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Block */ "./src/model/Block.ts");
-/* harmony import */ var _Direction__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Direction */ "./src/model/Direction.ts");
-/* harmony import */ var _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../TetriminoKind */ "./src/model/TetriminoKind.ts");
+/* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/cloneDeep */ "./node_modules/lodash/cloneDeep.js");
+/* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../common/PeriotrisConst */ "./src/common/PeriotrisConst.ts");
+/* harmony import */ var _common_Position__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../common/Position */ "./src/common/Position.ts");
+/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Block */ "./src/model/Block.ts");
+/* harmony import */ var _Direction__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Direction */ "./src/model/Direction.ts");
+/* harmony import */ var _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../TetriminoKind */ "./src/model/TetriminoKind.ts");
 const CubicMaskDown=[[3,4],[2,1]];const CubicMaskLeft=[[2,3],[1,4]];const CubicMaskRight=[[4,1],[3,2]];const CubicMaskUp=[[1,2],[4,3]];const LCisDownMask=[[4,3,0],[0,2,0],[0,1,0]];const LCisLeftMask=[[0,0,4],[1,2,3],[0,0,0]];const LCisRightMask=[[0,0,0],[3,2,1],[4,0,0]];const LCisUpMask=[[0,1,0],[0,2,0],[0,3,4]];const LinearDownMask=[[0,0,4,0],[0,0,3,0],[0,0,2,0],[0,0,1,0]];const LinearLeftMask=[[0,0,0,0],[0,0,0,0],[1,2,3,4],[0,0,0,0]];const LinearRightMask=[[0,0,0,0],[4,3,2,1],[0,0,0,0],[0,0,0,0]];const LinearUpMask=[[0,1,0,0],[0,2,0,0],[0,3,0,0],[0,4,0,0]];const LTransDownMask=[[0,3,4],[0,2,0],[0,1,0]];const LTransLeftMask=[[0,0,0],[1,2,3],[0,0,4]];const LTransRightMask=[[4,0,0],[3,2,1],[0,0,0]];const LTransUpMask=[[0,1,0],[0,2,0],[4,3,0]];const TeeDownMask=[[0,0,0],[4,3,2],[0,1,0]];const TeeLeftMask=[[0,4,0],[1,3,0],[0,2,0]];const TeeRightMask=[[0,2,0],[0,3,1],[0,4,0]];const TeeUpMask=[[0,1,0],[2,3,4],[0,0,0]];const ZCisDownMask=[[0,0,0],[4,3,0],[0,2,1]];const ZCisLeftMask=[[0,4,0],[2,3,0],[1,0,0]];const ZCisRightMask=[[0,0,1],[0,3,2],[0,4,0]];const ZCisUpMask=[[1,2,0],[0,3,4],[0,0,0]];const ZTransDownMask=[[0,0,0],[0,2,1],[4,3,0]];const ZTransLeftMask=[[4,0,0],[3,2,0],[0,1,0]];const ZTransRightMask=[[0,1,0],[0,2,3],[0,0,4]];const ZTransUpMask=[[0,3,4],[1,2,0],[0,0,0]];/**
  * Creates mask for blocks.
  * @param kind Kind of the tetrimino.
@@ -182,7 +174,7 @@ const CubicMaskDown=[[3,4],[2,1]];const CubicMaskLeft=[[2,3],[1,4]];const CubicM
  * @returns An 'number[][]' of the mask.
  *
  * @throws RangeError
- */function createBlocksMask(kind,direction){switch(kind){case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.Linear:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Left:return LinearLeftMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Up:return LinearUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Right:return LinearRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Down:return LinearDownMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.Cubic:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Up:return CubicMaskUp;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Right:return CubicMaskRight;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Down:return CubicMaskDown;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Left:return CubicMaskLeft;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.LShapedCis:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Up:return LCisUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Right:return LCisRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Down:return LCisDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Left:return LCisLeftMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.LShapedTrans:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Up:return LTransUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Right:return LTransRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Down:return LTransDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Left:return LTransLeftMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.ZigZagCis:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Up:return ZCisUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Right:return ZCisRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Down:return ZCisDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Left:return ZCisLeftMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.ZigZagTrans:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Up:return ZTransUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Right:return ZTransRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Down:return ZTransDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Left:return ZTransLeftMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.TeeShaped:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Up:return TeeUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Right:return TeeRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Down:return TeeDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Left:return TeeLeftMask;default:throw new RangeError("direction");}default:throw new RangeError("kind");}}function getFirstBlockCoordByType(kind,facingDirection){switch(kind){case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.Linear:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Left:return{row:2,col:3};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Up:return{row:3,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Right:return{row:1,col:3};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Down:return{row:3,col:2};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.Cubic:return{row:1,col:1};case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.LShapedCis:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Left:return{row:1,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Up:return{row:2,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Right:return{row:2,col:0};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Down:return{row:2,col:1};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.LShapedTrans:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Left:return{row:2,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Up:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Right:return{row:1,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Down:return{row:2,col:1};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.ZigZagCis:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Left:return{row:2,col:0};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Up:return{row:1,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Right:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Down:return{row:2,col:2};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.ZigZagTrans:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Left:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Up:return{row:1,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Right:return{row:2,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Down:return{row:2,col:1};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.TeeShaped:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Left:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Up:return{row:1,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Right:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Down:return{row:2,col:1};default:throw new RangeError("facingDirection");}default:throw new RangeError("kind");}}function getPositionByFirstBlockPosition(firstBlockPosition,kind,facingDirection){const firstBlockCoord=getFirstBlockCoordByType(kind,facingDirection);const firstBlockRow=firstBlockCoord.row;const firstBlockCol=firstBlockCoord.col;return new _common_Position__WEBPACK_IMPORTED_MODULE_4__.Position(firstBlockPosition.X-firstBlockCol,firstBlockPosition.Y-firstBlockRow);}function getFirstBlockPositionByPosition(position,kind,facingDirection){const firstBlockCoord=getFirstBlockCoordByType(kind,facingDirection);const firstBlockRow=firstBlockCoord.row;const firstBlockCol=firstBlockCoord.col;return new _common_Position__WEBPACK_IMPORTED_MODULE_4__.Position(position.X+firstBlockCol,position.Y+firstBlockRow);}function getInitialPositionByKind(kind){let length;switch(kind){case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.Linear:length=4;break;case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.Cubic:length=2;break;case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.LShapedCis:case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.LShapedTrans:case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.TeeShaped:case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.ZigZagCis:case _TetriminoKind__WEBPACK_IMPORTED_MODULE_7__.TetriminoKind.ZigZagTrans:length=3;break;default:throw new RangeError("kind");}const row=0;const col=lodash_floor__WEBPACK_IMPORTED_MODULE_2___default()((_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_3__.PlayAreaWidth-length)/2);return new _common_Position__WEBPACK_IMPORTED_MODULE_4__.Position(col,row);}function createOffsetedBlocks(kind,offset,direction=_Direction__WEBPACK_IMPORTED_MODULE_6__.Direction.Up){const mask=createBlocksMask(kind,direction);const offsetBlocks=[];for(let nRow=0;nRow<mask.length;nRow++){const row=mask[nRow];for(let nCol=0;nCol<row.length;nCol++){const identifier=row[nCol];if(identifier!==0){offsetBlocks.push(new _Block__WEBPACK_IMPORTED_MODULE_5__.Block(kind,new _common_Position__WEBPACK_IMPORTED_MODULE_4__.Position(nCol+offset.X,nRow+offset.Y),0,identifier));}}}return offsetBlocks;}/**
+ */function createBlocksMask(kind,direction){switch(kind){case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Linear:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return LinearLeftMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return LinearUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return LinearRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return LinearDownMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Cubic:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return CubicMaskUp;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return CubicMaskRight;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return CubicMaskDown;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return CubicMaskLeft;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedCis:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return LCisUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return LCisRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return LCisDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return LCisLeftMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedTrans:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return LTransUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return LTransRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return LTransDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return LTransLeftMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagCis:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return ZCisUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return ZCisRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return ZCisDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return ZCisLeftMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagTrans:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return ZTransUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return ZTransRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return ZTransDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return ZTransLeftMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.TeeShaped:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return TeeUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return TeeRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return TeeDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return TeeLeftMask;default:throw new RangeError("direction");}default:throw new RangeError("kind");}}function getFirstBlockCoordByType(kind,facingDirection){switch(kind){case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Linear:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:2,col:3};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:3,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:1,col:3};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:3,col:2};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Cubic:return{row:1,col:1};case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedCis:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:1,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:2,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:2,col:0};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:2,col:1};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedTrans:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:2,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:1,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:2,col:1};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagCis:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:2,col:0};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:1,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:2,col:2};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagTrans:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:1,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:2,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:2,col:1};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.TeeShaped:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:1,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:2,col:1};default:throw new RangeError("facingDirection");}default:throw new RangeError("kind");}}function getPositionByFirstBlockPosition(firstBlockPosition,kind,facingDirection){const firstBlockCoord=getFirstBlockCoordByType(kind,facingDirection);const firstBlockRow=firstBlockCoord.row;const firstBlockCol=firstBlockCoord.col;return new _common_Position__WEBPACK_IMPORTED_MODULE_2__.Position(firstBlockPosition.X-firstBlockCol,firstBlockPosition.Y-firstBlockRow);}function getFirstBlockPositionByPosition(position,kind,facingDirection){const firstBlockCoord=getFirstBlockCoordByType(kind,facingDirection);const firstBlockRow=firstBlockCoord.row;const firstBlockCol=firstBlockCoord.col;return new _common_Position__WEBPACK_IMPORTED_MODULE_2__.Position(position.X+firstBlockCol,position.Y+firstBlockRow);}function getInitialPositionByKind(kind){let length;switch(kind){case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Linear:length=4;break;case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Cubic:length=2;break;case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedCis:case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedTrans:case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.TeeShaped:case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagCis:case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagTrans:length=3;break;default:throw new RangeError("kind");}const row=0;const col=Math.floor((_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_1__.PlayAreaWidth-length)/2);return new _common_Position__WEBPACK_IMPORTED_MODULE_2__.Position(col,row);}function createOffsetedBlocks(kind,offset,direction=_Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up){const mask=createBlocksMask(kind,direction);const offsetBlocks=[];for(let nRow=0;nRow<mask.length;nRow++){const row=mask[nRow];for(let nCol=0;nCol<row.length;nCol++){const identifier=row[nCol];if(identifier!==0){offsetBlocks.push(new _Block__WEBPACK_IMPORTED_MODULE_3__.Block(kind,new _common_Position__WEBPACK_IMPORTED_MODULE_2__.Position(nCol+offset.X,nRow+offset.Y),0,identifier));}}}return offsetBlocks;}/**
  * Maps the atomicNumber prop in the oldBlocks to newBlocks by id.
  * Note that this function does not change newBlocks but return a new
  * array of mapped blocks.
@@ -190,7 +182,7 @@ const CubicMaskDown=[[3,4],[2,1]];const CubicMaskLeft=[[2,3],[1,4]];const CubicM
  * @param newBlocks New blocks to be mapped to.
  * @returns Mapped newBlocks.
  * @throws Error
- */function mapAtomicNumberForNewBlocks(oldBlocks,newBlocks){if(oldBlocks.length!==newBlocks.length){throw new Error("oldBlocks.length !== newBlocks.length");}const result=[];oldBlocks.forEach(oldBlock=>{const correspondingNewBlocks=lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_1___default()(lodash_filter__WEBPACK_IMPORTED_MODULE_0___default()(newBlocks,newBlock=>newBlock.id===oldBlock.id));correspondingNewBlocks.forEach(block=>{block.atomicNumber=oldBlock.atomicNumber;result.push(block);});});return result;}
+ */function mapAtomicNumberForNewBlocks(oldBlocks,newBlocks){if(oldBlocks.length!==newBlocks.length){throw new Error("oldBlocks.length !== newBlocks.length");}const result=[];oldBlocks.forEach(oldBlock=>{const correspondingNewBlocks=lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_0___default()(newBlocks.filter(newBlock=>newBlock.id===oldBlock.id));correspondingNewBlocks.forEach(block=>{block.atomicNumber=oldBlock.atomicNumber;result.push(block);});});return result;}
 
 /***/ }),
 
@@ -236,25 +228,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getPlayablePattern": () => (/* binding */ getPlayablePattern)
 /* harmony export */ });
-/* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/cloneDeep */ "./node_modules/lodash/cloneDeep.js");
-/* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lodash_some__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/some */ "./node_modules/lodash/some.js");
-/* harmony import */ var lodash_some__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_some__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var lodash_shuffle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash/shuffle */ "./node_modules/lodash/shuffle.js");
-/* harmony import */ var lodash_shuffle__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash_shuffle__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var lodash_random__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash/random */ "./node_modules/lodash/random.js");
-/* harmony import */ var lodash_random__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash_random__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../common/PeriotrisConst */ "./src/common/PeriotrisConst.ts");
-/* harmony import */ var _common_Position__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../common/Position */ "./src/common/Position.ts");
-/* harmony import */ var _json_DefaultMap_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../json/DefaultMap.json */ "./src/json/DefaultMap.json");
-/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Block */ "./src/model/Block.ts");
-/* harmony import */ var _Direction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Direction */ "./src/model/Direction.ts");
-/* harmony import */ var _Tetrimino__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Tetrimino */ "./src/model/Tetrimino.ts");
-/* harmony import */ var _TetriminoKind__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../TetriminoKind */ "./src/model/TetriminoKind.ts");
-/* harmony import */ var _GeneratorHelper__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./GeneratorHelper */ "./src/model/generation/GeneratorHelper.ts");
-/* harmony import */ var _TetriminoSorter__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./TetriminoSorter */ "./src/model/generation/TetriminoSorter.ts");
-function getPlayablePattern(){const dim0len=_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_4__.PlayAreaHeight;const dim1len=_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_4__.PlayAreaWidth;const template=[];for(let i=0;i<dim0len;i++){template[i]=[];for(let j=0;j<dim1len;j++){const origElem=_json_DefaultMap_json__WEBPACK_IMPORTED_MODULE_6__.periodicTable[i][j];template[i][j]=new _Block__WEBPACK_IMPORTED_MODULE_7__.Block(origElem.filledBy,new _common_Position__WEBPACK_IMPORTED_MODULE_5__.Position(origElem.position.X,origElem.position.Y),origElem.atomicNumber,0);}}const tetriminos=(0,_TetriminoSorter__WEBPACK_IMPORTED_MODULE_12__.sort)(getPossibleTetriminoPattern(template),dim1len,dim0len);tetriminos.forEach(tetrimino=>{const originalPos=tetrimino.position;const newPos=(0,_GeneratorHelper__WEBPACK_IMPORTED_MODULE_11__.getInitialPositionByKind)(tetrimino.kind);const deltaX=newPos.X-originalPos.X;const deltaY=newPos.Y-originalPos.Y;const newBlocks=[];tetrimino.blocks.forEach(block=>{newBlocks.push(new _Block__WEBPACK_IMPORTED_MODULE_7__.Block(block.filledBy,new _common_Position__WEBPACK_IMPORTED_MODULE_5__.Position(block.position.X+deltaX,block.position.Y+deltaY),block.atomicNumber,block.id));});tetrimino.blocks=newBlocks;tetrimino.position=newPos;const rotationCount=lodash_random__WEBPACK_IMPORTED_MODULE_3___default()(0,Object.keys(_Direction__WEBPACK_IMPORTED_MODULE_8__.Direction).length/2);for(let i=0;i<rotationCount;i++){tetrimino.tryRotate(_Direction__WEBPACK_IMPORTED_MODULE_8__.RotationDirection.Right,()=>false);}});return tetriminos;}function getPossibleTetriminoPattern(template){const workspace=template;const settledTetrimino=[];const pendingTetriminoKinds=[];function collisionChecker(block){const nRow=block.position.Y;const nCol=block.position.X;if(nCol<0||nCol>=workspace[0].length||nRow>=workspace.length){return true;}return workspace[nRow][nCol].filledBy!==_TetriminoKind__WEBPACK_IMPORTED_MODULE_10__.TetriminoKind.AvailableToFill;}let rewindingRequired=false;// eslint-disable-next-line no-constant-condition
-while(true){const firstBlockCoord=getFirstAvailableBlockCoord(workspace);const firstBlockCol=firstBlockCoord.X;const firstBlockRow=firstBlockCoord.Y;if(!(firstBlockCol>=0&&firstBlockRow>=0)){return settledTetrimino;}let currentKindDirectionsPairStack=null;if(!rewindingRequired){currentKindDirectionsPairStack=lodash_shuffle__WEBPACK_IMPORTED_MODULE_2___default()([new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_10__.TetriminoKind.Cubic),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_10__.TetriminoKind.LShapedCis),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_10__.TetriminoKind.LShapedTrans),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_10__.TetriminoKind.Linear),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_10__.TetriminoKind.TeeShaped),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_10__.TetriminoKind.ZigZagCis),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_10__.TetriminoKind.ZigZagTrans)]);}else{if(settledTetrimino.length===0){return settledTetrimino;}currentKindDirectionsPairStack=pendingTetriminoKinds.pop();const lastTetrimino=settledTetrimino.pop();lastTetrimino.blocks.forEach(block=>{workspace[block.position.Y][block.position.X].filledBy=_TetriminoKind__WEBPACK_IMPORTED_MODULE_10__.TetriminoKind.AvailableToFill;});}let solutionFound=false;while(currentKindDirectionsPairStack.length>0){const currentPair=currentKindDirectionsPairStack.pop();while(currentPair.Directions.length>0){const direction=currentPair.Directions.pop();const tetrimino=_Tetrimino__WEBPACK_IMPORTED_MODULE_9__.Tetrimino.createTetriminoByFirstBlockPosition(currentPair.Kind,firstBlockCoord,direction);if(!lodash_some__WEBPACK_IMPORTED_MODULE_1___default()(tetrimino.blocks,collisionChecker)){settledTetrimino.push(tetrimino);pendingTetriminoKinds.push(currentKindDirectionsPairStack);tetrimino.blocks.forEach(block=>{block.atomicNumber=workspace[block.position.Y][block.position.X].atomicNumber;workspace[block.position.Y][block.position.X].filledBy=block.filledBy;});currentKindDirectionsPairStack=null;solutionFound=true;rewindingRequired=false;break;}}if(solutionFound){break;}}if(!solutionFound){rewindingRequired=true;}}}function getFirstAvailableBlockCoord(blocks){let firstBlockRow=-1;let firstBlockCol=-1;let firstBlockFound=false;for(let nRow=blocks.length-1;nRow>=0;nRow--){const col=blocks[nRow];for(let nCol=col.length-1;nCol>=0;nCol--){if(col[nCol].filledBy===_TetriminoKind__WEBPACK_IMPORTED_MODULE_10__.TetriminoKind.AvailableToFill){firstBlockRow=nRow;firstBlockCol=nCol;firstBlockFound=true;break;}}if(firstBlockFound){break;}}return new _common_Position__WEBPACK_IMPORTED_MODULE_5__.Position(firstBlockCol,firstBlockRow);}class KindDirectionsPair{constructor(kind){this.Kind=void 0;this.Directions=void 0;this.Kind=kind;this.Directions=lodash_shuffle__WEBPACK_IMPORTED_MODULE_2___default()(lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_0___default()(AllDirections));}}const AllDirections=[_Direction__WEBPACK_IMPORTED_MODULE_8__.Direction.Up,_Direction__WEBPACK_IMPORTED_MODULE_8__.Direction.Down,_Direction__WEBPACK_IMPORTED_MODULE_8__.Direction.Left,_Direction__WEBPACK_IMPORTED_MODULE_8__.Direction.Right];
+/* harmony import */ var lodash_clone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/clone */ "./node_modules/lodash/clone.js");
+/* harmony import */ var lodash_clone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_clone__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash_shuffle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/shuffle */ "./node_modules/lodash/shuffle.js");
+/* harmony import */ var lodash_shuffle__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_shuffle__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash_random__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash/random */ "./node_modules/lodash/random.js");
+/* harmony import */ var lodash_random__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash_random__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../common/PeriotrisConst */ "./src/common/PeriotrisConst.ts");
+/* harmony import */ var _common_Position__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../common/Position */ "./src/common/Position.ts");
+/* harmony import */ var _json_DefaultMap_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../json/DefaultMap.json */ "./src/json/DefaultMap.json");
+/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Block */ "./src/model/Block.ts");
+/* harmony import */ var _Direction__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Direction */ "./src/model/Direction.ts");
+/* harmony import */ var _Tetrimino__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Tetrimino */ "./src/model/Tetrimino.ts");
+/* harmony import */ var _TetriminoKind__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../TetriminoKind */ "./src/model/TetriminoKind.ts");
+/* harmony import */ var _GeneratorHelper__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./GeneratorHelper */ "./src/model/generation/GeneratorHelper.ts");
+/* harmony import */ var _TetriminoSorter__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./TetriminoSorter */ "./src/model/generation/TetriminoSorter.ts");
+function getPlayablePattern(){const dim0len=_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_3__.PlayAreaHeight;const dim1len=_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_3__.PlayAreaWidth;const template=[];for(let i=0;i<dim0len;i++){template[i]=[];for(let j=0;j<dim1len;j++){const origElem=_json_DefaultMap_json__WEBPACK_IMPORTED_MODULE_5__.periodicTable[i][j];template[i][j]=new _Block__WEBPACK_IMPORTED_MODULE_6__.Block(origElem.filledBy,new _common_Position__WEBPACK_IMPORTED_MODULE_4__.Position(origElem.position.X,origElem.position.Y),origElem.atomicNumber,0);}}const tetriminos=(0,_TetriminoSorter__WEBPACK_IMPORTED_MODULE_11__.sort)(getPossibleTetriminoPattern(template));tetriminos.forEach(tetrimino=>{const originalPos=tetrimino.position;const newPos=(0,_GeneratorHelper__WEBPACK_IMPORTED_MODULE_10__.getInitialPositionByKind)(tetrimino.kind);const deltaX=newPos.X-originalPos.X;const deltaY=newPos.Y-originalPos.Y;const newBlocks=Array.from(tetrimino.blocks,block=>{return new _Block__WEBPACK_IMPORTED_MODULE_6__.Block(block.filledBy,new _common_Position__WEBPACK_IMPORTED_MODULE_4__.Position(block.position.X+deltaX,block.position.Y+deltaY),block.atomicNumber,block.id);});tetrimino.blocks=newBlocks;tetrimino.position=newPos;const rotationCount=lodash_random__WEBPACK_IMPORTED_MODULE_2___default()(0,Object.keys(_Direction__WEBPACK_IMPORTED_MODULE_7__.Direction).length/2);for(let i=0;i<rotationCount;i++){tetrimino.tryRotate(_Direction__WEBPACK_IMPORTED_MODULE_7__.RotationDirection.Right,()=>false);}});return tetriminos;}function getPossibleTetriminoPattern(template){const workspace=template;const settledTetriminos=[];const pendingTetriminoKinds=[];function collisionChecker(block){const nRow=block.position.Y;const nCol=block.position.X;if(nCol<0||nCol>=workspace[0].length||nRow>=workspace.length){return true;}return workspace[nRow][nCol].filledBy!==_TetriminoKind__WEBPACK_IMPORTED_MODULE_9__.TetriminoKind.AvailableToFill;}let rewindingRequired=false;// eslint-disable-next-line no-constant-condition
+while(true){const firstBlockCoord=getFirstAvailableBlockCoord(workspace);const firstBlockCol=firstBlockCoord.X;const firstBlockRow=firstBlockCoord.Y;if(!(firstBlockCol>=0&&firstBlockRow>=0)){return settledTetriminos;}let currentKindDirectionsPairStack=null;if(!rewindingRequired){currentKindDirectionsPairStack=lodash_shuffle__WEBPACK_IMPORTED_MODULE_1___default()([new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_9__.TetriminoKind.Cubic),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_9__.TetriminoKind.LShapedCis),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_9__.TetriminoKind.LShapedTrans),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_9__.TetriminoKind.Linear),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_9__.TetriminoKind.TeeShaped),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_9__.TetriminoKind.ZigZagCis),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_9__.TetriminoKind.ZigZagTrans)]);}else{if(settledTetriminos.length===0){return settledTetriminos;}currentKindDirectionsPairStack=pendingTetriminoKinds.pop();const lastTetrimino=settledTetriminos.pop();lastTetrimino.blocks.forEach(block=>{workspace[block.position.Y][block.position.X].filledBy=_TetriminoKind__WEBPACK_IMPORTED_MODULE_9__.TetriminoKind.AvailableToFill;});}let solutionFound=false;while(currentKindDirectionsPairStack.length>0){const currentPair=currentKindDirectionsPairStack.pop();while(currentPair.directions.length>0){const direction=currentPair.popRandomDirection();const tetrimino=_Tetrimino__WEBPACK_IMPORTED_MODULE_8__.Tetrimino.createTetriminoByFirstBlockPosition(currentPair.kind,firstBlockCoord,direction);if(!tetrimino.blocks.some(collisionChecker)){settledTetriminos.push(tetrimino);pendingTetriminoKinds.push(currentKindDirectionsPairStack);tetrimino.blocks.forEach(block=>{block.atomicNumber=workspace[block.position.Y][block.position.X].atomicNumber;workspace[block.position.Y][block.position.X].filledBy=block.filledBy;});currentKindDirectionsPairStack=null;solutionFound=true;rewindingRequired=false;break;}}if(solutionFound){break;}}if(!solutionFound){rewindingRequired=true;}}}function getFirstAvailableBlockCoord(blocks){for(let nRow=blocks.length-1;nRow>=0;nRow--){const col=blocks[nRow];for(let nCol=col.length-1;nCol>=0;nCol--){if(col[nCol].filledBy===_TetriminoKind__WEBPACK_IMPORTED_MODULE_9__.TetriminoKind.AvailableToFill){return new _common_Position__WEBPACK_IMPORTED_MODULE_4__.Position(nCol,nRow);}}}return new _common_Position__WEBPACK_IMPORTED_MODULE_4__.Position(-1,-1);}class KindDirectionsPair{constructor(kind){this.kind=void 0;this.directions=void 0;this.kind=kind;this.directions=lodash_clone__WEBPACK_IMPORTED_MODULE_0___default()(AllDirections);}popRandomDirection(){const index=lodash_random__WEBPACK_IMPORTED_MODULE_2___default()(0,this.directions.length-1);return this.directions.splice(index)[0];}}const AllDirections=[_Direction__WEBPACK_IMPORTED_MODULE_7__.Direction.Up,_Direction__WEBPACK_IMPORTED_MODULE_7__.Direction.Down,_Direction__WEBPACK_IMPORTED_MODULE_7__.Direction.Left,_Direction__WEBPACK_IMPORTED_MODULE_7__.Direction.Right];
 
 /***/ }),
 
@@ -285,14 +275,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "sort": () => (/* binding */ sort)
 /* harmony export */ });
-/* harmony import */ var lodash_some__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/some */ "./node_modules/lodash/some.js");
-/* harmony import */ var lodash_some__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_some__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lodash_remove__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/remove */ "./node_modules/lodash/remove.js");
-/* harmony import */ var lodash_remove__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_remove__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var lodash_sample__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash/sample */ "./node_modules/lodash/sample.js");
-/* harmony import */ var lodash_sample__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash_sample__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _DependencyBuilder__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DependencyBuilder */ "./src/model/generation/DependencyBuilder.ts");
-function sort(tetriminos,playAreaWidth,playAreaHeight){const graph=(0,_DependencyBuilder__WEBPACK_IMPORTED_MODULE_3__.createTetriminoDependencyGraph)(tetriminos,playAreaWidth,playAreaHeight);const startNodes=[];graph.forEach(node=>{if(node.depending.size===0){startNodes.push(node);}});const result=[];while(startNodes.length!==0){const n=lodash_sample__WEBPACK_IMPORTED_MODULE_2___default()(startNodes);lodash_remove__WEBPACK_IMPORTED_MODULE_1___default()(startNodes,node=>node===n);result.push(n);const dependedBy=[...n.dependedBy];dependedBy.forEach(m=>{n.dependedBy.delete(m);m.depending.delete(n);if(m.depending.size===0){startNodes.push(m);}});}if(lodash_some__WEBPACK_IMPORTED_MODULE_0___default()(graph,node=>node.dependedBy.size!==0||node.depending.size!==0)){throw new RangeError("tetriminos");}return result;}
+/* harmony import */ var lodash_remove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/remove */ "./node_modules/lodash/remove.js");
+/* harmony import */ var lodash_remove__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_remove__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash_sample__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/sample */ "./node_modules/lodash/sample.js");
+/* harmony import */ var lodash_sample__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_sample__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _DependencyBuilder__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DependencyBuilder */ "./src/model/generation/DependencyBuilder.ts");
+function sort(tetriminos){const graph=(0,_DependencyBuilder__WEBPACK_IMPORTED_MODULE_2__.createTetriminoDependencyGraph)(tetriminos);const startNodes=graph.filter(node=>{return node.depending.size===0;});const result=[];while(startNodes.length!==0){const n=lodash_sample__WEBPACK_IMPORTED_MODULE_1___default()(startNodes);lodash_remove__WEBPACK_IMPORTED_MODULE_0___default()(startNodes,node=>node===n);result.push(n);const dependedBy=[...n.dependedBy];dependedBy.forEach(m=>{n.dependedBy.delete(m);m.depending.delete(n);if(m.depending.size===0){startNodes.push(m);}});}if(graph.some(node=>{return node.dependedBy.size!==0||node.depending.size!==0;}))throw new RangeError("tetriminos");return result;}
 
 /***/ }),
 
@@ -1257,113 +1245,6 @@ module.exports = baseCreate;
 
 /***/ }),
 
-/***/ "./node_modules/lodash/_baseEach.js":
-/*!******************************************!*\
-  !*** ./node_modules/lodash/_baseEach.js ***!
-  \******************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var baseForOwn = __webpack_require__(/*! ./_baseForOwn */ "./node_modules/lodash/_baseForOwn.js"),
-    createBaseEach = __webpack_require__(/*! ./_createBaseEach */ "./node_modules/lodash/_createBaseEach.js");
-
-/**
- * The base implementation of `_.forEach` without support for iteratee shorthands.
- *
- * @private
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array|Object} Returns `collection`.
- */
-var baseEach = createBaseEach(baseForOwn);
-
-module.exports = baseEach;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_baseFilter.js":
-/*!********************************************!*\
-  !*** ./node_modules/lodash/_baseFilter.js ***!
-  \********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var baseEach = __webpack_require__(/*! ./_baseEach */ "./node_modules/lodash/_baseEach.js");
-
-/**
- * The base implementation of `_.filter` without support for iteratee shorthands.
- *
- * @private
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} predicate The function invoked per iteration.
- * @returns {Array} Returns the new filtered array.
- */
-function baseFilter(collection, predicate) {
-  var result = [];
-  baseEach(collection, function(value, index, collection) {
-    if (predicate(value, index, collection)) {
-      result.push(value);
-    }
-  });
-  return result;
-}
-
-module.exports = baseFilter;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_baseFor.js":
-/*!*****************************************!*\
-  !*** ./node_modules/lodash/_baseFor.js ***!
-  \*****************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var createBaseFor = __webpack_require__(/*! ./_createBaseFor */ "./node_modules/lodash/_createBaseFor.js");
-
-/**
- * The base implementation of `baseForOwn` which iterates over `object`
- * properties returned by `keysFunc` and invokes `iteratee` for each property.
- * Iteratee functions may exit iteration early by explicitly returning `false`.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @param {Function} keysFunc The function to get the keys of `object`.
- * @returns {Object} Returns `object`.
- */
-var baseFor = createBaseFor();
-
-module.exports = baseFor;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_baseForOwn.js":
-/*!********************************************!*\
-  !*** ./node_modules/lodash/_baseForOwn.js ***!
-  \********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var baseFor = __webpack_require__(/*! ./_baseFor */ "./node_modules/lodash/_baseFor.js"),
-    keys = __webpack_require__(/*! ./keys */ "./node_modules/lodash/keys.js");
-
-/**
- * The base implementation of `_.forOwn` without support for iteratee shorthands.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Object} Returns `object`.
- */
-function baseForOwn(object, iteratee) {
-  return object && baseFor(object, iteratee, keys);
-}
-
-module.exports = baseForOwn;
-
-
-/***/ }),
-
 /***/ "./node_modules/lodash/_baseGet.js":
 /*!*****************************************!*\
   !*** ./node_modules/lodash/_baseGet.js ***!
@@ -2318,38 +2199,6 @@ module.exports = baseSlice;
 
 /***/ }),
 
-/***/ "./node_modules/lodash/_baseSome.js":
-/*!******************************************!*\
-  !*** ./node_modules/lodash/_baseSome.js ***!
-  \******************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var baseEach = __webpack_require__(/*! ./_baseEach */ "./node_modules/lodash/_baseEach.js");
-
-/**
- * The base implementation of `_.some` without support for iteratee shorthands.
- *
- * @private
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} predicate The function invoked per iteration.
- * @returns {boolean} Returns `true` if any element passes the predicate check,
- *  else `false`.
- */
-function baseSome(collection, predicate) {
-  var result;
-
-  baseEach(collection, function(value, index, collection) {
-    result = predicate(value, index, collection);
-    return !result;
-  });
-  return !!result;
-}
-
-module.exports = baseSome;
-
-
-/***/ }),
-
 /***/ "./node_modules/lodash/_baseTimes.js":
 /*!*******************************************!*\
   !*** ./node_modules/lodash/_baseTimes.js ***!
@@ -2916,128 +2765,6 @@ var root = __webpack_require__(/*! ./_root */ "./node_modules/lodash/_root.js");
 var coreJsData = root['__core-js_shared__'];
 
 module.exports = coreJsData;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_createBaseEach.js":
-/*!************************************************!*\
-  !*** ./node_modules/lodash/_createBaseEach.js ***!
-  \************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var isArrayLike = __webpack_require__(/*! ./isArrayLike */ "./node_modules/lodash/isArrayLike.js");
-
-/**
- * Creates a `baseEach` or `baseEachRight` function.
- *
- * @private
- * @param {Function} eachFunc The function to iterate over a collection.
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {Function} Returns the new base function.
- */
-function createBaseEach(eachFunc, fromRight) {
-  return function(collection, iteratee) {
-    if (collection == null) {
-      return collection;
-    }
-    if (!isArrayLike(collection)) {
-      return eachFunc(collection, iteratee);
-    }
-    var length = collection.length,
-        index = fromRight ? length : -1,
-        iterable = Object(collection);
-
-    while ((fromRight ? index-- : ++index < length)) {
-      if (iteratee(iterable[index], index, iterable) === false) {
-        break;
-      }
-    }
-    return collection;
-  };
-}
-
-module.exports = createBaseEach;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_createBaseFor.js":
-/*!***********************************************!*\
-  !*** ./node_modules/lodash/_createBaseFor.js ***!
-  \***********************************************/
-/***/ ((module) => {
-
-/**
- * Creates a base function for methods like `_.forIn` and `_.forOwn`.
- *
- * @private
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {Function} Returns the new base function.
- */
-function createBaseFor(fromRight) {
-  return function(object, iteratee, keysFunc) {
-    var index = -1,
-        iterable = Object(object),
-        props = keysFunc(object),
-        length = props.length;
-
-    while (length--) {
-      var key = props[fromRight ? length : ++index];
-      if (iteratee(iterable[key], key, iterable) === false) {
-        break;
-      }
-    }
-    return object;
-  };
-}
-
-module.exports = createBaseFor;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_createRound.js":
-/*!*********************************************!*\
-  !*** ./node_modules/lodash/_createRound.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var root = __webpack_require__(/*! ./_root */ "./node_modules/lodash/_root.js"),
-    toInteger = __webpack_require__(/*! ./toInteger */ "./node_modules/lodash/toInteger.js"),
-    toNumber = __webpack_require__(/*! ./toNumber */ "./node_modules/lodash/toNumber.js"),
-    toString = __webpack_require__(/*! ./toString */ "./node_modules/lodash/toString.js");
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeIsFinite = root.isFinite,
-    nativeMin = Math.min;
-
-/**
- * Creates a function like `_.round`.
- *
- * @private
- * @param {string} methodName The name of the `Math` method to use when rounding.
- * @returns {Function} Returns the new round function.
- */
-function createRound(methodName) {
-  var func = Math[methodName];
-  return function(number, precision) {
-    number = toNumber(number);
-    precision = precision == null ? 0 : nativeMin(toInteger(precision), 292);
-    if (precision && nativeIsFinite(number)) {
-      // Shift with exponential notation to avoid floating-point issues.
-      // See [MDN](https://mdn.io/round#Examples) for more details.
-      var pair = (toString(number) + 'e').split('e'),
-          value = func(pair[0] + 'e' + (+pair[1] + precision));
-
-      pair = (toString(value) + 'e').split('e');
-      return +(pair[0] + 'e' + (+pair[1] - precision));
-    }
-    return func(number);
-  };
-}
-
-module.exports = createRound;
 
 
 /***/ }),
@@ -5351,6 +5078,52 @@ module.exports = trimmedEndIndex;
 
 /***/ }),
 
+/***/ "./node_modules/lodash/clone.js":
+/*!**************************************!*\
+  !*** ./node_modules/lodash/clone.js ***!
+  \**************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseClone = __webpack_require__(/*! ./_baseClone */ "./node_modules/lodash/_baseClone.js");
+
+/** Used to compose bitmasks for cloning. */
+var CLONE_SYMBOLS_FLAG = 4;
+
+/**
+ * Creates a shallow clone of `value`.
+ *
+ * **Note:** This method is loosely based on the
+ * [structured clone algorithm](https://mdn.io/Structured_clone_algorithm)
+ * and supports cloning arrays, array buffers, booleans, date objects, maps,
+ * numbers, `Object` objects, regexes, sets, strings, symbols, and typed
+ * arrays. The own enumerable properties of `arguments` objects are cloned
+ * as plain objects. An empty object is returned for uncloneable values such
+ * as error objects, functions, DOM nodes, and WeakMaps.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to clone.
+ * @returns {*} Returns the cloned value.
+ * @see _.cloneDeep
+ * @example
+ *
+ * var objects = [{ 'a': 1 }, { 'b': 2 }];
+ *
+ * var shallow = _.clone(objects);
+ * console.log(shallow[0] === objects[0]);
+ * // => true
+ */
+function clone(value) {
+  return baseClone(value, CLONE_SYMBOLS_FLAG);
+}
+
+module.exports = clone;
+
+
+/***/ }),
+
 /***/ "./node_modules/lodash/cloneDeep.js":
 /*!******************************************!*\
   !*** ./node_modules/lodash/cloneDeep.js ***!
@@ -5433,104 +5206,6 @@ function eq(value, other) {
 }
 
 module.exports = eq;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/filter.js":
-/*!***************************************!*\
-  !*** ./node_modules/lodash/filter.js ***!
-  \***************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var arrayFilter = __webpack_require__(/*! ./_arrayFilter */ "./node_modules/lodash/_arrayFilter.js"),
-    baseFilter = __webpack_require__(/*! ./_baseFilter */ "./node_modules/lodash/_baseFilter.js"),
-    baseIteratee = __webpack_require__(/*! ./_baseIteratee */ "./node_modules/lodash/_baseIteratee.js"),
-    isArray = __webpack_require__(/*! ./isArray */ "./node_modules/lodash/isArray.js");
-
-/**
- * Iterates over elements of `collection`, returning an array of all elements
- * `predicate` returns truthy for. The predicate is invoked with three
- * arguments: (value, index|key, collection).
- *
- * **Note:** Unlike `_.remove`, this method returns a new array.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Collection
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} [predicate=_.identity] The function invoked per iteration.
- * @returns {Array} Returns the new filtered array.
- * @see _.reject
- * @example
- *
- * var users = [
- *   { 'user': 'barney', 'age': 36, 'active': true },
- *   { 'user': 'fred',   'age': 40, 'active': false }
- * ];
- *
- * _.filter(users, function(o) { return !o.active; });
- * // => objects for ['fred']
- *
- * // The `_.matches` iteratee shorthand.
- * _.filter(users, { 'age': 36, 'active': true });
- * // => objects for ['barney']
- *
- * // The `_.matchesProperty` iteratee shorthand.
- * _.filter(users, ['active', false]);
- * // => objects for ['fred']
- *
- * // The `_.property` iteratee shorthand.
- * _.filter(users, 'active');
- * // => objects for ['barney']
- *
- * // Combining several predicates using `_.overEvery` or `_.overSome`.
- * _.filter(users, _.overSome([{ 'age': 36 }, ['age', 40]]));
- * // => objects for ['fred', 'barney']
- */
-function filter(collection, predicate) {
-  var func = isArray(collection) ? arrayFilter : baseFilter;
-  return func(collection, baseIteratee(predicate, 3));
-}
-
-module.exports = filter;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/floor.js":
-/*!**************************************!*\
-  !*** ./node_modules/lodash/floor.js ***!
-  \**************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var createRound = __webpack_require__(/*! ./_createRound */ "./node_modules/lodash/_createRound.js");
-
-/**
- * Computes `number` rounded down to `precision`.
- *
- * @static
- * @memberOf _
- * @since 3.10.0
- * @category Math
- * @param {number} number The number to round down.
- * @param {number} [precision=0] The precision to round down to.
- * @returns {number} Returns the rounded down number.
- * @example
- *
- * _.floor(4.006);
- * // => 4
- *
- * _.floor(0.046, 2);
- * // => 0.04
- *
- * _.floor(4060, -2);
- * // => 4000
- */
-var floor = createRound('floor');
-
-module.exports = floor;
 
 
 /***/ }),
@@ -6652,67 +6327,6 @@ module.exports = shuffle;
 
 /***/ }),
 
-/***/ "./node_modules/lodash/some.js":
-/*!*************************************!*\
-  !*** ./node_modules/lodash/some.js ***!
-  \*************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var arraySome = __webpack_require__(/*! ./_arraySome */ "./node_modules/lodash/_arraySome.js"),
-    baseIteratee = __webpack_require__(/*! ./_baseIteratee */ "./node_modules/lodash/_baseIteratee.js"),
-    baseSome = __webpack_require__(/*! ./_baseSome */ "./node_modules/lodash/_baseSome.js"),
-    isArray = __webpack_require__(/*! ./isArray */ "./node_modules/lodash/isArray.js"),
-    isIterateeCall = __webpack_require__(/*! ./_isIterateeCall */ "./node_modules/lodash/_isIterateeCall.js");
-
-/**
- * Checks if `predicate` returns truthy for **any** element of `collection`.
- * Iteration is stopped once `predicate` returns truthy. The predicate is
- * invoked with three arguments: (value, index|key, collection).
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Collection
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} [predicate=_.identity] The function invoked per iteration.
- * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
- * @returns {boolean} Returns `true` if any element passes the predicate check,
- *  else `false`.
- * @example
- *
- * _.some([null, 0, 'yes', false], Boolean);
- * // => true
- *
- * var users = [
- *   { 'user': 'barney', 'active': true },
- *   { 'user': 'fred',   'active': false }
- * ];
- *
- * // The `_.matches` iteratee shorthand.
- * _.some(users, { 'user': 'barney', 'active': false });
- * // => false
- *
- * // The `_.matchesProperty` iteratee shorthand.
- * _.some(users, ['active', false]);
- * // => true
- *
- * // The `_.property` iteratee shorthand.
- * _.some(users, 'active');
- * // => true
- */
-function some(collection, predicate, guard) {
-  var func = isArray(collection) ? arraySome : baseSome;
-  if (guard && isIterateeCall(collection, predicate, guard)) {
-    predicate = undefined;
-  }
-  return func(collection, baseIteratee(predicate, 3));
-}
-
-module.exports = some;
-
-
-/***/ }),
-
 /***/ "./node_modules/lodash/stubArray.js":
 /*!******************************************!*\
   !*** ./node_modules/lodash/stubArray.js ***!
@@ -6822,52 +6436,6 @@ function toFinite(value) {
 }
 
 module.exports = toFinite;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/toInteger.js":
-/*!******************************************!*\
-  !*** ./node_modules/lodash/toInteger.js ***!
-  \******************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var toFinite = __webpack_require__(/*! ./toFinite */ "./node_modules/lodash/toFinite.js");
-
-/**
- * Converts `value` to an integer.
- *
- * **Note:** This method is loosely based on
- * [`ToInteger`](http://www.ecma-international.org/ecma-262/7.0/#sec-tointeger).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {number} Returns the converted integer.
- * @example
- *
- * _.toInteger(3.2);
- * // => 3
- *
- * _.toInteger(Number.MIN_VALUE);
- * // => 0
- *
- * _.toInteger(Infinity);
- * // => 1.7976931348623157e+308
- *
- * _.toInteger('3.2');
- * // => 3
- */
-function toInteger(value) {
-  var result = toFinite(value),
-      remainder = result % 1;
-
-  return result === result ? (remainder ? result - remainder : result) : 0;
-}
-
-module.exports = toInteger;
 
 
 /***/ }),
