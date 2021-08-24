@@ -4,22 +4,11 @@ import { Tetrimino } from "../Tetrimino"
 import { createTetriminoDependencyGraph } from "./DependencyBuilder"
 import { TetriminoNode } from "./TetriminoNode"
 
-function sort(
-  tetriminos: Tetrimino[],
-  playAreaWidth: number,
-  playAreaHeight: number
-): Tetrimino[] {
-  const graph = createTetriminoDependencyGraph(
-    tetriminos,
-    playAreaWidth,
-    playAreaHeight
-  )
+function sort(tetriminos: Tetrimino[]): Tetrimino[] {
+  const graph = createTetriminoDependencyGraph(tetriminos)
 
-  const startNodes: TetriminoNode[] = []
-  graph.forEach((node: TetriminoNode) => {
-    if (node.depending.size === 0) {
-      startNodes.push(node)
-    }
+  const startNodes: TetriminoNode[] = graph.filter((node: TetriminoNode) => {
+    return node.depending.size === 0
   })
 
   const result: TetriminoNode[] = []
@@ -38,14 +27,11 @@ function sort(
   }
 
   if (
-    _.some(
-      graph,
-      (node: TetriminoNode) =>
-        node.dependedBy.size !== 0 || node.depending.size !== 0
-    )
-  ) {
+    graph.some((node: TetriminoNode) => {
+      return node.dependedBy.size !== 0 || node.depending.size !== 0
+    })
+  )
     throw new RangeError("tetriminos")
-  }
   return result
 }
 

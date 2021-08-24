@@ -1,6 +1,6 @@
 {
   "name": "periotrisjs",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Periotris game built with Gatsby, React and Material UI",
   "scripts": {
     "build": "gatsby build",
@@ -9,7 +9,8 @@
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,html}",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "test": "npx jest"
+    "test": "npx jest",
+    "coverage": "npx jest --coverage"
   },
   "repository": {
     "type": "git",

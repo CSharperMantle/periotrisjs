@@ -33,25 +33,18 @@ function getPlayablePattern(): Tetrimino[] {
     }
   }
 
-  const tetriminos = sort(
-    getPossibleTetriminoPattern(template),
-    dim1len,
-    dim0len
-  )
+  const tetriminos = sort(getPossibleTetriminoPattern(template))
   tetriminos.forEach((tetrimino: Tetrimino) => {
     const originalPos = tetrimino.position
     const newPos = getInitialPositionByKind(tetrimino.kind)
     const deltaX = newPos.X - originalPos.X
     const deltaY = newPos.Y - originalPos.Y
-    const newBlocks: Block[] = []
-    tetrimino.blocks.forEach((block: Block) => {
-      newBlocks.push(
-        new Block(
-          block.filledBy,
-          new Position(block.position.X + deltaX, block.position.Y + deltaY),
-          block.atomicNumber,
-          block.id
-        )
+    const newBlocks: Block[] = Array.from(tetrimino.blocks, (block: Block) => {
+      return new Block(
+        block.filledBy,
+        new Position(block.position.X + deltaX, block.position.Y + deltaY),
+        block.atomicNumber,
+        block.id
       )
     })
 
@@ -69,7 +62,7 @@ function getPlayablePattern(): Tetrimino[] {
 
 function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
   const workspace = template
-  const settledTetrimino: Tetrimino[] = []
+  const settledTetriminos: Tetrimino[] = []
   const pendingTetriminoKinds: KindDirectionsPair[][] = []
 
   function collisionChecker(block: Block): boolean {
@@ -89,10 +82,10 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
     const firstBlockCol = firstBlockCoord.X
     const firstBlockRow = firstBlockCoord.Y
     if (!(firstBlockCol >= 0 && firstBlockRow >= 0)) {
-      return settledTetrimino
+      return settledTetriminos
     }
 
-    let currentKindDirectionsPairStack: KindDirectionsPair[] | null = null
+    let currentKindDirectionsPairStack: KindDirectionsPair[] = null
     if (!rewindingRequired) {
       currentKindDirectionsPairStack = _.shuffle([
         new KindDirectionsPair(TetriminoKind.Cubic),
@@ -104,11 +97,11 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
         new KindDirectionsPair(TetriminoKind.ZigZagTrans),
       ])
     } else {
-      if (settledTetrimino.length === 0) {
-        return settledTetrimino
+      if (settledTetriminos.length === 0) {
+        return settledTetriminos
       }
       currentKindDirectionsPairStack = pendingTetriminoKinds.pop()
-      const lastTetrimino = settledTetrimino.pop()
+      const lastTetrimino = settledTetriminos.pop()
       lastTetrimino.blocks.forEach((block: Block) => {
         workspace[block.position.Y][block.position.X].filledBy =
           TetriminoKind.AvailableToFill
@@ -118,15 +111,15 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
     let solutionFound = false
     while (currentKindDirectionsPairStack.length > 0) {
       const currentPair = currentKindDirectionsPairStack.pop()
-      while (currentPair.Directions.length > 0) {
-        const direction = currentPair.Directions.pop()
+      while (currentPair.directions.length > 0) {
+        const direction = currentPair.popRandomDirection()
         const tetrimino = Tetrimino.createTetriminoByFirstBlockPosition(
-          currentPair.Kind,
+          currentPair.kind,
           firstBlockCoord,
           direction
         )
-        if (!_.some(tetrimino.blocks, collisionChecker)) {
-          settledTetrimino.push(tetrimino)
+        if (!tetrimino.blocks.some(collisionChecker)) {
+          settledTetriminos.push(tetrimino)
           pendingTetriminoKinds.push(currentKindDirectionsPairStack)
           tetrimino.blocks.forEach((block: Block) => {
             block.atomicNumber =
@@ -153,33 +146,29 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
 }
 
 function getFirstAvailableBlockCoord(blocks: Block[][]): Position {
-  let firstBlockRow = -1
-  let firstBlockCol = -1
-  let firstBlockFound = false
   for (let nRow = blocks.length - 1; nRow >= 0; nRow--) {
     const col: Block[] = blocks[nRow]
     for (let nCol = col.length - 1; nCol >= 0; nCol--) {
       if (col[nCol].filledBy === TetriminoKind.AvailableToFill) {
-        firstBlockRow = nRow
-        firstBlockCol = nCol
-        firstBlockFound = true
-        break
+        return new Position(nCol, nRow)
       }
     }
-    if (firstBlockFound) {
-      break
-    }
   }
-  return new Position(firstBlockCol, firstBlockRow)
+  return new Position(-1, -1)
 }
 
 class KindDirectionsPair {
-  public readonly Kind: TetriminoKind
-  public readonly Directions: Direction[]
+  public readonly kind: TetriminoKind
+  public readonly directions: Direction[]
 
   public constructor(kind: TetriminoKind) {
-    this.Kind = kind
-    this.Directions = _.shuffle(_.cloneDeep(AllDirections))
+    this.kind = kind
+    this.directions = _.clone(AllDirections)
+  }
+
+  public popRandomDirection(): Direction {
+    const index = _.random(0, this.directions.length - 1)
+    return this.directions.splice(index)[0]
   }
 }
 

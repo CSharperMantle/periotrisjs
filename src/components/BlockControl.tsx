@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => {
       boxSizing: "border-box",
 
       fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      border: "solid 1px black",
+      border: "solid 1px #393939",
     },
     symbol: {
       display: "block",
@@ -36,31 +36,21 @@ const useStyles = makeStyles(() => {
   })
 })
 
-interface IBlockControlProps extends IDisplayBlock {
-  key: number
+interface IBlockControlText {
+  withContent: boolean
+  symbolColor: string
+  atomicNumber: number
 }
 
-const BlockControl = ({
-  atomicNumber,
-  row,
-  column,
+const BlockControlText = ({
+  withContent,
   symbolColor,
-}: IBlockControlProps): React.ReactElement => {
+  atomicNumber,
+}: IBlockControlText): React.ReactElement => {
   const styles = useStyles()
-
-  return (
-    <div
-      className={styles.blockControl}
-      style={{
-        /*
-         * Add one to grid-row and grid-column because CSS
-         * properties of grid start from 1.
-         */
-        gridRow: row + 1,
-        gridColumn: column + 1,
-        backgroundColor: getBackgroundColorByAtomicNumber(atomicNumber),
-      }}
-    >
+  if (withContent) {
+    // This is a block with textual content.
+    return (
       <div
         className={styles.symbol}
         style={{
@@ -71,6 +61,47 @@ const BlockControl = ({
           ? defaultPeriodicTable.elements[atomicNumber - 1].symbol
           : -atomicNumber}
       </div>
+    )
+  } else {
+    // This is an empty block with no text.
+    return <div />
+  }
+}
+
+interface IBlockControlProps extends IDisplayBlock {
+  key: number
+}
+
+const BlockControl = ({
+  withContent,
+  atomicNumber,
+  row,
+  column,
+  symbolColor,
+}: IBlockControlProps): React.ReactElement => {
+  const styles = useStyles()
+
+  const backgroundColor = withContent
+    ? getBackgroundColorByAtomicNumber(atomicNumber)
+    : "black"
+  return (
+    <div
+      className={styles.blockControl}
+      style={{
+        /*
+         * Add one to grid-row and grid-column because CSS
+         * properties of grid start from 1.
+         */
+        gridRow: row + 1,
+        gridColumn: column + 1,
+        backgroundColor: backgroundColor,
+      }}
+    >
+      <BlockControlText
+        withContent={withContent}
+        symbolColor={symbolColor}
+        atomicNumber={atomicNumber}
+      />
     </div>
   )
 }

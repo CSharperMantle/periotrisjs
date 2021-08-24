@@ -7,9 +7,15 @@ A Progressive Web App-compliant Periotris game built with [React](https://reactj
 
 ## Build status
 
+### GitHub Actions
+
 | develop                                                                                                                                                                                      | main                                                                                                                                                                                      | CodeQL on develop                                                                                                                                                                            |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [![Gatsby](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml/badge.svg?branch=develop)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml) | [![Gatsby](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml/badge.svg?branch=main)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml) | [![CodeQL](https://github.com/CSharperMantle/periotrisjs/actions/workflows/codeql.yml/badge.svg?branch=develop)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/codeql.yml) |
+
+### CodeClimate
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/ae11798505dd181ae9a5/maintainability)](https://codeclimate.com/github/CSharperMantle/periotrisjs/maintainability)
 
 ## Getting started
 

@@ -44,7 +44,7 @@ class PeriotrisModel extends EventEmitter {
   public get endDate(): number {
     return this._endDate
   }
-  public set endDate(v: number) {
+  private set endDate(v: number) {
     this._endDate = v
   }
 
@@ -52,7 +52,7 @@ class PeriotrisModel extends EventEmitter {
   public get isNewRecord(): boolean {
     return this._isNewRecord
   }
-  public set isNewRecord(v: boolean) {
+  private set isNewRecord(v: boolean) {
     this._isNewRecord = v
   }
 
@@ -162,7 +162,7 @@ class PeriotrisModel extends EventEmitter {
         const data = eventArgs.data as IGeneratorMessage
         if (data.type === MessageType.ResponseSuccess) {
           const content = data.content as Tetrimino[]
-          const fixedTetriminos = this.repairBrokenTetriminos(content)
+          const fixedTetriminos = repairBrokenTetriminos(content)
           this.realStartGame(fixedTetriminos)
           worker.terminate()
         } else {
@@ -179,56 +179,6 @@ class PeriotrisModel extends EventEmitter {
       // Use single-threaded approach
       this.realStartGame(getPlayablePattern())
     }
-  }
-
-  private repairBrokenTetriminos(brokenTetriminos: Tetrimino[]): Tetrimino[] {
-    /*
-     * HACK: Object's prototype chain will be lost when
-     * transferred through messages, thanks to the limitations
-     * of structured clone. The following code's
-     * purpose is to restore the method mapping of the
-     * objects.
-     */
-    const repairedTetriminos: Tetrimino[] = Array.from(
-      brokenTetriminos,
-      (brokenTetrimino: Tetrimino) => {
-        // Fix tetrimino itself
-        const repairedTetrimino = Object.create(
-          Tetrimino.prototype,
-          Object.getOwnPropertyDescriptors(brokenTetrimino)
-        ) as Tetrimino
-
-        // Fix its block positions
-        const repairedBlocks: Block[] = Array.from(
-          repairedTetrimino.blocks,
-          (block: Block) => {
-            const repairedBlock = Object.create(
-              Block.prototype,
-              Object.getOwnPropertyDescriptors(block)
-            ) as Block
-            repairedBlock.position = Object.create(
-              Position.prototype,
-              Object.getOwnPropertyDescriptors(repairedBlock.position)
-            ) as Position
-            return repairedBlock
-          }
-        )
-        repairedTetrimino.blocks = repairedBlocks
-
-        // Fix its own positions
-        repairedTetrimino.firstBlockPosition = Object.create(
-          Position.prototype,
-          Object.getOwnPropertyDescriptors(repairedTetrimino.firstBlockPosition)
-        ) as Position
-        repairedTetrimino.position = Object.create(
-          Position.prototype,
-          Object.getOwnPropertyDescriptors(repairedTetrimino.position)
-        ) as Position
-
-        return repairedTetrimino
-      }
-    )
-    return repairedTetriminos
   }
 
   private realStartGame(tetriminos: Tetrimino[]): void {
@@ -295,7 +245,7 @@ class PeriotrisModel extends EventEmitter {
     if (block.position.Y >= PlayAreaHeight) {
       return true
     }
-    return _.some(this._frozenBlocks, (frozenBlock: Block): boolean => {
+    return this._frozenBlocks.some((frozenBlock: Block): boolean => {
       return frozenBlock.position.equals(block.position)
     })
   }
@@ -331,6 +281,56 @@ class PeriotrisModel extends EventEmitter {
       })
     }
   }
+}
+
+function repairBrokenTetriminos(brokenTetriminos: Tetrimino[]): Tetrimino[] {
+  /*
+   * HACK: Object's prototype chain will be lost when
+   * transferred through messages, thanks to the limitations
+   * of structured clone. The following code's
+   * purpose is to restore the method mapping of the
+   * objects.
+   */
+  const repairedTetriminos: Tetrimino[] = Array.from(
+    brokenTetriminos,
+    (brokenTetrimino: Tetrimino) => {
+      // Fix tetrimino itself
+      const repairedTetrimino = Object.create(
+        Tetrimino.prototype,
+        Object.getOwnPropertyDescriptors(brokenTetrimino)
+      ) as Tetrimino
+
+      // Fix its block positions
+      const repairedBlocks: Block[] = Array.from(
+        repairedTetrimino.blocks,
+        (block: Block) => {
+          const repairedBlock = Object.create(
+            Block.prototype,
+            Object.getOwnPropertyDescriptors(block)
+          ) as Block
+          repairedBlock.position = Object.create(
+            Position.prototype,
+            Object.getOwnPropertyDescriptors(repairedBlock.position)
+          ) as Position
+          return repairedBlock
+        }
+      )
+      repairedTetrimino.blocks = repairedBlocks
+
+      // Fix its own positions
+      repairedTetrimino.firstBlockPosition = Object.create(
+        Position.prototype,
+        Object.getOwnPropertyDescriptors(repairedTetrimino.firstBlockPosition)
+      ) as Position
+      repairedTetrimino.position = Object.create(
+        Position.prototype,
+        Object.getOwnPropertyDescriptors(repairedTetrimino.position)
+      ) as Position
+
+      return repairedTetrimino
+    }
+  )
+  return repairedTetriminos
 }
 
 export { PeriotrisModel }

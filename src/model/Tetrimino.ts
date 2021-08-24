@@ -1,5 +1,3 @@
-import _ from "lodash"
-
 import { Position } from "../common/Position"
 import { Block } from "./Block"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
@@ -59,7 +57,7 @@ class Tetrimino {
       this.facingDirection
     )
     newBlocks = mapAtomicNumberForNewBlocks(this.blocks, newBlocks)
-    if (_.some(newBlocks, collisionChecker)) {
+    if (newBlocks.some(collisionChecker)) {
       return false
     }
 
@@ -102,7 +100,7 @@ class Tetrimino {
         newPos,
         direction
       )
-      if (!_.some(newBlocks, collisionChecker)) {
+      if (!newBlocks.some(collisionChecker)) {
         newBlocks = mapAtomicNumberForNewBlocks(this.blocks, newBlocks)
         this.facingDirection = direction
         this.position = newPos

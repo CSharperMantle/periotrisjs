@@ -418,7 +418,7 @@ function getInitialPositionByKind(kind: TetriminoKind): Position {
       throw new RangeError("kind")
   }
   const row = 0
-  const col = _.floor((PlayAreaWidth - length) / 2)
+  const col = Math.floor((PlayAreaWidth - length) / 2)
   return new Position(col, row)
 }
 
@@ -467,8 +467,9 @@ function mapAtomicNumberForNewBlocks(
   const result: Block[] = []
   oldBlocks.forEach((oldBlock: Block) => {
     const correspondingNewBlocks = _.cloneDeep(
-      _.filter(newBlocks, (newBlock: Block) => newBlock.id === oldBlock.id)
+      newBlocks.filter((newBlock: Block) => newBlock.id === oldBlock.id)
     )
+
     correspondingNewBlocks.forEach((block: Block) => {
       block.atomicNumber = oldBlock.atomicNumber
       result.push(block)

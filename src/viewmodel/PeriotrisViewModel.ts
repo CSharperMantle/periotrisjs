@@ -247,6 +247,7 @@ class PeriotrisViewModel extends EventEmitter {
     if (!eventArgs.disappeared) {
       if (!this._blocksByPosition.has(eventArgs.block.position)) {
         const displayBlock: IDisplayBlock = {
+          withContent: true,
           atomicNumber: block.atomicNumber,
           row: block.position.Y,
           column: block.position.X,

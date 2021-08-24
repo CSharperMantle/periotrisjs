@@ -7,6 +7,7 @@ import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
 import { PeriotrisViewModelContext } from "../viewmodel/PeriotrisViewModel"
 import { BlockControl } from "./BlockControl"
 import { TimerDisplay } from "./TimerDisplay"
+import { PlayAreaHeight, PlayAreaWidth } from "../common/PeriotrisConst"
 
 const useStyles = makeStyles(() => {
   return createStyles({
@@ -36,19 +37,39 @@ const BlocksGrid = observer((): React.ReactElement => {
   const viewModel = useContext(PeriotrisViewModelContext)
   const styles = useStyles()
 
-  const blocks = viewModel.sprites.map(
-    (block: IDisplayBlock, index: number) => {
-      return (
-        <BlockControl
-          key={index}
-          atomicNumber={block.atomicNumber}
-          row={block.row}
-          column={block.column}
-          symbolColor={block.symbolColor}
-        />
-      )
+  const paddedBlocks: IDisplayBlock[][] = []
+
+  for (let i = 0; i < PlayAreaHeight; i++) {
+    paddedBlocks[i] = []
+    for (let j = 0; j < PlayAreaWidth; j++) {
+      paddedBlocks[i][j] = {
+        withContent: false,
+        atomicNumber: 0,
+        row: i,
+        column: j,
+        symbolColor: "black",
+      }
     }
-  )
+  }
+  const sprites = viewModel.sprites
+  sprites.forEach((block: IDisplayBlock) => {
+    paddedBlocks[block.row][block.column] = block
+  })
+  const flattened = paddedBlocks.flat()
+
+  const blocks = flattened.map((block: IDisplayBlock, index: number) => {
+    return (
+      <BlockControl
+        key={index}
+        withContent={block.withContent}
+        atomicNumber={block.atomicNumber}
+        row={block.row}
+        column={block.column}
+        symbolColor={block.symbolColor}
+      />
+    )
+  })
+
   return (
     <div className={styles.playArea}>
       <TimerDisplay />

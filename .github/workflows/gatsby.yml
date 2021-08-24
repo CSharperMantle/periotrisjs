@@ -5,29 +5,66 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v2.4.0
+        with:
+          node-version: 16.x
+          cache: "npm"
+      - name: Set up dependencies
+        run: |
+          npm i -g gatsby-cli jest
+          npm ci
+      - name: Build
+        run: |
+          npm run build
 
+  test:
+    needs: [build]
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         node-version: [14.x, 16.x]
-
     steps:
       - uses: actions/checkout@v2
-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2.4.0
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-
       - name: Set up dependencies
         run: |
           npm i -g gatsby-cli jest
           npm ci
-
       - name: Build
         run: |
           npm run build
-
       - name: Test
         run: |
           npm run test
+
+  coverage:
+    needs: [test]
+    if: ${{ github.event_name != 'pull_request' }}
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v2.4.0
+        with:
+          node-version: 16.x
+          cache: "npm"
+      - name: Set up dependencies
+        run: |
+          npm i -g gatsby-cli jest
+          npm ci
+      - name: Build
+        run: |
+          npm run build
+      - name: Coverage
+        uses: paambaati/codeclimate-action@v2.7.5
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: npm run coverage
