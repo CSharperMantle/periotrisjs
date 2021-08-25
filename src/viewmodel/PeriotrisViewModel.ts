@@ -1,3 +1,4 @@
+import dayjs, { Dayjs } from "dayjs"
 import { EventEmitter } from "events"
 import _ from "lodash"
 import { action, makeObservable, observable } from "mobx"
@@ -48,13 +49,23 @@ class PeriotrisViewModel extends EventEmitter {
   }
 
   @observable
-  private _elapsedMilliseconds = 0
+  private _elapsedTime: Dayjs = dayjs(0)
 
-  public get elapsedMilliseconds(): number {
-    return this._elapsedMilliseconds
+  public get elapsedTime(): Dayjs {
+    return this._elapsedTime
   }
-  private set elapsedMilliseconds(v: number) {
-    this._elapsedMilliseconds = v
+  private set elapsedTime(v: Dayjs) {
+    this._elapsedTime = v
+  }
+
+  @observable
+  private _fastestRecord: Dayjs = dayjs(0)
+
+  public get fastestRecord(): Dayjs {
+    return this._fastestRecord
+  }
+  private set fastestRecord(v: Dayjs) {
+    this._fastestRecord = v
   }
 
   @observable
@@ -213,6 +224,7 @@ class PeriotrisViewModel extends EventEmitter {
   private refreshGameStatus(): void {
     this.gameState = this._model.gameState
     this.isNewRecord = this._model.isNewRecord
+    this.fastestRecord = this._model.history.fastestRecord
     this.onGameStateChanged()
   }
 
@@ -230,7 +242,7 @@ class PeriotrisViewModel extends EventEmitter {
 
   @action
   private intervalStopwatchUpdateEventHandler(): void {
-    this.elapsedMilliseconds = this._model.elapsedMilliseconds
+    this.elapsedTime = dayjs(this._model.elapsedMilliseconds)
   }
 
   @action

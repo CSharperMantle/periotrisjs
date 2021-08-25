@@ -1,13 +1,11 @@
-import dayjs from "dayjs"
 import { observer } from "mobx-react"
 import React, { useContext } from "react"
 
-import { createStyles, makeStyles } from "@material-ui/core"
+import { createStyles, makeStyles, Theme } from "@material-ui/core"
 
-import { GameState } from "../model/GameState"
 import { PeriotrisViewModelContext } from "../viewmodel/PeriotrisViewModel"
 
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles((theme: Theme) => {
   return createStyles({
     timerDisplayWrapper: {
       display: "flex",
@@ -20,12 +18,22 @@ const useStyles = makeStyles(() => {
       top: "0",
       width: "10%",
       height: "10%",
+      zIndex: theme.zIndex.speedDial,
+      margin: "3px",
     },
-    timerDisplayText: {
+    timerDisplayTextElapsed: {
       margin: "0 auto",
 
       textAlign: "center",
       fontSize: "3vh",
+      color: "yellow",
+    },
+    timerDisplayTextFastest: {
+      margin: "0 auto",
+
+      textAlign: "center",
+      fontSize: "3vh",
+      color: "white",
     },
   })
 })
@@ -34,21 +42,16 @@ const TimerDisplay = observer((): React.ReactElement => {
   const styles = useStyles()
   const viewModel = useContext(PeriotrisViewModelContext)
 
-  const elapsedMilliseconds = viewModel.elapsedMilliseconds
-  const interpretedElapsedMillis = dayjs(elapsedMilliseconds)
+  const elapsedTime = viewModel.elapsedTime
+  const fastestRecord = viewModel.fastestRecord
 
   return (
     <div className={styles.timerDisplayWrapper}>
-      <p
-        className={styles.timerDisplayText}
-        style={{
-          color:
-            viewModel.gameState === GameState.Won && viewModel.isNewRecord
-              ? "yellow"
-              : "white",
-        }}
-      >
-        {interpretedElapsedMillis.format("mm:ss")}
+      <p className={styles.timerDisplayTextFastest}>
+        {fastestRecord.format("mm:ss")}
+      </p>
+      <p className={styles.timerDisplayTextElapsed}>
+        {elapsedTime.format("mm:ss")}
       </p>
     </div>
   )

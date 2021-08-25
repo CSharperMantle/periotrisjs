@@ -119,7 +119,7 @@ function getBackgroundColorByAtomicNumber(atomicNumber: number): string {
       return rule.color
     }
   }
-  throw new Error("atomicNumber")
+  throw new RangeError("atomicNumber")
 }
 
 export { BlockControl, getBackgroundColorByAtomicNumber }

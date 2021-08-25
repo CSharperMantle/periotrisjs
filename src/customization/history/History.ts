@@ -1,4 +1,4 @@
-import { Dayjs } from "dayjs"
+import dayjs, { Dayjs } from "dayjs"
 import _ from "lodash"
 
 import { Nullable } from "../../common/Nullable"
@@ -37,10 +37,20 @@ class History {
   }
 
   public static fromLocalStorage(): History {
-    const result = retrieve(HistoryLocalStorageKey) as History
+    const result = retrieve(HistoryLocalStorageKey)
 
     if (_.isNil(result)) return new History()
-    return result
+
+    const repairedHistory = Object.create(
+      History.prototype,
+      Object.getOwnPropertyDescriptors(result)
+    ) as History
+    repairedHistory.fastestRecord = dayjs(repairedHistory.fastestRecord)
+    repairedHistory.records = Array.from(
+      repairedHistory.records,
+      (record: Dayjs) => dayjs(record)
+    )
+    return repairedHistory
   }
 
   public static toLocalStorage(v: History): void {
