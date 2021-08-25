@@ -9,10 +9,11 @@ import {
   Link,
   makeStyles,
   Paper,
+  Theme,
   Typography,
 } from "@material-ui/core"
 
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles((theme: Theme) => {
   return createStyles({
     paper: {
       position: "absolute",
@@ -20,6 +21,7 @@ const useStyles = makeStyles(() => {
       left: 0,
       width: "100%",
       height: "100%",
+      zIndex: theme.zIndex.drawer,
     },
     container: {
       display: "flex",

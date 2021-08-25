@@ -22,7 +22,14 @@ class PeriotrisModel extends EventEmitter {
   private readonly _frozenBlocks: Block[] = []
   private readonly _pendingTetriminos: Tetrimino[] = []
   private _activeTetrimino: Nullable<Tetrimino> = null
+
   private _history: History = null
+  public get history(): History {
+    return this._history
+  }
+  private set history(v: History) {
+    this._history = v
+  }
 
   private _gameState: GameState = GameState.NotStarted
   public get gameState(): GameState {
@@ -81,8 +88,8 @@ class PeriotrisModel extends EventEmitter {
     this.endDate = Date.now()
 
     if (victory) {
-      this.isNewRecord = this._history.add(dayjs(this.elapsedMilliseconds))
-      History.toLocalStorage(this._history)
+      this.isNewRecord = this.history.add(dayjs(this.elapsedMilliseconds))
+      History.toLocalStorage(this.history)
     }
   }
 
@@ -215,7 +222,7 @@ class PeriotrisModel extends EventEmitter {
 
   public constructor() {
     super()
-    this._history = History.fromLocalStorage()
+    this.history = History.fromLocalStorage()
     this.endGame(false)
   }
 
