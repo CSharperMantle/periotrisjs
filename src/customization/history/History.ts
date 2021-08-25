@@ -1,16 +1,15 @@
 import dayjs, { Dayjs } from "dayjs"
 import _ from "lodash"
 
-import { Nullable } from "../../common/Nullable"
 import { HistoryLocalStorageKey } from "../../common/PeriotrisConst"
 import { retrieve, store } from "../../localstorage/LocalStorageManager"
 
 class History {
-  private _fastestRecord: Nullable<Dayjs>
-  public get fastestRecord(): Nullable<Dayjs> {
+  private _fastestRecord: Dayjs
+  public get fastestRecord(): Dayjs {
     return this._fastestRecord
   }
-  private set fastestRecord(v: Nullable<Dayjs>) {
+  private set fastestRecord(v: Dayjs) {
     this._fastestRecord = v
   }
 
@@ -32,7 +31,7 @@ class History {
   }
 
   private constructor() {
-    this._fastestRecord = null
+    this._fastestRecord = dayjs(0)
     this._records = []
   }
 
