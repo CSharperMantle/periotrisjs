@@ -4,7 +4,6 @@ import _ from "lodash"
 import PatternGeneratorWorker from "worker-loader!./generation/PatternGeneratorWorker"
 
 import { isBrowserEnv } from "../common/IsBrowserEnv"
-import { Nullable } from "../common/Nullable"
 import { PlayAreaHeight, PlayAreaWidth } from "../common/PeriotrisConst"
 import { Position } from "../common/Position"
 import { History } from "../customization/history/History"
@@ -21,7 +20,7 @@ import { Tetrimino } from "./Tetrimino"
 class PeriotrisModel extends EventEmitter {
   private readonly _frozenBlocks: Block[] = []
   private readonly _pendingTetriminos: Tetrimino[] = []
-  private _activeTetrimino: Nullable<Tetrimino> = null
+  private _activeTetrimino: Tetrimino | null = null
 
   private _history: History = null
   public get history(): History {
