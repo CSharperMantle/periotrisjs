@@ -6,6 +6,7 @@ import {
   faPause,
   faPlay,
   faQuestion,
+  faRedo,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -53,9 +54,10 @@ function getIconByGameState(
 ): IconDefinition {
   switch (gameState) {
     case GameState.NotStarted:
+      return faPlay
     case GameState.Lost:
     case GameState.Won:
-      return faPlay
+      return faRedo
     case GameState.InProgress:
       if (paused) {
         return faPlay
@@ -81,9 +83,10 @@ function getColorByGameState(gameState: GameState): PropTypes.Color {
 function getLabelByGameState(gameState: GameState, paused: boolean): string {
   switch (gameState) {
     case GameState.NotStarted:
+      return "start"
     case GameState.Lost:
     case GameState.Won:
-      return "start"
+      return "restart"
     case GameState.InProgress:
       if (paused) {
         return "resume"
