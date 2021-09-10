@@ -1,0 +1,16 @@
+# Commands to start on workspace startup
+tasks:
+  - init: npm ci && npm i -g gatsby-cli jest
+    command: npm run develop
+
+# Ports to expose on workspace startup
+ports:
+  - port: 8000
+    onOpen: open-preview
+    
+vscode:
+  extensions:
+    - streetsidesoftware.code-spell-checker
+    - esbenp.prettier-vscode
+    - dbaeumer.vscode-eslint
+    - vscode-icons-team.vscode-icons

@@ -35,11 +35,8 @@ jobs:
           cache: "npm"
       - name: Set up dependencies
         run: |
-          npm i -g gatsby-cli jest
+          npm i -g jest
           npm ci
-      - name: Build
-        run: |
-          npm run build
       - name: Test
         run: |
           npm run test
@@ -57,11 +54,8 @@ jobs:
           cache: "npm"
       - name: Set up dependencies
         run: |
-          npm i -g gatsby-cli jest
+          npm i -g jest
           npm ci
-      - name: Build
-        run: |
-          npm run build
       - name: Coverage
         uses: paambaati/codeclimate-action@v2.7.5
         env:
