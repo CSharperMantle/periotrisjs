@@ -270,9 +270,7 @@ class PeriotrisViewModel extends EventEmitter {
       }
     } else {
       if (this._blocksByPosition.has(block.position)) {
-        const displayBlock: IDisplayBlock = this._blocksByPosition.get(
-          block.position
-        )
+        const displayBlock = this._blocksByPosition.get(block.position)
         _.remove(this.sprites, (value: IDisplayBlock) =>
           _.isEqual(value, displayBlock)
         )
@@ -292,6 +290,8 @@ class PeriotrisViewModel extends EventEmitter {
   }
 }
 
-const PeriotrisViewModelContext = createContext<PeriotrisViewModel>(undefined)
+const PeriotrisViewModelContext = createContext<PeriotrisViewModel>(
+  undefined as unknown as PeriotrisViewModel
+)
 
 export { PeriotrisViewModel, PeriotrisViewModelContext }
