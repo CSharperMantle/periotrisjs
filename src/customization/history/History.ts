@@ -30,7 +30,7 @@ class History {
     return false
   }
 
-  private constructor() {
+  public constructor() {
     this._fastestRecord = dayjs(0)
     this._records = []
   }
