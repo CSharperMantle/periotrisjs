@@ -22,7 +22,7 @@ class PeriotrisModel extends EventEmitter {
   private readonly _pendingTetriminos: Tetrimino[] = []
   private _activeTetrimino: Tetrimino | null = null
 
-  private _history: History = null
+  private _history: History
   public get history(): History {
     return this._history
   }
@@ -96,6 +96,7 @@ class PeriotrisModel extends EventEmitter {
     if (this.gameState !== GameState.InProgress) return
     this.updateActiveTetrimino(true)
     while (
+      !_.isNil(this._activeTetrimino) &&
       this._activeTetrimino.tryMove(
         MoveDirection.Down,
         this.checkBlockCollision.bind(this)
@@ -140,10 +141,11 @@ class PeriotrisModel extends EventEmitter {
     }
 
     this.updateActiveTetrimino(true)
-    this._activeTetrimino.tryRotate(
-      direction,
-      this.checkBlockCollision.bind(this)
-    )
+    !_.isNil(this._activeTetrimino) &&
+      this._activeTetrimino.tryRotate(
+        direction,
+        this.checkBlockCollision.bind(this)
+      )
     this.updateActiveTetrimino(false)
   }
 
@@ -221,7 +223,7 @@ class PeriotrisModel extends EventEmitter {
 
   public constructor() {
     super()
-    this.history = History.fromLocalStorage()
+    this._history = History.fromLocalStorage()
     this.endGame(false)
   }
 
