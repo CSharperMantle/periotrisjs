@@ -1,7 +1,8 @@
 /** @type {import('@ts-jest/dist/types').InitialOptionsTsJest} */
+// eslint-disable-next-line no-undef
 module.exports = {
   preset: "ts-jest",
-  testEnvironment: "node",
+  testEnvironment: "jsdom",
   transform: {
     "^.+\\.jsx?$": `<rootDir>/jest-preprocess.js`,
     "^.+\\.worker.[t|j]sx?$": "workerloader-jest-transformer",

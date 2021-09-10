@@ -1,3 +1,5 @@
+import _ from "lodash"
+
 import { Position } from "../common/Position"
 import { Block } from "./Block"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
@@ -41,27 +43,33 @@ class Tetrimino {
     direction: MoveDirection,
     collisionChecker: BlockCollisionChecker
   ): boolean {
-    let position: Position = this.position
+    const origPos = this.position
+    let newPos: Position
     if (direction === MoveDirection.Down) {
-      const row: number = position.Y + 1
-      position = new Position(position.X, row)
+      const row = origPos.Y + 1
+      newPos = new Position(origPos.X, row)
     } else {
-      const delta: number = direction === MoveDirection.Right ? 1 : -1
-      const column: number = position.X + delta
-      position = new Position(column, position.Y)
+      const delta = direction === MoveDirection.Right ? 1 : -1
+      const column = origPos.X + delta
+      newPos = new Position(column, origPos.Y)
     }
 
-    let newBlocks: Block[] = createOffsetedBlocks(
-      this.kind,
-      position,
-      this.facingDirection
-    )
-    newBlocks = mapAtomicNumberForNewBlocks(this.blocks, newBlocks)
+    const deltaX = newPos.X - origPos.X
+    const deltaY = newPos.Y - origPos.Y
+
+    const newBlocks = _.cloneDeep(this.blocks)
+    newBlocks.forEach((block: Block) => {
+      block.position = new Position(
+        block.position.X + deltaX,
+        block.position.Y + deltaY
+      )
+    })
+
     if (newBlocks.some(collisionChecker)) {
       return false
     }
 
-    this.position = position
+    this.position = newPos
     this.blocks = newBlocks
     return true
   }
