@@ -4,7 +4,7 @@ describe("LocalStorageManager", () => {
   it("should retrieve objects in JSON from window.localStorage", () => {
     const getItemSpy = jest
       .spyOn(window.localStorage.__proto__, "getItem")
-      .mockImplementation((key: unknown): string => {
+      .mockImplementation((key: unknown): string | null => {
         expect(key as string).toBe("__test_item")
 
         return `{ "testProp": 1 }`
@@ -36,7 +36,7 @@ describe("LocalStorageManager", () => {
   it("should handle non-existent keys gracefully when retrieving", () => {
     const getItemSpy = jest
       .spyOn(window.localStorage.__proto__, "getItem")
-      .mockImplementation((): string => {
+      .mockImplementation((): string | null => {
         return null
       })
 
