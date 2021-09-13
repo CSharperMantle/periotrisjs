@@ -16,16 +16,16 @@ jobs:
         uses: actions/setup-node@v2.4.0
         with:
           node-version: 16.x
-          cache: "npm"
+          cache: "yarn"
 
       - name: Set up dependencies
         run: |
-          npm i -g gatsby-cli
-          npm ci
+          yarn global add gatsby-cli
+          yarn install
 
       - name: Build
         run: |
-          npm run build-prefixed
+          yarn run build-prefixed
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4

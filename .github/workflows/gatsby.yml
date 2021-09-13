@@ -11,39 +11,44 @@ jobs:
         uses: actions/setup-node@v2.4.0
         with:
           node-version: 16.x
-          cache: "npm"
+          cache: "yarn"
       - name: Set up dependencies
         run: |
-          npm i -g gatsby-cli jest
-          npm ci
+          yarn global add gatsby-cli
+          yarn install
       - name: Build
         run: |
-          npm run build
+          yarn run build
 
   test:
     needs: [build]
-    runs-on: ubuntu-20.04
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        os:
+          - ubuntu-20.04
+          - windows-2019
+        node-version: 
+          - 14.x
+          - 16.x
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
         uses: actions/setup-node@v2.4.0
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          cache: "yarn"
       - name: Set up dependencies
         run: |
-          npm i -g jest
-          npm ci
+          yarn global add jest
+          yarn install
       - name: Test
         run: |
-          npm run test
+          yarn run test
 
   coverage:
     needs: [test]
-    if: ${{ github.event_name != 'pull_request' }}
+    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/develop' }}
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -51,14 +56,14 @@ jobs:
         uses: actions/setup-node@v2.4.0
         with:
           node-version: 16.x
-          cache: "npm"
+          cache: "yarn"
       - name: Set up dependencies
         run: |
-          npm i -g jest
-          npm ci
+          yarn global add jest
+          yarn install
       - name: Coverage
         uses: paambaati/codeclimate-action@v2.7.5
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
-          coverageCommand: npm run coverage
+          coverageCommand: yarn run coverage
