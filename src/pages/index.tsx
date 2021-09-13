@@ -18,13 +18,12 @@ const Hammer = isBrowserEnv() ? require("hammerjs") : null
 
 class App extends React.Component {
   private readonly _viewModel: PeriotrisViewModel = new PeriotrisViewModel()
-  private readonly _rowTwoRef: React.RefObject<HTMLDivElement>
+  private readonly _rowTwoRef: React.RefObject<HTMLDivElement> =
+    React.createRef<HTMLDivElement>()
   private _hammer: HammerManager
 
   public constructor(props: Record<string, never>) {
     super(props)
-
-    this._rowTwoRef = React.createRef<HTMLDivElement>()
   }
 
   public componentDidMount(): void {
