@@ -46,8 +46,8 @@ Though the project is intended to run in browsers, it needs [**Node.js v14.x+**]
 Once you have installed a supported Node.js runtime, run the following commands:
 
 ```sh
-npm install # for runtime deps
-npm install -g gatsby-cli # for running Gatsby CLI commands
+yarn install # for runtime deps
+yarn global add gatsby-cli # for running Gatsby CLI commands
 ```
 
 #### Build and serve
@@ -57,7 +57,7 @@ Run the following commands to build and serve a static, release-ready [Gatsby](h
 ```sh
 gatsby build && gatsby serve
 # ... or ...
-npm run build
+yarn run build
 gatsby serve
 ```
 
@@ -75,7 +75,8 @@ The address is usually `http://localhost:8000/` or `http://localhost:9000/` depe
 Run the following to start [`jest`](https://jestjs.io/) unit testing framework:
 
 ```sh
-npm run test
+yarn global add jest # for jest framework
+yarn run test
 ```
 
 You should see green outputs like 'success' in the terminal after a while.

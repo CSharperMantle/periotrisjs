@@ -14,11 +14,11 @@ jobs:
           cache: "npm"
       - name: Set up dependencies
         run: |
-          npm i -g gatsby-cli jest
-          npm ci
+          yarn global install gatsby-cli
+          yarn install
       - name: Build
         run: |
-          npm run build
+          yarn run build
 
   test:
     needs: [build]
@@ -32,14 +32,14 @@ jobs:
         uses: actions/setup-node@v2.4.0
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          cache: "yarn"
       - name: Set up dependencies
         run: |
-          npm i -g jest
-          npm ci
+          yarn global install jest
+          yarn install
       - name: Test
         run: |
-          npm run test
+          yarn run test
 
   coverage:
     needs: [test]
@@ -54,11 +54,11 @@ jobs:
           cache: "npm"
       - name: Set up dependencies
         run: |
-          npm i -g jest
-          npm ci
+          yarn global install jest
+          yarn install
       - name: Coverage
         uses: paambaati/codeclimate-action@v2.7.5
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
-          coverageCommand: npm run coverage
+          coverageCommand: yarn run coverage
