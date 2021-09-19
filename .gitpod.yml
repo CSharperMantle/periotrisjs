@@ -1,13 +1,13 @@
 # Commands to start on workspace startup
 tasks:
-  - init: npm ci && npm i -g gatsby-cli jest
-    command: npm run develop
+  - init: yarn install --frozen-lockfile && yarn global add gatsby-cli jest
+    command: yarn run develop
 
 # Ports to expose on workspace startup
 ports:
   - port: 8000
     onOpen: open-preview
-    
+
 vscode:
   extensions:
     - streetsidesoftware.code-spell-checker
