@@ -17,6 +17,10 @@ jobs:
         with:
           toolchain: stable
           override: true
+      - name: Use wasm-pack latest
+        uses: jetli/wasm-pack-action@v0.3.0
+        with:
+          version: "latest"
       - name: Set up dependencies
         run: |
           yarn global add gatsby-cli
@@ -43,11 +47,17 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
-      - name: Use Rust stable
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
+      # TODO: write tests in Rust
+      #
+      # - name: Use Rust stable
+      #   uses: actions-rs/toolchain@v1
+      #   with:
+      #     toolchain: stable
+      #     override: true
+      # - name: Use wasm-pack latest
+      #   uses: jetli/wasm-pack-action@v0.3.0
+      #   with:
+      #     version: "latest"
       - name: Set up dependencies
         run: |
           yarn global add jest
@@ -67,11 +77,17 @@ jobs:
         with:
           node-version: 16.x
           cache: "yarn"
-      - name: Use Rust stable
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
+      # TODO: write tests in Rust
+      #
+      # - name: Use Rust stable
+      #   uses: actions-rs/toolchain@v1
+      #   with:
+      #     toolchain: stable
+      #     override: true
+      # - name: Use wasm-pack latest
+      #   uses: jetli/wasm-pack-action@v0.3.0
+      #   with:
+      #     version: "latest"
       - name: Set up dependencies
         run: |
           yarn global add jest
