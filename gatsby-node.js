@@ -1,23 +1,17 @@
-exports.onCreateWebpackConfig = ({
-  stage,
-  rules,
-  loaders,
-  plugins,
-  actions,
-}) => {
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable no-undef */
+const path = require("path")
+const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin")
+
+exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
-    module: {
-      rules: [
-        /*
-        {
-          test: /\.worker\.js$/,
-          loader: "worker-loader",
-        },
-        {
-          test: /\.worker\.ts$/,
-          loader: "worker-loader",
-        },*/
-      ],
+    plugins: [
+      new WasmPackPlugin({
+        crateDirectory: path.resolve(__dirname, "."),
+      }),
+    ],
+    experiments: {
+      asyncWebAssembly: true,
     },
   })
 }

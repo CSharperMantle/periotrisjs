@@ -2238,6 +2238,16 @@
     "@typescript-eslint/types" "4.31.0"
     eslint-visitor-keys "^2.0.0"
 
+"@wasm-tool/wasm-pack-plugin@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.npmmirror.com/@wasm-tool/wasm-pack-plugin/download/@wasm-tool/wasm-pack-plugin-1.5.0.tgz#cb3a363321a326594730e496d68e7e9a0199f42c"
+  integrity sha1-yzo2MyGjJllHMOSW1o5+mgGZ9Cw=
+  dependencies:
+    chalk "^2.4.1"
+    command-exists "^1.2.7"
+    watchpack "^2.1.1"
+    which "^2.0.2"
+
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
   resolved "https://registry.nlark.com/@webassemblyjs/ast/download/@webassemblyjs/ast-1.11.1.tgz#2bfd767eae1a6996f432ff7e8d7fc75679c0b6a7"
@@ -3571,7 +3581,7 @@ combined-stream@^1.0.8:
   dependencies:
     delayed-stream "~1.0.0"
 
-command-exists@^1.2.4:
+command-exists@^1.2.4, command-exists@^1.2.7:
   version "1.2.9"
   resolved "https://registry.nlark.com/command-exists/download/command-exists-1.2.9.tgz#c50725af3808c8ab0260fd60b01fbfa25b954f69"
   integrity sha1-xQclrzgIyKsCYP1gsB+/oluVT2k=
@@ -3721,6 +3731,19 @@ copy-descriptor@^0.1.0:
   version "0.1.1"
   resolved "https://registry.nlark.com/copy-descriptor/download/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
+
+copy-webpack-plugin@^9.0.1:
+  version "9.0.1"
+  resolved "https://registry.nlark.com/copy-webpack-plugin/download/copy-webpack-plugin-9.0.1.tgz#b71d21991599f61a4ee00ba79087b8ba279bbb59"
+  integrity sha1-tx0hmRWZ9hpO4AunkIe4uiebu1k=
+  dependencies:
+    fast-glob "^3.2.5"
+    glob-parent "^6.0.0"
+    globby "^11.0.3"
+    normalize-path "^3.0.0"
+    p-limit "^3.1.0"
+    schema-utils "^3.0.0"
+    serialize-javascript "^6.0.0"
 
 core-js-compat@3.9.0:
   version "3.9.0"
@@ -5081,7 +5104,7 @@ fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   resolved "https://registry.nlark.com/fast-deep-equal/download/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"
   integrity sha1-On1WtVnWy8PrUSMlJE5hmmXGxSU=
 
-fast-glob@^3.0.3, fast-glob@^3.1.1:
+fast-glob@^3.0.3, fast-glob@^3.1.1, fast-glob@^3.2.5:
   version "3.2.7"
   resolved "https://registry.nlark.com/fast-glob/download/fast-glob-3.2.7.tgz#fd6cb7a2d7e9aa7a7846111e85a196d6b2f766a1"
   integrity sha1-/Wy3otfpqnp4RhEehaGW1rL3ZqE=
@@ -5894,6 +5917,13 @@ glob-parent@^5.1.2, glob-parent@~5.1.2:
   integrity sha1-hpgyxYA0/mikCTwX3BXoNA2EAcQ=
   dependencies:
     is-glob "^4.0.1"
+
+glob-parent@^6.0.0:
+  version "6.0.2"
+  resolved "https://registry.npmmirror.com/glob-parent/download/glob-parent-6.0.2.tgz#6d237d99083950c79290f24c7642a3de9a28f9e3"
+  integrity sha1-bSN9mQg5UMeSkPJMdkKj3poo+eM=
+  dependencies:
+    is-glob "^4.0.3"
 
 glob-to-regexp@^0.4.1:
   version "0.4.1"
@@ -6738,6 +6768,13 @@ is-glob@^2.0.0:
   integrity sha1-0Jb5JqPe1WAPP9/ZEZjLCIjC2GM=
   dependencies:
     is-extglob "^1.0.0"
+
+is-glob@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.npmmirror.com/is-glob/download/is-glob-4.0.3.tgz#64f61e42cbbb2eec2071a9dac0b28ba1e65d5084"
+  integrity sha1-ZPYeQsu7LuwgcanawLKLoeZdUIQ=
+  dependencies:
+    is-extglob "^2.1.1"
 
 is-hexadecimal@^1.0.0:
   version "1.0.4"
@@ -11765,7 +11802,7 @@ walker@^1.0.7:
   dependencies:
     makeerror "1.0.x"
 
-watchpack@^2.2.0:
+watchpack@^2.1.1, watchpack@^2.2.0:
   version "2.2.0"
   resolved "https://registry.nlark.com/watchpack/download/watchpack-2.2.0.tgz?cache=0&sync_timestamp=1621438191812&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fwatchpack%2Fdownload%2Fwatchpack-2.2.0.tgz#47d78f5415fe550ecd740f99fe2882323a58b1ce"
   integrity sha1-R9ePVBX+VQ7NdA+Z/iiCMjpYsc4=
@@ -11902,7 +11939,7 @@ which@^1.2.9, which@^1.3.1:
   dependencies:
     isexe "^2.0.0"
 
-which@^2.0.1:
+which@^2.0.1, which@^2.0.2:
   version "2.0.2"
   resolved "https://registry.nlark.com/which/download/which-2.0.2.tgz#7c6a8dd0a636a0327e10b59c9286eee93f3f51b1"
   integrity sha1-fGqN0KY2oDJ+ELWckobu6T8/UbE=
