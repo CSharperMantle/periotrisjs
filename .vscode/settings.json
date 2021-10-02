@@ -1,10 +1,9 @@
 {
   "cSpell.words": [
-    "Coord",
-    "Offseted",
-    "Unmount",
+    "bindgen",
     "blks",
     "blockchanged",
+    "Coord",
     "easytimer",
     "fluentui",
     "fontawesome",
@@ -14,12 +13,14 @@
     "gamestatechanged",
     "lightgreen",
     "localstorage",
+    "Offseted",
     "periotris",
     "periotrisjs",
     "pressup",
     "semibold",
     "tetrimino",
     "tetriminos",
+    "Unmount",
     "viewmodel",
     "workerloader"
   ],
