@@ -46,22 +46,22 @@ class Tetrimino {
     const origPos = this.position
     let newPos: Position
     if (direction === MoveDirection.Down) {
-      const row = origPos.Y + 1
-      newPos = new Position(origPos.X, row)
+      const row = origPos.y + 1
+      newPos = new Position(origPos.x, row)
     } else {
       const delta = direction === MoveDirection.Right ? 1 : -1
-      const column = origPos.X + delta
-      newPos = new Position(column, origPos.Y)
+      const column = origPos.x + delta
+      newPos = new Position(column, origPos.y)
     }
 
-    const deltaX = newPos.X - origPos.X
-    const deltaY = newPos.Y - origPos.Y
+    const deltaX = newPos.x - origPos.x
+    const deltaY = newPos.y - origPos.y
 
     const newBlocks = _.cloneDeep(this.blocks)
     newBlocks.forEach((block: Block) => {
       block.position = new Position(
-        block.position.X + deltaX,
-        block.position.Y + deltaY
+        block.position.x + deltaX,
+        block.position.y + deltaY
       )
     })
 
@@ -100,8 +100,8 @@ class Tetrimino {
     for (let i = 0; i < adjustPattern.length; i++) {
       const adjust = adjustPattern[i]
       const newPos: Position = new Position(
-        this.position.X + adjust,
-        this.position.Y
+        this.position.x + adjust,
+        this.position.y
       )
       let newBlocks: Block[] = createOffsetedBlocks(
         this.kind,

@@ -8,9 +8,17 @@ import { Direction, RotationDirection } from "../Direction"
 import { Tetrimino } from "../Tetrimino"
 import { TetriminoKind } from "../TetriminoKind"
 import { getInitialPositionByKind } from "./GeneratorHelper"
-import { sort } from "./TetriminoSorter"
 
-function getPlayablePattern(): Tetrimino[] {
+function externTopoSortWasmInterop(tetriminos: Tetrimino[]) {
+  return new Promise((resolve) => {
+    import("../../../pkg").then((wasm) => {
+      wasm.extern_init()
+      resolve(wasm.extern_topo_sort(tetriminos))
+    })
+  })
+}
+
+async function getPlayablePattern(): Promise<Tetrimino[]> {
   const template: Block[][] = []
 
   for (let i = 0; i < PlayAreaHeight; i++) {
@@ -32,17 +40,19 @@ function getPlayablePattern(): Tetrimino[] {
     }
   }
 
-  const tetriminos = sort(getPossibleTetriminoPattern(template))
+  const tetriminos = (await externTopoSortWasmInterop(
+    getPossibleTetriminoPattern(template)
+  )) as Tetrimino[]
 
   tetriminos.forEach((tetrimino: Tetrimino) => {
     const originalPos = tetrimino.position
     const newPos = getInitialPositionByKind(tetrimino.kind)
-    const deltaX = newPos.X - originalPos.X
-    const deltaY = newPos.Y - originalPos.Y
+    const deltaX = newPos.x - originalPos.x
+    const deltaY = newPos.y - originalPos.y
     const newBlocks: Block[] = Array.from(tetrimino.blocks, (block: Block) => {
       return new Block(
         block.filledBy,
-        new Position(block.position.X + deltaX, block.position.Y + deltaY),
+        new Position(block.position.x + deltaX, block.position.y + deltaY),
         block.atomicNumber,
         block.id
       )
@@ -70,8 +80,8 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
   // eslint-disable-next-line no-constant-condition
   while (true) {
     const firstBlockCoord = getFirstAvailableBlockCoord(workspace)
-    const firstBlockCol = firstBlockCoord.X
-    const firstBlockRow = firstBlockCoord.Y
+    const firstBlockCol = firstBlockCoord.x
+    const firstBlockRow = firstBlockCoord.y
     if (!(firstBlockCol >= 0 && firstBlockRow >= 0)) {
       return settledTetriminos
     }
@@ -96,7 +106,7 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
       }
 
       lastTetrimino.blocks.forEach((block: Block) => {
-        workspace[block.position.Y][block.position.X].filledBy =
+        workspace[block.position.y][block.position.x].filledBy =
           TetriminoKind.AvailableToFill
       })
     }
@@ -122,8 +132,8 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
           pendingTetriminoKinds.push(currentKindDirectionsPairStack)
           tetrimino.blocks.forEach((block: Block) => {
             block.atomicNumber =
-              workspace[block.position.Y][block.position.X].atomicNumber
-            workspace[block.position.Y][block.position.X].filledBy =
+              workspace[block.position.y][block.position.x].atomicNumber
+            workspace[block.position.y][block.position.x].filledBy =
               block.filledBy
           })
           solutionFound = true
@@ -151,8 +161,8 @@ function createShuffledKindDirectionsPairs(): KindDirectionsPair[] {
 }
 
 function collisionChecker(workspace: Block[][], block: Block): boolean {
-  const nRow = block.position.Y
-  const nCol = block.position.X
+  const nRow = block.position.y
+  const nCol = block.position.x
   if (nCol < 0 || nCol >= workspace[0].length || nRow >= workspace.length) {
     return true
   }

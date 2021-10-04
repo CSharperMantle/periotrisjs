@@ -18,8 +18,10 @@
     "periotrisjs",
     "pressup",
     "semibold",
+    "structs",
     "tetrimino",
     "tetriminos",
+    "topo",
     "Unmount",
     "viewmodel",
     "workerloader"

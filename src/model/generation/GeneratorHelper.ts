@@ -382,8 +382,8 @@ function getPositionByFirstBlockPosition(
   const firstBlockRow = firstBlockCoord.row
   const firstBlockCol = firstBlockCoord.col
   return new Position(
-    firstBlockPosition.X - firstBlockCol,
-    firstBlockPosition.Y - firstBlockRow
+    firstBlockPosition.x - firstBlockCol,
+    firstBlockPosition.y - firstBlockRow
   )
 }
 
@@ -395,7 +395,7 @@ function getFirstBlockPositionByPosition(
   const firstBlockCoord = getFirstBlockCoordByType(kind, facingDirection)
   const firstBlockRow = firstBlockCoord.row
   const firstBlockCol = firstBlockCoord.col
-  return new Position(position.X + firstBlockCol, position.Y + firstBlockRow)
+  return new Position(position.x + firstBlockCol, position.y + firstBlockRow)
 }
 
 function getInitialPositionByKind(kind: TetriminoKind): Position {
@@ -437,7 +437,7 @@ function createOffsetedBlocks(
         offsetBlocks.push(
           new Block(
             kind,
-            new Position(nCol + offset.X, nRow + offset.Y),
+            new Position(nCol + offset.x, nRow + offset.y),
             0,
             identifier
           )

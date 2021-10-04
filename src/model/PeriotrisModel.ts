@@ -185,7 +185,9 @@ class PeriotrisModel extends EventEmitter {
       worker.postMessage(message)
     } else {
       // Use single-threaded approach
-      this.realStartGame(getPlayablePattern())
+      getPlayablePattern().then((tetriminos) => {
+        this.realStartGame(tetriminos)
+      })
     }
   }
 
@@ -209,7 +211,7 @@ class PeriotrisModel extends EventEmitter {
     this.moveActiveTetrimino(MoveDirection.Down)
     this._frozenBlocks.forEach((block: Block) => {
       if (
-        defaultMap.periodicTable[block.position.Y][block.position.X]
+        defaultMap.periodicTable[block.position.y][block.position.x]
           .atomicNumber !== block.atomicNumber
       ) {
         this.endGame(false)
@@ -247,10 +249,10 @@ class PeriotrisModel extends EventEmitter {
   }
 
   private checkBlockCollision(block: Block): boolean {
-    if (block.position.X < 0 || block.position.X >= PlayAreaWidth) {
+    if (block.position.x < 0 || block.position.x >= PlayAreaWidth) {
       return true
     }
-    if (block.position.Y >= PlayAreaHeight) {
+    if (block.position.y >= PlayAreaHeight) {
       return true
     }
     return this._frozenBlocks.some((frozenBlock: Block): boolean => {

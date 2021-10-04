@@ -36,10 +36,6 @@ class App extends React.Component {
     this._hammer.on("tap", this._viewModel.onTap.bind(this._viewModel))
     this._hammer.on("swipe", this._viewModel.onSwipe.bind(this._viewModel))
     this._hammer.on("pressup", this._viewModel.onPressUp.bind(this._viewModel))
-
-    import("../../pkg").then((module) => {
-      module.greet()
-    })
   }
 
   public componentWillUnmount(): void {

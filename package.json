@@ -5,12 +5,14 @@
   "scripts": {
     "build": "gatsby build",
     "build-prefixed": "gatsby build --prefix-paths",
+    "build-wasm": "npx rimraf pkg && wasm-pack build",
+    "clean": "npx rimraf pkg coverage public && gatsby clean",
+    "coverage": "jest --coverage",
     "develop": "gatsby develop",
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,html}",
     "start": "yarn run develop",
     "serve": "gatsby serve",
-    "test": "jest",
-    "coverage": "jest --coverage"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
