@@ -29,7 +29,8 @@ module.exports = {
   ],
   siteMetadata: {
     title: "Periotris.js",
-    description: "Periotris game built with Gatsby, React and Material UI.",
+    description:
+      "Learn the Periodic Table of Elements in a fun way, directly in your browsers.",
     url: "https://csharpermantle.github.io/periotrisjs/",
   },
   pathPrefix: "/periotrisjs",
