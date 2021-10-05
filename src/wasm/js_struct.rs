@@ -3,8 +3,8 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Copy, Clone)]
 #[serde(rename = "Position", rename_all = "camelCase")]
 pub struct JsPosition {
-  pub x: usize,
-  pub y: usize,
+  pub x: i32,
+  pub y: i32,
 }
 
 impl JsPosition {

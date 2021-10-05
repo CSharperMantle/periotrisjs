@@ -15,12 +15,28 @@ path = "src/wasm/lib.rs"
 
 [dependencies]
 console_error_panic_hook = "^0.1.6"
-getrandom = { version = "^0.2.3", features = ["js"] }
 js-sys = "^0.3.55"
 rand = "^0.8.3"
-serde = { version = "^1.0.130", features = ["derive"] }
-wasm-bindgen = { version = "^0.2.63", features = ["serde-serialize"]}
-wee_alloc = { version = "^0.4.5", optional = true }
+
+[dependencies.getrandom]
+version = "^0.2.3"
+features = ["js"]
+
+[dependencies.serde]
+version = "1.0.130"
+features = ["derive"]
+
+[dependencies.wasm-bindgen]
+version = "^0.2.63"
+features = ["serde-serialize"]
+
+[dependencies.web-sys]
+version = "^0.3.55"
+features = ["console"]
+
+[dependencies.wee_alloc]
+version = "^0.4.5"
+optional = true
 
 [dev-dependencies]
 wasm-bindgen-test = "^0.3.13"

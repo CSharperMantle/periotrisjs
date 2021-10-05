@@ -5,7 +5,6 @@ import PatternGeneratorWorker from "worker-loader!./generation/PatternGeneratorW
 
 import { isBrowserEnv } from "../common/IsBrowserEnv"
 import { PlayAreaHeight, PlayAreaWidth } from "../common/PeriotrisConst"
-import { Position } from "../common/Position"
 import { History } from "../customization/history/History"
 import defaultMap from "../json/DefaultMap.json"
 import { Block } from "./Block"
@@ -15,7 +14,7 @@ import { GameState } from "./GameState"
 import { IGeneratorMessage } from "./generation/IGeneratorMessage"
 import { MessageType } from "./generation/MessageType"
 import { getPlayablePattern } from "./generation/PatternGenerator"
-import { Tetrimino } from "./Tetrimino"
+import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
 
 class PeriotrisModel extends EventEmitter {
   private readonly _frozenBlocks: Block[] = []
@@ -291,56 +290,6 @@ class PeriotrisModel extends EventEmitter {
       })
     }
   }
-}
-
-function repairBrokenTetriminos(brokenTetriminos: Tetrimino[]): Tetrimino[] {
-  /*
-   * HACK: Object's prototype chain will be lost when
-   * transferred through messages, thanks to the limitations
-   * of structured clone. The following code's
-   * purpose is to restore the method mapping of the
-   * objects.
-   */
-  const repairedTetriminos: Tetrimino[] = Array.from(
-    brokenTetriminos,
-    (brokenTetrimino: Tetrimino) => {
-      // Fix tetrimino itself
-      const repairedTetrimino = Object.create(
-        Tetrimino.prototype,
-        Object.getOwnPropertyDescriptors(brokenTetrimino)
-      ) as Tetrimino
-
-      // Fix its block positions
-      const repairedBlocks: Block[] = Array.from(
-        repairedTetrimino.blocks,
-        (block: Block) => {
-          const repairedBlock = Object.create(
-            Block.prototype,
-            Object.getOwnPropertyDescriptors(block)
-          ) as Block
-          repairedBlock.position = Object.create(
-            Position.prototype,
-            Object.getOwnPropertyDescriptors(repairedBlock.position)
-          ) as Position
-          return repairedBlock
-        }
-      )
-      repairedTetrimino.blocks = repairedBlocks
-
-      // Fix its own positions
-      repairedTetrimino.firstBlockPosition = Object.create(
-        Position.prototype,
-        Object.getOwnPropertyDescriptors(repairedTetrimino.firstBlockPosition)
-      ) as Position
-      repairedTetrimino.position = Object.create(
-        Position.prototype,
-        Object.getOwnPropertyDescriptors(repairedTetrimino.position)
-      ) as Position
-
-      return repairedTetrimino
-    }
-  )
-  return repairedTetriminos
 }
 
 export { PeriotrisModel }

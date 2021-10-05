@@ -159,4 +159,54 @@ class Tetrimino {
   }
 }
 
-export { Tetrimino, BlockCollisionChecker }
+function repairBrokenTetriminos(brokenTetriminos: Tetrimino[]): Tetrimino[] {
+  /*
+   * HACK: Object's prototype chain will be lost when
+   * transferred through messages, thanks to the limitations
+   * of Structured Clone. The following code's
+   * purpose is to restore the method mapping of the
+   * objects.
+   */
+  const repairedTetriminos: Tetrimino[] = Array.from(
+    brokenTetriminos,
+    (brokenTetrimino: Tetrimino) => {
+      // Fix tetrimino itself
+      const repairedTetrimino = Object.create(
+        Tetrimino.prototype,
+        Object.getOwnPropertyDescriptors(brokenTetrimino)
+      ) as Tetrimino
+
+      // Fix its block positions
+      const repairedBlocks: Block[] = Array.from(
+        repairedTetrimino.blocks,
+        (block: Block) => {
+          const repairedBlock = Object.create(
+            Block.prototype,
+            Object.getOwnPropertyDescriptors(block)
+          ) as Block
+          repairedBlock.position = Object.create(
+            Position.prototype,
+            Object.getOwnPropertyDescriptors(repairedBlock.position)
+          ) as Position
+          return repairedBlock
+        }
+      )
+      repairedTetrimino.blocks = repairedBlocks
+
+      // Fix its own positions
+      repairedTetrimino.firstBlockPosition = Object.create(
+        Position.prototype,
+        Object.getOwnPropertyDescriptors(repairedTetrimino.firstBlockPosition)
+      ) as Position
+      repairedTetrimino.position = Object.create(
+        Position.prototype,
+        Object.getOwnPropertyDescriptors(repairedTetrimino.position)
+      ) as Position
+
+      return repairedTetrimino
+    }
+  )
+  return repairedTetriminos
+}
+
+export { Tetrimino, BlockCollisionChecker, repairBrokenTetriminos }

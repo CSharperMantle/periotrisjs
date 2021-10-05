@@ -33,9 +33,9 @@ pub fn topo_sort(tetriminos: &Vec<JsTetrimino>) -> Vec<JsTetrimino> {
     }
   }
 
-  // Remap JsTetriminos to ids
+  // Remap  JsTetriminos to ids
   let mut result_objects: Vec<JsTetrimino> = Vec::with_capacity(result_ids.len());
-  for id in start_node_ids.iter() {
+  for id in result_ids.iter() {
     for node in nodes.iter() {
       if node.id == *id {
         result_objects.push(node.underlying_tetrimino.clone());

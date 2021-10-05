@@ -5,7 +5,7 @@ import { Position } from "../../common/Position"
 import defaultMap from "../../json/DefaultMap.json"
 import { Block } from "../Block"
 import { Direction, RotationDirection } from "../Direction"
-import { Tetrimino } from "../Tetrimino"
+import { repairBrokenTetriminos, Tetrimino } from "../Tetrimino"
 import { TetriminoKind } from "../TetriminoKind"
 import { getInitialPositionByKind } from "./GeneratorHelper"
 
@@ -44,7 +44,9 @@ async function getPlayablePattern(): Promise<Tetrimino[]> {
     getPossibleTetriminoPattern(template)
   )) as Tetrimino[]
 
-  tetriminos.forEach((tetrimino: Tetrimino) => {
+  const fixedTetriminos = repairBrokenTetriminos(tetriminos)
+
+  fixedTetriminos.forEach((tetrimino: Tetrimino) => {
     const originalPos = tetrimino.position
     const newPos = getInitialPositionByKind(tetrimino.kind)
     const deltaX = newPos.x - originalPos.x
@@ -67,7 +69,7 @@ async function getPlayablePattern(): Promise<Tetrimino[]> {
     }
   })
 
-  return tetriminos
+  return fixedTetriminos
 }
 
 function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {

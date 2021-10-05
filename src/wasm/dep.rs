@@ -26,6 +26,17 @@ fn get_block_owner(
   Some(cell_content.owner_id)
 }
 
+fn init_dependency_maps(
+  depending_map: &mut HashMap<i32, HashSet<i32>>,
+  depended_by_map: &mut HashMap<i32, HashSet<i32>>,
+  len: usize,
+) {
+  for i in 0..len {
+    depending_map.insert(i as i32, HashSet::new());
+    depended_by_map.insert(i as i32, HashSet::new());
+  }
+}
+
 fn insert_node_with_dependency(
   depending_map: &mut HashMap<i32, HashSet<i32>>,
   depended_by_map: &mut HashMap<i32, HashSet<i32>>,
@@ -36,7 +47,7 @@ fn insert_node_with_dependency(
     depending_map.insert(main_id, HashSet::new());
   }
   if !depended_by_map.contains_key(&depending_id) {
-    depended_by_map.insert(main_id, HashSet::new());
+    depended_by_map.insert(depending_id, HashSet::new());
   }
 
   depending_map
@@ -61,24 +72,26 @@ pub fn graph_dependency(
   let mut tetrimino_nodes: Vec<TetriminoNode> = Vec::with_capacity(tetriminos.len());
 
   // Fill in blocks
-  let mut id = 0;
+  let mut id: usize = 0;
   for tetrimino in tetriminos.iter() {
-    let node = TetriminoNode::new(*tetrimino, id);
+    let node = TetriminoNode::new(*tetrimino, id as i32);
     for memoized_block in node.memoized_blocks.iter() {
-      memoized_map[memoized_block.underlying_block.position.y]
-        [memoized_block.underlying_block.position.x] = Some(*memoized_block);
+      memoized_map[memoized_block.underlying_block.position.y as usize]
+        [memoized_block.underlying_block.position.x as usize] = Some(*memoized_block);
     }
     tetrimino_nodes.push(node);
     id += 1;
   }
 
-  let mut depending_map: HashMap<i32, HashSet<i32>> = HashMap::new();
-  let mut depended_by_map: HashMap<i32, HashSet<i32>> = HashMap::new();
+  let mut depending_map: HashMap<i32, HashSet<i32>> = HashMap::with_capacity(id);
+  let mut depended_by_map: HashMap<i32, HashSet<i32>> = HashMap::with_capacity(id);
+
+  init_dependency_maps(&mut depending_map, &mut depended_by_map, id);
 
   for node in tetrimino_nodes.iter() {
     for block in node.memoized_blocks.iter() {
-      let depended_block_row = block.underlying_block.position.y + 1;
-      let depended_block_col = block.underlying_block.position.x;
+      let depended_block_row = (block.underlying_block.position.y as usize) + 1;
+      let depended_block_col = block.underlying_block.position.x as usize;
       let res = get_block_owner(&memoized_map, depended_block_row, depended_block_col);
       if res.is_some() {
         let depended_id = res.unwrap();
