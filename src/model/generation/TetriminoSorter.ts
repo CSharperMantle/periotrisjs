@@ -14,6 +14,10 @@ function sort(tetriminos: Tetrimino[]): Tetrimino[] {
   const result: TetriminoNode[] = []
   while (startNodes.length !== 0) {
     const n = _.sample(startNodes)
+    if (_.isNil(n)) {
+      console.warn("sort() null check")
+      continue
+    }
     _.remove(startNodes, (node: TetriminoNode) => node === n)
     result.push(n)
     const dependedBy = [...n.dependedBy]

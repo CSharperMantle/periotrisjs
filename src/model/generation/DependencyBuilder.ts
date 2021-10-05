@@ -9,7 +9,7 @@ import { TetriminoNode } from "./TetriminoNode"
 
 interface ITryGetOccupiedTetriminoNodeResult {
   isSuccessful: boolean
-  result: TetriminoNode
+  result: TetriminoNode | null
 }
 
 function createTetriminoDependencyGraph(
@@ -55,7 +55,7 @@ function createTetriminoDependencyGraph(
           PlayAreaWidth,
           PlayAreaHeight
         )
-      if (!isSuccessful || result === tetriminoNode) {
+      if (!isSuccessful || _.isNil(result) || result === tetriminoNode) {
         return
       }
       result.dependedBy.add(tetriminoNode)
