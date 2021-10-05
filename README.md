@@ -41,9 +41,14 @@ You may omit the `--depth=1` flag if you want a complete commit history rather t
 
 #### Install dependencies
 
-Though the project is intended to run in browsers, it needs [**Node.js v14.x+**](https://nodejs.org/) environment to build. Please refer to their documents for installation guide on Node.js.
+Dependencies that need to be installed manually:
 
-Once you have installed a supported Node.js runtime, run the following commands:
+* [Node.js v14.x+](https://nodejs.org/)
+* [yarn v1](https://classic.yarnpkg.com/en/docs/install) **Important: yarn v2 is untested.**
+* [Rust v1.50+](https://www.rust-lang.org/learn/get-started)
+* [wasm-pack v1+](https://rustwasm.github.io/)
+
+Once you have installed all above, run the following commands:
 
 ```sh
 yarn install # for runtime deps
@@ -52,19 +57,16 @@ yarn global add gatsby-cli # for running Gatsby CLI commands
 
 #### Build and serve
 
-Run the following commands to build and serve a static, release-ready [Gatsby](https://gatsbyjs.com/) site:
+Run the following command to build and serve a static, release-ready [Gatsby](https://gatsbyjs.com/) site:
 
 ```sh
-gatsby build && gatsby serve
-# ... or ...
-yarn run build
-gatsby serve
+yarn run build && yarn run serve
 ```
 
 If you prefer hot-reload, friendly exception notice and other development-friendly features of Gatsby, run the following commands to start a dev server:
 
 ```sh
-gatsby develop
+yarn run develop
 ```
 
 After these commands are executed, you should see in the terminal an address to visit.
