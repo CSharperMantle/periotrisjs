@@ -1542,27 +1542,6 @@
     jest-haste-map "^27.2.4"
     jest-runtime "^27.2.4"
 
-"@jest/transform@^27.1.1":
-  version "27.1.1"
-  resolved "https://registry.nlark.com/@jest/transform/download/@jest/transform-27.1.1.tgz#51a22f5a48d55d796c02757117c02fcfe4da13d7"
-  integrity sha1-UaIvWkjVXXlsAnVxF8Avz+TaE9c=
-  dependencies:
-    "@babel/core" "^7.1.0"
-    "@jest/types" "^27.1.1"
-    babel-plugin-istanbul "^6.0.0"
-    chalk "^4.0.0"
-    convert-source-map "^1.4.0"
-    fast-json-stable-stringify "^2.0.0"
-    graceful-fs "^4.2.4"
-    jest-haste-map "^27.1.1"
-    jest-regex-util "^27.0.6"
-    jest-util "^27.1.1"
-    micromatch "^4.0.4"
-    pirates "^4.0.1"
-    slash "^3.0.0"
-    source-map "^0.6.1"
-    write-file-atomic "^3.0.0"
-
 "@jest/transform@^27.2.4":
   version "27.2.4"
   resolved "https://registry.npmmirror.com/@jest/transform/download/@jest/transform-27.2.4.tgz?cache=0&sync_timestamp=1632924368692&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40jest%2Ftransform%2Fdownload%2F%40jest%2Ftransform-27.2.4.tgz#2fe5b6836895f7a1b8bdec442c51e83943c62733"
@@ -1594,18 +1573,7 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
-"@jest/types@^27.1.1":
-  version "27.1.1"
-  resolved "https://registry.nlark.com/@jest/types/download/@jest/types-27.1.1.tgz#77a3fc014f906c65752d12123a0134359707c0ad"
-  integrity sha1-d6P8AU+QbGV1LRISOgE0NZcHwK0=
-  dependencies:
-    "@types/istanbul-lib-coverage" "^2.0.0"
-    "@types/istanbul-reports" "^3.0.0"
-    "@types/node" "*"
-    "@types/yargs" "^16.0.0"
-    chalk "^4.0.0"
-
-"@jest/types@^27.2.4":
+"@jest/types@^27.1.1", "@jest/types@^27.2.4":
   version "27.2.4"
   resolved "https://registry.npmmirror.com/@jest/types/download/@jest/types-27.2.4.tgz?cache=0&sync_timestamp=1632924301074&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40jest%2Ftypes%2Fdownload%2F%40jest%2Ftypes-27.2.4.tgz#2430042a66e00dc5b140c3636f4474d464c21ee8"
   integrity sha1-JDAEKmbgDcWxQMNjb0R01GTCHug=
@@ -2791,20 +2759,6 @@ babel-extract-comments@^1.0.0:
   dependencies:
     babylon "^6.18.0"
 
-babel-jest@^27.0.6:
-  version "27.1.1"
-  resolved "https://registry.nlark.com/babel-jest/download/babel-jest-27.1.1.tgz#9359c45995d0940b84d2176ab83423f9eed07617"
-  integrity sha1-k1nEWZXQlAuE0hdquDQj+e7Qdhc=
-  dependencies:
-    "@jest/transform" "^27.1.1"
-    "@jest/types" "^27.1.1"
-    "@types/babel__core" "^7.1.14"
-    babel-plugin-istanbul "^6.0.0"
-    babel-preset-jest "^27.0.6"
-    chalk "^4.0.0"
-    graceful-fs "^4.2.4"
-    slash "^3.0.0"
-
 babel-jest@^27.2.4:
   version "27.2.4"
   resolved "https://registry.npmmirror.com/babel-jest/download/babel-jest-27.2.4.tgz#21ed6729d51bdd75470bbbf3c8b08d86209fb0dc"
@@ -2851,16 +2805,6 @@ babel-plugin-istanbul@^6.0.0:
     "@istanbuljs/schema" "^0.1.2"
     istanbul-lib-instrument "^4.0.0"
     test-exclude "^6.0.0"
-
-babel-plugin-jest-hoist@^27.0.6:
-  version "27.0.6"
-  resolved "https://registry.nlark.com/babel-plugin-jest-hoist/download/babel-plugin-jest-hoist-27.0.6.tgz#f7c6b3d764af21cb4a2a1ab6870117dbde15b456"
-  integrity sha1-98az12SvIctKKhq2hwEX294VtFY=
-  dependencies:
-    "@babel/template" "^7.3.3"
-    "@babel/types" "^7.3.3"
-    "@types/babel__core" "^7.0.0"
-    "@types/babel__traverse" "^7.0.6"
 
 babel-plugin-jest-hoist@^27.2.0:
   version "27.2.0"
@@ -2977,14 +2921,6 @@ babel-preset-gatsby@^1.0.0, babel-preset-gatsby@^1.13.0:
     babel-plugin-transform-react-remove-prop-types "^0.4.24"
     gatsby-core-utils "^2.13.0"
     gatsby-legacy-polyfills "^1.13.0"
-
-babel-preset-jest@^27.0.6:
-  version "27.0.6"
-  resolved "https://registry.nlark.com/babel-preset-jest/download/babel-preset-jest-27.0.6.tgz#909ef08e9f24a4679768be2f60a3df0856843f9d"
-  integrity sha1-kJ7wjp8kpGeXaL4vYKPfCFaEP50=
-  dependencies:
-    babel-plugin-jest-hoist "^27.0.6"
-    babel-preset-current-node-syntax "^1.0.0"
 
 babel-preset-jest@^27.2.0:
   version "27.2.0"
@@ -7315,26 +7251,6 @@ jest-get-type@^27.0.6:
   resolved "https://registry.nlark.com/jest-get-type/download/jest-get-type-27.0.6.tgz#0eb5c7f755854279ce9b68a9f1a4122f69047cfe"
   integrity sha1-DrXH91WFQnnOm2ip8aQSL2kEfP4=
 
-jest-haste-map@^27.1.1:
-  version "27.1.1"
-  resolved "https://registry.nlark.com/jest-haste-map/download/jest-haste-map-27.1.1.tgz#f7c646b0e417ec29b80b96cf785b57b581384adf"
-  integrity sha1-98ZGsOQX7Cm4C5bPeFtXtYE4St8=
-  dependencies:
-    "@jest/types" "^27.1.1"
-    "@types/graceful-fs" "^4.1.2"
-    "@types/node" "*"
-    anymatch "^3.0.3"
-    fb-watchman "^2.0.0"
-    graceful-fs "^4.2.4"
-    jest-regex-util "^27.0.6"
-    jest-serializer "^27.0.6"
-    jest-util "^27.1.1"
-    jest-worker "^27.1.1"
-    micromatch "^4.0.4"
-    walker "^1.0.7"
-  optionalDependencies:
-    fsevents "^2.3.2"
-
 jest-haste-map@^27.2.4:
   version "27.2.4"
   resolved "https://registry.npmmirror.com/jest-haste-map/download/jest-haste-map-27.2.4.tgz#f8974807bedf07348ca9fd24e5861ab7c8e61aba"
@@ -7554,7 +7470,7 @@ jest-snapshot@^27.2.4:
     pretty-format "^27.2.4"
     semver "^7.3.2"
 
-jest-util@^27.0.0, jest-util@^27.1.1:
+jest-util@^27.0.0:
   version "27.1.1"
   resolved "https://registry.nlark.com/jest-util/download/jest-util-27.1.1.tgz#2b06db1391d779ec2bd406ab3690ddc56ac728b9"
   integrity sha1-KwbbE5HXeewr1AarNpDdxWrHKLk=
@@ -7612,7 +7528,7 @@ jest-worker@^26.3.0, jest-worker@^26.6.2:
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
 
-jest-worker@^27.0.6, jest-worker@^27.1.1:
+jest-worker@^27.0.6:
   version "27.1.1"
   resolved "https://registry.nlark.com/jest-worker/download/jest-worker-27.1.1.tgz#eb5f05c4657fdcb702c36c48b20d785bd4599378"
   integrity sha1-618FxGV/3LcCw2xIsg14W9RZk3g=
