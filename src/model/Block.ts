@@ -13,8 +13,8 @@ class Block {
   public constructor(
     filledBy: TetriminoKind,
     position: Position,
-    atomicNumber: number = 0,
-    id: number = 0
+    atomicNumber = 0,
+    id = 0
   ) {
     this.filledBy = filledBy
     this.position = position

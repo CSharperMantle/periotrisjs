@@ -4,8 +4,8 @@ describe("Position", () => {
   it("should be initialized with correct props", () => {
     const p = new Position(0, 1)
 
-    expect(p.X).toBe(0)
-    expect(p.Y).toBe(1)
+    expect(p.x).toBe(0)
+    expect(p.y).toBe(1)
   })
 
   it("should be equatable", () => {

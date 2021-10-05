@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const babelOptions = {
   presets: ["@babel/preset-react"],
   plugins: [

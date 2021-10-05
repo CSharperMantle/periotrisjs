@@ -61,7 +61,7 @@ describe("Tetrimino", () => {
 
     // Move down.
     expect(t.tryMove(MoveDirection.Down, () => false)).toBe(true)
-    expect(t.position.equals(new Position(p.X, p.Y + 1))).toBe(true)
+    expect(t.position.equals(new Position(p.x, p.y + 1))).toBe(true)
     // Make sure all blocks are in their position.
     b.forEach((block) => {
       const corrNewBlks = t.blocks.filter((newBlk) => newBlk.id === block.id)
@@ -69,33 +69,33 @@ describe("Tetrimino", () => {
       const blk = corrNewBlks[0]
       expect(
         blk.position.equals(
-          new Position(block.position.X, block.position.Y + 1)
+          new Position(block.position.x, block.position.y + 1)
         )
       ).toBe(true)
     })
     // Move right.
     expect(t.tryMove(MoveDirection.Right, () => false)).toBe(true)
-    expect(t.position.equals(new Position(p.X + 1, p.Y + 1))).toBe(true)
+    expect(t.position.equals(new Position(p.x + 1, p.y + 1))).toBe(true)
     b.forEach((block) => {
       const corrNewBlks = t.blocks.filter((newBlk) => newBlk.id === block.id)
       expect(corrNewBlks).toHaveLength(1)
       const blk = corrNewBlks[0]
       expect(
         blk.position.equals(
-          new Position(block.position.X + 1, block.position.Y + 1)
+          new Position(block.position.x + 1, block.position.y + 1)
         )
       ).toBe(true)
     })
     // This moving attempt should fail. It's position should be preserved.
     expect(t.tryMove(MoveDirection.Right, () => true)).toBe(false)
-    expect(t.position.equals(new Position(p.X + 1, p.Y + 1))).toBe(true)
+    expect(t.position.equals(new Position(p.x + 1, p.y + 1))).toBe(true)
     b.forEach((block) => {
       const corrNewBlks = t.blocks.filter((newBlk) => newBlk.id === block.id)
       expect(corrNewBlks).toHaveLength(1)
       const blk = corrNewBlks[0]
       expect(
         blk.position.equals(
-          new Position(block.position.X + 1, block.position.Y + 1)
+          new Position(block.position.x + 1, block.position.y + 1)
         )
       ).toBe(true)
     })
