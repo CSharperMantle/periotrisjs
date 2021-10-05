@@ -35,7 +35,7 @@ __webpack_require__.r(__webpack_exports__);
  * Represents a coordination in the game field.
  *
  * The top-left corner is the O point.
- */class Position{constructor(x,y){this.X=void 0;this.Y=void 0;this.X=x;this.Y=y;}equals(another){return this.X===another.X&&this.Y===another.Y;}}
+ */class Position{constructor(x,y){this.x=void 0;this.y=void 0;this.x=x;this.y=y;}equals(another){return this.x===another.x&&this.y===another.y;}}
 
 /***/ }),
 
@@ -80,14 +80,16 @@ var Direction;(function(Direction){Direction[Direction["Left"]=0]="Left";Directi
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Tetrimino": () => (/* binding */ Tetrimino)
+/* harmony export */   "Tetrimino": () => (/* binding */ Tetrimino),
+/* harmony export */   "repairBrokenTetriminos": () => (/* binding */ repairBrokenTetriminos)
 /* harmony export */ });
 /* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/cloneDeep */ "./node_modules/lodash/cloneDeep.js");
 /* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _common_Position__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/Position */ "./src/common/Position.ts");
-/* harmony import */ var _Direction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Direction */ "./src/model/Direction.ts");
-/* harmony import */ var _generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./generation/GeneratorHelper */ "./src/model/generation/GeneratorHelper.ts");
-/* harmony import */ var _TetriminoKind__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TetriminoKind */ "./src/model/TetriminoKind.ts");
+/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Block */ "./src/model/Block.ts");
+/* harmony import */ var _Direction__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Direction */ "./src/model/Direction.ts");
+/* harmony import */ var _generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./generation/GeneratorHelper */ "./src/model/generation/GeneratorHelper.ts");
+/* harmony import */ var _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TetriminoKind */ "./src/model/TetriminoKind.ts");
 /**
  * The type for block collision checker.
  *
@@ -100,13 +102,22 @@ __webpack_require__.r(__webpack_exports__);
    * @param direction The direction to move.
    * @param collisionChecker The BlockCollisionChecker function to use.
    * @returns 'true' for a successful move, otherwise 'false'.
-   */tryMove(direction,collisionChecker){const origPos=this.position;let newPos;if(direction===_Direction__WEBPACK_IMPORTED_MODULE_2__.MoveDirection.Down){const row=origPos.Y+1;newPos=new _common_Position__WEBPACK_IMPORTED_MODULE_1__.Position(origPos.X,row);}else{const delta=direction===_Direction__WEBPACK_IMPORTED_MODULE_2__.MoveDirection.Right?1:-1;const column=origPos.X+delta;newPos=new _common_Position__WEBPACK_IMPORTED_MODULE_1__.Position(column,origPos.Y);}const deltaX=newPos.X-origPos.X;const deltaY=newPos.Y-origPos.Y;const newBlocks=lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_0___default()(this.blocks);newBlocks.forEach(block=>{block.position=new _common_Position__WEBPACK_IMPORTED_MODULE_1__.Position(block.position.X+deltaX,block.position.Y+deltaY);});if(newBlocks.some(collisionChecker)){return false;}this.position=newPos;this.blocks=newBlocks;return true;}/**
+   */tryMove(direction,collisionChecker){const origPos=this.position;let newPos;if(direction===_Direction__WEBPACK_IMPORTED_MODULE_3__.MoveDirection.Down){const row=origPos.y+1;newPos=new _common_Position__WEBPACK_IMPORTED_MODULE_1__.Position(origPos.x,row);}else{const delta=direction===_Direction__WEBPACK_IMPORTED_MODULE_3__.MoveDirection.Right?1:-1;const column=origPos.x+delta;newPos=new _common_Position__WEBPACK_IMPORTED_MODULE_1__.Position(column,origPos.y);}const deltaX=newPos.x-origPos.x;const deltaY=newPos.y-origPos.y;const newBlocks=lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_0___default()(this.blocks);newBlocks.forEach(block=>{block.position=new _common_Position__WEBPACK_IMPORTED_MODULE_1__.Position(block.position.x+deltaX,block.position.y+deltaY);});if(newBlocks.some(collisionChecker)){return false;}this.position=newPos;this.blocks=newBlocks;return true;}/**
    * Rotates the Tetrimino instance.
    *
    * @param rotationDirection The direction to rotate.
    * @param collisionChecker The BlockCollisionChecker function to use.
    * @returns 'true' for a successful rotation, otherwise 'false'.
-   */tryRotate(rotationDirection,collisionChecker){const count=Object.keys(_Direction__WEBPACK_IMPORTED_MODULE_2__.Direction).length/2;const delta=rotationDirection===_Direction__WEBPACK_IMPORTED_MODULE_2__.RotationDirection.Right?1:-1;let direction=this.facingDirection+delta;if(direction<0){direction+=count;}if(direction>=count){direction%=count;}const adjustPattern=this.kind===_TetriminoKind__WEBPACK_IMPORTED_MODULE_4__.TetriminoKind.Linear?[0,1,-1,2,-2]:[0,1,-1];for(let i=0;i<adjustPattern.length;i++){const adjust=adjustPattern[i];const newPos=new _common_Position__WEBPACK_IMPORTED_MODULE_1__.Position(this.position.X+adjust,this.position.Y);let newBlocks=(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_3__.createOffsetedBlocks)(this.kind,newPos,direction);if(!newBlocks.some(collisionChecker)){newBlocks=(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_3__.mapAtomicNumberForNewBlocks)(this.blocks,newBlocks);this.facingDirection=direction;this.position=newPos;this.blocks=newBlocks;return true;}}return false;}static createTetriminoByPosition(kind,position,facingDirection){return new Tetrimino(kind,position,(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_3__.getFirstBlockPositionByPosition)(position,kind,facingDirection),facingDirection);}static createTetriminoByFirstBlockPosition(kind,firstBlockPos,facingDirection){return new Tetrimino(kind,(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_3__.getPositionByFirstBlockPosition)(firstBlockPos,kind,facingDirection),firstBlockPos,facingDirection);}constructor(kind,position,firstBlockPos,facingDirection){this.facingDirection=void 0;this.firstBlockPosition=void 0;this.kind=void 0;this.position=void 0;this.blocks=void 0;this.position=position;this.kind=kind;this.firstBlockPosition=firstBlockPos;this.facingDirection=facingDirection;this.blocks=(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_3__.createOffsetedBlocks)(kind,position,facingDirection);}}
+   */tryRotate(rotationDirection,collisionChecker){const count=Object.keys(_Direction__WEBPACK_IMPORTED_MODULE_3__.Direction).length/2;const delta=rotationDirection===_Direction__WEBPACK_IMPORTED_MODULE_3__.RotationDirection.Right?1:-1;let direction=this.facingDirection+delta;if(direction<0){direction+=count;}if(direction>=count){direction%=count;}const adjustPattern=this.kind===_TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Linear?[0,1,-1,2,-2]:[0,1,-1];for(let i=0;i<adjustPattern.length;i++){const adjust=adjustPattern[i];const newPos=new _common_Position__WEBPACK_IMPORTED_MODULE_1__.Position(this.position.x+adjust,this.position.y);let newBlocks=(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_4__.createOffsetedBlocks)(this.kind,newPos,direction);if(!newBlocks.some(collisionChecker)){newBlocks=(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_4__.mapAtomicNumberForNewBlocks)(this.blocks,newBlocks);this.facingDirection=direction;this.position=newPos;this.blocks=newBlocks;return true;}}return false;}static createTetriminoByPosition(kind,position,facingDirection){return new Tetrimino(kind,position,(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_4__.getFirstBlockPositionByPosition)(position,kind,facingDirection),facingDirection);}static createTetriminoByFirstBlockPosition(kind,firstBlockPos,facingDirection){return new Tetrimino(kind,(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_4__.getPositionByFirstBlockPosition)(firstBlockPos,kind,facingDirection),firstBlockPos,facingDirection);}constructor(kind,position,firstBlockPos,facingDirection){this.facingDirection=void 0;this.firstBlockPosition=void 0;this.kind=void 0;this.position=void 0;this.blocks=void 0;this.position=position;this.kind=kind;this.firstBlockPosition=firstBlockPos;this.facingDirection=facingDirection;this.blocks=(0,_generation_GeneratorHelper__WEBPACK_IMPORTED_MODULE_4__.createOffsetedBlocks)(kind,position,facingDirection);}}function repairBrokenTetriminos(brokenTetriminos){/*
+   * HACK: Object's prototype chain will be lost when
+   * transferred through messages, thanks to the limitations
+   * of Structured Clone. The following code's
+   * purpose is to restore the method mapping of the
+   * objects.
+   */const repairedTetriminos=Array.from(brokenTetriminos,brokenTetrimino=>{// Fix tetrimino itself
+const repairedTetrimino=Object.create(Tetrimino.prototype,Object.getOwnPropertyDescriptors(brokenTetrimino));// Fix its block positions
+const repairedBlocks=Array.from(repairedTetrimino.blocks,block=>{const repairedBlock=Object.create(_Block__WEBPACK_IMPORTED_MODULE_2__.Block.prototype,Object.getOwnPropertyDescriptors(block));repairedBlock.position=Object.create(_common_Position__WEBPACK_IMPORTED_MODULE_1__.Position.prototype,Object.getOwnPropertyDescriptors(repairedBlock.position));return repairedBlock;});repairedTetrimino.blocks=repairedBlocks;// Fix its own positions
+repairedTetrimino.firstBlockPosition=Object.create(_common_Position__WEBPACK_IMPORTED_MODULE_1__.Position.prototype,Object.getOwnPropertyDescriptors(repairedTetrimino.firstBlockPosition));repairedTetrimino.position=Object.create(_common_Position__WEBPACK_IMPORTED_MODULE_1__.Position.prototype,Object.getOwnPropertyDescriptors(repairedTetrimino.position));return repairedTetrimino;});return repairedTetriminos;}
 
 /***/ }),
 
@@ -122,27 +133,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "TetriminoKind": () => (/* binding */ TetriminoKind)
 /* harmony export */ });
 var TetriminoKind;(function(TetriminoKind){TetriminoKind[TetriminoKind["Linear"]=0]="Linear";TetriminoKind[TetriminoKind["Cubic"]=1]="Cubic";TetriminoKind[TetriminoKind["LShapedCis"]=2]="LShapedCis";TetriminoKind[TetriminoKind["LShapedTrans"]=3]="LShapedTrans";TetriminoKind[TetriminoKind["ZigZagCis"]=4]="ZigZagCis";TetriminoKind[TetriminoKind["ZigZagTrans"]=5]="ZigZagTrans";TetriminoKind[TetriminoKind["TeeShaped"]=6]="TeeShaped";TetriminoKind[TetriminoKind["AvailableToFill"]=7]="AvailableToFill";TetriminoKind[TetriminoKind["UnavailableToFill"]=8]="UnavailableToFill";})(TetriminoKind||(TetriminoKind={}));
-
-/***/ }),
-
-/***/ "./src/model/generation/DependencyBuilder.ts":
-/*!***************************************************!*\
-  !*** ./src/model/generation/DependencyBuilder.ts ***!
-  \***************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createTetriminoDependencyGraph": () => (/* binding */ createTetriminoDependencyGraph)
-/* harmony export */ });
-/* harmony import */ var lodash_isNil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/isNil */ "./node_modules/lodash/isNil.js");
-/* harmony import */ var lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_isNil__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../common/PeriotrisConst */ "./src/common/PeriotrisConst.ts");
-/* harmony import */ var _TetriminoKind__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../TetriminoKind */ "./src/model/TetriminoKind.ts");
-/* harmony import */ var _MemoizedBlock__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MemoizedBlock */ "./src/model/generation/MemoizedBlock.ts");
-/* harmony import */ var _TetriminoNode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TetriminoNode */ "./src/model/generation/TetriminoNode.ts");
-function createTetriminoDependencyGraph(tetriminos){const memoizedMap=[];for(let i=0;i<_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_1__.PlayAreaHeight;i++){memoizedMap[i]=[];}const tetriminoNodes=Array.from(tetriminos,tetrimino=>{const tetriminoNode=new _TetriminoNode__WEBPACK_IMPORTED_MODULE_4__.TetriminoNode(tetrimino.kind,tetrimino.position,tetrimino.firstBlockPosition,tetrimino.facingDirection);tetriminoNode.memoizedBlocks=getMemoizedBlocksForTetriminoNode(tetriminoNode,tetrimino);tetriminoNode.blocks=tetriminoNode.memoizedBlocks;tetriminoNode.memoizedBlocks.forEach(block=>{memoizedMap[block.position.Y][block.position.X]=block;});return tetriminoNode;});tetriminoNodes.forEach(tetriminoNode=>{tetriminoNode.memoizedBlocks.forEach(block=>{const dependedBlockRow=block.position.Y+1;const dependedBlockCol=block.position.X;const{isSuccessful,result}=tryGetOccupiedTetriminoNode(memoizedMap,dependedBlockRow,dependedBlockCol,_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_1__.PlayAreaWidth,_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_1__.PlayAreaHeight);if(!isSuccessful||result===tetriminoNode){return;}result.dependedBy.add(tetriminoNode);tetriminoNode.depending.add(result);});});return tetriminoNodes;}function getMemoizedBlocksForTetriminoNode(node,tetrimino){const memoizedBlocks=Array.from(tetrimino.blocks,block=>{return new _MemoizedBlock__WEBPACK_IMPORTED_MODULE_3__.MemoizedBlock(block.filledBy,block.position,node,block.atomicNumber,block.id);});return memoizedBlocks;}function tryGetOccupiedTetriminoNode(map,row,col,playAreaWidth,playAreaHeight){if(row<0||row>=playAreaHeight||col<0||col>=playAreaWidth){return{isSuccessful:false,result:null};}const cell=map[row][col];if(lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(cell)||cell.filledBy===_TetriminoKind__WEBPACK_IMPORTED_MODULE_2__.TetriminoKind.AvailableToFill||cell.filledBy===_TetriminoKind__WEBPACK_IMPORTED_MODULE_2__.TetriminoKind.UnavailableToFill){return{isSuccessful:false,result:null};}return{isSuccessful:true,result:cell.owner};}
 
 /***/ }),
 
@@ -176,7 +166,7 @@ const CubicMaskDown=[[3,4],[2,1]];const CubicMaskLeft=[[2,3],[1,4]];const CubicM
  * @returns An 'number[][]' of the mask.
  *
  * @throws RangeError
- */function createBlocksMask(kind,direction){switch(kind){case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Linear:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return LinearLeftMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return LinearUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return LinearRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return LinearDownMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Cubic:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return CubicMaskUp;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return CubicMaskRight;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return CubicMaskDown;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return CubicMaskLeft;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedCis:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return LCisUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return LCisRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return LCisDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return LCisLeftMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedTrans:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return LTransUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return LTransRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return LTransDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return LTransLeftMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagCis:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return ZCisUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return ZCisRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return ZCisDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return ZCisLeftMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagTrans:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return ZTransUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return ZTransRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return ZTransDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return ZTransLeftMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.TeeShaped:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return TeeUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return TeeRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return TeeDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return TeeLeftMask;default:throw new RangeError("direction");}default:throw new RangeError("kind");}}function getFirstBlockCoordByType(kind,facingDirection){switch(kind){case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Linear:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:2,col:3};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:3,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:1,col:3};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:3,col:2};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Cubic:return{row:1,col:1};case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedCis:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:1,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:2,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:2,col:0};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:2,col:1};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedTrans:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:2,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:1,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:2,col:1};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagCis:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:2,col:0};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:1,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:2,col:2};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagTrans:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:1,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:2,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:2,col:1};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.TeeShaped:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:1,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:2,col:1};default:throw new RangeError("facingDirection");}default:throw new RangeError("kind");}}function getPositionByFirstBlockPosition(firstBlockPosition,kind,facingDirection){const firstBlockCoord=getFirstBlockCoordByType(kind,facingDirection);const firstBlockRow=firstBlockCoord.row;const firstBlockCol=firstBlockCoord.col;return new _common_Position__WEBPACK_IMPORTED_MODULE_2__.Position(firstBlockPosition.X-firstBlockCol,firstBlockPosition.Y-firstBlockRow);}function getFirstBlockPositionByPosition(position,kind,facingDirection){const firstBlockCoord=getFirstBlockCoordByType(kind,facingDirection);const firstBlockRow=firstBlockCoord.row;const firstBlockCol=firstBlockCoord.col;return new _common_Position__WEBPACK_IMPORTED_MODULE_2__.Position(position.X+firstBlockCol,position.Y+firstBlockRow);}function getInitialPositionByKind(kind){let length;switch(kind){case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Linear:length=4;break;case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Cubic:length=2;break;case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedCis:case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedTrans:case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.TeeShaped:case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagCis:case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagTrans:length=3;break;default:throw new RangeError("kind");}const row=0;const col=Math.floor((_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_1__.PlayAreaWidth-length)/2);return new _common_Position__WEBPACK_IMPORTED_MODULE_2__.Position(col,row);}function createOffsetedBlocks(kind,offset,direction=_Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up){const mask=createBlocksMask(kind,direction);const offsetBlocks=[];for(let nRow=0;nRow<mask.length;nRow++){const row=mask[nRow];for(let nCol=0;nCol<row.length;nCol++){const identifier=row[nCol];if(identifier!==0){offsetBlocks.push(new _Block__WEBPACK_IMPORTED_MODULE_3__.Block(kind,new _common_Position__WEBPACK_IMPORTED_MODULE_2__.Position(nCol+offset.X,nRow+offset.Y),0,identifier));}}}return offsetBlocks;}/**
+ */function createBlocksMask(kind,direction){switch(kind){case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Linear:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return LinearLeftMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return LinearUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return LinearRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return LinearDownMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Cubic:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return CubicMaskUp;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return CubicMaskRight;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return CubicMaskDown;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return CubicMaskLeft;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedCis:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return LCisUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return LCisRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return LCisDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return LCisLeftMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedTrans:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return LTransUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return LTransRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return LTransDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return LTransLeftMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagCis:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return ZCisUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return ZCisRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return ZCisDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return ZCisLeftMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagTrans:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return ZTransUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return ZTransRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return ZTransDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return ZTransLeftMask;default:throw new RangeError("direction");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.TeeShaped:switch(direction){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return TeeUpMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return TeeRightMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return TeeDownMask;case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return TeeLeftMask;default:throw new RangeError("direction");}default:throw new RangeError("kind");}}function getFirstBlockCoordByType(kind,facingDirection){switch(kind){case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Linear:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:2,col:3};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:3,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:1,col:3};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:3,col:2};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Cubic:return{row:1,col:1};case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedCis:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:1,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:2,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:2,col:0};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:2,col:1};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedTrans:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:2,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:1,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:2,col:1};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagCis:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:2,col:0};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:1,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:2,col:2};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagTrans:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:1,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:2,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:2,col:1};default:throw new RangeError("facingDirection");}case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.TeeShaped:switch(facingDirection){case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Left:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up:return{row:1,col:2};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Right:return{row:2,col:1};case _Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Down:return{row:2,col:1};default:throw new RangeError("facingDirection");}default:throw new RangeError("kind");}}function getPositionByFirstBlockPosition(firstBlockPosition,kind,facingDirection){const firstBlockCoord=getFirstBlockCoordByType(kind,facingDirection);const firstBlockRow=firstBlockCoord.row;const firstBlockCol=firstBlockCoord.col;return new _common_Position__WEBPACK_IMPORTED_MODULE_2__.Position(firstBlockPosition.x-firstBlockCol,firstBlockPosition.y-firstBlockRow);}function getFirstBlockPositionByPosition(position,kind,facingDirection){const firstBlockCoord=getFirstBlockCoordByType(kind,facingDirection);const firstBlockRow=firstBlockCoord.row;const firstBlockCol=firstBlockCoord.col;return new _common_Position__WEBPACK_IMPORTED_MODULE_2__.Position(position.x+firstBlockCol,position.y+firstBlockRow);}function getInitialPositionByKind(kind){let length;switch(kind){case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Linear:length=4;break;case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.Cubic:length=2;break;case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedCis:case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.LShapedTrans:case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.TeeShaped:case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagCis:case _TetriminoKind__WEBPACK_IMPORTED_MODULE_5__.TetriminoKind.ZigZagTrans:length=3;break;default:throw new RangeError("kind");}const row=0;const col=Math.floor((_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_1__.PlayAreaWidth-length)/2);return new _common_Position__WEBPACK_IMPORTED_MODULE_2__.Position(col,row);}function createOffsetedBlocks(kind,offset,direction=_Direction__WEBPACK_IMPORTED_MODULE_4__.Direction.Up){const mask=createBlocksMask(kind,direction);const offsetBlocks=[];for(let nRow=0;nRow<mask.length;nRow++){const row=mask[nRow];for(let nCol=0;nCol<row.length;nCol++){const identifier=row[nCol];if(identifier!==0){offsetBlocks.push(new _Block__WEBPACK_IMPORTED_MODULE_3__.Block(kind,new _common_Position__WEBPACK_IMPORTED_MODULE_2__.Position(nCol+offset.x,nRow+offset.y),0,identifier));}}}return offsetBlocks;}/**
  * Maps the atomicNumber prop in the oldBlocks to newBlocks by id.
  * Note that this function does not change newBlocks but return a new
  * array of mapped blocks.
@@ -185,22 +175,6 @@ const CubicMaskDown=[[3,4],[2,1]];const CubicMaskLeft=[[2,3],[1,4]];const CubicM
  * @returns Mapped newBlocks.
  * @throws Error
  */function mapAtomicNumberForNewBlocks(oldBlocks,newBlocks){if(oldBlocks.length!==newBlocks.length){throw new Error("oldBlocks.length !== newBlocks.length");}const result=[];oldBlocks.forEach(oldBlock=>{const correspondingNewBlocks=lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_0___default()(newBlocks.filter(newBlock=>newBlock.id===oldBlock.id));correspondingNewBlocks.forEach(block=>{block.atomicNumber=oldBlock.atomicNumber;result.push(block);});});return result;}
-
-/***/ }),
-
-/***/ "./src/model/generation/MemoizedBlock.ts":
-/*!***********************************************!*\
-  !*** ./src/model/generation/MemoizedBlock.ts ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "MemoizedBlock": () => (/* binding */ MemoizedBlock)
-/* harmony export */ });
-/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Block */ "./src/model/Block.ts");
-class MemoizedBlock extends _Block__WEBPACK_IMPORTED_MODULE_0__.Block{constructor(filledBy,position,owner,atomicNumber,identifier){super(filledBy,position,atomicNumber,identifier);this.owner=void 0;this.owner=owner;}}
 
 /***/ }),
 
@@ -248,45 +222,119 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Tetrimino__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Tetrimino */ "./src/model/Tetrimino.ts");
 /* harmony import */ var _TetriminoKind__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../TetriminoKind */ "./src/model/TetriminoKind.ts");
 /* harmony import */ var _GeneratorHelper__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./GeneratorHelper */ "./src/model/generation/GeneratorHelper.ts");
-/* harmony import */ var _TetriminoSorter__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./TetriminoSorter */ "./src/model/generation/TetriminoSorter.ts");
-function getPlayablePattern(){const template=[];for(let i=0;i<_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_5__.PlayAreaHeight;i++){template[i]=[];for(let j=0;j<_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_5__.PlayAreaWidth;j++){const origElem=_json_DefaultMap_json__WEBPACK_IMPORTED_MODULE_7__.periodicTable[i][j];template[i][j]=new _Block__WEBPACK_IMPORTED_MODULE_8__.Block(origElem.filledBy,new _common_Position__WEBPACK_IMPORTED_MODULE_6__.Position(origElem.position.X,origElem.position.Y),origElem.atomicNumber,0);}}const tetriminos=(0,_TetriminoSorter__WEBPACK_IMPORTED_MODULE_13__.sort)(getPossibleTetriminoPattern(template));tetriminos.forEach(tetrimino=>{const originalPos=tetrimino.position;const newPos=(0,_GeneratorHelper__WEBPACK_IMPORTED_MODULE_12__.getInitialPositionByKind)(tetrimino.kind);const deltaX=newPos.X-originalPos.X;const deltaY=newPos.Y-originalPos.Y;const newBlocks=Array.from(tetrimino.blocks,block=>{return new _Block__WEBPACK_IMPORTED_MODULE_8__.Block(block.filledBy,new _common_Position__WEBPACK_IMPORTED_MODULE_6__.Position(block.position.X+deltaX,block.position.Y+deltaY),block.atomicNumber,block.id);});tetrimino.blocks=newBlocks;tetrimino.position=newPos;const rotationCount=lodash_random__WEBPACK_IMPORTED_MODULE_4___default()(0,Object.keys(_Direction__WEBPACK_IMPORTED_MODULE_9__.Direction).length/2);for(let i=0;i<rotationCount;i++){tetrimino.tryRotate(_Direction__WEBPACK_IMPORTED_MODULE_9__.RotationDirection.Right,()=>false);}});return tetriminos;}function getPossibleTetriminoPattern(template){const workspace=lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default()(template);const settledTetriminos=[];const pendingTetriminoKinds=[];let rewindingRequired=false;// eslint-disable-next-line no-constant-condition
-while(true){const firstBlockCoord=getFirstAvailableBlockCoord(workspace);const firstBlockCol=firstBlockCoord.X;const firstBlockRow=firstBlockCoord.Y;if(!(firstBlockCol>=0&&firstBlockRow>=0)){return settledTetriminos;}let currentKindDirectionsPairStack;if(!rewindingRequired){currentKindDirectionsPairStack=createShuffledKindDirectionsPairs();}else{if(settledTetriminos.length===0){return settledTetriminos;}const poppedKinds=pendingTetriminoKinds.pop();if(lodash_isNil__WEBPACK_IMPORTED_MODULE_2___default()(poppedKinds)){throw new Error("poppedKinds");}currentKindDirectionsPairStack=poppedKinds;const lastTetrimino=settledTetriminos.pop();if(lodash_isNil__WEBPACK_IMPORTED_MODULE_2___default()(lastTetrimino)){throw new Error("lastTetrimino");}lastTetrimino.blocks.forEach(block=>{workspace[block.position.Y][block.position.X].filledBy=_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.AvailableToFill;});}let solutionFound=false;while(!solutionFound&&currentKindDirectionsPairStack.length>0){const currentPair=currentKindDirectionsPairStack.pop();if(lodash_isNil__WEBPACK_IMPORTED_MODULE_2___default()(currentPair)){throw new Error("currentPair");}while(!solutionFound&&currentPair.directions.length>0){const direction=currentPair.popRandomDirection();const tetrimino=_Tetrimino__WEBPACK_IMPORTED_MODULE_10__.Tetrimino.createTetriminoByFirstBlockPosition(currentPair.kind,firstBlockCoord,direction);if(!tetrimino.blocks.some(collisionChecker.bind(undefined,workspace))){settledTetriminos.push(tetrimino);pendingTetriminoKinds.push(currentKindDirectionsPairStack);tetrimino.blocks.forEach(block=>{block.atomicNumber=workspace[block.position.Y][block.position.X].atomicNumber;workspace[block.position.Y][block.position.X].filledBy=block.filledBy;});solutionFound=true;rewindingRequired=false;}}}if(!solutionFound){rewindingRequired=true;}}}function createShuffledKindDirectionsPairs(){return lodash_shuffle__WEBPACK_IMPORTED_MODULE_1___default()([new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.Cubic),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.LShapedCis),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.LShapedTrans),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.Linear),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.TeeShaped),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.ZigZagCis),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.ZigZagTrans)]);}function collisionChecker(workspace,block){const nRow=block.position.Y;const nCol=block.position.X;if(nCol<0||nCol>=workspace[0].length||nRow>=workspace.length){return true;}return workspace[nRow][nCol].filledBy!==_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.AvailableToFill;}function getFirstAvailableBlockCoord(blocks){for(let nRow=blocks.length-1;nRow>=0;nRow--){const col=blocks[nRow];for(let nCol=col.length-1;nCol>=0;nCol--){if(col[nCol].filledBy===_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.AvailableToFill){return new _common_Position__WEBPACK_IMPORTED_MODULE_6__.Position(nCol,nRow);}}}return new _common_Position__WEBPACK_IMPORTED_MODULE_6__.Position(-1,-1);}class KindDirectionsPair{constructor(kind){this.kind=void 0;this.directions=void 0;this.kind=kind;this.directions=lodash_clone__WEBPACK_IMPORTED_MODULE_0___default()(AllDirections);}popRandomDirection(){const index=lodash_random__WEBPACK_IMPORTED_MODULE_4___default()(0,this.directions.length-1);return this.directions.splice(index)[0];}}const AllDirections=[_Direction__WEBPACK_IMPORTED_MODULE_9__.Direction.Up,_Direction__WEBPACK_IMPORTED_MODULE_9__.Direction.Down,_Direction__WEBPACK_IMPORTED_MODULE_9__.Direction.Left,_Direction__WEBPACK_IMPORTED_MODULE_9__.Direction.Right];
+function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap();var cacheNodeInterop=new WeakMap();return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop;})(nodeInterop);}function _interopRequireWildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj;}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj};}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj);}var newObj={};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc);}else{newObj[key]=obj[key];}}}newObj.default=obj;if(cache){cache.set(obj,newObj);}return newObj;}function externTopoSortWasmInterop(tetriminos){return new Promise(resolve=>{Promise.resolve().then(()=>_interopRequireWildcard(__webpack_require__(/*! ../../../pkg */ "./pkg/index.js"))).then(wasm=>{wasm.extern_init();resolve(wasm.extern_topo_sort(tetriminos));});});}async function getPlayablePattern(){const template=[];for(let i=0;i<_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_5__.PlayAreaHeight;i++){template[i]=[];for(let j=0;j<_common_PeriotrisConst__WEBPACK_IMPORTED_MODULE_5__.PlayAreaWidth;j++){const origElem=_json_DefaultMap_json__WEBPACK_IMPORTED_MODULE_7__.periodicTable[i][j];template[i][j]=new _Block__WEBPACK_IMPORTED_MODULE_8__.Block(origElem.filledBy,new _common_Position__WEBPACK_IMPORTED_MODULE_6__.Position(origElem.position.X,origElem.position.Y),origElem.atomicNumber,0);}}const tetriminos=await externTopoSortWasmInterop(getPossibleTetriminoPattern(template));const fixedTetriminos=(0,_Tetrimino__WEBPACK_IMPORTED_MODULE_10__.repairBrokenTetriminos)(tetriminos);fixedTetriminos.forEach(tetrimino=>{const originalPos=tetrimino.position;const newPos=(0,_GeneratorHelper__WEBPACK_IMPORTED_MODULE_12__.getInitialPositionByKind)(tetrimino.kind);const deltaX=newPos.x-originalPos.x;const deltaY=newPos.y-originalPos.y;const newBlocks=Array.from(tetrimino.blocks,block=>{return new _Block__WEBPACK_IMPORTED_MODULE_8__.Block(block.filledBy,new _common_Position__WEBPACK_IMPORTED_MODULE_6__.Position(block.position.x+deltaX,block.position.y+deltaY),block.atomicNumber,block.id);});tetrimino.blocks=newBlocks;tetrimino.position=newPos;const rotationCount=lodash_random__WEBPACK_IMPORTED_MODULE_4___default()(0,Object.keys(_Direction__WEBPACK_IMPORTED_MODULE_9__.Direction).length/2);for(let i=0;i<rotationCount;i++){tetrimino.tryRotate(_Direction__WEBPACK_IMPORTED_MODULE_9__.RotationDirection.Right,()=>false);}});return fixedTetriminos;}function getPossibleTetriminoPattern(template){const workspace=lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default()(template);const settledTetriminos=[];const pendingTetriminoKinds=[];let rewindingRequired=false;// eslint-disable-next-line no-constant-condition
+while(true){const firstBlockCoord=getFirstAvailableBlockCoord(workspace);const firstBlockCol=firstBlockCoord.x;const firstBlockRow=firstBlockCoord.y;if(!(firstBlockCol>=0&&firstBlockRow>=0)){return settledTetriminos;}let currentKindDirectionsPairStack;if(!rewindingRequired){currentKindDirectionsPairStack=createShuffledKindDirectionsPairs();}else{if(settledTetriminos.length===0){return settledTetriminos;}const poppedKinds=pendingTetriminoKinds.pop();if(lodash_isNil__WEBPACK_IMPORTED_MODULE_2___default()(poppedKinds)){throw new Error("poppedKinds");}currentKindDirectionsPairStack=poppedKinds;const lastTetrimino=settledTetriminos.pop();if(lodash_isNil__WEBPACK_IMPORTED_MODULE_2___default()(lastTetrimino)){throw new Error("lastTetrimino");}lastTetrimino.blocks.forEach(block=>{workspace[block.position.y][block.position.x].filledBy=_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.AvailableToFill;});}let solutionFound=false;while(!solutionFound&&currentKindDirectionsPairStack.length>0){const currentPair=currentKindDirectionsPairStack.pop();if(lodash_isNil__WEBPACK_IMPORTED_MODULE_2___default()(currentPair)){throw new Error("currentPair");}while(!solutionFound&&currentPair.directions.length>0){const direction=currentPair.popRandomDirection();const tetrimino=_Tetrimino__WEBPACK_IMPORTED_MODULE_10__.Tetrimino.createTetriminoByFirstBlockPosition(currentPair.kind,firstBlockCoord,direction);if(!tetrimino.blocks.some(collisionChecker.bind(undefined,workspace))){settledTetriminos.push(tetrimino);pendingTetriminoKinds.push(currentKindDirectionsPairStack);tetrimino.blocks.forEach(block=>{block.atomicNumber=workspace[block.position.y][block.position.x].atomicNumber;workspace[block.position.y][block.position.x].filledBy=block.filledBy;});solutionFound=true;rewindingRequired=false;}}}if(!solutionFound){rewindingRequired=true;}}}function createShuffledKindDirectionsPairs(){return lodash_shuffle__WEBPACK_IMPORTED_MODULE_1___default()([new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.Cubic),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.LShapedCis),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.LShapedTrans),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.Linear),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.TeeShaped),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.ZigZagCis),new KindDirectionsPair(_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.ZigZagTrans)]);}function collisionChecker(workspace,block){const nRow=block.position.y;const nCol=block.position.x;if(nCol<0||nCol>=workspace[0].length||nRow>=workspace.length){return true;}return workspace[nRow][nCol].filledBy!==_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.AvailableToFill;}function getFirstAvailableBlockCoord(blocks){for(let nRow=blocks.length-1;nRow>=0;nRow--){const col=blocks[nRow];for(let nCol=col.length-1;nCol>=0;nCol--){if(col[nCol].filledBy===_TetriminoKind__WEBPACK_IMPORTED_MODULE_11__.TetriminoKind.AvailableToFill){return new _common_Position__WEBPACK_IMPORTED_MODULE_6__.Position(nCol,nRow);}}}return new _common_Position__WEBPACK_IMPORTED_MODULE_6__.Position(-1,-1);}class KindDirectionsPair{constructor(kind){this.kind=void 0;this.directions=void 0;this.kind=kind;this.directions=lodash_clone__WEBPACK_IMPORTED_MODULE_0___default()(AllDirections);}popRandomDirection(){const index=lodash_random__WEBPACK_IMPORTED_MODULE_4___default()(0,this.directions.length-1);return this.directions.splice(index)[0];}}const AllDirections=[_Direction__WEBPACK_IMPORTED_MODULE_9__.Direction.Up,_Direction__WEBPACK_IMPORTED_MODULE_9__.Direction.Down,_Direction__WEBPACK_IMPORTED_MODULE_9__.Direction.Left,_Direction__WEBPACK_IMPORTED_MODULE_9__.Direction.Right];
 
 /***/ }),
 
-/***/ "./src/model/generation/TetriminoNode.ts":
-/*!***********************************************!*\
-  !*** ./src/model/generation/TetriminoNode.ts ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ "./pkg/index.js":
+/*!**********************!*\
+  !*** ./pkg/index.js ***!
+  \**********************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
+__webpack_require__.a(module, async (__webpack_handle_async_dependencies__) => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "TetriminoNode": () => (/* binding */ TetriminoNode)
+/* harmony export */   "__wbg_buffer_397eaa4d72ee94dd": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_buffer_397eaa4d72ee94dd),
+/* harmony export */   "__wbg_call_888d259a5fefc347": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_call_888d259a5fefc347),
+/* harmony export */   "__wbg_crypto_98fc271021c7d2ad": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_crypto_98fc271021c7d2ad),
+/* harmony export */   "__wbg_error_4bb6c2a97407129a": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_error_4bb6c2a97407129a),
+/* harmony export */   "__wbg_getRandomValues_98117e9a7e993920": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_getRandomValues_98117e9a7e993920),
+/* harmony export */   "__wbg_globalThis_3f735a5746d41fbd": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_globalThis_3f735a5746d41fbd),
+/* harmony export */   "__wbg_global_1bc0b39582740e95": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_global_1bc0b39582740e95),
+/* harmony export */   "__wbg_length_1eb8fc608a0d4cdb": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_length_1eb8fc608a0d4cdb),
+/* harmony export */   "__wbg_modulerequire_3440a4bcf44437db": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_modulerequire_3440a4bcf44437db),
+/* harmony export */   "__wbg_msCrypto_a2cdb043d2bfe57f": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_msCrypto_a2cdb043d2bfe57f),
+/* harmony export */   "__wbg_new_59cb74e423758ede": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_new_59cb74e423758ede),
+/* harmony export */   "__wbg_new_a7ce447f15ff496f": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_new_a7ce447f15ff496f),
+/* harmony export */   "__wbg_newnoargs_be86524d73f67598": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_newnoargs_be86524d73f67598),
+/* harmony export */   "__wbg_newwithlength_929232475839a482": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_newwithlength_929232475839a482),
+/* harmony export */   "__wbg_node_4b517d861cbcb3bc": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_node_4b517d861cbcb3bc),
+/* harmony export */   "__wbg_process_2f24d6544ea7b200": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_process_2f24d6544ea7b200),
+/* harmony export */   "__wbg_randomFillSync_64cc7d048f228ca8": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_randomFillSync_64cc7d048f228ca8),
+/* harmony export */   "__wbg_self_c6fbdfc2918d5e58": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_self_c6fbdfc2918d5e58),
+/* harmony export */   "__wbg_set_969ad0a60e51d320": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_set_969ad0a60e51d320),
+/* harmony export */   "__wbg_stack_558ba5917b466edd": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_stack_558ba5917b466edd),
+/* harmony export */   "__wbg_subarray_8b658422a224f479": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_subarray_8b658422a224f479),
+/* harmony export */   "__wbg_versions_6164651e75405d4a": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_versions_6164651e75405d4a),
+/* harmony export */   "__wbg_window_baec038b5ab35c54": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbg_window_baec038b5ab35c54),
+/* harmony export */   "__wbindgen_is_object": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_is_object),
+/* harmony export */   "__wbindgen_is_string": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_is_string),
+/* harmony export */   "__wbindgen_is_undefined": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_is_undefined),
+/* harmony export */   "__wbindgen_json_parse": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_json_parse),
+/* harmony export */   "__wbindgen_json_serialize": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_json_serialize),
+/* harmony export */   "__wbindgen_memory": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_memory),
+/* harmony export */   "__wbindgen_object_clone_ref": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_object_clone_ref),
+/* harmony export */   "__wbindgen_object_drop_ref": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_object_drop_ref),
+/* harmony export */   "__wbindgen_throw": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_throw),
+/* harmony export */   "extern_init": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.extern_init),
+/* harmony export */   "extern_topo_sort": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.extern_topo_sort)
 /* harmony export */ });
-/* harmony import */ var _Tetrimino__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Tetrimino */ "./src/model/Tetrimino.ts");
-class TetriminoNode extends _Tetrimino__WEBPACK_IMPORTED_MODULE_0__.Tetrimino{constructor(kind,position,firstBlockPos,facingDirection){super(kind,position,firstBlockPos,facingDirection);this.memoizedBlocks=[];this.dependedBy=new Set();this.depending=new Set();}}
+/* harmony import */ var _index_bg_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index_bg.js */ "./pkg/index_bg.js");
+var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_index_bg_js__WEBPACK_IMPORTED_MODULE_0__]);
+_index_bg_js__WEBPACK_IMPORTED_MODULE_0__ = (__webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__)[0];
+
+});
 
 /***/ }),
 
-/***/ "./src/model/generation/TetriminoSorter.ts":
-/*!*************************************************!*\
-  !*** ./src/model/generation/TetriminoSorter.ts ***!
-  \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ "./pkg/index_bg.js":
+/*!*************************!*\
+  !*** ./pkg/index_bg.js ***!
+  \*************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
+__webpack_require__.a(module, async (__webpack_handle_async_dependencies__) => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "sort": () => (/* binding */ sort)
+/* harmony export */   "extern_init": () => (/* binding */ extern_init),
+/* harmony export */   "extern_topo_sort": () => (/* binding */ extern_topo_sort),
+/* harmony export */   "__wbindgen_json_parse": () => (/* binding */ __wbindgen_json_parse),
+/* harmony export */   "__wbindgen_json_serialize": () => (/* binding */ __wbindgen_json_serialize),
+/* harmony export */   "__wbg_randomFillSync_64cc7d048f228ca8": () => (/* binding */ __wbg_randomFillSync_64cc7d048f228ca8),
+/* harmony export */   "__wbindgen_object_drop_ref": () => (/* binding */ __wbindgen_object_drop_ref),
+/* harmony export */   "__wbg_getRandomValues_98117e9a7e993920": () => (/* binding */ __wbg_getRandomValues_98117e9a7e993920),
+/* harmony export */   "__wbg_process_2f24d6544ea7b200": () => (/* binding */ __wbg_process_2f24d6544ea7b200),
+/* harmony export */   "__wbindgen_is_object": () => (/* binding */ __wbindgen_is_object),
+/* harmony export */   "__wbg_versions_6164651e75405d4a": () => (/* binding */ __wbg_versions_6164651e75405d4a),
+/* harmony export */   "__wbg_node_4b517d861cbcb3bc": () => (/* binding */ __wbg_node_4b517d861cbcb3bc),
+/* harmony export */   "__wbindgen_is_string": () => (/* binding */ __wbindgen_is_string),
+/* harmony export */   "__wbg_crypto_98fc271021c7d2ad": () => (/* binding */ __wbg_crypto_98fc271021c7d2ad),
+/* harmony export */   "__wbg_msCrypto_a2cdb043d2bfe57f": () => (/* binding */ __wbg_msCrypto_a2cdb043d2bfe57f),
+/* harmony export */   "__wbg_modulerequire_3440a4bcf44437db": () => (/* binding */ __wbg_modulerequire_3440a4bcf44437db),
+/* harmony export */   "__wbg_newnoargs_be86524d73f67598": () => (/* binding */ __wbg_newnoargs_be86524d73f67598),
+/* harmony export */   "__wbg_call_888d259a5fefc347": () => (/* binding */ __wbg_call_888d259a5fefc347),
+/* harmony export */   "__wbindgen_object_clone_ref": () => (/* binding */ __wbindgen_object_clone_ref),
+/* harmony export */   "__wbg_self_c6fbdfc2918d5e58": () => (/* binding */ __wbg_self_c6fbdfc2918d5e58),
+/* harmony export */   "__wbg_window_baec038b5ab35c54": () => (/* binding */ __wbg_window_baec038b5ab35c54),
+/* harmony export */   "__wbg_globalThis_3f735a5746d41fbd": () => (/* binding */ __wbg_globalThis_3f735a5746d41fbd),
+/* harmony export */   "__wbg_global_1bc0b39582740e95": () => (/* binding */ __wbg_global_1bc0b39582740e95),
+/* harmony export */   "__wbindgen_is_undefined": () => (/* binding */ __wbindgen_is_undefined),
+/* harmony export */   "__wbg_buffer_397eaa4d72ee94dd": () => (/* binding */ __wbg_buffer_397eaa4d72ee94dd),
+/* harmony export */   "__wbg_new_a7ce447f15ff496f": () => (/* binding */ __wbg_new_a7ce447f15ff496f),
+/* harmony export */   "__wbg_set_969ad0a60e51d320": () => (/* binding */ __wbg_set_969ad0a60e51d320),
+/* harmony export */   "__wbg_length_1eb8fc608a0d4cdb": () => (/* binding */ __wbg_length_1eb8fc608a0d4cdb),
+/* harmony export */   "__wbg_newwithlength_929232475839a482": () => (/* binding */ __wbg_newwithlength_929232475839a482),
+/* harmony export */   "__wbg_subarray_8b658422a224f479": () => (/* binding */ __wbg_subarray_8b658422a224f479),
+/* harmony export */   "__wbg_new_59cb74e423758ede": () => (/* binding */ __wbg_new_59cb74e423758ede),
+/* harmony export */   "__wbg_stack_558ba5917b466edd": () => (/* binding */ __wbg_stack_558ba5917b466edd),
+/* harmony export */   "__wbg_error_4bb6c2a97407129a": () => (/* binding */ __wbg_error_4bb6c2a97407129a),
+/* harmony export */   "__wbindgen_throw": () => (/* binding */ __wbindgen_throw),
+/* harmony export */   "__wbindgen_memory": () => (/* binding */ __wbindgen_memory)
 /* harmony export */ });
-/* harmony import */ var lodash_remove__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/remove */ "./node_modules/lodash/remove.js");
-/* harmony import */ var lodash_remove__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_remove__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lodash_sample__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/sample */ "./node_modules/lodash/sample.js");
-/* harmony import */ var lodash_sample__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_sample__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _DependencyBuilder__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DependencyBuilder */ "./src/model/generation/DependencyBuilder.ts");
-function sort(tetriminos){const graph=(0,_DependencyBuilder__WEBPACK_IMPORTED_MODULE_2__.createTetriminoDependencyGraph)(tetriminos);const startNodes=graph.filter(node=>{return node.depending.size===0;});const result=[];while(startNodes.length!==0){const n=lodash_sample__WEBPACK_IMPORTED_MODULE_1___default()(startNodes);lodash_remove__WEBPACK_IMPORTED_MODULE_0___default()(startNodes,node=>node===n);result.push(n);const dependedBy=[...n.dependedBy];dependedBy.forEach(m=>{n.dependedBy.delete(m);m.depending.delete(n);if(m.depending.size===0){startNodes.push(m);}});}if(graph.some(node=>{return node.dependedBy.size!==0||node.depending.size!==0;}))throw new RangeError("tetriminos");return result;}
+/* harmony import */ var _index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index_bg.wasm */ "./pkg/index_bg.wasm");
+/* module decorator */ module = __webpack_require__.hmd(module);
+var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__]);
+_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__ = (__webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__)[0];
+const lTextDecoder=typeof TextDecoder==='undefined'?(0,module.require)('util').TextDecoder:TextDecoder;let cachedTextDecoder=new lTextDecoder('utf-8',{ignoreBOM:true,fatal:true});cachedTextDecoder.decode();let cachegetUint8Memory0=null;function getUint8Memory0(){if(cachegetUint8Memory0===null||cachegetUint8Memory0.buffer!==_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.memory.buffer){cachegetUint8Memory0=new Uint8Array(_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.memory.buffer);}return cachegetUint8Memory0;}function getStringFromWasm0(ptr,len){return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr,ptr+len));}const heap=new Array(32).fill(undefined);heap.push(undefined,null,true,false);let heap_next=heap.length;function addHeapObject(obj){if(heap_next===heap.length)heap.push(heap.length+1);const idx=heap_next;heap_next=heap[idx];heap[idx]=obj;return idx;}function getObject(idx){return heap[idx];}let WASM_VECTOR_LEN=0;const lTextEncoder=typeof TextEncoder==='undefined'?(0,module.require)('util').TextEncoder:TextEncoder;let cachedTextEncoder=new lTextEncoder('utf-8');const encodeString=typeof cachedTextEncoder.encodeInto==='function'?function(arg,view){return cachedTextEncoder.encodeInto(arg,view);}:function(arg,view){const buf=cachedTextEncoder.encode(arg);view.set(buf);return{read:arg.length,written:buf.length};};function passStringToWasm0(arg,malloc,realloc){if(realloc===undefined){const buf=cachedTextEncoder.encode(arg);const ptr=malloc(buf.length);getUint8Memory0().subarray(ptr,ptr+buf.length).set(buf);WASM_VECTOR_LEN=buf.length;return ptr;}let len=arg.length;let ptr=malloc(len);const mem=getUint8Memory0();let offset=0;for(;offset<len;offset++){const code=arg.charCodeAt(offset);if(code>0x7F)break;mem[ptr+offset]=code;}if(offset!==len){if(offset!==0){arg=arg.slice(offset);}ptr=realloc(ptr,len,len=offset+arg.length*3);const view=getUint8Memory0().subarray(ptr+offset,ptr+len);const ret=encodeString(arg,view);offset+=ret.written;}WASM_VECTOR_LEN=offset;return ptr;}let cachegetInt32Memory0=null;function getInt32Memory0(){if(cachegetInt32Memory0===null||cachegetInt32Memory0.buffer!==_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.memory.buffer){cachegetInt32Memory0=new Int32Array(_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.memory.buffer);}return cachegetInt32Memory0;}function dropObject(idx){if(idx<36)return;heap[idx]=heap_next;heap_next=idx;}function takeObject(idx){const ret=getObject(idx);dropObject(idx);return ret;}/**
+*/function extern_init(){_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.extern_init();}let stack_pointer=32;function addBorrowedObject(obj){if(stack_pointer==1)throw new Error('out of js stack');heap[--stack_pointer]=obj;return stack_pointer;}/**
+* @param {any} tetriminos
+* @returns {any}
+*/function extern_topo_sort(tetriminos){try{var ret=_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.extern_topo_sort(addBorrowedObject(tetriminos));return takeObject(ret);}finally{heap[stack_pointer++]=undefined;}}function handleError(f,args){try{return f.apply(this,args);}catch(e){_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_exn_store(addHeapObject(e));}}function getArrayU8FromWasm0(ptr,len){return getUint8Memory0().subarray(ptr/1,ptr/1+len);}function __wbindgen_json_parse(arg0,arg1){var ret=JSON.parse(getStringFromWasm0(arg0,arg1));return addHeapObject(ret);};function __wbindgen_json_serialize(arg0,arg1){const obj=getObject(arg1);var ret=JSON.stringify(obj===undefined?null:obj);var ptr0=passStringToWasm0(ret,_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_malloc,_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_realloc);var len0=WASM_VECTOR_LEN;getInt32Memory0()[arg0/4+1]=len0;getInt32Memory0()[arg0/4+0]=ptr0;};function __wbg_randomFillSync_64cc7d048f228ca8(){return handleError(function(arg0,arg1,arg2){getObject(arg0).randomFillSync(getArrayU8FromWasm0(arg1,arg2));},arguments);};function __wbindgen_object_drop_ref(arg0){takeObject(arg0);};function __wbg_getRandomValues_98117e9a7e993920(){return handleError(function(arg0,arg1){getObject(arg0).getRandomValues(getObject(arg1));},arguments);};function __wbg_process_2f24d6544ea7b200(arg0){var ret=getObject(arg0).process;return addHeapObject(ret);};function __wbindgen_is_object(arg0){const val=getObject(arg0);var ret=typeof val==='object'&&val!==null;return ret;};function __wbg_versions_6164651e75405d4a(arg0){var ret=getObject(arg0).versions;return addHeapObject(ret);};function __wbg_node_4b517d861cbcb3bc(arg0){var ret=getObject(arg0).node;return addHeapObject(ret);};function __wbindgen_is_string(arg0){var ret=typeof getObject(arg0)==='string';return ret;};function __wbg_crypto_98fc271021c7d2ad(arg0){var ret=getObject(arg0).crypto;return addHeapObject(ret);};function __wbg_msCrypto_a2cdb043d2bfe57f(arg0){var ret=getObject(arg0).msCrypto;return addHeapObject(ret);};function __wbg_modulerequire_3440a4bcf44437db(){return handleError(function(arg0,arg1){var ret=__webpack_require__("./pkg sync recursive")(getStringFromWasm0(arg0,arg1));return addHeapObject(ret);},arguments);};function __wbg_newnoargs_be86524d73f67598(arg0,arg1){var ret=new Function(getStringFromWasm0(arg0,arg1));return addHeapObject(ret);};function __wbg_call_888d259a5fefc347(){return handleError(function(arg0,arg1){var ret=getObject(arg0).call(getObject(arg1));return addHeapObject(ret);},arguments);};function __wbindgen_object_clone_ref(arg0){var ret=getObject(arg0);return addHeapObject(ret);};function __wbg_self_c6fbdfc2918d5e58(){return handleError(function(){var ret=self.self;return addHeapObject(ret);},arguments);};function __wbg_window_baec038b5ab35c54(){return handleError(function(){var ret=window.window;return addHeapObject(ret);},arguments);};function __wbg_globalThis_3f735a5746d41fbd(){return handleError(function(){var ret=globalThis.globalThis;return addHeapObject(ret);},arguments);};function __wbg_global_1bc0b39582740e95(){return handleError(function(){var ret=global.global;return addHeapObject(ret);},arguments);};function __wbindgen_is_undefined(arg0){var ret=getObject(arg0)===undefined;return ret;};function __wbg_buffer_397eaa4d72ee94dd(arg0){var ret=getObject(arg0).buffer;return addHeapObject(ret);};function __wbg_new_a7ce447f15ff496f(arg0){var ret=new Uint8Array(getObject(arg0));return addHeapObject(ret);};function __wbg_set_969ad0a60e51d320(arg0,arg1,arg2){getObject(arg0).set(getObject(arg1),arg2>>>0);};function __wbg_length_1eb8fc608a0d4cdb(arg0){var ret=getObject(arg0).length;return ret;};function __wbg_newwithlength_929232475839a482(arg0){var ret=new Uint8Array(arg0>>>0);return addHeapObject(ret);};function __wbg_subarray_8b658422a224f479(arg0,arg1,arg2){var ret=getObject(arg0).subarray(arg1>>>0,arg2>>>0);return addHeapObject(ret);};function __wbg_new_59cb74e423758ede(){var ret=new Error();return addHeapObject(ret);};function __wbg_stack_558ba5917b466edd(arg0,arg1){var ret=getObject(arg1).stack;var ptr0=passStringToWasm0(ret,_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_malloc,_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_realloc);var len0=WASM_VECTOR_LEN;getInt32Memory0()[arg0/4+1]=len0;getInt32Memory0()[arg0/4+0]=ptr0;};function __wbg_error_4bb6c2a97407129a(arg0,arg1){try{console.error(getStringFromWasm0(arg0,arg1));}finally{_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_free(arg0,arg1);}};function __wbindgen_throw(arg0,arg1){throw new Error(getStringFromWasm0(arg0,arg1));};function __wbindgen_memory(){var ret=_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.memory;return addHeapObject(ret);};
+});
 
 /***/ }),
 
@@ -480,43 +528,6 @@ var getNative = __webpack_require__(/*! ./_getNative */ "./node_modules/lodash/_
 var Set = getNative(root, 'Set');
 
 module.exports = Set;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_SetCache.js":
-/*!******************************************!*\
-  !*** ./node_modules/lodash/_SetCache.js ***!
-  \******************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var MapCache = __webpack_require__(/*! ./_MapCache */ "./node_modules/lodash/_MapCache.js"),
-    setCacheAdd = __webpack_require__(/*! ./_setCacheAdd */ "./node_modules/lodash/_setCacheAdd.js"),
-    setCacheHas = __webpack_require__(/*! ./_setCacheHas */ "./node_modules/lodash/_setCacheHas.js");
-
-/**
- *
- * Creates an array cache object to store unique values.
- *
- * @private
- * @constructor
- * @param {Array} [values] The values to cache.
- */
-function SetCache(values) {
-  var index = -1,
-      length = values == null ? 0 : values.length;
-
-  this.__data__ = new MapCache;
-  while (++index < length) {
-    this.add(values[index]);
-  }
-}
-
-// Add methods to `SetCache`.
-SetCache.prototype.add = SetCache.prototype.push = setCacheAdd;
-SetCache.prototype.has = setCacheHas;
-
-module.exports = SetCache;
 
 
 /***/ }),
@@ -794,31 +805,6 @@ module.exports = arrayPush;
 
 /***/ }),
 
-/***/ "./node_modules/lodash/_arraySample.js":
-/*!*********************************************!*\
-  !*** ./node_modules/lodash/_arraySample.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var baseRandom = __webpack_require__(/*! ./_baseRandom */ "./node_modules/lodash/_baseRandom.js");
-
-/**
- * A specialized version of `_.sample` for arrays.
- *
- * @private
- * @param {Array} array The array to sample.
- * @returns {*} Returns the random element.
- */
-function arraySample(array) {
-  var length = array.length;
-  return length ? array[baseRandom(0, length - 1)] : undefined;
-}
-
-module.exports = arraySample;
-
-
-/***/ }),
-
 /***/ "./node_modules/lodash/_arrayShuffle.js":
 /*!**********************************************!*\
   !*** ./node_modules/lodash/_arrayShuffle.js ***!
@@ -840,39 +826,6 @@ function arrayShuffle(array) {
 }
 
 module.exports = arrayShuffle;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_arraySome.js":
-/*!*******************************************!*\
-  !*** ./node_modules/lodash/_arraySome.js ***!
-  \*******************************************/
-/***/ ((module) => {
-
-/**
- * A specialized version of `_.some` for arrays without support for iteratee
- * shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} predicate The function invoked per iteration.
- * @returns {boolean} Returns `true` if any element passes the predicate check,
- *  else `false`.
- */
-function arraySome(array, predicate) {
-  var index = -1,
-      length = array == null ? 0 : array.length;
-
-  while (++index < length) {
-    if (predicate(array[index], index, array)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-module.exports = arraySome;
 
 
 /***/ }),
@@ -1251,40 +1204,6 @@ module.exports = baseCreate;
 
 /***/ }),
 
-/***/ "./node_modules/lodash/_baseGet.js":
-/*!*****************************************!*\
-  !*** ./node_modules/lodash/_baseGet.js ***!
-  \*****************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var castPath = __webpack_require__(/*! ./_castPath */ "./node_modules/lodash/_castPath.js"),
-    toKey = __webpack_require__(/*! ./_toKey */ "./node_modules/lodash/_toKey.js");
-
-/**
- * The base implementation of `_.get` without support for default values.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array|string} path The path of the property to get.
- * @returns {*} Returns the resolved value.
- */
-function baseGet(object, path) {
-  path = castPath(path, object);
-
-  var index = 0,
-      length = path.length;
-
-  while (object != null && index < length) {
-    object = object[toKey(path[index++])];
-  }
-  return (index && index == length) ? object : undefined;
-}
-
-module.exports = baseGet;
-
-
-/***/ }),
-
 /***/ "./node_modules/lodash/_baseGetAllKeys.js":
 /*!************************************************!*\
   !*** ./node_modules/lodash/_baseGetAllKeys.js ***!
@@ -1353,29 +1272,6 @@ module.exports = baseGetTag;
 
 /***/ }),
 
-/***/ "./node_modules/lodash/_baseHasIn.js":
-/*!*******************************************!*\
-  !*** ./node_modules/lodash/_baseHasIn.js ***!
-  \*******************************************/
-/***/ ((module) => {
-
-/**
- * The base implementation of `_.hasIn` without support for deep paths.
- *
- * @private
- * @param {Object} [object] The object to query.
- * @param {Array|string} key The key to check.
- * @returns {boolean} Returns `true` if `key` exists, else `false`.
- */
-function baseHasIn(object, key) {
-  return object != null && key in Object(object);
-}
-
-module.exports = baseHasIn;
-
-
-/***/ }),
-
 /***/ "./node_modules/lodash/_baseIsArguments.js":
 /*!*************************************************!*\
   !*** ./node_modules/lodash/_baseIsArguments.js ***!
@@ -1404,137 +1300,6 @@ module.exports = baseIsArguments;
 
 /***/ }),
 
-/***/ "./node_modules/lodash/_baseIsEqual.js":
-/*!*********************************************!*\
-  !*** ./node_modules/lodash/_baseIsEqual.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var baseIsEqualDeep = __webpack_require__(/*! ./_baseIsEqualDeep */ "./node_modules/lodash/_baseIsEqualDeep.js"),
-    isObjectLike = __webpack_require__(/*! ./isObjectLike */ "./node_modules/lodash/isObjectLike.js");
-
-/**
- * The base implementation of `_.isEqual` which supports partial comparisons
- * and tracks traversed objects.
- *
- * @private
- * @param {*} value The value to compare.
- * @param {*} other The other value to compare.
- * @param {boolean} bitmask The bitmask flags.
- *  1 - Unordered comparison
- *  2 - Partial comparison
- * @param {Function} [customizer] The function to customize comparisons.
- * @param {Object} [stack] Tracks traversed `value` and `other` objects.
- * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
- */
-function baseIsEqual(value, other, bitmask, customizer, stack) {
-  if (value === other) {
-    return true;
-  }
-  if (value == null || other == null || (!isObjectLike(value) && !isObjectLike(other))) {
-    return value !== value && other !== other;
-  }
-  return baseIsEqualDeep(value, other, bitmask, customizer, baseIsEqual, stack);
-}
-
-module.exports = baseIsEqual;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_baseIsEqualDeep.js":
-/*!*************************************************!*\
-  !*** ./node_modules/lodash/_baseIsEqualDeep.js ***!
-  \*************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var Stack = __webpack_require__(/*! ./_Stack */ "./node_modules/lodash/_Stack.js"),
-    equalArrays = __webpack_require__(/*! ./_equalArrays */ "./node_modules/lodash/_equalArrays.js"),
-    equalByTag = __webpack_require__(/*! ./_equalByTag */ "./node_modules/lodash/_equalByTag.js"),
-    equalObjects = __webpack_require__(/*! ./_equalObjects */ "./node_modules/lodash/_equalObjects.js"),
-    getTag = __webpack_require__(/*! ./_getTag */ "./node_modules/lodash/_getTag.js"),
-    isArray = __webpack_require__(/*! ./isArray */ "./node_modules/lodash/isArray.js"),
-    isBuffer = __webpack_require__(/*! ./isBuffer */ "./node_modules/lodash/isBuffer.js"),
-    isTypedArray = __webpack_require__(/*! ./isTypedArray */ "./node_modules/lodash/isTypedArray.js");
-
-/** Used to compose bitmasks for value comparisons. */
-var COMPARE_PARTIAL_FLAG = 1;
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    arrayTag = '[object Array]',
-    objectTag = '[object Object]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * A specialized version of `baseIsEqual` for arrays and objects which performs
- * deep comparisons and tracks traversed objects enabling objects with circular
- * references to be compared.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
- * @param {Function} customizer The function to customize comparisons.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Object} [stack] Tracks traversed `object` and `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
-  var objIsArr = isArray(object),
-      othIsArr = isArray(other),
-      objTag = objIsArr ? arrayTag : getTag(object),
-      othTag = othIsArr ? arrayTag : getTag(other);
-
-  objTag = objTag == argsTag ? objectTag : objTag;
-  othTag = othTag == argsTag ? objectTag : othTag;
-
-  var objIsObj = objTag == objectTag,
-      othIsObj = othTag == objectTag,
-      isSameTag = objTag == othTag;
-
-  if (isSameTag && isBuffer(object)) {
-    if (!isBuffer(other)) {
-      return false;
-    }
-    objIsArr = true;
-    objIsObj = false;
-  }
-  if (isSameTag && !objIsObj) {
-    stack || (stack = new Stack);
-    return (objIsArr || isTypedArray(object))
-      ? equalArrays(object, other, bitmask, customizer, equalFunc, stack)
-      : equalByTag(object, other, objTag, bitmask, customizer, equalFunc, stack);
-  }
-  if (!(bitmask & COMPARE_PARTIAL_FLAG)) {
-    var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
-        othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
-
-    if (objIsWrapped || othIsWrapped) {
-      var objUnwrapped = objIsWrapped ? object.value() : object,
-          othUnwrapped = othIsWrapped ? other.value() : other;
-
-      stack || (stack = new Stack);
-      return equalFunc(objUnwrapped, othUnwrapped, bitmask, customizer, stack);
-    }
-  }
-  if (!isSameTag) {
-    return false;
-  }
-  stack || (stack = new Stack);
-  return equalObjects(object, other, bitmask, customizer, equalFunc, stack);
-}
-
-module.exports = baseIsEqualDeep;
-
-
-/***/ }),
-
 /***/ "./node_modules/lodash/_baseIsMap.js":
 /*!*******************************************!*\
   !*** ./node_modules/lodash/_baseIsMap.js ***!
@@ -1559,78 +1324,6 @@ function baseIsMap(value) {
 }
 
 module.exports = baseIsMap;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_baseIsMatch.js":
-/*!*********************************************!*\
-  !*** ./node_modules/lodash/_baseIsMatch.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var Stack = __webpack_require__(/*! ./_Stack */ "./node_modules/lodash/_Stack.js"),
-    baseIsEqual = __webpack_require__(/*! ./_baseIsEqual */ "./node_modules/lodash/_baseIsEqual.js");
-
-/** Used to compose bitmasks for value comparisons. */
-var COMPARE_PARTIAL_FLAG = 1,
-    COMPARE_UNORDERED_FLAG = 2;
-
-/**
- * The base implementation of `_.isMatch` without support for iteratee shorthands.
- *
- * @private
- * @param {Object} object The object to inspect.
- * @param {Object} source The object of property values to match.
- * @param {Array} matchData The property names, values, and compare flags to match.
- * @param {Function} [customizer] The function to customize comparisons.
- * @returns {boolean} Returns `true` if `object` is a match, else `false`.
- */
-function baseIsMatch(object, source, matchData, customizer) {
-  var index = matchData.length,
-      length = index,
-      noCustomizer = !customizer;
-
-  if (object == null) {
-    return !length;
-  }
-  object = Object(object);
-  while (index--) {
-    var data = matchData[index];
-    if ((noCustomizer && data[2])
-          ? data[1] !== object[data[0]]
-          : !(data[0] in object)
-        ) {
-      return false;
-    }
-  }
-  while (++index < length) {
-    data = matchData[index];
-    var key = data[0],
-        objValue = object[key],
-        srcValue = data[1];
-
-    if (noCustomizer && data[2]) {
-      if (objValue === undefined && !(key in object)) {
-        return false;
-      }
-    } else {
-      var stack = new Stack;
-      if (customizer) {
-        var result = customizer(objValue, srcValue, key, object, source, stack);
-      }
-      if (!(result === undefined
-            ? baseIsEqual(srcValue, objValue, COMPARE_PARTIAL_FLAG | COMPARE_UNORDERED_FLAG, customizer, stack)
-            : result
-          )) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-module.exports = baseIsMatch;
 
 
 /***/ }),
@@ -1790,47 +1483,6 @@ module.exports = baseIsTypedArray;
 
 /***/ }),
 
-/***/ "./node_modules/lodash/_baseIteratee.js":
-/*!**********************************************!*\
-  !*** ./node_modules/lodash/_baseIteratee.js ***!
-  \**********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var baseMatches = __webpack_require__(/*! ./_baseMatches */ "./node_modules/lodash/_baseMatches.js"),
-    baseMatchesProperty = __webpack_require__(/*! ./_baseMatchesProperty */ "./node_modules/lodash/_baseMatchesProperty.js"),
-    identity = __webpack_require__(/*! ./identity */ "./node_modules/lodash/identity.js"),
-    isArray = __webpack_require__(/*! ./isArray */ "./node_modules/lodash/isArray.js"),
-    property = __webpack_require__(/*! ./property */ "./node_modules/lodash/property.js");
-
-/**
- * The base implementation of `_.iteratee`.
- *
- * @private
- * @param {*} [value=_.identity] The value to convert to an iteratee.
- * @returns {Function} Returns the iteratee.
- */
-function baseIteratee(value) {
-  // Don't store the `typeof` result in a variable to avoid a JIT bug in Safari 9.
-  // See https://bugs.webkit.org/show_bug.cgi?id=156034 for more details.
-  if (typeof value == 'function') {
-    return value;
-  }
-  if (value == null) {
-    return identity;
-  }
-  if (typeof value == 'object') {
-    return isArray(value)
-      ? baseMatchesProperty(value[0], value[1])
-      : baseMatches(value);
-  }
-  return property(value);
-}
-
-module.exports = baseIteratee;
-
-
-/***/ }),
-
 /***/ "./node_modules/lodash/_baseKeys.js":
 /*!******************************************!*\
   !*** ./node_modules/lodash/_baseKeys.js ***!
@@ -1914,178 +1566,6 @@ module.exports = baseKeysIn;
 
 /***/ }),
 
-/***/ "./node_modules/lodash/_baseMatches.js":
-/*!*********************************************!*\
-  !*** ./node_modules/lodash/_baseMatches.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var baseIsMatch = __webpack_require__(/*! ./_baseIsMatch */ "./node_modules/lodash/_baseIsMatch.js"),
-    getMatchData = __webpack_require__(/*! ./_getMatchData */ "./node_modules/lodash/_getMatchData.js"),
-    matchesStrictComparable = __webpack_require__(/*! ./_matchesStrictComparable */ "./node_modules/lodash/_matchesStrictComparable.js");
-
-/**
- * The base implementation of `_.matches` which doesn't clone `source`.
- *
- * @private
- * @param {Object} source The object of property values to match.
- * @returns {Function} Returns the new spec function.
- */
-function baseMatches(source) {
-  var matchData = getMatchData(source);
-  if (matchData.length == 1 && matchData[0][2]) {
-    return matchesStrictComparable(matchData[0][0], matchData[0][1]);
-  }
-  return function(object) {
-    return object === source || baseIsMatch(object, source, matchData);
-  };
-}
-
-module.exports = baseMatches;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_baseMatchesProperty.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/lodash/_baseMatchesProperty.js ***!
-  \*****************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var baseIsEqual = __webpack_require__(/*! ./_baseIsEqual */ "./node_modules/lodash/_baseIsEqual.js"),
-    get = __webpack_require__(/*! ./get */ "./node_modules/lodash/get.js"),
-    hasIn = __webpack_require__(/*! ./hasIn */ "./node_modules/lodash/hasIn.js"),
-    isKey = __webpack_require__(/*! ./_isKey */ "./node_modules/lodash/_isKey.js"),
-    isStrictComparable = __webpack_require__(/*! ./_isStrictComparable */ "./node_modules/lodash/_isStrictComparable.js"),
-    matchesStrictComparable = __webpack_require__(/*! ./_matchesStrictComparable */ "./node_modules/lodash/_matchesStrictComparable.js"),
-    toKey = __webpack_require__(/*! ./_toKey */ "./node_modules/lodash/_toKey.js");
-
-/** Used to compose bitmasks for value comparisons. */
-var COMPARE_PARTIAL_FLAG = 1,
-    COMPARE_UNORDERED_FLAG = 2;
-
-/**
- * The base implementation of `_.matchesProperty` which doesn't clone `srcValue`.
- *
- * @private
- * @param {string} path The path of the property to get.
- * @param {*} srcValue The value to match.
- * @returns {Function} Returns the new spec function.
- */
-function baseMatchesProperty(path, srcValue) {
-  if (isKey(path) && isStrictComparable(srcValue)) {
-    return matchesStrictComparable(toKey(path), srcValue);
-  }
-  return function(object) {
-    var objValue = get(object, path);
-    return (objValue === undefined && objValue === srcValue)
-      ? hasIn(object, path)
-      : baseIsEqual(srcValue, objValue, COMPARE_PARTIAL_FLAG | COMPARE_UNORDERED_FLAG);
-  };
-}
-
-module.exports = baseMatchesProperty;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_baseProperty.js":
-/*!**********************************************!*\
-  !*** ./node_modules/lodash/_baseProperty.js ***!
-  \**********************************************/
-/***/ ((module) => {
-
-/**
- * The base implementation of `_.property` without support for deep paths.
- *
- * @private
- * @param {string} key The key of the property to get.
- * @returns {Function} Returns the new accessor function.
- */
-function baseProperty(key) {
-  return function(object) {
-    return object == null ? undefined : object[key];
-  };
-}
-
-module.exports = baseProperty;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_basePropertyDeep.js":
-/*!**************************************************!*\
-  !*** ./node_modules/lodash/_basePropertyDeep.js ***!
-  \**************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var baseGet = __webpack_require__(/*! ./_baseGet */ "./node_modules/lodash/_baseGet.js");
-
-/**
- * A specialized version of `baseProperty` which supports deep paths.
- *
- * @private
- * @param {Array|string} path The path of the property to get.
- * @returns {Function} Returns the new accessor function.
- */
-function basePropertyDeep(path) {
-  return function(object) {
-    return baseGet(object, path);
-  };
-}
-
-module.exports = basePropertyDeep;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_basePullAt.js":
-/*!********************************************!*\
-  !*** ./node_modules/lodash/_basePullAt.js ***!
-  \********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var baseUnset = __webpack_require__(/*! ./_baseUnset */ "./node_modules/lodash/_baseUnset.js"),
-    isIndex = __webpack_require__(/*! ./_isIndex */ "./node_modules/lodash/_isIndex.js");
-
-/** Used for built-in method references. */
-var arrayProto = Array.prototype;
-
-/** Built-in value references. */
-var splice = arrayProto.splice;
-
-/**
- * The base implementation of `_.pullAt` without support for individual
- * indexes or capturing the removed elements.
- *
- * @private
- * @param {Array} array The array to modify.
- * @param {number[]} indexes The indexes of elements to remove.
- * @returns {Array} Returns `array`.
- */
-function basePullAt(array, indexes) {
-  var length = array ? indexes.length : 0,
-      lastIndex = length - 1;
-
-  while (length--) {
-    var index = indexes[length];
-    if (length == lastIndex || index !== previous) {
-      var previous = index;
-      if (isIndex(index)) {
-        splice.call(array, index, 1);
-      } else {
-        baseUnset(array, index);
-      }
-    }
-  }
-  return array;
-}
-
-module.exports = basePullAt;
-
-
-/***/ }),
-
 /***/ "./node_modules/lodash/_baseRandom.js":
 /*!********************************************!*\
   !*** ./node_modules/lodash/_baseRandom.js ***!
@@ -2114,31 +1594,6 @@ module.exports = baseRandom;
 
 /***/ }),
 
-/***/ "./node_modules/lodash/_baseSample.js":
-/*!********************************************!*\
-  !*** ./node_modules/lodash/_baseSample.js ***!
-  \********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var arraySample = __webpack_require__(/*! ./_arraySample */ "./node_modules/lodash/_arraySample.js"),
-    values = __webpack_require__(/*! ./values */ "./node_modules/lodash/values.js");
-
-/**
- * The base implementation of `_.sample`.
- *
- * @private
- * @param {Array|Object} collection The collection to sample.
- * @returns {*} Returns the random element.
- */
-function baseSample(collection) {
-  return arraySample(values(collection));
-}
-
-module.exports = baseSample;
-
-
-/***/ }),
-
 /***/ "./node_modules/lodash/_baseShuffle.js":
 /*!*********************************************!*\
   !*** ./node_modules/lodash/_baseShuffle.js ***!
@@ -2160,47 +1615,6 @@ function baseShuffle(collection) {
 }
 
 module.exports = baseShuffle;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_baseSlice.js":
-/*!*******************************************!*\
-  !*** ./node_modules/lodash/_baseSlice.js ***!
-  \*******************************************/
-/***/ ((module) => {
-
-/**
- * The base implementation of `_.slice` without an iteratee call guard.
- *
- * @private
- * @param {Array} array The array to slice.
- * @param {number} [start=0] The start position.
- * @param {number} [end=array.length] The end position.
- * @returns {Array} Returns the slice of `array`.
- */
-function baseSlice(array, start, end) {
-  var index = -1,
-      length = array.length;
-
-  if (start < 0) {
-    start = -start > length ? 0 : (length + start);
-  }
-  end = end > length ? length : end;
-  if (end < 0) {
-    end += length;
-  }
-  length = start > end ? 0 : ((end - start) >>> 0);
-  start >>>= 0;
-
-  var result = Array(length);
-  while (++index < length) {
-    result[index] = array[index + start];
-  }
-  return result;
-}
-
-module.exports = baseSlice;
 
 
 /***/ }),
@@ -2231,53 +1645,6 @@ function baseTimes(n, iteratee) {
 }
 
 module.exports = baseTimes;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_baseToString.js":
-/*!**********************************************!*\
-  !*** ./node_modules/lodash/_baseToString.js ***!
-  \**********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var Symbol = __webpack_require__(/*! ./_Symbol */ "./node_modules/lodash/_Symbol.js"),
-    arrayMap = __webpack_require__(/*! ./_arrayMap */ "./node_modules/lodash/_arrayMap.js"),
-    isArray = __webpack_require__(/*! ./isArray */ "./node_modules/lodash/isArray.js"),
-    isSymbol = __webpack_require__(/*! ./isSymbol */ "./node_modules/lodash/isSymbol.js");
-
-/** Used as references for various `Number` constants. */
-var INFINITY = 1 / 0;
-
-/** Used to convert symbols to primitives and strings. */
-var symbolProto = Symbol ? Symbol.prototype : undefined,
-    symbolToString = symbolProto ? symbolProto.toString : undefined;
-
-/**
- * The base implementation of `_.toString` which doesn't convert nullish
- * values to empty strings.
- *
- * @private
- * @param {*} value The value to process.
- * @returns {string} Returns the string.
- */
-function baseToString(value) {
-  // Exit early for strings to avoid a performance hit in some environments.
-  if (typeof value == 'string') {
-    return value;
-  }
-  if (isArray(value)) {
-    // Recursively convert values (susceptible to call stack limits).
-    return arrayMap(value, baseToString) + '';
-  }
-  if (isSymbol(value)) {
-    return symbolToString ? symbolToString.call(value) : '';
-  }
-  var result = (value + '');
-  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
-}
-
-module.exports = baseToString;
 
 
 /***/ }),
@@ -2335,36 +1702,6 @@ module.exports = baseUnary;
 
 /***/ }),
 
-/***/ "./node_modules/lodash/_baseUnset.js":
-/*!*******************************************!*\
-  !*** ./node_modules/lodash/_baseUnset.js ***!
-  \*******************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var castPath = __webpack_require__(/*! ./_castPath */ "./node_modules/lodash/_castPath.js"),
-    last = __webpack_require__(/*! ./last */ "./node_modules/lodash/last.js"),
-    parent = __webpack_require__(/*! ./_parent */ "./node_modules/lodash/_parent.js"),
-    toKey = __webpack_require__(/*! ./_toKey */ "./node_modules/lodash/_toKey.js");
-
-/**
- * The base implementation of `_.unset`.
- *
- * @private
- * @param {Object} object The object to modify.
- * @param {Array|string} path The property path to unset.
- * @returns {boolean} Returns `true` if the property is deleted, else `false`.
- */
-function baseUnset(object, path) {
-  path = castPath(path, object);
-  object = parent(object, path);
-  return object == null || delete object[toKey(last(path))];
-}
-
-module.exports = baseUnset;
-
-
-/***/ }),
-
 /***/ "./node_modules/lodash/_baseValues.js":
 /*!********************************************!*\
   !*** ./node_modules/lodash/_baseValues.js ***!
@@ -2390,60 +1727,6 @@ function baseValues(object, props) {
 }
 
 module.exports = baseValues;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_cacheHas.js":
-/*!******************************************!*\
-  !*** ./node_modules/lodash/_cacheHas.js ***!
-  \******************************************/
-/***/ ((module) => {
-
-/**
- * Checks if a `cache` value for `key` exists.
- *
- * @private
- * @param {Object} cache The cache to query.
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function cacheHas(cache, key) {
-  return cache.has(key);
-}
-
-module.exports = cacheHas;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_castPath.js":
-/*!******************************************!*\
-  !*** ./node_modules/lodash/_castPath.js ***!
-  \******************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var isArray = __webpack_require__(/*! ./isArray */ "./node_modules/lodash/isArray.js"),
-    isKey = __webpack_require__(/*! ./_isKey */ "./node_modules/lodash/_isKey.js"),
-    stringToPath = __webpack_require__(/*! ./_stringToPath */ "./node_modules/lodash/_stringToPath.js"),
-    toString = __webpack_require__(/*! ./toString */ "./node_modules/lodash/toString.js");
-
-/**
- * Casts `value` to a path array if it's not one.
- *
- * @private
- * @param {*} value The value to inspect.
- * @param {Object} [object] The object to query keys on.
- * @returns {Array} Returns the cast property path array.
- */
-function castPath(value, object) {
-  if (isArray(value)) {
-    return value;
-  }
-  return isKey(value, object) ? [value] : stringToPath(toString(value));
-}
-
-module.exports = castPath;
 
 
 /***/ }),
@@ -2796,322 +2079,6 @@ module.exports = defineProperty;
 
 /***/ }),
 
-/***/ "./node_modules/lodash/_equalArrays.js":
-/*!*********************************************!*\
-  !*** ./node_modules/lodash/_equalArrays.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var SetCache = __webpack_require__(/*! ./_SetCache */ "./node_modules/lodash/_SetCache.js"),
-    arraySome = __webpack_require__(/*! ./_arraySome */ "./node_modules/lodash/_arraySome.js"),
-    cacheHas = __webpack_require__(/*! ./_cacheHas */ "./node_modules/lodash/_cacheHas.js");
-
-/** Used to compose bitmasks for value comparisons. */
-var COMPARE_PARTIAL_FLAG = 1,
-    COMPARE_UNORDERED_FLAG = 2;
-
-/**
- * A specialized version of `baseIsEqualDeep` for arrays with support for
- * partial deep comparisons.
- *
- * @private
- * @param {Array} array The array to compare.
- * @param {Array} other The other array to compare.
- * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
- * @param {Function} customizer The function to customize comparisons.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Object} stack Tracks traversed `array` and `other` objects.
- * @returns {boolean} Returns `true` if the arrays are equivalent, else `false`.
- */
-function equalArrays(array, other, bitmask, customizer, equalFunc, stack) {
-  var isPartial = bitmask & COMPARE_PARTIAL_FLAG,
-      arrLength = array.length,
-      othLength = other.length;
-
-  if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
-    return false;
-  }
-  // Check that cyclic values are equal.
-  var arrStacked = stack.get(array);
-  var othStacked = stack.get(other);
-  if (arrStacked && othStacked) {
-    return arrStacked == other && othStacked == array;
-  }
-  var index = -1,
-      result = true,
-      seen = (bitmask & COMPARE_UNORDERED_FLAG) ? new SetCache : undefined;
-
-  stack.set(array, other);
-  stack.set(other, array);
-
-  // Ignore non-index properties.
-  while (++index < arrLength) {
-    var arrValue = array[index],
-        othValue = other[index];
-
-    if (customizer) {
-      var compared = isPartial
-        ? customizer(othValue, arrValue, index, other, array, stack)
-        : customizer(arrValue, othValue, index, array, other, stack);
-    }
-    if (compared !== undefined) {
-      if (compared) {
-        continue;
-      }
-      result = false;
-      break;
-    }
-    // Recursively compare arrays (susceptible to call stack limits).
-    if (seen) {
-      if (!arraySome(other, function(othValue, othIndex) {
-            if (!cacheHas(seen, othIndex) &&
-                (arrValue === othValue || equalFunc(arrValue, othValue, bitmask, customizer, stack))) {
-              return seen.push(othIndex);
-            }
-          })) {
-        result = false;
-        break;
-      }
-    } else if (!(
-          arrValue === othValue ||
-            equalFunc(arrValue, othValue, bitmask, customizer, stack)
-        )) {
-      result = false;
-      break;
-    }
-  }
-  stack['delete'](array);
-  stack['delete'](other);
-  return result;
-}
-
-module.exports = equalArrays;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_equalByTag.js":
-/*!********************************************!*\
-  !*** ./node_modules/lodash/_equalByTag.js ***!
-  \********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var Symbol = __webpack_require__(/*! ./_Symbol */ "./node_modules/lodash/_Symbol.js"),
-    Uint8Array = __webpack_require__(/*! ./_Uint8Array */ "./node_modules/lodash/_Uint8Array.js"),
-    eq = __webpack_require__(/*! ./eq */ "./node_modules/lodash/eq.js"),
-    equalArrays = __webpack_require__(/*! ./_equalArrays */ "./node_modules/lodash/_equalArrays.js"),
-    mapToArray = __webpack_require__(/*! ./_mapToArray */ "./node_modules/lodash/_mapToArray.js"),
-    setToArray = __webpack_require__(/*! ./_setToArray */ "./node_modules/lodash/_setToArray.js");
-
-/** Used to compose bitmasks for value comparisons. */
-var COMPARE_PARTIAL_FLAG = 1,
-    COMPARE_UNORDERED_FLAG = 2;
-
-/** `Object#toString` result references. */
-var boolTag = '[object Boolean]',
-    dateTag = '[object Date]',
-    errorTag = '[object Error]',
-    mapTag = '[object Map]',
-    numberTag = '[object Number]',
-    regexpTag = '[object RegExp]',
-    setTag = '[object Set]',
-    stringTag = '[object String]',
-    symbolTag = '[object Symbol]';
-
-var arrayBufferTag = '[object ArrayBuffer]',
-    dataViewTag = '[object DataView]';
-
-/** Used to convert symbols to primitives and strings. */
-var symbolProto = Symbol ? Symbol.prototype : undefined,
-    symbolValueOf = symbolProto ? symbolProto.valueOf : undefined;
-
-/**
- * A specialized version of `baseIsEqualDeep` for comparing objects of
- * the same `toStringTag`.
- *
- * **Note:** This function only supports comparing values with tags of
- * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {string} tag The `toStringTag` of the objects to compare.
- * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
- * @param {Function} customizer The function to customize comparisons.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Object} stack Tracks traversed `object` and `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function equalByTag(object, other, tag, bitmask, customizer, equalFunc, stack) {
-  switch (tag) {
-    case dataViewTag:
-      if ((object.byteLength != other.byteLength) ||
-          (object.byteOffset != other.byteOffset)) {
-        return false;
-      }
-      object = object.buffer;
-      other = other.buffer;
-
-    case arrayBufferTag:
-      if ((object.byteLength != other.byteLength) ||
-          !equalFunc(new Uint8Array(object), new Uint8Array(other))) {
-        return false;
-      }
-      return true;
-
-    case boolTag:
-    case dateTag:
-    case numberTag:
-      // Coerce booleans to `1` or `0` and dates to milliseconds.
-      // Invalid dates are coerced to `NaN`.
-      return eq(+object, +other);
-
-    case errorTag:
-      return object.name == other.name && object.message == other.message;
-
-    case regexpTag:
-    case stringTag:
-      // Coerce regexes to strings and treat strings, primitives and objects,
-      // as equal. See http://www.ecma-international.org/ecma-262/7.0/#sec-regexp.prototype.tostring
-      // for more details.
-      return object == (other + '');
-
-    case mapTag:
-      var convert = mapToArray;
-
-    case setTag:
-      var isPartial = bitmask & COMPARE_PARTIAL_FLAG;
-      convert || (convert = setToArray);
-
-      if (object.size != other.size && !isPartial) {
-        return false;
-      }
-      // Assume cyclic values are equal.
-      var stacked = stack.get(object);
-      if (stacked) {
-        return stacked == other;
-      }
-      bitmask |= COMPARE_UNORDERED_FLAG;
-
-      // Recursively compare objects (susceptible to call stack limits).
-      stack.set(object, other);
-      var result = equalArrays(convert(object), convert(other), bitmask, customizer, equalFunc, stack);
-      stack['delete'](object);
-      return result;
-
-    case symbolTag:
-      if (symbolValueOf) {
-        return symbolValueOf.call(object) == symbolValueOf.call(other);
-      }
-  }
-  return false;
-}
-
-module.exports = equalByTag;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_equalObjects.js":
-/*!**********************************************!*\
-  !*** ./node_modules/lodash/_equalObjects.js ***!
-  \**********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var getAllKeys = __webpack_require__(/*! ./_getAllKeys */ "./node_modules/lodash/_getAllKeys.js");
-
-/** Used to compose bitmasks for value comparisons. */
-var COMPARE_PARTIAL_FLAG = 1;
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * A specialized version of `baseIsEqualDeep` for objects with support for
- * partial deep comparisons.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
- * @param {Function} customizer The function to customize comparisons.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Object} stack Tracks traversed `object` and `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function equalObjects(object, other, bitmask, customizer, equalFunc, stack) {
-  var isPartial = bitmask & COMPARE_PARTIAL_FLAG,
-      objProps = getAllKeys(object),
-      objLength = objProps.length,
-      othProps = getAllKeys(other),
-      othLength = othProps.length;
-
-  if (objLength != othLength && !isPartial) {
-    return false;
-  }
-  var index = objLength;
-  while (index--) {
-    var key = objProps[index];
-    if (!(isPartial ? key in other : hasOwnProperty.call(other, key))) {
-      return false;
-    }
-  }
-  // Check that cyclic values are equal.
-  var objStacked = stack.get(object);
-  var othStacked = stack.get(other);
-  if (objStacked && othStacked) {
-    return objStacked == other && othStacked == object;
-  }
-  var result = true;
-  stack.set(object, other);
-  stack.set(other, object);
-
-  var skipCtor = isPartial;
-  while (++index < objLength) {
-    key = objProps[index];
-    var objValue = object[key],
-        othValue = other[key];
-
-    if (customizer) {
-      var compared = isPartial
-        ? customizer(othValue, objValue, key, other, object, stack)
-        : customizer(objValue, othValue, key, object, other, stack);
-    }
-    // Recursively compare objects (susceptible to call stack limits).
-    if (!(compared === undefined
-          ? (objValue === othValue || equalFunc(objValue, othValue, bitmask, customizer, stack))
-          : compared
-        )) {
-      result = false;
-      break;
-    }
-    skipCtor || (skipCtor = key == 'constructor');
-  }
-  if (result && !skipCtor) {
-    var objCtor = object.constructor,
-        othCtor = other.constructor;
-
-    // Non `Object` object instances with different constructors are not equal.
-    if (objCtor != othCtor &&
-        ('constructor' in object && 'constructor' in other) &&
-        !(typeof objCtor == 'function' && objCtor instanceof objCtor &&
-          typeof othCtor == 'function' && othCtor instanceof othCtor)) {
-      result = false;
-    }
-  }
-  stack['delete'](object);
-  stack['delete'](other);
-  return result;
-}
-
-module.exports = equalObjects;
-
-
-/***/ }),
-
 /***/ "./node_modules/lodash/_freeGlobal.js":
 /*!********************************************!*\
   !*** ./node_modules/lodash/_freeGlobal.js ***!
@@ -3203,40 +2170,6 @@ function getMapData(map, key) {
 }
 
 module.exports = getMapData;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_getMatchData.js":
-/*!**********************************************!*\
-  !*** ./node_modules/lodash/_getMatchData.js ***!
-  \**********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var isStrictComparable = __webpack_require__(/*! ./_isStrictComparable */ "./node_modules/lodash/_isStrictComparable.js"),
-    keys = __webpack_require__(/*! ./keys */ "./node_modules/lodash/keys.js");
-
-/**
- * Gets the property names, values, and compare flags of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the match data of `object`.
- */
-function getMatchData(object) {
-  var result = keys(object),
-      length = result.length;
-
-  while (length--) {
-    var key = result[length],
-        value = object[key];
-
-    result[length] = [key, value, isStrictComparable(value)];
-  }
-  return result;
-}
-
-module.exports = getMatchData;
 
 
 /***/ }),
@@ -3502,55 +2435,6 @@ function getValue(object, key) {
 }
 
 module.exports = getValue;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_hasPath.js":
-/*!*****************************************!*\
-  !*** ./node_modules/lodash/_hasPath.js ***!
-  \*****************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var castPath = __webpack_require__(/*! ./_castPath */ "./node_modules/lodash/_castPath.js"),
-    isArguments = __webpack_require__(/*! ./isArguments */ "./node_modules/lodash/isArguments.js"),
-    isArray = __webpack_require__(/*! ./isArray */ "./node_modules/lodash/isArray.js"),
-    isIndex = __webpack_require__(/*! ./_isIndex */ "./node_modules/lodash/_isIndex.js"),
-    isLength = __webpack_require__(/*! ./isLength */ "./node_modules/lodash/isLength.js"),
-    toKey = __webpack_require__(/*! ./_toKey */ "./node_modules/lodash/_toKey.js");
-
-/**
- * Checks if `path` exists on `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array|string} path The path to check.
- * @param {Function} hasFunc The function to check properties.
- * @returns {boolean} Returns `true` if `path` exists, else `false`.
- */
-function hasPath(object, path, hasFunc) {
-  path = castPath(path, object);
-
-  var index = -1,
-      length = path.length,
-      result = false;
-
-  while (++index < length) {
-    var key = toKey(path[index]);
-    if (!(result = object != null && hasFunc(object, key))) {
-      break;
-    }
-    object = object[key];
-  }
-  if (result || ++index != length) {
-    return result;
-  }
-  length = object == null ? 0 : object.length;
-  return !!length && isLength(length) && isIndex(key, length) &&
-    (isArray(object) || isArguments(object));
-}
-
-module.exports = hasPath;
 
 
 /***/ }),
@@ -3939,45 +2823,6 @@ module.exports = isIterateeCall;
 
 /***/ }),
 
-/***/ "./node_modules/lodash/_isKey.js":
-/*!***************************************!*\
-  !*** ./node_modules/lodash/_isKey.js ***!
-  \***************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var isArray = __webpack_require__(/*! ./isArray */ "./node_modules/lodash/isArray.js"),
-    isSymbol = __webpack_require__(/*! ./isSymbol */ "./node_modules/lodash/isSymbol.js");
-
-/** Used to match property names within property paths. */
-var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
-    reIsPlainProp = /^\w*$/;
-
-/**
- * Checks if `value` is a property name and not a property path.
- *
- * @private
- * @param {*} value The value to check.
- * @param {Object} [object] The object to query keys on.
- * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
- */
-function isKey(value, object) {
-  if (isArray(value)) {
-    return false;
-  }
-  var type = typeof value;
-  if (type == 'number' || type == 'symbol' || type == 'boolean' ||
-      value == null || isSymbol(value)) {
-    return true;
-  }
-  return reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
-    (object != null && value in Object(object));
-}
-
-module.exports = isKey;
-
-
-/***/ }),
-
 /***/ "./node_modules/lodash/_isKeyable.js":
 /*!*******************************************!*\
   !*** ./node_modules/lodash/_isKeyable.js ***!
@@ -4057,31 +2902,6 @@ function isPrototype(value) {
 }
 
 module.exports = isPrototype;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_isStrictComparable.js":
-/*!****************************************************!*\
-  !*** ./node_modules/lodash/_isStrictComparable.js ***!
-  \****************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var isObject = __webpack_require__(/*! ./isObject */ "./node_modules/lodash/isObject.js");
-
-/**
- * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` if suitable for strict
- *  equality comparisons, else `false`.
- */
-function isStrictComparable(value) {
-  return value === value && !isObject(value);
-}
-
-module.exports = isStrictComparable;
 
 
 /***/ }),
@@ -4388,100 +3208,6 @@ module.exports = mapCacheSet;
 
 /***/ }),
 
-/***/ "./node_modules/lodash/_mapToArray.js":
-/*!********************************************!*\
-  !*** ./node_modules/lodash/_mapToArray.js ***!
-  \********************************************/
-/***/ ((module) => {
-
-/**
- * Converts `map` to its key-value pairs.
- *
- * @private
- * @param {Object} map The map to convert.
- * @returns {Array} Returns the key-value pairs.
- */
-function mapToArray(map) {
-  var index = -1,
-      result = Array(map.size);
-
-  map.forEach(function(value, key) {
-    result[++index] = [key, value];
-  });
-  return result;
-}
-
-module.exports = mapToArray;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_matchesStrictComparable.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/lodash/_matchesStrictComparable.js ***!
-  \*********************************************************/
-/***/ ((module) => {
-
-/**
- * A specialized version of `matchesProperty` for source values suitable
- * for strict equality comparisons, i.e. `===`.
- *
- * @private
- * @param {string} key The key of the property to get.
- * @param {*} srcValue The value to match.
- * @returns {Function} Returns the new spec function.
- */
-function matchesStrictComparable(key, srcValue) {
-  return function(object) {
-    if (object == null) {
-      return false;
-    }
-    return object[key] === srcValue &&
-      (srcValue !== undefined || (key in Object(object)));
-  };
-}
-
-module.exports = matchesStrictComparable;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_memoizeCapped.js":
-/*!***********************************************!*\
-  !*** ./node_modules/lodash/_memoizeCapped.js ***!
-  \***********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var memoize = __webpack_require__(/*! ./memoize */ "./node_modules/lodash/memoize.js");
-
-/** Used as the maximum memoize cache size. */
-var MAX_MEMOIZE_SIZE = 500;
-
-/**
- * A specialized version of `_.memoize` which clears the memoized function's
- * cache when it exceeds `MAX_MEMOIZE_SIZE`.
- *
- * @private
- * @param {Function} func The function to have its output memoized.
- * @returns {Function} Returns the new memoized function.
- */
-function memoizeCapped(func) {
-  var result = memoize(func, function(key) {
-    if (cache.size === MAX_MEMOIZE_SIZE) {
-      cache.clear();
-    }
-    return key;
-  });
-
-  var cache = result.cache;
-  return result;
-}
-
-module.exports = memoizeCapped;
-
-
-/***/ }),
-
 /***/ "./node_modules/lodash/_nativeCreate.js":
 /*!**********************************************!*\
   !*** ./node_modules/lodash/_nativeCreate.js ***!
@@ -4642,32 +3368,6 @@ module.exports = overArg;
 
 /***/ }),
 
-/***/ "./node_modules/lodash/_parent.js":
-/*!****************************************!*\
-  !*** ./node_modules/lodash/_parent.js ***!
-  \****************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var baseGet = __webpack_require__(/*! ./_baseGet */ "./node_modules/lodash/_baseGet.js"),
-    baseSlice = __webpack_require__(/*! ./_baseSlice */ "./node_modules/lodash/_baseSlice.js");
-
-/**
- * Gets the parent value at `path` of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array} path The path to get the parent value of.
- * @returns {*} Returns the parent value.
- */
-function parent(object, path) {
-  return path.length < 2 ? object : baseGet(object, baseSlice(path, 0, -1));
-}
-
-module.exports = parent;
-
-
-/***/ }),
-
 /***/ "./node_modules/lodash/_root.js":
 /*!**************************************!*\
   !*** ./node_modules/lodash/_root.js ***!
@@ -4683,87 +3383,6 @@ var freeSelf = typeof self == 'object' && self && self.Object === Object && self
 var root = freeGlobal || freeSelf || Function('return this')();
 
 module.exports = root;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_setCacheAdd.js":
-/*!*********************************************!*\
-  !*** ./node_modules/lodash/_setCacheAdd.js ***!
-  \*********************************************/
-/***/ ((module) => {
-
-/** Used to stand-in for `undefined` hash values. */
-var HASH_UNDEFINED = '__lodash_hash_undefined__';
-
-/**
- * Adds `value` to the array cache.
- *
- * @private
- * @name add
- * @memberOf SetCache
- * @alias push
- * @param {*} value The value to cache.
- * @returns {Object} Returns the cache instance.
- */
-function setCacheAdd(value) {
-  this.__data__.set(value, HASH_UNDEFINED);
-  return this;
-}
-
-module.exports = setCacheAdd;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_setCacheHas.js":
-/*!*********************************************!*\
-  !*** ./node_modules/lodash/_setCacheHas.js ***!
-  \*********************************************/
-/***/ ((module) => {
-
-/**
- * Checks if `value` is in the array cache.
- *
- * @private
- * @name has
- * @memberOf SetCache
- * @param {*} value The value to search for.
- * @returns {number} Returns `true` if `value` is found, else `false`.
- */
-function setCacheHas(value) {
-  return this.__data__.has(value);
-}
-
-module.exports = setCacheHas;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_setToArray.js":
-/*!********************************************!*\
-  !*** ./node_modules/lodash/_setToArray.js ***!
-  \********************************************/
-/***/ ((module) => {
-
-/**
- * Converts `set` to an array of its values.
- *
- * @private
- * @param {Object} set The set to convert.
- * @returns {Array} Returns the values.
- */
-function setToArray(set) {
-  var index = -1,
-      result = Array(set.size);
-
-  set.forEach(function(value) {
-    result[++index] = value;
-  });
-  return result;
-}
-
-module.exports = setToArray;
 
 
 /***/ }),
@@ -4947,74 +3566,6 @@ function stackSet(key, value) {
 }
 
 module.exports = stackSet;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_stringToPath.js":
-/*!**********************************************!*\
-  !*** ./node_modules/lodash/_stringToPath.js ***!
-  \**********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var memoizeCapped = __webpack_require__(/*! ./_memoizeCapped */ "./node_modules/lodash/_memoizeCapped.js");
-
-/** Used to match property names within property paths. */
-var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
-
-/** Used to match backslashes in property paths. */
-var reEscapeChar = /\\(\\)?/g;
-
-/**
- * Converts `string` to a property path array.
- *
- * @private
- * @param {string} string The string to convert.
- * @returns {Array} Returns the property path array.
- */
-var stringToPath = memoizeCapped(function(string) {
-  var result = [];
-  if (string.charCodeAt(0) === 46 /* . */) {
-    result.push('');
-  }
-  string.replace(rePropName, function(match, number, quote, subString) {
-    result.push(quote ? subString.replace(reEscapeChar, '$1') : (number || match));
-  });
-  return result;
-});
-
-module.exports = stringToPath;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/_toKey.js":
-/*!***************************************!*\
-  !*** ./node_modules/lodash/_toKey.js ***!
-  \***************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var isSymbol = __webpack_require__(/*! ./isSymbol */ "./node_modules/lodash/isSymbol.js");
-
-/** Used as references for various `Number` constants. */
-var INFINITY = 1 / 0;
-
-/**
- * Converts `value` to a string key if it's not a string or symbol.
- *
- * @private
- * @param {*} value The value to inspect.
- * @returns {string|symbol} Returns the key.
- */
-function toKey(value) {
-  if (typeof value == 'string' || isSymbol(value)) {
-    return value;
-  }
-  var result = (value + '');
-  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
-}
-
-module.exports = toKey;
 
 
 /***/ }),
@@ -5212,124 +3763,6 @@ function eq(value, other) {
 }
 
 module.exports = eq;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/get.js":
-/*!************************************!*\
-  !*** ./node_modules/lodash/get.js ***!
-  \************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var baseGet = __webpack_require__(/*! ./_baseGet */ "./node_modules/lodash/_baseGet.js");
-
-/**
- * Gets the value at `path` of `object`. If the resolved value is
- * `undefined`, the `defaultValue` is returned in its place.
- *
- * @static
- * @memberOf _
- * @since 3.7.0
- * @category Object
- * @param {Object} object The object to query.
- * @param {Array|string} path The path of the property to get.
- * @param {*} [defaultValue] The value returned for `undefined` resolved values.
- * @returns {*} Returns the resolved value.
- * @example
- *
- * var object = { 'a': [{ 'b': { 'c': 3 } }] };
- *
- * _.get(object, 'a[0].b.c');
- * // => 3
- *
- * _.get(object, ['a', '0', 'b', 'c']);
- * // => 3
- *
- * _.get(object, 'a.b.c', 'default');
- * // => 'default'
- */
-function get(object, path, defaultValue) {
-  var result = object == null ? undefined : baseGet(object, path);
-  return result === undefined ? defaultValue : result;
-}
-
-module.exports = get;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/hasIn.js":
-/*!**************************************!*\
-  !*** ./node_modules/lodash/hasIn.js ***!
-  \**************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var baseHasIn = __webpack_require__(/*! ./_baseHasIn */ "./node_modules/lodash/_baseHasIn.js"),
-    hasPath = __webpack_require__(/*! ./_hasPath */ "./node_modules/lodash/_hasPath.js");
-
-/**
- * Checks if `path` is a direct or inherited property of `object`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Object
- * @param {Object} object The object to query.
- * @param {Array|string} path The path to check.
- * @returns {boolean} Returns `true` if `path` exists, else `false`.
- * @example
- *
- * var object = _.create({ 'a': _.create({ 'b': 2 }) });
- *
- * _.hasIn(object, 'a');
- * // => true
- *
- * _.hasIn(object, 'a.b');
- * // => true
- *
- * _.hasIn(object, ['a', 'b']);
- * // => true
- *
- * _.hasIn(object, 'b');
- * // => false
- */
-function hasIn(object, path) {
-  return object != null && hasPath(object, path, baseHasIn);
-}
-
-module.exports = hasIn;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/identity.js":
-/*!*****************************************!*\
-  !*** ./node_modules/lodash/identity.js ***!
-  \*****************************************/
-/***/ ((module) => {
-
-/**
- * This method returns the first argument it receives.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {*} value Any value.
- * @returns {*} Returns `value`.
- * @example
- *
- * var object = { 'a': 1 };
- *
- * console.log(_.identity(object) === object);
- * // => true
- */
-function identity(value) {
-  return value;
-}
-
-module.exports = identity;
 
 
 /***/ }),
@@ -5954,161 +4387,6 @@ module.exports = keysIn;
 
 /***/ }),
 
-/***/ "./node_modules/lodash/last.js":
-/*!*************************************!*\
-  !*** ./node_modules/lodash/last.js ***!
-  \*************************************/
-/***/ ((module) => {
-
-/**
- * Gets the last element of `array`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Array
- * @param {Array} array The array to query.
- * @returns {*} Returns the last element of `array`.
- * @example
- *
- * _.last([1, 2, 3]);
- * // => 3
- */
-function last(array) {
-  var length = array == null ? 0 : array.length;
-  return length ? array[length - 1] : undefined;
-}
-
-module.exports = last;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/memoize.js":
-/*!****************************************!*\
-  !*** ./node_modules/lodash/memoize.js ***!
-  \****************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var MapCache = __webpack_require__(/*! ./_MapCache */ "./node_modules/lodash/_MapCache.js");
-
-/** Error message constants. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/**
- * Creates a function that memoizes the result of `func`. If `resolver` is
- * provided, it determines the cache key for storing the result based on the
- * arguments provided to the memoized function. By default, the first argument
- * provided to the memoized function is used as the map cache key. The `func`
- * is invoked with the `this` binding of the memoized function.
- *
- * **Note:** The cache is exposed as the `cache` property on the memoized
- * function. Its creation may be customized by replacing the `_.memoize.Cache`
- * constructor with one whose instances implement the
- * [`Map`](http://ecma-international.org/ecma-262/7.0/#sec-properties-of-the-map-prototype-object)
- * method interface of `clear`, `delete`, `get`, `has`, and `set`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to have its output memoized.
- * @param {Function} [resolver] The function to resolve the cache key.
- * @returns {Function} Returns the new memoized function.
- * @example
- *
- * var object = { 'a': 1, 'b': 2 };
- * var other = { 'c': 3, 'd': 4 };
- *
- * var values = _.memoize(_.values);
- * values(object);
- * // => [1, 2]
- *
- * values(other);
- * // => [3, 4]
- *
- * object.a = 2;
- * values(object);
- * // => [1, 2]
- *
- * // Modify the result cache.
- * values.cache.set(object, ['a', 'b']);
- * values(object);
- * // => ['a', 'b']
- *
- * // Replace `_.memoize.Cache`.
- * _.memoize.Cache = WeakMap;
- */
-function memoize(func, resolver) {
-  if (typeof func != 'function' || (resolver != null && typeof resolver != 'function')) {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  var memoized = function() {
-    var args = arguments,
-        key = resolver ? resolver.apply(this, args) : args[0],
-        cache = memoized.cache;
-
-    if (cache.has(key)) {
-      return cache.get(key);
-    }
-    var result = func.apply(this, args);
-    memoized.cache = cache.set(key, result) || cache;
-    return result;
-  };
-  memoized.cache = new (memoize.Cache || MapCache);
-  return memoized;
-}
-
-// Expose `MapCache`.
-memoize.Cache = MapCache;
-
-module.exports = memoize;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/property.js":
-/*!*****************************************!*\
-  !*** ./node_modules/lodash/property.js ***!
-  \*****************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var baseProperty = __webpack_require__(/*! ./_baseProperty */ "./node_modules/lodash/_baseProperty.js"),
-    basePropertyDeep = __webpack_require__(/*! ./_basePropertyDeep */ "./node_modules/lodash/_basePropertyDeep.js"),
-    isKey = __webpack_require__(/*! ./_isKey */ "./node_modules/lodash/_isKey.js"),
-    toKey = __webpack_require__(/*! ./_toKey */ "./node_modules/lodash/_toKey.js");
-
-/**
- * Creates a function that returns the value at `path` of a given object.
- *
- * @static
- * @memberOf _
- * @since 2.4.0
- * @category Util
- * @param {Array|string} path The path of the property to get.
- * @returns {Function} Returns the new accessor function.
- * @example
- *
- * var objects = [
- *   { 'a': { 'b': 2 } },
- *   { 'a': { 'b': 1 } }
- * ];
- *
- * _.map(objects, _.property('a.b'));
- * // => [2, 1]
- *
- * _.map(_.sortBy(objects, _.property(['a', 'b'])), 'a.b');
- * // => [1, 2]
- */
-function property(path) {
-  return isKey(path) ? baseProperty(toKey(path)) : basePropertyDeep(path);
-}
-
-module.exports = property;
-
-
-/***/ }),
-
 /***/ "./node_modules/lodash/random.js":
 /*!***************************************!*\
   !*** ./node_modules/lodash/random.js ***!
@@ -6197,103 +4475,6 @@ function random(lower, upper, floating) {
 }
 
 module.exports = random;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/remove.js":
-/*!***************************************!*\
-  !*** ./node_modules/lodash/remove.js ***!
-  \***************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var baseIteratee = __webpack_require__(/*! ./_baseIteratee */ "./node_modules/lodash/_baseIteratee.js"),
-    basePullAt = __webpack_require__(/*! ./_basePullAt */ "./node_modules/lodash/_basePullAt.js");
-
-/**
- * Removes all elements from `array` that `predicate` returns truthy for
- * and returns an array of the removed elements. The predicate is invoked
- * with three arguments: (value, index, array).
- *
- * **Note:** Unlike `_.filter`, this method mutates `array`. Use `_.pull`
- * to pull elements from an array by value.
- *
- * @static
- * @memberOf _
- * @since 2.0.0
- * @category Array
- * @param {Array} array The array to modify.
- * @param {Function} [predicate=_.identity] The function invoked per iteration.
- * @returns {Array} Returns the new array of removed elements.
- * @example
- *
- * var array = [1, 2, 3, 4];
- * var evens = _.remove(array, function(n) {
- *   return n % 2 == 0;
- * });
- *
- * console.log(array);
- * // => [1, 3]
- *
- * console.log(evens);
- * // => [2, 4]
- */
-function remove(array, predicate) {
-  var result = [];
-  if (!(array && array.length)) {
-    return result;
-  }
-  var index = -1,
-      indexes = [],
-      length = array.length;
-
-  predicate = baseIteratee(predicate, 3);
-  while (++index < length) {
-    var value = array[index];
-    if (predicate(value, index, array)) {
-      result.push(value);
-      indexes.push(index);
-    }
-  }
-  basePullAt(array, indexes);
-  return result;
-}
-
-module.exports = remove;
-
-
-/***/ }),
-
-/***/ "./node_modules/lodash/sample.js":
-/*!***************************************!*\
-  !*** ./node_modules/lodash/sample.js ***!
-  \***************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var arraySample = __webpack_require__(/*! ./_arraySample */ "./node_modules/lodash/_arraySample.js"),
-    baseSample = __webpack_require__(/*! ./_baseSample */ "./node_modules/lodash/_baseSample.js"),
-    isArray = __webpack_require__(/*! ./isArray */ "./node_modules/lodash/isArray.js");
-
-/**
- * Gets a random element from `collection`.
- *
- * @static
- * @memberOf _
- * @since 2.0.0
- * @category Collection
- * @param {Array|Object} collection The collection to sample.
- * @returns {*} Returns the random element.
- * @example
- *
- * _.sample([1, 2, 3, 4]);
- * // => 2
- */
-function sample(collection) {
-  var func = isArray(collection) ? arraySample : baseSample;
-  return func(collection);
-}
-
-module.exports = sample;
 
 
 /***/ }),
@@ -6520,44 +4701,6 @@ module.exports = toNumber;
 
 /***/ }),
 
-/***/ "./node_modules/lodash/toString.js":
-/*!*****************************************!*\
-  !*** ./node_modules/lodash/toString.js ***!
-  \*****************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var baseToString = __webpack_require__(/*! ./_baseToString */ "./node_modules/lodash/_baseToString.js");
-
-/**
- * Converts `value` to a string. An empty string is returned for `null`
- * and `undefined` values. The sign of `-0` is preserved.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {string} Returns the converted string.
- * @example
- *
- * _.toString(null);
- * // => ''
- *
- * _.toString(-0);
- * // => '-0'
- *
- * _.toString([1, 2, 3]);
- * // => '1,2,3'
- */
-function toString(value) {
-  return value == null ? '' : baseToString(value);
-}
-
-module.exports = toString;
-
-
-/***/ }),
-
 /***/ "./node_modules/lodash/values.js":
 /*!***************************************!*\
   !*** ./node_modules/lodash/values.js ***!
@@ -6602,6 +4745,24 @@ module.exports = values;
 
 /***/ }),
 
+/***/ "./pkg sync recursive":
+/*!*******************!*\
+  !*** ./pkg/ sync ***!
+  \*******************/
+/***/ ((module) => {
+
+function webpackEmptyContext(req) {
+	var e = new Error("Cannot find module '" + req + "'");
+	e.code = 'MODULE_NOT_FOUND';
+	throw e;
+}
+webpackEmptyContext.keys = () => ([]);
+webpackEmptyContext.resolve = webpackEmptyContext;
+webpackEmptyContext.id = "./pkg sync recursive";
+module.exports = webpackEmptyContext;
+
+/***/ }),
+
 /***/ "./src/json/DefaultMap.json":
 /*!**********************************!*\
   !*** ./src/json/DefaultMap.json ***!
@@ -6610,6 +4771,59 @@ module.exports = values;
 
 "use strict";
 module.exports = JSON.parse('{"periodicTable":[[{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":0,"Y":0}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":1,"Y":0}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":2,"Y":0}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":3,"Y":0}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":4,"Y":0}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":5,"Y":0}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":6,"Y":0}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":7,"Y":0}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":8,"Y":0}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":9,"Y":0}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":10,"Y":0}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":11,"Y":0}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":12,"Y":0}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":13,"Y":0}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":14,"Y":0}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":15,"Y":0}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":16,"Y":0}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":17,"Y":0}}],[{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":0,"Y":1}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":1,"Y":1}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":2,"Y":1}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":3,"Y":1}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":4,"Y":1}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":5,"Y":1}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":6,"Y":1}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":7,"Y":1}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":8,"Y":1}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":9,"Y":1}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":10,"Y":1}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":11,"Y":1}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":12,"Y":1}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":13,"Y":1}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":14,"Y":1}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":15,"Y":1}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":16,"Y":1}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":17,"Y":1}}],[{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":0,"Y":2}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":1,"Y":2}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":2,"Y":2}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":3,"Y":2}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":4,"Y":2}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":5,"Y":2}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":6,"Y":2}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":7,"Y":2}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":8,"Y":2}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":9,"Y":2}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":10,"Y":2}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":11,"Y":2}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":12,"Y":2}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":13,"Y":2}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":14,"Y":2}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":15,"Y":2}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":16,"Y":2}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":17,"Y":2}}],[{"atomicNumber":-1,"filledBy":7,"identifier":0,"position":{"X":0,"Y":3}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":1,"Y":3}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":2,"Y":3}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":3,"Y":3}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":4,"Y":3}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":5,"Y":3}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":6,"Y":3}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":7,"Y":3}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":8,"Y":3}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":9,"Y":3}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":10,"Y":3}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":11,"Y":3}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":12,"Y":3}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":13,"Y":3}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":14,"Y":3}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":15,"Y":3}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":16,"Y":3}},{"atomicNumber":-18,"filledBy":7,"identifier":0,"position":{"X":17,"Y":3}}],[{"atomicNumber":1,"filledBy":7,"identifier":0,"position":{"X":0,"Y":4}},{"atomicNumber":-2,"filledBy":7,"identifier":0,"position":{"X":1,"Y":4}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":2,"Y":4}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":3,"Y":4}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":4,"Y":4}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":5,"Y":4}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":6,"Y":4}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":7,"Y":4}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":8,"Y":4}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":9,"Y":4}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":10,"Y":4}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":11,"Y":4}},{"atomicNumber":-13,"filledBy":7,"identifier":0,"position":{"X":12,"Y":4}},{"atomicNumber":-14,"filledBy":7,"identifier":0,"position":{"X":13,"Y":4}},{"atomicNumber":-15,"filledBy":7,"identifier":0,"position":{"X":14,"Y":4}},{"atomicNumber":-16,"filledBy":7,"identifier":0,"position":{"X":15,"Y":4}},{"atomicNumber":-17,"filledBy":7,"identifier":0,"position":{"X":16,"Y":4}},{"atomicNumber":2,"filledBy":7,"identifier":0,"position":{"X":17,"Y":4}}],[{"atomicNumber":3,"filledBy":7,"identifier":0,"position":{"X":0,"Y":5}},{"atomicNumber":4,"filledBy":7,"identifier":0,"position":{"X":1,"Y":5}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":2,"Y":5}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":3,"Y":5}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":4,"Y":5}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":5,"Y":5}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":6,"Y":5}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":7,"Y":5}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":8,"Y":5}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":9,"Y":5}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":10,"Y":5}},{"atomicNumber":0,"filledBy":8,"identifier":0,"position":{"X":11,"Y":5}},{"atomicNumber":5,"filledBy":7,"identifier":0,"position":{"X":12,"Y":5}},{"atomicNumber":6,"filledBy":7,"identifier":0,"position":{"X":13,"Y":5}},{"atomicNumber":7,"filledBy":7,"identifier":0,"position":{"X":14,"Y":5}},{"atomicNumber":8,"filledBy":7,"identifier":0,"position":{"X":15,"Y":5}},{"atomicNumber":9,"filledBy":7,"identifier":0,"position":{"X":16,"Y":5}},{"atomicNumber":10,"filledBy":7,"identifier":0,"position":{"X":17,"Y":5}}],[{"atomicNumber":11,"filledBy":7,"identifier":0,"position":{"X":0,"Y":6}},{"atomicNumber":12,"filledBy":7,"identifier":0,"position":{"X":1,"Y":6}},{"atomicNumber":-3,"filledBy":7,"identifier":0,"position":{"X":2,"Y":6}},{"atomicNumber":-4,"filledBy":7,"identifier":0,"position":{"X":3,"Y":6}},{"atomicNumber":-5,"filledBy":7,"identifier":0,"position":{"X":4,"Y":6}},{"atomicNumber":-6,"filledBy":7,"identifier":0,"position":{"X":5,"Y":6}},{"atomicNumber":-7,"filledBy":7,"identifier":0,"position":{"X":6,"Y":6}},{"atomicNumber":-8,"filledBy":7,"identifier":0,"position":{"X":7,"Y":6}},{"atomicNumber":-9,"filledBy":7,"identifier":0,"position":{"X":8,"Y":6}},{"atomicNumber":-10,"filledBy":7,"identifier":0,"position":{"X":9,"Y":6}},{"atomicNumber":-11,"filledBy":7,"identifier":0,"position":{"X":10,"Y":6}},{"atomicNumber":-12,"filledBy":7,"identifier":0,"position":{"X":11,"Y":6}},{"atomicNumber":13,"filledBy":7,"identifier":0,"position":{"X":12,"Y":6}},{"atomicNumber":14,"filledBy":7,"identifier":0,"position":{"X":13,"Y":6}},{"atomicNumber":15,"filledBy":7,"identifier":0,"position":{"X":14,"Y":6}},{"atomicNumber":16,"filledBy":7,"identifier":0,"position":{"X":15,"Y":6}},{"atomicNumber":17,"filledBy":7,"identifier":0,"position":{"X":16,"Y":6}},{"atomicNumber":18,"filledBy":7,"identifier":0,"position":{"X":17,"Y":6}}],[{"atomicNumber":19,"filledBy":7,"identifier":0,"position":{"X":0,"Y":7}},{"atomicNumber":20,"filledBy":7,"identifier":0,"position":{"X":1,"Y":7}},{"atomicNumber":21,"filledBy":7,"identifier":0,"position":{"X":2,"Y":7}},{"atomicNumber":22,"filledBy":7,"identifier":0,"position":{"X":3,"Y":7}},{"atomicNumber":23,"filledBy":7,"identifier":0,"position":{"X":4,"Y":7}},{"atomicNumber":24,"filledBy":7,"identifier":0,"position":{"X":5,"Y":7}},{"atomicNumber":25,"filledBy":7,"identifier":0,"position":{"X":6,"Y":7}},{"atomicNumber":26,"filledBy":7,"identifier":0,"position":{"X":7,"Y":7}},{"atomicNumber":27,"filledBy":7,"identifier":0,"position":{"X":8,"Y":7}},{"atomicNumber":28,"filledBy":7,"identifier":0,"position":{"X":9,"Y":7}},{"atomicNumber":29,"filledBy":7,"identifier":0,"position":{"X":10,"Y":7}},{"atomicNumber":30,"filledBy":7,"identifier":0,"position":{"X":11,"Y":7}},{"atomicNumber":31,"filledBy":7,"identifier":0,"position":{"X":12,"Y":7}},{"atomicNumber":32,"filledBy":7,"identifier":0,"position":{"X":13,"Y":7}},{"atomicNumber":33,"filledBy":7,"identifier":0,"position":{"X":14,"Y":7}},{"atomicNumber":34,"filledBy":7,"identifier":0,"position":{"X":15,"Y":7}},{"atomicNumber":35,"filledBy":7,"identifier":0,"position":{"X":16,"Y":7}},{"atomicNumber":36,"filledBy":7,"identifier":0,"position":{"X":17,"Y":7}}],[{"atomicNumber":37,"filledBy":7,"identifier":0,"position":{"X":0,"Y":8}},{"atomicNumber":38,"filledBy":7,"identifier":0,"position":{"X":1,"Y":8}},{"atomicNumber":39,"filledBy":7,"identifier":0,"position":{"X":2,"Y":8}},{"atomicNumber":40,"filledBy":7,"identifier":0,"position":{"X":3,"Y":8}},{"atomicNumber":41,"filledBy":7,"identifier":0,"position":{"X":4,"Y":8}},{"atomicNumber":42,"filledBy":7,"identifier":0,"position":{"X":5,"Y":8}},{"atomicNumber":43,"filledBy":7,"identifier":0,"position":{"X":6,"Y":8}},{"atomicNumber":44,"filledBy":7,"identifier":0,"position":{"X":7,"Y":8}},{"atomicNumber":45,"filledBy":7,"identifier":0,"position":{"X":8,"Y":8}},{"atomicNumber":46,"filledBy":7,"identifier":0,"position":{"X":9,"Y":8}},{"atomicNumber":47,"filledBy":7,"identifier":0,"position":{"X":10,"Y":8}},{"atomicNumber":48,"filledBy":7,"identifier":0,"position":{"X":11,"Y":8}},{"atomicNumber":49,"filledBy":7,"identifier":0,"position":{"X":12,"Y":8}},{"atomicNumber":50,"filledBy":7,"identifier":0,"position":{"X":13,"Y":8}},{"atomicNumber":51,"filledBy":7,"identifier":0,"position":{"X":14,"Y":8}},{"atomicNumber":52,"filledBy":7,"identifier":0,"position":{"X":15,"Y":8}},{"atomicNumber":53,"filledBy":7,"identifier":0,"position":{"X":16,"Y":8}},{"atomicNumber":54,"filledBy":7,"identifier":0,"position":{"X":17,"Y":8}}],[{"atomicNumber":55,"filledBy":7,"identifier":0,"position":{"X":0,"Y":9}},{"atomicNumber":56,"filledBy":7,"identifier":0,"position":{"X":1,"Y":9}},{"atomicNumber":57,"filledBy":7,"identifier":0,"position":{"X":2,"Y":9}},{"atomicNumber":72,"filledBy":7,"identifier":0,"position":{"X":3,"Y":9}},{"atomicNumber":73,"filledBy":7,"identifier":0,"position":{"X":4,"Y":9}},{"atomicNumber":74,"filledBy":7,"identifier":0,"position":{"X":5,"Y":9}},{"atomicNumber":75,"filledBy":7,"identifier":0,"position":{"X":6,"Y":9}},{"atomicNumber":76,"filledBy":7,"identifier":0,"position":{"X":7,"Y":9}},{"atomicNumber":77,"filledBy":7,"identifier":0,"position":{"X":8,"Y":9}},{"atomicNumber":78,"filledBy":7,"identifier":0,"position":{"X":9,"Y":9}},{"atomicNumber":79,"filledBy":7,"identifier":0,"position":{"X":10,"Y":9}},{"atomicNumber":80,"filledBy":7,"identifier":0,"position":{"X":11,"Y":9}},{"atomicNumber":81,"filledBy":7,"identifier":0,"position":{"X":12,"Y":9}},{"atomicNumber":82,"filledBy":7,"identifier":0,"position":{"X":13,"Y":9}},{"atomicNumber":83,"filledBy":7,"identifier":0,"position":{"X":14,"Y":9}},{"atomicNumber":84,"filledBy":7,"identifier":0,"position":{"X":15,"Y":9}},{"atomicNumber":85,"filledBy":7,"identifier":0,"position":{"X":16,"Y":9}},{"atomicNumber":86,"filledBy":7,"identifier":0,"position":{"X":17,"Y":9}}],[{"atomicNumber":87,"filledBy":7,"identifier":0,"position":{"X":0,"Y":10}},{"atomicNumber":88,"filledBy":7,"identifier":0,"position":{"X":1,"Y":10}},{"atomicNumber":89,"filledBy":7,"identifier":0,"position":{"X":2,"Y":10}},{"atomicNumber":104,"filledBy":7,"identifier":0,"position":{"X":3,"Y":10}},{"atomicNumber":105,"filledBy":7,"identifier":0,"position":{"X":4,"Y":10}},{"atomicNumber":106,"filledBy":7,"identifier":0,"position":{"X":5,"Y":10}},{"atomicNumber":107,"filledBy":7,"identifier":0,"position":{"X":6,"Y":10}},{"atomicNumber":108,"filledBy":7,"identifier":0,"position":{"X":7,"Y":10}},{"atomicNumber":109,"filledBy":7,"identifier":0,"position":{"X":8,"Y":10}},{"atomicNumber":110,"filledBy":7,"identifier":0,"position":{"X":9,"Y":10}},{"atomicNumber":111,"filledBy":7,"identifier":0,"position":{"X":10,"Y":10}},{"atomicNumber":112,"filledBy":7,"identifier":0,"position":{"X":11,"Y":10}},{"atomicNumber":113,"filledBy":7,"identifier":0,"position":{"X":12,"Y":10}},{"atomicNumber":114,"filledBy":7,"identifier":0,"position":{"X":13,"Y":10}},{"atomicNumber":115,"filledBy":7,"identifier":0,"position":{"X":14,"Y":10}},{"atomicNumber":116,"filledBy":7,"identifier":0,"position":{"X":15,"Y":10}},{"atomicNumber":117,"filledBy":7,"identifier":0,"position":{"X":16,"Y":10}},{"atomicNumber":118,"filledBy":7,"identifier":0,"position":{"X":17,"Y":10}}]],"totalAvailableBlocksCount":108}');
+
+/***/ }),
+
+/***/ "./pkg/index_bg.wasm":
+/*!***************************!*\
+  !*** ./pkg/index_bg.wasm ***!
+  \***************************/
+/***/ ((module, exports, __webpack_require__) => {
+
+"use strict";
+var __webpack_instantiate__ = ([WEBPACK_IMPORTED_MODULE_0]) => {
+	return __webpack_require__.v(exports, module.id, "fe37b975f91f6781f6e4", {
+		"./index_bg.js": {
+			"__wbindgen_json_parse": WEBPACK_IMPORTED_MODULE_0.__wbindgen_json_parse,
+			"__wbindgen_json_serialize": WEBPACK_IMPORTED_MODULE_0.__wbindgen_json_serialize,
+			"__wbg_randomFillSync_64cc7d048f228ca8": WEBPACK_IMPORTED_MODULE_0.__wbg_randomFillSync_64cc7d048f228ca8,
+			"__wbindgen_object_drop_ref": WEBPACK_IMPORTED_MODULE_0.__wbindgen_object_drop_ref,
+			"__wbg_getRandomValues_98117e9a7e993920": WEBPACK_IMPORTED_MODULE_0.__wbg_getRandomValues_98117e9a7e993920,
+			"__wbg_process_2f24d6544ea7b200": WEBPACK_IMPORTED_MODULE_0.__wbg_process_2f24d6544ea7b200,
+			"__wbindgen_is_object": WEBPACK_IMPORTED_MODULE_0.__wbindgen_is_object,
+			"__wbg_versions_6164651e75405d4a": WEBPACK_IMPORTED_MODULE_0.__wbg_versions_6164651e75405d4a,
+			"__wbg_node_4b517d861cbcb3bc": WEBPACK_IMPORTED_MODULE_0.__wbg_node_4b517d861cbcb3bc,
+			"__wbindgen_is_string": WEBPACK_IMPORTED_MODULE_0.__wbindgen_is_string,
+			"__wbg_crypto_98fc271021c7d2ad": WEBPACK_IMPORTED_MODULE_0.__wbg_crypto_98fc271021c7d2ad,
+			"__wbg_msCrypto_a2cdb043d2bfe57f": WEBPACK_IMPORTED_MODULE_0.__wbg_msCrypto_a2cdb043d2bfe57f,
+			"__wbg_modulerequire_3440a4bcf44437db": WEBPACK_IMPORTED_MODULE_0.__wbg_modulerequire_3440a4bcf44437db,
+			"__wbg_newnoargs_be86524d73f67598": WEBPACK_IMPORTED_MODULE_0.__wbg_newnoargs_be86524d73f67598,
+			"__wbg_call_888d259a5fefc347": WEBPACK_IMPORTED_MODULE_0.__wbg_call_888d259a5fefc347,
+			"__wbindgen_object_clone_ref": WEBPACK_IMPORTED_MODULE_0.__wbindgen_object_clone_ref,
+			"__wbg_self_c6fbdfc2918d5e58": WEBPACK_IMPORTED_MODULE_0.__wbg_self_c6fbdfc2918d5e58,
+			"__wbg_window_baec038b5ab35c54": WEBPACK_IMPORTED_MODULE_0.__wbg_window_baec038b5ab35c54,
+			"__wbg_globalThis_3f735a5746d41fbd": WEBPACK_IMPORTED_MODULE_0.__wbg_globalThis_3f735a5746d41fbd,
+			"__wbg_global_1bc0b39582740e95": WEBPACK_IMPORTED_MODULE_0.__wbg_global_1bc0b39582740e95,
+			"__wbindgen_is_undefined": WEBPACK_IMPORTED_MODULE_0.__wbindgen_is_undefined,
+			"__wbg_buffer_397eaa4d72ee94dd": WEBPACK_IMPORTED_MODULE_0.__wbg_buffer_397eaa4d72ee94dd,
+			"__wbg_new_a7ce447f15ff496f": WEBPACK_IMPORTED_MODULE_0.__wbg_new_a7ce447f15ff496f,
+			"__wbg_set_969ad0a60e51d320": WEBPACK_IMPORTED_MODULE_0.__wbg_set_969ad0a60e51d320,
+			"__wbg_length_1eb8fc608a0d4cdb": WEBPACK_IMPORTED_MODULE_0.__wbg_length_1eb8fc608a0d4cdb,
+			"__wbg_newwithlength_929232475839a482": WEBPACK_IMPORTED_MODULE_0.__wbg_newwithlength_929232475839a482,
+			"__wbg_subarray_8b658422a224f479": WEBPACK_IMPORTED_MODULE_0.__wbg_subarray_8b658422a224f479,
+			"__wbg_new_59cb74e423758ede": WEBPACK_IMPORTED_MODULE_0.__wbg_new_59cb74e423758ede,
+			"__wbg_stack_558ba5917b466edd": WEBPACK_IMPORTED_MODULE_0.__wbg_stack_558ba5917b466edd,
+			"__wbg_error_4bb6c2a97407129a": WEBPACK_IMPORTED_MODULE_0.__wbg_error_4bb6c2a97407129a,
+			"__wbindgen_throw": WEBPACK_IMPORTED_MODULE_0.__wbindgen_throw,
+			"__wbindgen_memory": WEBPACK_IMPORTED_MODULE_0.__wbindgen_memory
+		}
+	});
+}
+__webpack_require__.a(module, (__webpack_handle_async_dependencies__) => {
+	/* harmony import */ var WEBPACK_IMPORTED_MODULE_0 = __webpack_require__(/*! ./index_bg.js */ "./pkg/index_bg.js");
+	var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([WEBPACK_IMPORTED_MODULE_0]);
+	return __webpack_async_dependencies__.then ? __webpack_async_dependencies__.then(__webpack_instantiate__) : __webpack_instantiate__(__webpack_async_dependencies__);
+}, 1);
 
 /***/ })
 
@@ -6643,6 +4857,80 @@ module.exports = JSON.parse('{"periodicTable":[[{"atomicNumber":0,"filledBy":8,"
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/async module */
+/******/ 	(() => {
+/******/ 		var webpackThen = typeof Symbol === "function" ? Symbol("webpack then") : "__webpack_then__";
+/******/ 		var webpackExports = typeof Symbol === "function" ? Symbol("webpack exports") : "__webpack_exports__";
+/******/ 		var completeQueue = (queue) => {
+/******/ 			if(queue) {
+/******/ 				queue.forEach((fn) => (fn.r--));
+/******/ 				queue.forEach((fn) => (fn.r-- ? fn.r++ : fn()));
+/******/ 			}
+/******/ 		}
+/******/ 		var completeFunction = (fn) => (!--fn.r && fn());
+/******/ 		var queueFunction = (queue, fn) => (queue ? queue.push(fn) : completeFunction(fn));
+/******/ 		var wrapDeps = (deps) => (deps.map((dep) => {
+/******/ 			if(dep !== null && typeof dep === "object") {
+/******/ 				if(dep[webpackThen]) return dep;
+/******/ 				if(dep.then) {
+/******/ 					var queue = [];
+/******/ 					dep.then((r) => {
+/******/ 						obj[webpackExports] = r;
+/******/ 						completeQueue(queue);
+/******/ 						queue = 0;
+/******/ 					});
+/******/ 					var obj = {};
+/******/ 												obj[webpackThen] = (fn, reject) => (queueFunction(queue, fn), dep.catch(reject));
+/******/ 					return obj;
+/******/ 				}
+/******/ 			}
+/******/ 			var ret = {};
+/******/ 								ret[webpackThen] = (fn) => (completeFunction(fn));
+/******/ 								ret[webpackExports] = dep;
+/******/ 								return ret;
+/******/ 		}));
+/******/ 		__webpack_require__.a = (module, body, hasAwait) => {
+/******/ 			var queue = hasAwait && [];
+/******/ 			var exports = module.exports;
+/******/ 			var currentDeps;
+/******/ 			var outerResolve;
+/******/ 			var reject;
+/******/ 			var isEvaluating = true;
+/******/ 			var nested = false;
+/******/ 			var whenAll = (deps, onResolve, onReject) => {
+/******/ 				if (nested) return;
+/******/ 				nested = true;
+/******/ 				onResolve.r += deps.length;
+/******/ 				deps.map((dep, i) => (dep[webpackThen](onResolve, onReject)));
+/******/ 				nested = false;
+/******/ 			};
+/******/ 			var promise = new Promise((resolve, rej) => {
+/******/ 				reject = rej;
+/******/ 				outerResolve = () => (resolve(exports), completeQueue(queue), queue = 0);
+/******/ 			});
+/******/ 			promise[webpackExports] = exports;
+/******/ 			promise[webpackThen] = (fn, rejectFn) => {
+/******/ 				if (isEvaluating) { return completeFunction(fn); }
+/******/ 				if (currentDeps) whenAll(currentDeps, fn, rejectFn);
+/******/ 				queueFunction(queue, fn);
+/******/ 				promise.catch(rejectFn);
+/******/ 			};
+/******/ 			module.exports = promise;
+/******/ 			body((deps) => {
+/******/ 				if(!deps) return outerResolve();
+/******/ 				currentDeps = wrapDeps(deps);
+/******/ 				var fn, result;
+/******/ 				var promise = new Promise((resolve, reject) => {
+/******/ 					fn = () => (resolve(result = currentDeps.map((d) => (d[webpackExports]))));
+/******/ 					fn.r = 0;
+/******/ 					whenAll(currentDeps, fn, reject);
+/******/ 				});
+/******/ 				return fn.r ? promise : result;
+/******/ 			}).then(outerResolve, reject);
+/******/ 			isEvaluating = false;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
@@ -6664,6 +4952,21 @@ module.exports = JSON.parse('{"periodicTable":[[{"atomicNumber":0,"filledBy":8,"
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/harmony module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.hmd = (module) => {
+/******/ 			module = Object.create(module);
+/******/ 			if (!module.children) module.children = [];
+/******/ 			Object.defineProperty(module, 'exports', {
+/******/ 				enumerable: true,
+/******/ 				set: () => {
+/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
+/******/ 				}
+/******/ 			});
+/******/ 			return module;
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -6703,7 +5006,7 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MessageType__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MessageType */ "./src/model/generation/MessageType.ts");
 /* harmony import */ var _PatternGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PatternGenerator */ "./src/model/generation/PatternGenerator.ts");
-const ctx=self;ctx.onmessage=eventArgs=>{const data=eventArgs.data;switch(data.type){case _MessageType__WEBPACK_IMPORTED_MODULE_0__.MessageType.RequestGeneration:handleRequestGeneration();break;default:handleDefault(data);break;}};function handleRequestGeneration(){const tetriminos=(0,_PatternGenerator__WEBPACK_IMPORTED_MODULE_1__.getPlayablePattern)();const message={type:_MessageType__WEBPACK_IMPORTED_MODULE_0__.MessageType.ResponseSuccess,content:tetriminos};ctx.postMessage(message);}function handleDefault(data){console.warn(data.type);}
+const ctx=self;ctx.onmessage=eventArgs=>{const data=eventArgs.data;switch(data.type){case _MessageType__WEBPACK_IMPORTED_MODULE_0__.MessageType.RequestGeneration:handleRequestGeneration();break;default:handleDefault(data);break;}};function handleRequestGeneration(){(0,_PatternGenerator__WEBPACK_IMPORTED_MODULE_1__.getPlayablePattern)().then(tetriminos=>{const message={type:_MessageType__WEBPACK_IMPORTED_MODULE_0__.MessageType.ResponseSuccess,content:tetriminos};ctx.postMessage(message);});}function handleDefault(data){console.warn(data.type);}
 })();
 
 /******/ })()
