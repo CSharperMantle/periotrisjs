@@ -46,22 +46,22 @@ class Tetrimino {
     const origPos = this.position
     let newPos: Position
     if (direction === MoveDirection.Down) {
-      const row = origPos.Y + 1
-      newPos = new Position(origPos.X, row)
+      const row = origPos.y + 1
+      newPos = new Position(origPos.x, row)
     } else {
       const delta = direction === MoveDirection.Right ? 1 : -1
-      const column = origPos.X + delta
-      newPos = new Position(column, origPos.Y)
+      const column = origPos.x + delta
+      newPos = new Position(column, origPos.y)
     }
 
-    const deltaX = newPos.X - origPos.X
-    const deltaY = newPos.Y - origPos.Y
+    const deltaX = newPos.x - origPos.x
+    const deltaY = newPos.y - origPos.y
 
     const newBlocks = _.cloneDeep(this.blocks)
     newBlocks.forEach((block: Block) => {
       block.position = new Position(
-        block.position.X + deltaX,
-        block.position.Y + deltaY
+        block.position.x + deltaX,
+        block.position.y + deltaY
       )
     })
 
@@ -100,8 +100,8 @@ class Tetrimino {
     for (let i = 0; i < adjustPattern.length; i++) {
       const adjust = adjustPattern[i]
       const newPos: Position = new Position(
-        this.position.X + adjust,
-        this.position.Y
+        this.position.x + adjust,
+        this.position.y
       )
       let newBlocks: Block[] = createOffsetedBlocks(
         this.kind,
@@ -159,4 +159,54 @@ class Tetrimino {
   }
 }
 
-export { Tetrimino, BlockCollisionChecker }
+function repairBrokenTetriminos(brokenTetriminos: Tetrimino[]): Tetrimino[] {
+  /*
+   * HACK: Object's prototype chain will be lost when
+   * transferred through messages, thanks to the limitations
+   * of Structured Clone. The following code's
+   * purpose is to restore the method mapping of the
+   * objects.
+   */
+  const repairedTetriminos: Tetrimino[] = Array.from(
+    brokenTetriminos,
+    (brokenTetrimino: Tetrimino) => {
+      // Fix tetrimino itself
+      const repairedTetrimino = Object.create(
+        Tetrimino.prototype,
+        Object.getOwnPropertyDescriptors(brokenTetrimino)
+      ) as Tetrimino
+
+      // Fix its block positions
+      const repairedBlocks: Block[] = Array.from(
+        repairedTetrimino.blocks,
+        (block: Block) => {
+          const repairedBlock = Object.create(
+            Block.prototype,
+            Object.getOwnPropertyDescriptors(block)
+          ) as Block
+          repairedBlock.position = Object.create(
+            Position.prototype,
+            Object.getOwnPropertyDescriptors(repairedBlock.position)
+          ) as Position
+          return repairedBlock
+        }
+      )
+      repairedTetrimino.blocks = repairedBlocks
+
+      // Fix its own positions
+      repairedTetrimino.firstBlockPosition = Object.create(
+        Position.prototype,
+        Object.getOwnPropertyDescriptors(repairedTetrimino.firstBlockPosition)
+      ) as Position
+      repairedTetrimino.position = Object.create(
+        Position.prototype,
+        Object.getOwnPropertyDescriptors(repairedTetrimino.position)
+      ) as Position
+
+      return repairedTetrimino
+    }
+  )
+  return repairedTetriminos
+}
+
+export { Tetrimino, BlockCollisionChecker, repairBrokenTetriminos }

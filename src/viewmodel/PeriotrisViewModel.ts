@@ -261,8 +261,8 @@ class PeriotrisViewModel extends EventEmitter {
         const displayBlock: IDisplayBlock = {
           withContent: true,
           atomicNumber: block.atomicNumber,
-          row: block.position.Y,
-          column: block.position.X,
+          row: block.position.y,
+          column: block.position.x,
           symbolColor: "black",
         }
         this._blocksByPosition.set(block.position, displayBlock)

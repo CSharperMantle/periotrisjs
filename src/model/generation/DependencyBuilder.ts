@@ -36,7 +36,7 @@ function createTetriminoDependencyGraph(
       tetriminoNode.blocks = tetriminoNode.memoizedBlocks
 
       tetriminoNode.memoizedBlocks.forEach((block: MemoizedBlock) => {
-        memoizedMap[block.position.Y][block.position.X] = block
+        memoizedMap[block.position.y][block.position.x] = block
       })
 
       return tetriminoNode
@@ -45,8 +45,8 @@ function createTetriminoDependencyGraph(
 
   tetriminoNodes.forEach((tetriminoNode: TetriminoNode) => {
     tetriminoNode.memoizedBlocks.forEach((block: MemoizedBlock) => {
-      const dependedBlockRow: number = block.position.Y + 1
-      const dependedBlockCol: number = block.position.X
+      const dependedBlockRow: number = block.position.y + 1
+      const dependedBlockCol: number = block.position.x
       const { isSuccessful, result }: ITryGetOccupiedTetriminoNodeResult =
         tryGetOccupiedTetriminoNode(
           memoizedMap,

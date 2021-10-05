@@ -119,3 +119,8 @@ public
 # Temporary folders
 tmp/
 temp/
+
+# Added by cargo
+
+target/
+pkg/
