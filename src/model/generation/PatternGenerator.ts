@@ -1,7 +1,6 @@
 import _ from "lodash"
 
-import { PlayAreaHeight, PlayAreaWidth } from "../../common/PeriotrisConst"
-import { Position } from "../../common/Position"
+import { PlayAreaHeight, PlayAreaWidth, Position } from "../../common"
 import defaultMap from "../../json/DefaultMap.json"
 import { Block } from "../Block"
 import { Direction, RotationDirection } from "../Direction"

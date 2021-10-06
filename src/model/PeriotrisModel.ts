@@ -3,17 +3,18 @@ import { EventEmitter } from "events"
 import _ from "lodash"
 import PatternGeneratorWorker from "worker-loader!./generation/PatternGeneratorWorker"
 
-import { isBrowserEnv } from "../common/IsBrowserEnv"
-import { PlayAreaHeight, PlayAreaWidth } from "../common/PeriotrisConst"
+import { isBrowserEnv, PlayAreaHeight, PlayAreaWidth } from "../common"
 import { History } from "../customization/history/History"
 import defaultMap from "../json/DefaultMap.json"
 import { Block } from "./Block"
 import { BlockChangedEventArgs } from "./BlockChangedEventArgs"
 import { MoveDirection, RotationDirection } from "./Direction"
 import { GameState } from "./GameState"
-import { IGeneratorMessage } from "./generation/IGeneratorMessage"
-import { MessageType } from "./generation/MessageType"
-import { getPlayablePattern } from "./generation/PatternGenerator"
+import {
+  getPlayablePattern,
+  IGeneratorMessage,
+  MessageType,
+} from "./generation"
 import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
 
 class PeriotrisModel extends EventEmitter {

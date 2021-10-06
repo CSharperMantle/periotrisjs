@@ -4,17 +4,20 @@ import _ from "lodash"
 import { action, makeObservable, observable } from "mobx"
 import { createContext } from "react"
 
-import { isBrowserEnv } from "../common/IsBrowserEnv"
 import {
   GameUpdateIntervalMilliseconds,
+  isBrowserEnv,
+  Position,
   StopwatchUpdateIntervalMilliseconds,
-} from "../common/PeriotrisConst"
-import { Position } from "../common/Position"
-import { Block } from "../model/Block"
-import { BlockChangedEventArgs } from "../model/BlockChangedEventArgs"
-import { MoveDirection, RotationDirection } from "../model/Direction"
-import { GameState } from "../model/GameState"
-import { PeriotrisModel } from "../model/PeriotrisModel"
+} from "../common"
+import {
+  Block,
+  BlockChangedEventArgs,
+  GameState,
+  MoveDirection,
+  PeriotrisModel,
+  RotationDirection,
+} from "../model"
 import { IDisplayBlock } from "./IDisplayBlock"
 
 const Hammer = isBrowserEnv() ? require("hammerjs") : null

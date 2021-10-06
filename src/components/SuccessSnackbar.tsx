@@ -3,8 +3,8 @@ import React from "react"
 import { Snackbar } from "@material-ui/core"
 import { Alert } from "@material-ui/lab"
 
-import { GameState } from "../model/GameState"
-import { PeriotrisViewModelContext } from "../viewmodel/PeriotrisViewModel"
+import { GameState } from "../model"
+import { PeriotrisViewModelContext } from "../viewmodel"
 
 interface ISuccessSnackbarProps {
   goOutTimeout: number

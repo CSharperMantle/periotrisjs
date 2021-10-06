@@ -2,17 +2,16 @@ import "./index.css"
 
 import React from "react"
 
-import { isBrowserEnv } from "../common/IsBrowserEnv"
-import { AppStartSplash } from "../components/AppStartSplash"
-import { BlocksGrid } from "../components/BlocksGrid"
-import { FailedSnackbar } from "../components/FailedSnackbar"
-import { GameControlButton } from "../components/GameControlButton"
-import { PortraitWarningBackdrop } from "../components/PortraitWarningBackdrop"
-import { SuccessSnackbar } from "../components/SuccessSnackbar"
+import { isBrowserEnv } from "../common"
 import {
-  PeriotrisViewModel,
-  PeriotrisViewModelContext,
-} from "../viewmodel/PeriotrisViewModel"
+  AppStartSplash,
+  BlocksGrid,
+  FailedSnackbar,
+  GameControlButton,
+  PortraitWarningBackdrop,
+  SuccessSnackbar,
+} from "../components"
+import { PeriotrisViewModel, PeriotrisViewModelContext } from "../viewmodel"
 
 const Hammer = isBrowserEnv() ? require("hammerjs") : null
 

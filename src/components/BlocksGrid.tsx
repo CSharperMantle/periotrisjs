@@ -3,11 +3,10 @@ import React, { useContext } from "react"
 
 import { createStyles, makeStyles } from "@material-ui/core"
 
-import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
-import { PeriotrisViewModelContext } from "../viewmodel/PeriotrisViewModel"
+import { PlayAreaHeight, PlayAreaWidth } from "../common"
+import { IDisplayBlock, PeriotrisViewModelContext } from "../viewmodel"
 import { BlockControl } from "./BlockControl"
 import { TimerDisplay } from "./TimerDisplay"
-import { PlayAreaHeight, PlayAreaWidth } from "../common/PeriotrisConst"
 
 const useStyles = makeStyles(() => {
   return createStyles({
