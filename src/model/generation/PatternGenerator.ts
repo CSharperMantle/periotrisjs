@@ -9,11 +9,12 @@ import { TetriminoKind } from "../TetriminoKind"
 import { getInitialPositionByKind } from "./GeneratorHelper"
 import { sort } from "./TetriminoSorter"
 
-function externTopoSortWasmInterop(tetriminos: Tetrimino[]) {
+function externWasmInterop(template: Block[][]): Promise<Tetrimino[]> {
   return new Promise((resolve) => {
     import("../../../pkg")
       .then((wasm) => {
         wasm.extern_init()
+        const tetriminos = wasm.extern_tile(template)
         resolve(wasm.extern_topo_sort(tetriminos))
       })
       .catch((reason) => {
@@ -21,7 +22,7 @@ function externTopoSortWasmInterop(tetriminos: Tetrimino[]) {
           reason,
           "Unable to load WASM module; using fallback plain TS implementation."
         )
-        resolve(sort(tetriminos))
+        resolve(sort(getPossibleTetriminoPattern(template)))
       })
   })
 }
@@ -48,9 +49,7 @@ async function getPlayablePattern(): Promise<Tetrimino[]> {
     }
   }
 
-  const tetriminos = (await externTopoSortWasmInterop(
-    getPossibleTetriminoPattern(template)
-  )) as Tetrimino[]
+  const tetriminos = (await externWasmInterop(template)) as Tetrimino[]
 
   const fixedTetriminos = repairBrokenTetriminos(tetriminos)
 

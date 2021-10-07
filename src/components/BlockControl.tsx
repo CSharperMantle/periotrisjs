@@ -5,7 +5,7 @@ import { createStyles, makeStyles } from "@material-ui/core"
 
 import defaultColorScheme from "../json/DefaultColorScheme.json"
 import defaultPeriodicTable from "../json/DefaultPeriodicTable.json"
-import { IDisplayBlock } from "../viewmodel"
+import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
 
 const useStyles = makeStyles(() => {
   return createStyles({

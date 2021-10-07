@@ -4,7 +4,8 @@ import React, { useContext } from "react"
 import { createStyles, makeStyles } from "@material-ui/core"
 
 import { PlayAreaHeight, PlayAreaWidth } from "../common"
-import { IDisplayBlock, PeriotrisViewModelContext } from "../viewmodel"
+import { PeriotrisViewModelContext } from "../viewmodel"
+import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
 import { BlockControl } from "./BlockControl"
 import { TimerDisplay } from "./TimerDisplay"
 
