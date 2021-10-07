@@ -3,7 +3,7 @@ import React, { useContext } from "react"
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core"
 
-import { PeriotrisViewModelContext } from "../viewmodel/PeriotrisViewModel"
+import { PeriotrisViewModelContext } from "../viewmodel"
 
 const useStyles = makeStyles((theme: Theme) => {
   return createStyles({

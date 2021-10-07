@@ -1,4 +1,4 @@
-import { Position } from "../common/Position"
+import { Position } from "../common"
 import { TetriminoKind } from "./TetriminoKind"
 
 class Block {

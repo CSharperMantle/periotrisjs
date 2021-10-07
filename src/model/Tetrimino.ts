@@ -1,6 +1,6 @@
 import _ from "lodash"
 
-import { Position } from "../common/Position"
+import { Position } from "../common"
 import { Block } from "./Block"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
 import {

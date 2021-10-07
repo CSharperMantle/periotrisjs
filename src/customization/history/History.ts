@@ -1,8 +1,8 @@
 import dayjs, { Dayjs } from "dayjs"
 import _ from "lodash"
 
-import { HistoryLocalStorageKey } from "../../common/PeriotrisConst"
-import { retrieve, store } from "../../localstorage/LocalStorageManager"
+import { HistoryLocalStorageKey } from "../../common"
+import { retrieve, store } from "../../localstorage"
 
 class History {
   private _fastestRecord: Dayjs

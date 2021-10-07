@@ -1,4 +1,4 @@
-import { Position } from "../../common/Position"
+import { Position } from "../../common"
 import { Direction } from "../Direction"
 import { Tetrimino } from "../Tetrimino"
 import { TetriminoKind } from "../TetriminoKind"

@@ -1,6 +1,6 @@
 import _ from "lodash"
-import { PlayAreaHeight, PlayAreaWidth } from "../../common/PeriotrisConst"
 
+import { PlayAreaHeight, PlayAreaWidth } from "../../common"
 import { Block } from "../Block"
 import { Tetrimino } from "../Tetrimino"
 import { TetriminoKind } from "../TetriminoKind"
