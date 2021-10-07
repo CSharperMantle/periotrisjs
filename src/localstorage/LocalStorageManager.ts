@@ -1,6 +1,6 @@
 import _ from "lodash"
 
-import { isBrowserEnv } from "../common/IsBrowserEnv"
+import { isBrowserEnv } from "../common"
 
 function store<T = unknown>(key: string, value: T): boolean {
   if (!isBrowserEnv()) return false

@@ -18,8 +18,8 @@ import {
   Theme,
 } from "@material-ui/core"
 
-import { GameState } from "../model/GameState"
-import { PeriotrisViewModelContext } from "../viewmodel/PeriotrisViewModel"
+import { GameState } from "../model"
+import { PeriotrisViewModelContext } from "../viewmodel"
 
 const useStyles = makeStyles((theme: Theme) => {
   return createStyles({

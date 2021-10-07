@@ -1,5 +1,4 @@
-import { PlayAreaWidth } from "../../../common/PeriotrisConst"
-import { Position } from "../../../common/Position"
+import { PlayAreaWidth, Position } from "../../../common"
 import { Block } from "../../Block"
 import { Direction } from "../../Direction"
 import { TetriminoKind } from "../../TetriminoKind"

@@ -1,6 +1,6 @@
 import _ from "lodash"
 
-import { Position } from "../../common/Position"
+import { Position } from "../../common"
 import { Direction, MoveDirection, RotationDirection } from "../Direction"
 import { Tetrimino } from "../Tetrimino"
 import { TetriminoKind } from "../TetriminoKind"
