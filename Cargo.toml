@@ -1,7 +1,7 @@
 [package]
 name = "periotrisjs_wasm"
 description = "WASM part of Periotris.js"
-version = "1.7.1"
+version = "1.7.2"
 authors = ["CSharperMantle <baorong2005@126.com>"]
 homepage = "https://github.com/CSharperMantle/periotrisjs#readme"
 repository = "https://github.com/CSharperMantle/periotrisjs/"
