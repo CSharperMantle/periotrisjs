@@ -2,7 +2,7 @@ use crate::js_struct::*;
 use rand::seq::SliceRandom;
 use rand::thread_rng;
 
-#[derive(serde::Serialize, Clone)]
+#[derive(Clone)]
 struct KindDirectionsPair {
   pub kind: i32,
   pub directions: Vec<i32>,
