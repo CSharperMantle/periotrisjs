@@ -1,7 +1,7 @@
 import { observer } from "mobx-react"
 import React, { useContext } from "react"
 
-import { createStyles, makeStyles } from "@material-ui/core"
+import { createStyles, makeStyles } from "@mui/styles"
 
 import { PlayAreaHeight, PlayAreaWidth } from "../common"
 import { PeriotrisViewModelContext } from "../viewmodel"

@@ -1,7 +1,7 @@
 import _ from "lodash"
 import React from "react"
 
-import { createStyles, makeStyles } from "@material-ui/core"
+import { createStyles, makeStyles } from "@mui/styles"
 
 import defaultColorScheme from "../json/DefaultColorScheme.json"
 import defaultPeriodicTable from "../json/DefaultPeriodicTable.json"

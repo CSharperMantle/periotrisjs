@@ -10,13 +10,8 @@ import {
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {
-  createStyles,
-  Fab,
-  makeStyles,
-  PropTypes,
-  Theme,
-} from "@material-ui/core"
+import { Fab, PropTypes, Theme } from "@mui/material"
+import { createStyles, makeStyles } from "@mui/styles"
 
 import { GameState } from "../model"
 import { PeriotrisViewModelContext } from "../viewmodel"

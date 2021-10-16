@@ -1,14 +1,7 @@
 import React from "react"
 
-import {
-  Backdrop,
-  createStyles,
-  Grid,
-  makeStyles,
-  Theme,
-  Typography,
-  useMediaQuery,
-} from "@material-ui/core"
+import { Backdrop, Grid, Theme, Typography, useMediaQuery } from "@mui/material"
+import { createStyles, makeStyles } from "@mui/styles"
 
 const useStyles = makeStyles((theme: Theme) => {
   return createStyles({
