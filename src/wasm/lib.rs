@@ -20,22 +20,23 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen]
 pub fn extern_init() {
-  panic::set_hook(Box::new(console_error_panic_hook::hook));
+    panic::set_hook(Box::new(console_error_panic_hook::hook));
 }
 
 #[wasm_bindgen]
 pub fn extern_topo_sort(tetriminos: &JsValue) -> JsValue {
-  let tetriminos_vec: Vec<JsTetrimino> = tetriminos.into_serde().unwrap();
-  let result = topo_sort(&tetriminos_vec);
+    let tetriminos_vec: Vec<JsTetrimino> = tetriminos.into_serde().unwrap();
+    let result = topo_sort(&tetriminos_vec);
 
-  JsValue::from_serde(&result).unwrap()
+    JsValue::from_serde(&result).unwrap()
 }
 
 #[wasm_bindgen]
 pub fn extern_tile(template: &JsValue) -> JsValue {
-  let template_arr: [[JsBlock; PLAY_AREA_WIDTH]; PLAY_AREA_HEIGHT] = template.into_serde().unwrap();
+    let template_arr: [[JsBlock; PLAY_AREA_WIDTH]; PLAY_AREA_HEIGHT] =
+        template.into_serde().unwrap();
 
-  let result = tile(&template_arr);
+    let result = tile(&template_arr);
 
-  JsValue::from_serde(&result).unwrap()
+    JsValue::from_serde(&result).unwrap()
 }
