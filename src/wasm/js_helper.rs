@@ -68,7 +68,7 @@ pub const Z_TRANS_RIGHT_MASK: [[i32; 4]; 4] =
 
 pub const Z_TRANS_UP_MASK: [[i32; 4]; 4] = [[0, 0, 0, 0], [0, 3, 4, 0], [1, 2, 0, 0], [0, 0, 0, 0]];
 
-fn create_blocks_mask(kind: i32, direction: i32) -> [[i32; 4]; 4] {
+pub fn create_blocks_mask(kind: i32, direction: i32) -> [[i32; 4]; 4] {
     match kind {
         0 => match direction {
             0 => LINEAR_LEFT_MASK,
@@ -127,8 +127,7 @@ fn create_blocks_mask(kind: i32, direction: i32) -> [[i32; 4]; 4] {
  * Tuple 0: row
  * Tuple 1: col
  */
-fn get_first_block_coord_by_type(kind: i32, facing_direction: i32) -> (i32, i32) {
-    let mask = create_blocks_mask(kind, facing_direction);
+fn get_first_block_coord_by_type(mask: &[[i32; 4]; 4]) -> (i32, i32) {
     for i in (0..4).rev() {
         for j in (0..4).rev() {
             if mask[i][j] != 0 {
@@ -141,18 +140,20 @@ fn get_first_block_coord_by_type(kind: i32, facing_direction: i32) -> (i32, i32)
 
 pub fn get_position_by_first_block_position(
     first_block_position: &JsPosition,
-    kind: i32,
-    facing_direction: i32,
+    mask: &[[i32; 4]; 4],
 ) -> JsPosition {
-    let first_block_coord = get_first_block_coord_by_type(kind, facing_direction);
+    let first_block_coord = get_first_block_coord_by_type(mask);
     return JsPosition::new(
         first_block_position.x - first_block_coord.1,
         first_block_position.y - first_block_coord.0,
     );
 }
 
-pub fn create_offseted_blocks(kind: i32, offset: &JsPosition, direction: i32) -> [JsBlock; 4] {
-    let mask = create_blocks_mask(kind, direction);
+pub fn create_offseted_blocks(
+    kind: i32,
+    offset: &JsPosition,
+    mask: &[[i32; 4]; 4],
+) -> [JsBlock; 4] {
     let mut offset_blocks: [Option<JsBlock>; 4] = Default::default();
     let mut index = 0;
     for n_row in 0..mask.len() {

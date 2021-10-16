@@ -34,32 +34,17 @@ pub struct JsTetrimino {
 }
 
 impl JsTetrimino {
-    fn new(
-        kind: i32,
-        position: JsPosition,
-        first_block_position: JsPosition,
-        facing_direction: i32,
-    ) -> JsTetrimino {
+    pub fn new(kind: i32, first_block_position: JsPosition, facing_direction: i32) -> JsTetrimino {
+        let mask = create_blocks_mask(kind, facing_direction);
+        let position = get_position_by_first_block_position(&first_block_position, &mask);
+
         JsTetrimino {
             position: position,
             kind: kind,
             first_block_position: first_block_position,
             facing_direction: facing_direction,
-            blocks: create_offseted_blocks(kind, &position, facing_direction),
+            blocks: create_offseted_blocks(kind, &position, &mask),
         }
-    }
-
-    pub fn by_first_block_pos(
-        kind: i32,
-        first_block_pos: JsPosition,
-        facing_direction: i32,
-    ) -> JsTetrimino {
-        return JsTetrimino::new(
-            kind,
-            get_position_by_first_block_position(&first_block_pos, kind, facing_direction),
-            first_block_pos,
-            facing_direction,
-        );
     }
 }
 

@@ -21,11 +21,11 @@ impl TetriminoNode {
 }
 
 pub fn memoize_blocks(tetrimino: &JsTetrimino, owner_id: i32) -> Vec<MemoizedBlock> {
-    let mut memoized_blocks = Vec::with_capacity(tetrimino.blocks.len());
-
-    for block in tetrimino.blocks.iter() {
-        memoized_blocks.push(MemoizedBlock::new(*block, owner_id));
-    }
+    let memoized_blocks = tetrimino
+        .blocks
+        .iter()
+        .map(|&b| return MemoizedBlock::new(b, owner_id))
+        .collect();
 
     memoized_blocks
 }

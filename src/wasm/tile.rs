@@ -98,19 +98,13 @@ pub fn tile(template: &[[JsBlock; PLAY_AREA_WIDTH]; PLAY_AREA_HEIGHT]) -> Vec<Js
             while !solution_found && current_pair.directions.len() > 0 {
                 let direction = current_pair.pop_rand_direction();
 
-                let mut tetrimino = JsTetrimino::by_first_block_pos(
-                    current_pair.kind,
-                    first_block_coord,
-                    direction,
-                );
+                let mut tetrimino =
+                    JsTetrimino::new(current_pair.kind, first_block_coord, direction);
 
-                let mut will_collide = false;
-                for block in tetrimino.blocks.iter() {
-                    if collision_checker(&workspace, block) {
-                        will_collide = true;
-                        break;
-                    }
-                }
+                let will_collide = tetrimino
+                    .blocks
+                    .iter()
+                    .any(|block| collision_checker(&workspace, block));
 
                 if !will_collide {
                     for block in tetrimino.blocks.iter_mut() {

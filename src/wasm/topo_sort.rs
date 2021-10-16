@@ -6,12 +6,11 @@ use rand::Rng;
 pub fn topo_sort(tetriminos: &Vec<JsTetrimino>) -> Vec<JsTetrimino> {
     let (mut depending_map, mut depended_by_map, nodes) = graph_dependency(tetriminos);
 
-    let mut start_node_ids: Vec<i32> = Vec::new();
-    for pair in depending_map.iter() {
-        if pair.1.len() == 0 {
-            start_node_ids.push(*pair.0);
-        }
-    }
+    let mut start_node_ids: Vec<i32> = depending_map
+        .iter()
+        .filter(|pair| pair.1.len() == 0)
+        .map(|pair| *pair.0)
+        .collect();
 
     // Deal with ids
     let mut result_ids: Vec<i32> = Vec::with_capacity(nodes.len());
@@ -33,7 +32,7 @@ pub fn topo_sort(tetriminos: &Vec<JsTetrimino>) -> Vec<JsTetrimino> {
         }
     }
 
-    // Remap JsTetriminos to ids
+    // Remap id to JsTetrimino
     let mut result_objects: Vec<JsTetrimino> = Vec::with_capacity(result_ids.len());
     for id in result_ids.iter() {
         for node in nodes.iter() {
