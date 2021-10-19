@@ -1,40 +1,38 @@
 import _ from "lodash"
 import React from "react"
 
-import { createStyles, makeStyles } from "@mui/styles"
+import { makeStyles } from "@mui/styles"
 
 import defaultColorScheme from "../json/DefaultColorScheme.json"
 import defaultPeriodicTable from "../json/DefaultPeriodicTable.json"
 import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
 
-const useStyles = makeStyles(() => {
-  return createStyles({
-    blockControl: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
+const useStyles = makeStyles(() => ({
+  blockControl: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
 
-      position: "relative",
-      height: "100%",
-      width: "100%",
-      padding: "5% 5% 5% 5%",
-      boxSizing: "border-box",
+    position: "relative",
+    height: "100%",
+    width: "100%",
+    padding: "5% 5% 5% 5%",
+    boxSizing: "border-box",
 
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      border: "solid 1px #393939",
-    },
-    symbol: {
-      display: "block",
+    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    border: "solid 1px #393939",
+  },
+  symbol: {
+    display: "block",
 
-      position: "relative",
-      margin: "0 auto",
+    position: "relative",
+    margin: "0 auto",
 
-      userSelect: "none",
-      textAlign: "center",
-      fontSize: "3vh",
-    },
-  })
-})
+    userSelect: "none",
+    textAlign: "center",
+    fontSize: "3vh",
+  },
+}))
 
 interface IBlockControlText {
   withContent: boolean

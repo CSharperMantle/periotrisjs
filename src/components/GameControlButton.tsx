@@ -11,23 +11,21 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Fab, PropTypes, Theme } from "@mui/material"
-import { createStyles, makeStyles } from "@mui/styles"
+import { makeStyles } from "@mui/styles"
 
 import { GameState } from "../model"
 import { PeriotrisViewModelContext } from "../viewmodel"
 
-const useStyles = makeStyles((theme: Theme) => {
-  return createStyles({
-    extendedIcon: {
-      marginRight: theme.spacing(1),
-    },
-    fab: {
-      position: "absolute",
-      bottom: theme.spacing(5),
-      right: theme.spacing(5),
-    },
-  })
-})
+const useStyles = makeStyles((theme: Theme) => ({
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
+  fab: {
+    position: "absolute",
+    bottom: theme.spacing(5),
+    right: theme.spacing(5),
+  },
+}))
 
 interface IButtonLabelIconWrapper {
   icon: IconDefinition

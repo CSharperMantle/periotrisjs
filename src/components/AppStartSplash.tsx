@@ -10,26 +10,24 @@ import {
   Theme,
   Typography,
 } from "@mui/material"
-import { createStyles, makeStyles } from "@mui/styles"
+import { makeStyles } from "@mui/styles"
 
-const useStyles = makeStyles((theme: Theme) => {
-  return createStyles({
-    paper: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      zIndex: theme.zIndex.drawer,
-    },
-    container: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      height: "100%",
-    },
-  })
-})
+const useStyles = makeStyles((theme: Theme) => ({
+  paper: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    zIndex: theme.zIndex.drawer,
+  },
+  container: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    height: "100%",
+  },
+}))
 
 interface IAppStartSplashProps {
   goOutTimeout: number

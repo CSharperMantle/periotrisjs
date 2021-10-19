@@ -2,42 +2,40 @@ import { observer } from "mobx-react"
 import React, { useContext } from "react"
 
 import { Theme } from "@mui/material"
-import { createStyles, makeStyles } from "@mui/styles"
+import { makeStyles } from "@mui/styles"
 
 import { PeriotrisViewModelContext } from "../viewmodel"
 
-const useStyles = makeStyles((theme: Theme) => {
-  return createStyles({
-    timerDisplayWrapper: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      justifyItems: "center",
+const useStyles = makeStyles((theme: Theme) => ({
+  timerDisplayWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    justifyItems: "center",
 
-      position: "absolute",
-      right: "0",
-      top: "0",
-      width: "10%",
-      height: "10%",
-      zIndex: theme.zIndex.speedDial,
-      margin: "3px",
-    },
-    timerDisplayTextElapsed: {
-      margin: "0 auto",
+    position: "absolute",
+    right: "0",
+    top: "0",
+    width: "10%",
+    height: "10%",
+    zIndex: theme.zIndex.speedDial,
+    margin: "3px",
+  },
+  timerDisplayTextElapsed: {
+    margin: "0 auto",
 
-      textAlign: "center",
-      fontSize: "3vh",
-      color: "yellow",
-    },
-    timerDisplayTextFastest: {
-      margin: "0 auto",
+    textAlign: "center",
+    fontSize: "3vh",
+    color: "yellow",
+  },
+  timerDisplayTextFastest: {
+    margin: "0 auto",
 
-      textAlign: "center",
-      fontSize: "3vh",
-      color: "white",
-    },
-  })
-})
+    textAlign: "center",
+    fontSize: "3vh",
+    color: "white",
+  },
+}))
 
 const TimerDisplay = observer((): React.ReactElement => {
   const styles = useStyles()

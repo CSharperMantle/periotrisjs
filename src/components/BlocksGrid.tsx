@@ -1,7 +1,7 @@
 import { observer } from "mobx-react"
 import React, { useContext } from "react"
 
-import { createStyles, makeStyles } from "@mui/styles"
+import { makeStyles } from "@mui/styles"
 
 import { PlayAreaHeight, PlayAreaWidth } from "../common"
 import { PeriotrisViewModelContext } from "../viewmodel"
@@ -9,29 +9,27 @@ import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
 import { BlockControl } from "./BlockControl"
 import { TimerDisplay } from "./TimerDisplay"
 
-const useStyles = makeStyles(() => {
-  return createStyles({
-    playArea: {
-      margin: "0 auto",
+const useStyles = makeStyles(() => ({
+  playArea: {
+    margin: "0 auto",
 
-      position: "relative",
-      height: "100%",
-      aspectRatio: "auto 18 / 11",
+    position: "relative",
+    height: "100%",
+    aspectRatio: "auto 18 / 11",
 
-      backgroundColor: "black",
-    },
+    backgroundColor: "black",
+  },
 
-    canvasGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(18, 1fr)",
-      gridTemplateRows: "repeat(11, 1fr)",
+  canvasGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(18, 1fr)",
+    gridTemplateRows: "repeat(11, 1fr)",
 
-      position: "relative",
-      width: "100%",
-      height: "100%",
-    },
-  })
-})
+    position: "relative",
+    width: "100%",
+    height: "100%",
+  },
+}))
 
 const BlocksGrid = observer((): React.ReactElement => {
   const viewModel = useContext(PeriotrisViewModelContext)

@@ -1,21 +1,19 @@
 import React from "react"
 
 import { Backdrop, Grid, Theme, Typography, useMediaQuery } from "@mui/material"
-import { createStyles, makeStyles } from "@mui/styles"
+import { makeStyles } from "@mui/styles"
 
-const useStyles = makeStyles((theme: Theme) => {
-  return createStyles({
-    modalBackdrop: {
-      zIndex: theme.zIndex.modal,
-    },
-    grid: {
-      height: "100%",
-    },
-    text: {
-      textAlign: "center",
-    },
-  })
-})
+const useStyles = makeStyles((theme: Theme) => ({
+  modalBackdrop: {
+    zIndex: theme.zIndex.modal,
+  },
+  grid: {
+    height: "100%",
+  },
+  text: {
+    textAlign: "center",
+  },
+}))
 
 const PortraitWarningBackdrop = (): React.ReactElement => {
   const styles = useStyles()
