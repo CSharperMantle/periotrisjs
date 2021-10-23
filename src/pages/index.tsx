@@ -1,15 +1,15 @@
 import "./index.css"
 
+import { SnackbarProvider } from "notistack"
 import React from "react"
 
 import { isBrowserEnv } from "../common"
 import {
   AppStartSplash,
   BlocksGrid,
-  FailedSnackbar,
   GameControlButton,
   PortraitWarningBackdrop,
-  SuccessSnackbar,
+  SnackbarPopper,
 } from "../components"
 import { PeriotrisViewModel, PeriotrisViewModelContext } from "../viewmodel"
 
@@ -51,18 +51,24 @@ class App extends React.Component {
   public render(): React.ReactElement {
     return (
       <PeriotrisViewModelContext.Provider value={this._viewModel}>
-        <main className="game-page">
-          <PortraitWarningBackdrop />
-          <div className="game-page__row-2" ref={this._rowTwoRef}>
-            <BlocksGrid />
-            <AppStartSplash goOutTimeout={3000} />
-          </div>
-          <FailedSnackbar goOutTimeout={3000} />
-          <SuccessSnackbar goOutTimeout={3000} />
-          <GameControlButton
-            onClick={this._viewModel.invokeGameControl.bind(this._viewModel)}
-          />
-        </main>
+        <SnackbarProvider
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+        >
+          <main className="game-page">
+            <PortraitWarningBackdrop />
+            <div className="game-page__row-2" ref={this._rowTwoRef}>
+              <BlocksGrid />
+              <AppStartSplash goOutTimeout={3000} />
+            </div>
+            <SnackbarPopper />
+            <GameControlButton
+              onClick={this._viewModel.invokeGameControl.bind(this._viewModel)}
+            />
+          </main>
+        </SnackbarProvider>
       </PeriotrisViewModelContext.Provider>
     )
   }

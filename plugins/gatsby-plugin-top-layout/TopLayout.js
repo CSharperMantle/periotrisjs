@@ -1,8 +1,11 @@
-import React from "react"
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import PropTypes from "prop-types"
+import React from "react"
 import { Helmet } from "react-helmet"
-import CssBaseline from "@material-ui/core/CssBaseline"
-import { ThemeProvider } from "@material-ui/core/styles"
+
+import CssBaseline from "@mui/material/CssBaseline"
+import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles"
+
 import { theme } from "../../src/ThemeOptions"
 
 export default function TopLayout(props) {
@@ -22,11 +25,13 @@ export default function TopLayout(props) {
           rel="stylesheet"
         />
       </Helmet>
-      <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        {props.children}
-      </ThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
+          {props.children}
+        </ThemeProvider>
+      </StyledEngineProvider>
     </>
   )
 }

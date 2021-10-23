@@ -3,15 +3,14 @@ import React, { useState } from "react"
 
 import {
   Container,
-  createStyles,
   Grid,
   Grow,
   Link,
-  makeStyles,
   Paper,
   Theme,
   Typography,
-} from "@material-ui/core"
+} from "@mui/material"
+import { createStyles, makeStyles } from "@mui/styles"
 
 const useStyles = makeStyles((theme: Theme) => {
   return createStyles({
