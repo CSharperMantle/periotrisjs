@@ -49,6 +49,7 @@ class PeriotrisViewModel extends EventEmitter {
   }
   public set gameState(v: GameState) {
     this._gameState = v
+    this.onGameStateChanged()
   }
 
   @observable
@@ -228,7 +229,6 @@ class PeriotrisViewModel extends EventEmitter {
     this.gameState = this._model.gameState
     this.isNewRecord = this._model.isNewRecord
     this.fastestRecord = this._model.history.fastestRecord
-    this.onGameStateChanged()
   }
 
   @action
