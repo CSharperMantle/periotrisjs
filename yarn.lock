@@ -9070,10 +9070,10 @@ mobx-react-lite@^3.2.0:
   resolved "https://registry.nlark.com/mobx-react-lite/download/mobx-react-lite-3.2.1.tgz#c549a3722f1eae51a78b12f839311614d5689c58"
   integrity sha1-xUmjci8erlGnixL4OTEWFNVonFg=
 
-mobx-react@^7.2.0:
-  version "7.2.0"
-  resolved "https://registry.npmmirror.com/mobx-react/download/mobx-react-7.2.0.tgz#241e925e963bb83a31d269f65f9f379e37ecbaeb"
-  integrity sha1-JB6SXpY7uDox0mn2X583njfsuus=
+mobx-react@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-7.2.1.tgz#e9d4c04dc63d05e1139ce773f5fee7a5b4cb7c78"
+  integrity sha512-LZS99KFLn75VWDXPdRJhILzVQ7qLcRjQbzkK+wVs0Qg4kWw5hOI2USp7tmu+9zP9KYsVBmKyx2k/8cTTBfsymw==
   dependencies:
     mobx-react-lite "^3.2.0"
 
