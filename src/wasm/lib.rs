@@ -40,3 +40,17 @@ pub fn extern_tile(template: &JsValue) -> JsValue {
 
     JsValue::from_serde(&result).unwrap()
 }
+
+#[cfg(use_recursive_tile)]
+use tile::recursive_tile;
+
+#[cfg(use_recursive_tile)]
+#[wasm_bindgen]
+pub fn extern_recursive_tile(template: &JsValue) -> JsValue {
+    let template_arr: [[JsBlock; PLAY_AREA_WIDTH]; PLAY_AREA_HEIGHT] =
+        template.into_serde().unwrap();
+
+    let result = recursive_tile(&template_arr);
+
+    JsValue::from_serde(&result).unwrap()
+}

@@ -24,7 +24,7 @@ pub fn memoize_blocks(tetrimino: &JsTetrimino, owner_id: i32) -> Vec<MemoizedBlo
     let memoized_blocks = tetrimino
         .blocks
         .iter()
-        .map(|&b| return MemoizedBlock::new(b, owner_id))
+        .map(|b| return MemoizedBlock::new(*b, owner_id))
         .collect();
 
     memoized_blocks
