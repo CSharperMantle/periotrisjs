@@ -8,7 +8,6 @@ exports.onCreateWebpackConfig = ({ actions }) => {
     plugins: [
       new WasmPackPlugin({
         crateDirectory: path.resolve(__dirname, "."),
-        forceMode: "production"
         // pluginLogLevel: "error"
       }),
     ],
