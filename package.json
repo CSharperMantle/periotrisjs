@@ -32,7 +32,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@mui/lab": "^5.0.0-alpha.51",
-    "@mui/material": "^5.0.4",
+    "@mui/material": "^5.2.4",
     "@mui/styles": "^5.0.1",
     "@mui/system": "^5.0.4",
     "dayjs": "^1.10.6",
