@@ -100,7 +100,7 @@ class PeriotrisViewModel extends EventEmitter {
 
   @action
   public onKeyDown(ev: KeyboardEvent): boolean {
-    const key: string = _.toLower(ev.key)
+    const key: string = ev.key.toLowerCase()
     if (this.paused) {
       if (key === "escape") {
         this.paused = !this.paused
