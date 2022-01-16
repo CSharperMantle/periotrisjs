@@ -5,11 +5,7 @@ module.exports = {
     "gatsby-plugin-top-layout",
     {
       resolve: "gatsby-plugin-material-ui",
-      options: {
-        stylesProvider: {
-          injectFirst: true,
-        },
-      },
+      options: {},
     },
     "gatsby-plugin-react-helmet",
     {
