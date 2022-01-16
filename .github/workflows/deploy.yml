@@ -16,11 +16,6 @@ jobs:
         with:
           node-version: 16.x
           cache: "yarn"
-      - name: Use Rust stable
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
       - name: Set up dependencies
         run: |
           yarn global add gatsby-cli
