@@ -100,119 +100,10 @@ function createTetriminoDependencyGraph(tetriminos){const memoizedMap=[];for(let
 ;// CONCATENATED MODULE: ./src/model/generation/TetriminoSorter.ts
 function sort(tetriminos){const graph=createTetriminoDependencyGraph(tetriminos);const startNodes=graph.filter(node=>{return node.depending.size===0;});const result=[];while(startNodes.length!==0){const n=sample_default()(startNodes);if(isNil_default()(n)){console.warn("sort() null check");continue;}remove_default()(startNodes,node=>node===n);result.push(n);const dependedBy=[...n.dependedBy];dependedBy.forEach(m=>{n.dependedBy.delete(m);m.depending.delete(n);if(m.depending.size===0){startNodes.push(m);}});}if(graph.some(node=>{return node.dependedBy.size!==0||node.depending.size!==0;}))throw new RangeError("tetriminos");return result;}
 ;// CONCATENATED MODULE: ./src/model/generation/PatternGenerator.ts
-function _getRequireWildcardCache(nodeInterop){if(typeof WeakMap!=="function")return null;var cacheBabelInterop=new WeakMap();var cacheNodeInterop=new WeakMap();return(_getRequireWildcardCache=function(nodeInterop){return nodeInterop?cacheNodeInterop:cacheBabelInterop;})(nodeInterop);}function _interopRequireWildcard(obj,nodeInterop){if(!nodeInterop&&obj&&obj.__esModule){return obj;}if(obj===null||typeof obj!=="object"&&typeof obj!=="function"){return{default:obj};}var cache=_getRequireWildcardCache(nodeInterop);if(cache&&cache.has(obj)){return cache.get(obj);}var newObj={};var hasPropertyDescriptor=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var key in obj){if(key!=="default"&&Object.prototype.hasOwnProperty.call(obj,key)){var desc=hasPropertyDescriptor?Object.getOwnPropertyDescriptor(obj,key):null;if(desc&&(desc.get||desc.set)){Object.defineProperty(newObj,key,desc);}else{newObj[key]=obj[key];}}}newObj.default=obj;if(cache){cache.set(obj,newObj);}return newObj;}function externWasmInterop(template){return new Promise(resolve=>{Promise.resolve().then(()=>_interopRequireWildcard(__webpack_require__(2330))).then(wasm=>{wasm.extern_init();const tetriminos=wasm.extern_tile(template);resolve(wasm.extern_topo_sort(tetriminos));}).catch(reason=>{console.warn(reason,"Unable to load WASM module; using fallback plain TS implementation.");resolve(sort(getPossibleTetriminoPattern(template)));});});}async function getPlayablePattern(){const template=[];for(let i=0;i<PlayAreaHeight;i++){template[i]=[];for(let j=0;j<PlayAreaWidth;j++){const origElem=DefaultMap_namespaceObject.m[i][j];template[i][j]=new Block(origElem.filledBy,new Position(origElem.position.X,origElem.position.Y),origElem.atomicNumber,0);}}const tetriminos=await externWasmInterop(template);const fixedTetriminos=repairBrokenTetriminos(tetriminos);fixedTetriminos.forEach(tetrimino=>{const originalPos=tetrimino.position;const newPos=getInitialPositionByKind(tetrimino.kind);const deltaX=newPos.x-originalPos.x;const deltaY=newPos.y-originalPos.y;const newBlocks=Array.from(tetrimino.blocks,block=>{return new Block(block.filledBy,new Position(block.position.x+deltaX,block.position.y+deltaY),block.atomicNumber,block.id);});tetrimino.blocks=newBlocks;tetrimino.position=newPos;const rotationCount=random_default()(0,Object.keys(Direction).length/2);for(let i=0;i<rotationCount;i++){tetrimino.tryRotate(RotationDirection.Right,()=>false);}});return fixedTetriminos;}function getPossibleTetriminoPattern(template){const workspace=cloneDeep_default()(template);const settledTetriminos=[];const pendingTetriminoKinds=[];let rewindingRequired=false;// eslint-disable-next-line no-constant-condition
+async function getPlayablePattern(){const template=[];for(let i=0;i<PlayAreaHeight;i++){template[i]=[];for(let j=0;j<PlayAreaWidth;j++){const origElem=DefaultMap_namespaceObject.m[i][j];template[i][j]=new Block(origElem.filledBy,new Position(origElem.position.X,origElem.position.Y),origElem.atomicNumber,0);}}const tetriminos=sort(getPossibleTetriminoPattern(template));const fixedTetriminos=repairBrokenTetriminos(tetriminos);fixedTetriminos.forEach(tetrimino=>{const originalPos=tetrimino.position;const newPos=getInitialPositionByKind(tetrimino.kind);const deltaX=newPos.x-originalPos.x;const deltaY=newPos.y-originalPos.y;const newBlocks=Array.from(tetrimino.blocks,block=>{return new Block(block.filledBy,new Position(block.position.x+deltaX,block.position.y+deltaY),block.atomicNumber,block.id);});tetrimino.blocks=newBlocks;tetrimino.position=newPos;const rotationCount=random_default()(0,Object.keys(Direction).length/2);for(let i=0;i<rotationCount;i++){tetrimino.tryRotate(RotationDirection.Right,()=>false);}});return fixedTetriminos;}function getPossibleTetriminoPattern(template){const workspace=cloneDeep_default()(template);const settledTetriminos=[];const pendingTetriminoKinds=[];let rewindingRequired=false;// eslint-disable-next-line no-constant-condition
 while(true){const firstBlockCoord=getFirstAvailableBlockCoord(workspace);const firstBlockCol=firstBlockCoord.x;const firstBlockRow=firstBlockCoord.y;if(!(firstBlockCol>=0&&firstBlockRow>=0)){return settledTetriminos;}let currentKindDirectionsPairStack;if(!rewindingRequired){currentKindDirectionsPairStack=createShuffledKindDirectionsPairs();}else{if(settledTetriminos.length===0){return settledTetriminos;}const poppedKinds=pendingTetriminoKinds.pop();if(isNil_default()(poppedKinds)){throw new Error("poppedKinds");}currentKindDirectionsPairStack=poppedKinds;const lastTetrimino=settledTetriminos.pop();if(isNil_default()(lastTetrimino)){throw new Error("lastTetrimino");}lastTetrimino.blocks.forEach(block=>{workspace[block.position.y][block.position.x].filledBy=TetriminoKind.AvailableToFill;});}let solutionFound=false;while(!solutionFound&&currentKindDirectionsPairStack.length>0){const currentPair=currentKindDirectionsPairStack.pop();if(isNil_default()(currentPair)){throw new Error("currentPair");}while(!solutionFound&&currentPair.directions.length>0){const direction=currentPair.popRandomDirection();const tetrimino=Tetrimino.createTetriminoByFirstBlockPosition(currentPair.kind,firstBlockCoord,direction);if(!tetrimino.blocks.some(collisionChecker.bind(undefined,workspace))){settledTetriminos.push(tetrimino);pendingTetriminoKinds.push(currentKindDirectionsPairStack);tetrimino.blocks.forEach(block=>{block.atomicNumber=workspace[block.position.y][block.position.x].atomicNumber;workspace[block.position.y][block.position.x].filledBy=block.filledBy;});solutionFound=true;rewindingRequired=false;}}}if(!solutionFound){rewindingRequired=true;}}}function createShuffledKindDirectionsPairs(){return shuffle_default()([new KindDirectionsPair(TetriminoKind.Cubic),new KindDirectionsPair(TetriminoKind.LShapedCis),new KindDirectionsPair(TetriminoKind.LShapedTrans),new KindDirectionsPair(TetriminoKind.Linear),new KindDirectionsPair(TetriminoKind.TeeShaped),new KindDirectionsPair(TetriminoKind.ZigZagCis),new KindDirectionsPair(TetriminoKind.ZigZagTrans)]);}function collisionChecker(workspace,block){const nRow=block.position.y;const nCol=block.position.x;if(nCol<0||nCol>=workspace[0].length||nRow>=workspace.length){return true;}return workspace[nRow][nCol].filledBy!==TetriminoKind.AvailableToFill;}function getFirstAvailableBlockCoord(blocks){for(let nRow=blocks.length-1;nRow>=0;nRow--){const col=blocks[nRow];for(let nCol=col.length-1;nCol>=0;nCol--){if(col[nCol].filledBy===TetriminoKind.AvailableToFill){return new Position(nCol,nRow);}}}return new Position(-1,-1);}class KindDirectionsPair{constructor(kind){this.kind=void 0;this.directions=void 0;this.kind=kind;this.directions=clone_default()(AllDirections);}popRandomDirection(){const index=random_default()(0,this.directions.length-1);return this.directions.splice(index)[0];}}const AllDirections=[Direction.Up,Direction.Down,Direction.Left,Direction.Right];
 ;// CONCATENATED MODULE: ./node_modules/gatsby/dist/utils/babel-loader.js??ruleSet[1].rules[10].use!./src/model/generation/PatternGeneratorWorker.ts
 const ctx=self;ctx.onmessage=eventArgs=>{const data=eventArgs.data;switch(data.type){case MessageType.RequestGeneration:handleRequestGeneration();break;default:handleDefault(data);break;}};function handleRequestGeneration(){getPlayablePattern().then(tetriminos=>{const message={type:MessageType.ResponseSuccess,content:tetriminos};ctx.postMessage(message);});}function handleDefault(data){console.warn(data.type);}
-
-/***/ }),
-
-/***/ 2330:
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.a(module, async (__webpack_handle_async_dependencies__) => {
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "__wbg_buffer_397eaa4d72ee94dd": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.jp),
-/* harmony export */   "__wbg_call_888d259a5fefc347": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.BT),
-/* harmony export */   "__wbg_crypto_98fc271021c7d2ad": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.Oi),
-/* harmony export */   "__wbg_error_4bb6c2a97407129a": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.kF),
-/* harmony export */   "__wbg_getRandomValues_98117e9a7e993920": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.C2),
-/* harmony export */   "__wbg_globalThis_3f735a5746d41fbd": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.ud),
-/* harmony export */   "__wbg_global_1bc0b39582740e95": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.PT),
-/* harmony export */   "__wbg_length_1eb8fc608a0d4cdb": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.A7),
-/* harmony export */   "__wbg_modulerequire_3440a4bcf44437db": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.dS),
-/* harmony export */   "__wbg_msCrypto_a2cdb043d2bfe57f": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.gl),
-/* harmony export */   "__wbg_new_59cb74e423758ede": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.h9),
-/* harmony export */   "__wbg_new_a7ce447f15ff496f": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.y4),
-/* harmony export */   "__wbg_newnoargs_be86524d73f67598": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.wg),
-/* harmony export */   "__wbg_newwithlength_929232475839a482": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.b0),
-/* harmony export */   "__wbg_node_4b517d861cbcb3bc": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.Im),
-/* harmony export */   "__wbg_process_2f24d6544ea7b200": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.rY),
-/* harmony export */   "__wbg_randomFillSync_64cc7d048f228ca8": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.cx),
-/* harmony export */   "__wbg_self_c6fbdfc2918d5e58": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.JX),
-/* harmony export */   "__wbg_set_969ad0a60e51d320": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.YQ),
-/* harmony export */   "__wbg_stack_558ba5917b466edd": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.Dz),
-/* harmony export */   "__wbg_subarray_8b658422a224f479": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.uf),
-/* harmony export */   "__wbg_versions_6164651e75405d4a": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.UE),
-/* harmony export */   "__wbg_window_baec038b5ab35c54": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.xd),
-/* harmony export */   "__wbindgen_is_object": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.Wl),
-/* harmony export */   "__wbindgen_is_string": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.eY),
-/* harmony export */   "__wbindgen_is_undefined": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.XP),
-/* harmony export */   "__wbindgen_json_parse": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.t$),
-/* harmony export */   "__wbindgen_json_serialize": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.r1),
-/* harmony export */   "__wbindgen_memory": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.oH),
-/* harmony export */   "__wbindgen_object_clone_ref": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.m_),
-/* harmony export */   "__wbindgen_object_drop_ref": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.ug),
-/* harmony export */   "__wbindgen_throw": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.Or),
-/* harmony export */   "extern_init": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.pZ),
-/* harmony export */   "extern_tile": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.Ad),
-/* harmony export */   "extern_topo_sort": () => (/* reexport safe */ _index_bg_js__WEBPACK_IMPORTED_MODULE_0__.Cq)
-/* harmony export */ });
-/* harmony import */ var _index_bg_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5857);
-var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_index_bg_js__WEBPACK_IMPORTED_MODULE_0__]);
-_index_bg_js__WEBPACK_IMPORTED_MODULE_0__ = (__webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__)[0];
-
-});
-
-/***/ }),
-
-/***/ 5857:
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.a(module, async (__webpack_handle_async_dependencies__) => {
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "pZ": () => (/* binding */ extern_init),
-/* harmony export */   "Cq": () => (/* binding */ extern_topo_sort),
-/* harmony export */   "Ad": () => (/* binding */ extern_tile),
-/* harmony export */   "t$": () => (/* binding */ __wbindgen_json_parse),
-/* harmony export */   "r1": () => (/* binding */ __wbindgen_json_serialize),
-/* harmony export */   "cx": () => (/* binding */ __wbg_randomFillSync_64cc7d048f228ca8),
-/* harmony export */   "ug": () => (/* binding */ __wbindgen_object_drop_ref),
-/* harmony export */   "C2": () => (/* binding */ __wbg_getRandomValues_98117e9a7e993920),
-/* harmony export */   "rY": () => (/* binding */ __wbg_process_2f24d6544ea7b200),
-/* harmony export */   "Wl": () => (/* binding */ __wbindgen_is_object),
-/* harmony export */   "UE": () => (/* binding */ __wbg_versions_6164651e75405d4a),
-/* harmony export */   "Im": () => (/* binding */ __wbg_node_4b517d861cbcb3bc),
-/* harmony export */   "eY": () => (/* binding */ __wbindgen_is_string),
-/* harmony export */   "dS": () => (/* binding */ __wbg_modulerequire_3440a4bcf44437db),
-/* harmony export */   "Oi": () => (/* binding */ __wbg_crypto_98fc271021c7d2ad),
-/* harmony export */   "gl": () => (/* binding */ __wbg_msCrypto_a2cdb043d2bfe57f),
-/* harmony export */   "wg": () => (/* binding */ __wbg_newnoargs_be86524d73f67598),
-/* harmony export */   "BT": () => (/* binding */ __wbg_call_888d259a5fefc347),
-/* harmony export */   "m_": () => (/* binding */ __wbindgen_object_clone_ref),
-/* harmony export */   "JX": () => (/* binding */ __wbg_self_c6fbdfc2918d5e58),
-/* harmony export */   "xd": () => (/* binding */ __wbg_window_baec038b5ab35c54),
-/* harmony export */   "ud": () => (/* binding */ __wbg_globalThis_3f735a5746d41fbd),
-/* harmony export */   "PT": () => (/* binding */ __wbg_global_1bc0b39582740e95),
-/* harmony export */   "XP": () => (/* binding */ __wbindgen_is_undefined),
-/* harmony export */   "jp": () => (/* binding */ __wbg_buffer_397eaa4d72ee94dd),
-/* harmony export */   "y4": () => (/* binding */ __wbg_new_a7ce447f15ff496f),
-/* harmony export */   "YQ": () => (/* binding */ __wbg_set_969ad0a60e51d320),
-/* harmony export */   "A7": () => (/* binding */ __wbg_length_1eb8fc608a0d4cdb),
-/* harmony export */   "b0": () => (/* binding */ __wbg_newwithlength_929232475839a482),
-/* harmony export */   "uf": () => (/* binding */ __wbg_subarray_8b658422a224f479),
-/* harmony export */   "h9": () => (/* binding */ __wbg_new_59cb74e423758ede),
-/* harmony export */   "Dz": () => (/* binding */ __wbg_stack_558ba5917b466edd),
-/* harmony export */   "kF": () => (/* binding */ __wbg_error_4bb6c2a97407129a),
-/* harmony export */   "Or": () => (/* binding */ __wbindgen_throw),
-/* harmony export */   "oH": () => (/* binding */ __wbindgen_memory)
-/* harmony export */ });
-/* harmony import */ var _index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3530);
-/* module decorator */ module = __webpack_require__.hmd(module);
-var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__]);
-_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__ = (__webpack_async_dependencies__.then ? await __webpack_async_dependencies__ : __webpack_async_dependencies__)[0];
-const lTextDecoder=typeof TextDecoder==='undefined'?(0,module.require)('util').TextDecoder:TextDecoder;let cachedTextDecoder=new lTextDecoder('utf-8',{ignoreBOM:true,fatal:true});cachedTextDecoder.decode();let cachegetUint8Memory0=null;function getUint8Memory0(){if(cachegetUint8Memory0===null||cachegetUint8Memory0.buffer!==_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.memory.buffer){cachegetUint8Memory0=new Uint8Array(_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.memory.buffer);}return cachegetUint8Memory0;}function getStringFromWasm0(ptr,len){return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr,ptr+len));}const heap=new Array(32).fill(undefined);heap.push(undefined,null,true,false);let heap_next=heap.length;function addHeapObject(obj){if(heap_next===heap.length)heap.push(heap.length+1);const idx=heap_next;heap_next=heap[idx];heap[idx]=obj;return idx;}function getObject(idx){return heap[idx];}let WASM_VECTOR_LEN=0;const lTextEncoder=typeof TextEncoder==='undefined'?(0,module.require)('util').TextEncoder:TextEncoder;let cachedTextEncoder=new lTextEncoder('utf-8');const encodeString=typeof cachedTextEncoder.encodeInto==='function'?function(arg,view){return cachedTextEncoder.encodeInto(arg,view);}:function(arg,view){const buf=cachedTextEncoder.encode(arg);view.set(buf);return{read:arg.length,written:buf.length};};function passStringToWasm0(arg,malloc,realloc){if(realloc===undefined){const buf=cachedTextEncoder.encode(arg);const ptr=malloc(buf.length);getUint8Memory0().subarray(ptr,ptr+buf.length).set(buf);WASM_VECTOR_LEN=buf.length;return ptr;}let len=arg.length;let ptr=malloc(len);const mem=getUint8Memory0();let offset=0;for(;offset<len;offset++){const code=arg.charCodeAt(offset);if(code>0x7F)break;mem[ptr+offset]=code;}if(offset!==len){if(offset!==0){arg=arg.slice(offset);}ptr=realloc(ptr,len,len=offset+arg.length*3);const view=getUint8Memory0().subarray(ptr+offset,ptr+len);const ret=encodeString(arg,view);offset+=ret.written;}WASM_VECTOR_LEN=offset;return ptr;}let cachegetInt32Memory0=null;function getInt32Memory0(){if(cachegetInt32Memory0===null||cachegetInt32Memory0.buffer!==_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.memory.buffer){cachegetInt32Memory0=new Int32Array(_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.memory.buffer);}return cachegetInt32Memory0;}function dropObject(idx){if(idx<36)return;heap[idx]=heap_next;heap_next=idx;}function takeObject(idx){const ret=getObject(idx);dropObject(idx);return ret;}/**
-*/function extern_init(){_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.extern_init();}let stack_pointer=32;function addBorrowedObject(obj){if(stack_pointer==1)throw new Error('out of js stack');heap[--stack_pointer]=obj;return stack_pointer;}/**
-* @param {any} tetriminos
-* @returns {any}
-*/function extern_topo_sort(tetriminos){try{var ret=_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.extern_topo_sort(addBorrowedObject(tetriminos));return takeObject(ret);}finally{heap[stack_pointer++]=undefined;}}/**
-* @param {any} template
-* @returns {any}
-*/function extern_tile(template){try{var ret=_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.extern_tile(addBorrowedObject(template));return takeObject(ret);}finally{heap[stack_pointer++]=undefined;}}function handleError(f,args){try{return f.apply(this,args);}catch(e){_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_exn_store(addHeapObject(e));}}function getArrayU8FromWasm0(ptr,len){return getUint8Memory0().subarray(ptr/1,ptr/1+len);}function __wbindgen_json_parse(arg0,arg1){var ret=JSON.parse(getStringFromWasm0(arg0,arg1));return addHeapObject(ret);};function __wbindgen_json_serialize(arg0,arg1){const obj=getObject(arg1);var ret=JSON.stringify(obj===undefined?null:obj);var ptr0=passStringToWasm0(ret,_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_malloc,_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_realloc);var len0=WASM_VECTOR_LEN;getInt32Memory0()[arg0/4+1]=len0;getInt32Memory0()[arg0/4+0]=ptr0;};function __wbg_randomFillSync_64cc7d048f228ca8(){return handleError(function(arg0,arg1,arg2){getObject(arg0).randomFillSync(getArrayU8FromWasm0(arg1,arg2));},arguments);};function __wbindgen_object_drop_ref(arg0){takeObject(arg0);};function __wbg_getRandomValues_98117e9a7e993920(){return handleError(function(arg0,arg1){getObject(arg0).getRandomValues(getObject(arg1));},arguments);};function __wbg_process_2f24d6544ea7b200(arg0){var ret=getObject(arg0).process;return addHeapObject(ret);};function __wbindgen_is_object(arg0){const val=getObject(arg0);var ret=typeof val==='object'&&val!==null;return ret;};function __wbg_versions_6164651e75405d4a(arg0){var ret=getObject(arg0).versions;return addHeapObject(ret);};function __wbg_node_4b517d861cbcb3bc(arg0){var ret=getObject(arg0).node;return addHeapObject(ret);};function __wbindgen_is_string(arg0){var ret=typeof getObject(arg0)==='string';return ret;};function __wbg_modulerequire_3440a4bcf44437db(){return handleError(function(arg0,arg1){var ret=__webpack_require__(4805)(getStringFromWasm0(arg0,arg1));return addHeapObject(ret);},arguments);};function __wbg_crypto_98fc271021c7d2ad(arg0){var ret=getObject(arg0).crypto;return addHeapObject(ret);};function __wbg_msCrypto_a2cdb043d2bfe57f(arg0){var ret=getObject(arg0).msCrypto;return addHeapObject(ret);};function __wbg_newnoargs_be86524d73f67598(arg0,arg1){var ret=new Function(getStringFromWasm0(arg0,arg1));return addHeapObject(ret);};function __wbg_call_888d259a5fefc347(){return handleError(function(arg0,arg1){var ret=getObject(arg0).call(getObject(arg1));return addHeapObject(ret);},arguments);};function __wbindgen_object_clone_ref(arg0){var ret=getObject(arg0);return addHeapObject(ret);};function __wbg_self_c6fbdfc2918d5e58(){return handleError(function(){var ret=self.self;return addHeapObject(ret);},arguments);};function __wbg_window_baec038b5ab35c54(){return handleError(function(){var ret=window.window;return addHeapObject(ret);},arguments);};function __wbg_globalThis_3f735a5746d41fbd(){return handleError(function(){var ret=globalThis.globalThis;return addHeapObject(ret);},arguments);};function __wbg_global_1bc0b39582740e95(){return handleError(function(){var ret=global.global;return addHeapObject(ret);},arguments);};function __wbindgen_is_undefined(arg0){var ret=getObject(arg0)===undefined;return ret;};function __wbg_buffer_397eaa4d72ee94dd(arg0){var ret=getObject(arg0).buffer;return addHeapObject(ret);};function __wbg_new_a7ce447f15ff496f(arg0){var ret=new Uint8Array(getObject(arg0));return addHeapObject(ret);};function __wbg_set_969ad0a60e51d320(arg0,arg1,arg2){getObject(arg0).set(getObject(arg1),arg2>>>0);};function __wbg_length_1eb8fc608a0d4cdb(arg0){var ret=getObject(arg0).length;return ret;};function __wbg_newwithlength_929232475839a482(arg0){var ret=new Uint8Array(arg0>>>0);return addHeapObject(ret);};function __wbg_subarray_8b658422a224f479(arg0,arg1,arg2){var ret=getObject(arg0).subarray(arg1>>>0,arg2>>>0);return addHeapObject(ret);};function __wbg_new_59cb74e423758ede(){var ret=new Error();return addHeapObject(ret);};function __wbg_stack_558ba5917b466edd(arg0,arg1){var ret=getObject(arg1).stack;var ptr0=passStringToWasm0(ret,_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_malloc,_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_realloc);var len0=WASM_VECTOR_LEN;getInt32Memory0()[arg0/4+1]=len0;getInt32Memory0()[arg0/4+0]=ptr0;};function __wbg_error_4bb6c2a97407129a(arg0,arg1){try{console.error(getStringFromWasm0(arg0,arg1));}finally{_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.__wbindgen_free(arg0,arg1);}};function __wbindgen_throw(arg0,arg1){throw new Error(getStringFromWasm0(arg0,arg1));};function __wbindgen_memory(){var ret=_index_bg_wasm__WEBPACK_IMPORTED_MODULE_0__.memory;return addHeapObject(ret);};
-});
 
 /***/ }),
 
@@ -6016,71 +5907,6 @@ function values(object) {
 module.exports = values;
 
 
-/***/ }),
-
-/***/ 4805:
-/***/ ((module) => {
-
-function webpackEmptyContext(req) {
-	var e = new Error("Cannot find module '" + req + "'");
-	e.code = 'MODULE_NOT_FOUND';
-	throw e;
-}
-webpackEmptyContext.keys = () => ([]);
-webpackEmptyContext.resolve = webpackEmptyContext;
-webpackEmptyContext.id = 4805;
-module.exports = webpackEmptyContext;
-
-/***/ }),
-
-/***/ 3530:
-/***/ ((module, exports, __webpack_require__) => {
-
-"use strict";
-var __webpack_instantiate__ = ([WEBPACK_IMPORTED_MODULE_0]) => {
-	return __webpack_require__.v(exports, module.id, "dff144080ea52ebe3080", {
-		"./index_bg.js": {
-			"__wbindgen_json_parse": WEBPACK_IMPORTED_MODULE_0/* .__wbindgen_json_parse */ .t$,
-			"__wbindgen_json_serialize": WEBPACK_IMPORTED_MODULE_0/* .__wbindgen_json_serialize */ .r1,
-			"__wbg_randomFillSync_64cc7d048f228ca8": WEBPACK_IMPORTED_MODULE_0/* .__wbg_randomFillSync_64cc7d048f228ca8 */ .cx,
-			"__wbindgen_object_drop_ref": WEBPACK_IMPORTED_MODULE_0/* .__wbindgen_object_drop_ref */ .ug,
-			"__wbg_getRandomValues_98117e9a7e993920": WEBPACK_IMPORTED_MODULE_0/* .__wbg_getRandomValues_98117e9a7e993920 */ .C2,
-			"__wbg_process_2f24d6544ea7b200": WEBPACK_IMPORTED_MODULE_0/* .__wbg_process_2f24d6544ea7b200 */ .rY,
-			"__wbindgen_is_object": WEBPACK_IMPORTED_MODULE_0/* .__wbindgen_is_object */ .Wl,
-			"__wbg_versions_6164651e75405d4a": WEBPACK_IMPORTED_MODULE_0/* .__wbg_versions_6164651e75405d4a */ .UE,
-			"__wbg_node_4b517d861cbcb3bc": WEBPACK_IMPORTED_MODULE_0/* .__wbg_node_4b517d861cbcb3bc */ .Im,
-			"__wbindgen_is_string": WEBPACK_IMPORTED_MODULE_0/* .__wbindgen_is_string */ .eY,
-			"__wbg_modulerequire_3440a4bcf44437db": WEBPACK_IMPORTED_MODULE_0/* .__wbg_modulerequire_3440a4bcf44437db */ .dS,
-			"__wbg_crypto_98fc271021c7d2ad": WEBPACK_IMPORTED_MODULE_0/* .__wbg_crypto_98fc271021c7d2ad */ .Oi,
-			"__wbg_msCrypto_a2cdb043d2bfe57f": WEBPACK_IMPORTED_MODULE_0/* .__wbg_msCrypto_a2cdb043d2bfe57f */ .gl,
-			"__wbg_newnoargs_be86524d73f67598": WEBPACK_IMPORTED_MODULE_0/* .__wbg_newnoargs_be86524d73f67598 */ .wg,
-			"__wbg_call_888d259a5fefc347": WEBPACK_IMPORTED_MODULE_0/* .__wbg_call_888d259a5fefc347 */ .BT,
-			"__wbindgen_object_clone_ref": WEBPACK_IMPORTED_MODULE_0/* .__wbindgen_object_clone_ref */ .m_,
-			"__wbg_self_c6fbdfc2918d5e58": WEBPACK_IMPORTED_MODULE_0/* .__wbg_self_c6fbdfc2918d5e58 */ .JX,
-			"__wbg_window_baec038b5ab35c54": WEBPACK_IMPORTED_MODULE_0/* .__wbg_window_baec038b5ab35c54 */ .xd,
-			"__wbg_globalThis_3f735a5746d41fbd": WEBPACK_IMPORTED_MODULE_0/* .__wbg_globalThis_3f735a5746d41fbd */ .ud,
-			"__wbg_global_1bc0b39582740e95": WEBPACK_IMPORTED_MODULE_0/* .__wbg_global_1bc0b39582740e95 */ .PT,
-			"__wbindgen_is_undefined": WEBPACK_IMPORTED_MODULE_0/* .__wbindgen_is_undefined */ .XP,
-			"__wbg_buffer_397eaa4d72ee94dd": WEBPACK_IMPORTED_MODULE_0/* .__wbg_buffer_397eaa4d72ee94dd */ .jp,
-			"__wbg_new_a7ce447f15ff496f": WEBPACK_IMPORTED_MODULE_0/* .__wbg_new_a7ce447f15ff496f */ .y4,
-			"__wbg_set_969ad0a60e51d320": WEBPACK_IMPORTED_MODULE_0/* .__wbg_set_969ad0a60e51d320 */ .YQ,
-			"__wbg_length_1eb8fc608a0d4cdb": WEBPACK_IMPORTED_MODULE_0/* .__wbg_length_1eb8fc608a0d4cdb */ .A7,
-			"__wbg_newwithlength_929232475839a482": WEBPACK_IMPORTED_MODULE_0/* .__wbg_newwithlength_929232475839a482 */ .b0,
-			"__wbg_subarray_8b658422a224f479": WEBPACK_IMPORTED_MODULE_0/* .__wbg_subarray_8b658422a224f479 */ .uf,
-			"__wbg_new_59cb74e423758ede": WEBPACK_IMPORTED_MODULE_0/* .__wbg_new_59cb74e423758ede */ .h9,
-			"__wbg_stack_558ba5917b466edd": WEBPACK_IMPORTED_MODULE_0/* .__wbg_stack_558ba5917b466edd */ .Dz,
-			"__wbg_error_4bb6c2a97407129a": WEBPACK_IMPORTED_MODULE_0/* .__wbg_error_4bb6c2a97407129a */ .kF,
-			"__wbindgen_throw": WEBPACK_IMPORTED_MODULE_0/* .__wbindgen_throw */ .Or,
-			"__wbindgen_memory": WEBPACK_IMPORTED_MODULE_0/* .__wbindgen_memory */ .oH
-		}
-	});
-}
-__webpack_require__.a(module, (__webpack_handle_async_dependencies__) => {
-	/* harmony import */ var WEBPACK_IMPORTED_MODULE_0 = __webpack_require__(5857);
-	var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([WEBPACK_IMPORTED_MODULE_0]);
-	return __webpack_async_dependencies__.then ? __webpack_async_dependencies__.then(__webpack_instantiate__) : __webpack_instantiate__(__webpack_async_dependencies__);
-}, 1);
-
 /***/ })
 
 /******/ 	});
@@ -6113,80 +5939,6 @@ __webpack_require__.a(module, (__webpack_handle_async_dependencies__) => {
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/async module */
-/******/ 	(() => {
-/******/ 		var webpackThen = typeof Symbol === "function" ? Symbol("webpack then") : "__webpack_then__";
-/******/ 		var webpackExports = typeof Symbol === "function" ? Symbol("webpack exports") : "__webpack_exports__";
-/******/ 		var completeQueue = (queue) => {
-/******/ 			if(queue) {
-/******/ 				queue.forEach((fn) => (fn.r--));
-/******/ 				queue.forEach((fn) => (fn.r-- ? fn.r++ : fn()));
-/******/ 			}
-/******/ 		}
-/******/ 		var completeFunction = (fn) => (!--fn.r && fn());
-/******/ 		var queueFunction = (queue, fn) => (queue ? queue.push(fn) : completeFunction(fn));
-/******/ 		var wrapDeps = (deps) => (deps.map((dep) => {
-/******/ 			if(dep !== null && typeof dep === "object") {
-/******/ 				if(dep[webpackThen]) return dep;
-/******/ 				if(dep.then) {
-/******/ 					var queue = [];
-/******/ 					dep.then((r) => {
-/******/ 						obj[webpackExports] = r;
-/******/ 						completeQueue(queue);
-/******/ 						queue = 0;
-/******/ 					});
-/******/ 					var obj = {};
-/******/ 												obj[webpackThen] = (fn, reject) => (queueFunction(queue, fn), dep.catch(reject));
-/******/ 					return obj;
-/******/ 				}
-/******/ 			}
-/******/ 			var ret = {};
-/******/ 								ret[webpackThen] = (fn) => (completeFunction(fn));
-/******/ 								ret[webpackExports] = dep;
-/******/ 								return ret;
-/******/ 		}));
-/******/ 		__webpack_require__.a = (module, body, hasAwait) => {
-/******/ 			var queue = hasAwait && [];
-/******/ 			var exports = module.exports;
-/******/ 			var currentDeps;
-/******/ 			var outerResolve;
-/******/ 			var reject;
-/******/ 			var isEvaluating = true;
-/******/ 			var nested = false;
-/******/ 			var whenAll = (deps, onResolve, onReject) => {
-/******/ 				if (nested) return;
-/******/ 				nested = true;
-/******/ 				onResolve.r += deps.length;
-/******/ 				deps.map((dep, i) => (dep[webpackThen](onResolve, onReject)));
-/******/ 				nested = false;
-/******/ 			};
-/******/ 			var promise = new Promise((resolve, rej) => {
-/******/ 				reject = rej;
-/******/ 				outerResolve = () => (resolve(exports), completeQueue(queue), queue = 0);
-/******/ 			});
-/******/ 			promise[webpackExports] = exports;
-/******/ 			promise[webpackThen] = (fn, rejectFn) => {
-/******/ 				if (isEvaluating) { return completeFunction(fn); }
-/******/ 				if (currentDeps) whenAll(currentDeps, fn, rejectFn);
-/******/ 				queueFunction(queue, fn);
-/******/ 				promise.catch(rejectFn);
-/******/ 			};
-/******/ 			module.exports = promise;
-/******/ 			body((deps) => {
-/******/ 				if(!deps) return outerResolve();
-/******/ 				currentDeps = wrapDeps(deps);
-/******/ 				var fn, result;
-/******/ 				var promise = new Promise((resolve, reject) => {
-/******/ 					fn = () => (resolve(result = currentDeps.map((d) => (d[webpackExports]))));
-/******/ 					fn.r = 0;
-/******/ 					whenAll(currentDeps, fn, reject);
-/******/ 				});
-/******/ 				return fn.r ? promise : result;
-/******/ 			}).then(outerResolve, reject);
-/******/ 			isEvaluating = false;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
@@ -6211,35 +5963,9 @@ __webpack_require__.a(module, (__webpack_handle_async_dependencies__) => {
 /******/ 		};
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/harmony module decorator */
-/******/ 	(() => {
-/******/ 		__webpack_require__.hmd = (module) => {
-/******/ 			module = Object.create(module);
-/******/ 			if (!module.children) module.children = [];
-/******/ 			Object.defineProperty(module, 'exports', {
-/******/ 				enumerable: true,
-/******/ 				set: () => {
-/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
-/******/ 				}
-/******/ 			});
-/******/ 			return module;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/node module decorator */

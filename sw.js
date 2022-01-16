@@ -27,17 +27,17 @@ workbox.core.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-11fc4f20b799a011ea56.js"
+    "url": "webpack-runtime-1cfc5be4fc1a881cd295.js"
   },
   {
     "url": "framework-4455cc43f243659af31e.js"
   },
   {
-    "url": "app-db4b9ad824783e40963b.js"
+    "url": "app-469db79c2a3c277be8ae.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "f7d3eef2ff18f4a643fd6478abf29f8e"
+    "revision": "dce13572f3a3f4ff93378c0a01a59a7f"
   },
   {
     "url": "component---cache-caches-gatsby-plugin-offline-app-shell-js-395a64098fdeb43d9ae8.js"
@@ -48,7 +48,7 @@ self.__precacheManifest = [
   },
   {
     "url": "page-data/app-data.json",
-    "revision": "6fb9acceb69fd79c001e3379bf406589"
+    "revision": "0e8f5155bcfbd2c408abe34d31e7b06e"
   },
   {
     "url": "polyfill-17feb492fec693230c9d.js"
@@ -147,7 +147,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/periotrisjs/app-db4b9ad824783e40963b.js`))) {
+  if (!resources || !(await caches.match(`/periotrisjs/app-469db79c2a3c277be8ae.js`))) {
     return await fetch(event.request)
   }
 
