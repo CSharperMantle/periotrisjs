@@ -1,7 +1,7 @@
 {
   "name": "periotrisjs",
   "version": "1.8.1",
-  "description": "Learn the Periodic Table of Elements in a fun way, directly in your browsers",
+  "description": "Get familiar with the Periodic Table of Elements in a fun way, directly in your browsers.",
   "scripts": {
     "clean": "npx rimraf coverage public && gatsby clean",
     "build": "gatsby build",
