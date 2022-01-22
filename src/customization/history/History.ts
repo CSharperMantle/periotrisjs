@@ -5,11 +5,11 @@ import { HistoryLocalStorageKey } from "../../common"
 import { retrieve, store } from "../../localstorage"
 
 class History {
-  private _fastestRecord: Dayjs
-  public get fastestRecord(): Dayjs {
+  private _fastestRecord: Dayjs | null
+  public get fastestRecord(): Dayjs | null {
     return this._fastestRecord
   }
-  private set fastestRecord(v: Dayjs) {
+  private set fastestRecord(v: Dayjs | null) {
     this._fastestRecord = v
   }
 
@@ -31,7 +31,7 @@ class History {
   }
 
   public constructor() {
-    this._fastestRecord = dayjs(0)
+    this._fastestRecord = null
     this._records = []
   }
 

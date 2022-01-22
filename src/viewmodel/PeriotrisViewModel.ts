@@ -228,7 +228,9 @@ class PeriotrisViewModel extends EventEmitter {
   private refreshGameStatus(): void {
     this.gameState = this._model.gameState
     this.isNewRecord = this._model.isNewRecord
-    this.fastestRecord = this._model.history.fastestRecord
+    this.fastestRecord = _.isNil(this._model.history.fastestRecord)
+      ? dayjs(0)
+      : this._model.history.fastestRecord
   }
 
   @action

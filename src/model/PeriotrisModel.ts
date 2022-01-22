@@ -4,7 +4,7 @@ import _ from "lodash"
 import PatternGeneratorWorker from "worker-loader!./generation/PatternGeneratorWorker"
 
 import { isBrowserEnv, PlayAreaHeight, PlayAreaWidth } from "../common"
-import { History } from "../customization/history/History"
+import { History } from "../customization/history"
 import defaultMap from "../json/DefaultMap.json"
 import { Block } from "./Block"
 import { BlockChangedEventArgs } from "./BlockChangedEventArgs"
