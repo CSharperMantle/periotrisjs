@@ -1,7 +1,7 @@
 import { observer } from "mobx-react"
 import React, { useContext } from "react"
 
-import { createStyles, makeStyles } from "@mui/styles"
+import { Box } from "@mui/material"
 
 import { PlayAreaHeight, PlayAreaWidth } from "../common"
 import { PeriotrisViewModelContext } from "../viewmodel"
@@ -9,33 +9,8 @@ import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
 import { BlockControl } from "./BlockControl"
 import { TimerDisplay } from "./TimerDisplay"
 
-const useStyles = makeStyles(() => {
-  return createStyles({
-    playArea: {
-      margin: "0 auto",
-
-      position: "relative",
-      height: "100%",
-      aspectRatio: "auto 18 / 11",
-
-      backgroundColor: "black",
-    },
-
-    canvasGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(18, 1fr)",
-      gridTemplateRows: "repeat(11, 1fr)",
-
-      position: "relative",
-      width: "100%",
-      height: "100%",
-    },
-  })
-})
-
 const BlocksGrid = observer((): React.ReactElement => {
   const viewModel = useContext(PeriotrisViewModelContext)
-  const styles = useStyles()
 
   const paddedBlocks: IDisplayBlock[][] = []
 
@@ -71,10 +46,32 @@ const BlocksGrid = observer((): React.ReactElement => {
   })
 
   return (
-    <div className={styles.playArea}>
+    <Box
+      sx={{
+        margin: "0 auto",
+
+        position: "relative",
+        height: "100%",
+        aspectRatio: "auto 18 / 11",
+
+        backgroundColor: "black",
+      }}
+    >
       <TimerDisplay />
-      <div className={styles.canvasGrid}>{blocks}</div>
-    </div>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "repeat(18, 1fr)",
+          gridTemplateRows: "repeat(11, 1fr)",
+
+          position: "relative",
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        {blocks}
+      </Box>
+    </Box>
   )
 })
 

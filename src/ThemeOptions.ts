@@ -1,11 +1,6 @@
-import {
-  adaptV4Theme,
-  createTheme,
-  DeprecatedThemeOptions,
-  Theme,
-} from "@mui/material/styles"
+import { createTheme, Theme, ThemeOptions } from "@mui/material/styles"
 
-const themeOptions: DeprecatedThemeOptions = {
+const themeOptions: ThemeOptions = {
   palette: {
     mode: "dark",
     primary: {
@@ -17,6 +12,6 @@ const themeOptions: DeprecatedThemeOptions = {
   },
 }
 
-const theme: Theme = createTheme(adaptV4Theme(themeOptions))
+const theme: Theme = createTheme(themeOptions)
 
 export { themeOptions, theme }

@@ -10,33 +10,25 @@ import {
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Fab, PropTypes, Theme } from "@mui/material"
-import { createStyles, makeStyles } from "@mui/styles"
+import { Box, Fab, PropTypes, useTheme } from "@mui/material"
 
 import { GameState } from "../model"
 import { PeriotrisViewModelContext } from "../viewmodel"
-
-const useStyles = makeStyles((theme: Theme) => {
-  return createStyles({
-    extendedIcon: {
-      marginRight: theme.spacing(1),
-    },
-    fab: {
-      position: "absolute",
-      bottom: theme.spacing(5),
-      right: theme.spacing(5),
-    },
-  })
-})
 
 interface IButtonLabelIconWrapper {
   icon: IconDefinition
 }
 
 function ButtonLabelIconWrapper(props: IButtonLabelIconWrapper) {
-  const classes = useStyles()
-
-  return <FontAwesomeIcon icon={props.icon} className={classes.extendedIcon} />
+  return (
+    <Box
+      sx={{
+        marginRight: 1,
+      }}
+    >
+      <FontAwesomeIcon icon={props.icon} />
+    </Box>
+  )
 }
 
 interface IGameControlButtonProps {
@@ -96,8 +88,8 @@ function getLabelByGameState(gameState: GameState, paused: boolean): string {
 }
 
 const GameControlButton = observer(({ onClick }: IGameControlButtonProps) => {
+  const theme = useTheme()
   const viewModel = useContext(PeriotrisViewModelContext)
-  const styles = useStyles()
 
   const icon = getIconByGameState(viewModel.gameState, viewModel.paused)
   const isDisabled = viewModel.gameState === GameState.Preparing
@@ -106,7 +98,11 @@ const GameControlButton = observer(({ onClick }: IGameControlButtonProps) => {
 
   return (
     <Fab
-      className={styles.fab}
+      sx={{
+        position: "absolute",
+        bottom: theme.spacing(5),
+        right: theme.spacing(5),
+      }}
       variant="extended"
       color={color}
       disabled={isDisabled}

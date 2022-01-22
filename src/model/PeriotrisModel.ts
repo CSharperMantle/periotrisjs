@@ -169,7 +169,7 @@ class PeriotrisModel extends EventEmitter {
 
     if (isBrowserEnv()) {
       // We have workers
-      const message: IGeneratorMessage = {
+      const message: IGeneratorMessage<unknown> = {
         type: MessageType.RequestGeneration,
         content: null,
       }
@@ -224,10 +224,10 @@ class PeriotrisModel extends EventEmitter {
       // Assign Worker message handler
       this._patternGeneratorWorker.addEventListener(
         "message",
-        (eventArgs: MessageEvent<IGeneratorMessage>) => {
+        (eventArgs: MessageEvent<IGeneratorMessage<Tetrimino[]>>) => {
           const data = eventArgs.data
           if (data.type === MessageType.ResponseSuccess) {
-            const content = data.content as Tetrimino[]
+            const content = data.content
             const fixedTetriminos = repairBrokenTetriminos(content)
             this.realStartGame(fixedTetriminos)
           } else {

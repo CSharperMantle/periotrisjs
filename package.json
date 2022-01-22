@@ -3,15 +3,16 @@
   "version": "1.8.1",
   "description": "Learn the Periodic Table of Elements in a fun way, directly in your browsers",
   "scripts": {
+    "clean": "npx rimraf coverage public && gatsby clean",
     "build": "gatsby build",
     "build-prefixed": "gatsby build --prefix-paths",
-    "clean": "npx rimraf coverage public && gatsby clean",
-    "coverage": "jest --coverage",
+    "rebuild": "yarn run clean && yarn run build",
     "develop": "gatsby develop",
-    "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,html}",
     "start": "yarn run develop",
     "serve": "gatsby serve",
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,html}"
   },
   "repository": {
     "type": "git",
@@ -32,7 +33,6 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@mui/lab": "^5.0.0-alpha.51",
     "@mui/material": "^5.0.4",
-    "@mui/styles": "^5.0.1",
     "@mui/system": "^5.0.4",
     "dayjs": "^1.10.7",
     "gatsby": "^4.5.4",

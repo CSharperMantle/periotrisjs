@@ -61,6 +61,7 @@ async function getPlayablePattern(): Promise<Tetrimino[]> {
 }
 
 function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
+  // FIXME: Borked
   const workspace = _.cloneDeep(template)
   const settledTetriminos: Tetrimino[] = []
   const pendingPossibilityStacks: TetriminoPossibilityStack[] = []
