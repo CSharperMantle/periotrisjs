@@ -167,7 +167,7 @@ class PeriotrisModel extends EventEmitter {
 
     this.gameState = GameState.Preparing
 
-    if (!_.isUndefined(this._patternGeneratorWorker)) {
+    if (isBrowserEnv()) {
       // We have workers
       const message: IGeneratorMessage = {
         type: MessageType.RequestGeneration,
@@ -220,20 +220,22 @@ class PeriotrisModel extends EventEmitter {
   public constructor() {
     super()
 
-    // Assign Worker message handler
-    this._patternGeneratorWorker.addEventListener(
-      "message",
-      (eventArgs: MessageEvent<IGeneratorMessage>) => {
-        const data = eventArgs.data
-        if (data.type === MessageType.ResponseSuccess) {
-          const content = data.content as Tetrimino[]
-          const fixedTetriminos = repairBrokenTetriminos(content)
-          this.realStartGame(fixedTetriminos)
-        } else {
-          console.warn(data)
+    if (isBrowserEnv()) {
+      // Assign Worker message handler
+      this._patternGeneratorWorker.addEventListener(
+        "message",
+        (eventArgs: MessageEvent<IGeneratorMessage>) => {
+          const data = eventArgs.data
+          if (data.type === MessageType.ResponseSuccess) {
+            const content = data.content as Tetrimino[]
+            const fixedTetriminos = repairBrokenTetriminos(content)
+            this.realStartGame(fixedTetriminos)
+          } else {
+            console.warn(data)
+          }
         }
-      }
-    )
+      )
+    }
 
     this._history = History.fromLocalStorage()
     this.endGame(false)
