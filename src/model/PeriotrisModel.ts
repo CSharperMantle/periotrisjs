@@ -18,6 +18,11 @@ import {
 import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
 
 class PeriotrisModel extends EventEmitter {
+  private readonly _patternGeneratorWorker: PatternGeneratorWorker =
+    isBrowserEnv()
+      ? new PatternGeneratorWorker()
+      : (undefined as unknown as PatternGeneratorWorker)
+
   private readonly _frozenBlocks: Block[] = []
   private readonly _pendingTetriminos: Tetrimino[] = []
   private _activeTetrimino: Tetrimino | null = null
@@ -162,29 +167,18 @@ class PeriotrisModel extends EventEmitter {
 
     this.gameState = GameState.Preparing
 
-    if (isBrowserEnv()) {
-      // Use Web Worker
-      const worker = new PatternGeneratorWorker()
-
-      worker.onmessage = (eventArgs) => {
-        const data = eventArgs.data as IGeneratorMessage
-        if (data.type === MessageType.ResponseSuccess) {
-          const content = data.content as Tetrimino[]
-          const fixedTetriminos = repairBrokenTetriminos(content)
-          this.realStartGame(fixedTetriminos)
-          worker.terminate()
-        } else {
-          console.warn(data)
-        }
-      }
-
+    if (!_.isUndefined(this._patternGeneratorWorker)) {
+      // We have workers
       const message: IGeneratorMessage = {
         type: MessageType.RequestGeneration,
         content: null,
       }
-      worker.postMessage(message)
+      this._patternGeneratorWorker.postMessage(message)
     } else {
       // Use single-threaded approach
+      console.warn(
+        "Web workers unavailable. Running pattern generator on UI thread."
+      )
       getPlayablePattern().then((tetriminos) => {
         this.realStartGame(tetriminos)
       })
@@ -225,6 +219,22 @@ class PeriotrisModel extends EventEmitter {
 
   public constructor() {
     super()
+
+    // Assign Worker message handler
+    this._patternGeneratorWorker.addEventListener(
+      "message",
+      (eventArgs: MessageEvent<IGeneratorMessage>) => {
+        const data = eventArgs.data
+        if (data.type === MessageType.ResponseSuccess) {
+          const content = data.content as Tetrimino[]
+          const fixedTetriminos = repairBrokenTetriminos(content)
+          this.realStartGame(fixedTetriminos)
+        } else {
+          console.warn(data)
+        }
+      }
+    )
+
     this._history = History.fromLocalStorage()
     this.endGame(false)
   }

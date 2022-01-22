@@ -34,7 +34,6 @@ async function getPlayablePattern(): Promise<Tetrimino[]> {
   const tetriminos = sort(getPossibleTetriminoPattern(template)) as Tetrimino[]
 
   const fixedTetriminos = repairBrokenTetriminos(tetriminos)
-
   fixedTetriminos.forEach((tetrimino: Tetrimino) => {
     const originalPos = tetrimino.position
     const newPos = getInitialPositionByKind(tetrimino.kind)
@@ -64,32 +63,29 @@ async function getPlayablePattern(): Promise<Tetrimino[]> {
 function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
   const workspace = _.cloneDeep(template)
   const settledTetriminos: Tetrimino[] = []
-  const pendingTetriminoKinds: KindDirectionsPair[][] = []
+  const pendingPossibilityStacks: TetriminoPossibilityStack[] = []
 
   let rewindingRequired = false
-
   // eslint-disable-next-line no-constant-condition
   while (true) {
     const firstBlockCoord = getFirstAvailableBlockCoord(workspace)
-    const firstBlockCol = firstBlockCoord.x
-    const firstBlockRow = firstBlockCoord.y
-    if (!(firstBlockCol >= 0 && firstBlockRow >= 0)) {
+    if (!(firstBlockCoord.x >= 0 && firstBlockCoord.y >= 0)) {
       return settledTetriminos
     }
 
-    let currentKindDirectionsPairStack: KindDirectionsPair[]
+    let currentPossibilities: TetriminoPossibilityStack
     if (!rewindingRequired) {
-      currentKindDirectionsPairStack = createShuffledKindDirectionsPairs()
+      currentPossibilities = new TetriminoPossibilityStack()
     } else {
       if (settledTetriminos.length === 0) {
         return settledTetriminos
       }
 
-      const poppedKinds = pendingTetriminoKinds.pop()
-      if (_.isNil(poppedKinds)) {
-        throw new Error("poppedKinds")
+      let poppedPossibilities = pendingPossibilityStacks.pop()
+      if (_.isNil(poppedPossibilities)) {
+        throw new Error("poppedPossibilities")
       }
-      currentKindDirectionsPairStack = poppedKinds
+      currentPossibilities = poppedPossibilities
 
       const lastTetrimino = settledTetriminos.pop()
       if (_.isNil(lastTetrimino)) {
@@ -103,52 +99,34 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
     }
 
     let solutionFound = false
-    while (!solutionFound && currentKindDirectionsPairStack.length > 0) {
-      const currentPair = currentKindDirectionsPairStack.pop()
-      if (_.isNil(currentPair)) {
-        throw new Error("currentPair")
-      }
+    while (currentPossibilities.length() > 0) {
+      const currentPossibility = currentPossibilities.pop()
 
-      while (!solutionFound && currentPair.directions.length > 0) {
-        const direction = currentPair.popRandomDirection()
-        const tetrimino = Tetrimino.createTetriminoByFirstBlockPosition(
-          currentPair.kind,
-          firstBlockCoord,
-          direction
-        )
-        if (
-          !tetrimino.blocks.some(collisionChecker.bind(undefined, workspace))
-        ) {
-          settledTetriminos.push(tetrimino)
-          pendingTetriminoKinds.push(currentKindDirectionsPairStack)
-          tetrimino.blocks.forEach((block: Block) => {
-            block.atomicNumber =
-              workspace[block.position.y][block.position.x].atomicNumber
-            workspace[block.position.y][block.position.x].filledBy =
-              block.filledBy
-          })
-          solutionFound = true
-          rewindingRequired = false
-        }
+      const tetrimino = Tetrimino.createTetriminoByFirstBlockPosition(
+        currentPossibility.kind,
+        firstBlockCoord,
+        currentPossibility.direction
+      )
+
+      let willCollide = tetrimino.blocks.some(
+        collisionChecker.bind(undefined, workspace)
+      )
+
+      if (!willCollide) {
+        settledTetriminos.push(tetrimino)
+        pendingPossibilityStacks.push(currentPossibilities)
+        tetrimino.blocks.forEach((block: Block) => {
+          block.atomicNumber =
+            workspace[block.position.y][block.position.x].atomicNumber
+          workspace[block.position.y][block.position.x].filledBy =
+            block.filledBy
+        })
+        solutionFound = true
+        break
       }
     }
-
-    if (!solutionFound) {
-      rewindingRequired = true
-    }
+    rewindingRequired = !solutionFound
   }
-}
-
-function createShuffledKindDirectionsPairs(): KindDirectionsPair[] {
-  return _.shuffle([
-    new KindDirectionsPair(TetriminoKind.Cubic),
-    new KindDirectionsPair(TetriminoKind.LShapedCis),
-    new KindDirectionsPair(TetriminoKind.LShapedTrans),
-    new KindDirectionsPair(TetriminoKind.Linear),
-    new KindDirectionsPair(TetriminoKind.TeeShaped),
-    new KindDirectionsPair(TetriminoKind.ZigZagCis),
-    new KindDirectionsPair(TetriminoKind.ZigZagTrans),
-  ])
 }
 
 function collisionChecker(workspace: Block[][], block: Block): boolean {
@@ -172,26 +150,56 @@ function getFirstAvailableBlockCoord(blocks: Block[][]): Position {
   return new Position(-1, -1)
 }
 
-class KindDirectionsPair {
-  public readonly kind: TetriminoKind
-  public readonly directions: Direction[]
-
-  public constructor(kind: TetriminoKind) {
-    this.kind = kind
-    this.directions = _.clone(AllDirections)
-  }
-
-  public popRandomDirection(): Direction {
-    const index = _.random(0, this.directions.length - 1)
-    return this.directions.splice(index)[0]
-  }
-}
-
 const AllDirections: Direction[] = [
   Direction.Up,
   Direction.Down,
   Direction.Left,
   Direction.Right,
 ]
+
+const AllKinds: TetriminoKind[] = [
+  TetriminoKind.Cubic,
+  TetriminoKind.LShapedCis,
+  TetriminoKind.LShapedTrans,
+  TetriminoKind.Linear,
+  TetriminoKind.TeeShaped,
+  TetriminoKind.ZigZagCis,
+  TetriminoKind.ZigZagTrans,
+]
+
+function fastRandom(startInc: number, endExc: number): number {
+  return startInc + Math.floor(Math.random() * (endExc - startInc))
+}
+
+class TetriminoPossibility {
+  public readonly kind: TetriminoKind
+  public readonly direction: Direction
+
+  public constructor(kind: TetriminoKind, direction: Direction) {
+    this.kind = kind
+    this.direction = direction
+  }
+}
+
+class TetriminoPossibilityStack {
+  public readonly theStack: TetriminoPossibility[]
+
+  public constructor() {
+    this.theStack = AllKinds.flatMap((kind) =>
+      AllDirections.map(
+        (direction) => new TetriminoPossibility(kind, direction)
+      )
+    )
+  }
+
+  public pop(): TetriminoPossibility {
+    const index = fastRandom(0, this.theStack.length)
+    return this.theStack.splice(index, 1)[0]
+  }
+
+  public length(): number {
+    return this.theStack.length
+  }
+}
 
 export { getPlayablePattern }
