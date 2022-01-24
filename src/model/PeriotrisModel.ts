@@ -1,9 +1,10 @@
 import dayjs from "dayjs"
 import { EventEmitter } from "events"
+import { isBrowser } from "is-in-browser"
 import _ from "lodash"
 import PatternGeneratorWorker from "worker-loader!./generation/PatternGeneratorWorker"
 
-import { isBrowserEnv, PlayAreaHeight, PlayAreaWidth } from "../common"
+import { PlayAreaHeight, PlayAreaWidth } from "../common"
 import { History } from "../customization/history"
 import defaultMap from "../json/DefaultMap.json"
 import { Block } from "./Block"
@@ -18,10 +19,9 @@ import {
 import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
 
 class PeriotrisModel extends EventEmitter {
-  private readonly _patternGeneratorWorker: PatternGeneratorWorker =
-    isBrowserEnv()
-      ? new PatternGeneratorWorker()
-      : (undefined as unknown as PatternGeneratorWorker)
+  private readonly _patternGeneratorWorker: PatternGeneratorWorker = isBrowser
+    ? new PatternGeneratorWorker()
+    : (undefined as unknown as PatternGeneratorWorker)
 
   private readonly _frozenBlocks: Block[] = []
   private readonly _pendingTetriminos: Tetrimino[] = []
@@ -167,7 +167,7 @@ class PeriotrisModel extends EventEmitter {
 
     this.gameState = GameState.Preparing
 
-    if (isBrowserEnv()) {
+    if (isBrowser) {
       // We have workers
       const message: IGeneratorMessage<unknown> = {
         type: MessageType.RequestGeneration,
@@ -220,7 +220,7 @@ class PeriotrisModel extends EventEmitter {
   public constructor() {
     super()
 
-    if (isBrowserEnv()) {
+    if (isBrowser) {
       // Assign Worker message handler
       this._patternGeneratorWorker.addEventListener(
         "message",

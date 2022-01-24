@@ -41,11 +41,13 @@
     "gatsby-plugin-react-helmet": "^5.5.0",
     "gatsby-plugin-typescript": "^4.5.2",
     "hammerjs": "^2.0.8",
+    "is-in-browser": "^2.0.0",
     "lodash": "^4.17.21",
     "mobx": "^6.3.13",
     "mobx-react": "^7.2.1",
     "notistack": "^2.0.2",
     "react": "^17.0.1",
+    "react-aspect-ratio": "^1.0.50",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
     "worker-loader": "^3.0.8"

@@ -6643,6 +6643,11 @@ is-glob@^4.0.0, is-glob@^4.0.1, is-glob@^4.0.3, is-glob@~4.0.1:
   dependencies:
     is-extglob "^2.1.1"
 
+is-in-browser@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmmirror.com/is-in-browser/download/is-in-browser-2.0.0.tgz#a2343a18d8f8a600e8a20cb3022183a251e30355"
+  integrity sha1-ojQ6GNj4pgDoogyzAiGDolHjA1U=
+
 is-installed-globally@^0.4.0:
   version "0.4.0"
   resolved "https://registry.npm.taobao.org/is-installed-globally/download/is-installed-globally-0.4.0.tgz#9a0fd407949c30f86eb6959ef1b7994ed0b7b520"
@@ -9290,6 +9295,11 @@ rc@^1.2.7, rc@^1.2.8:
     ini "~1.3.0"
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
+
+react-aspect-ratio@^1.0.50:
+  version "1.0.50"
+  resolved "https://registry.npmmirror.com/react-aspect-ratio/download/react-aspect-ratio-1.0.50.tgz#b46bfc6a701d829bd0cb6d001cf271e443874213"
+  integrity sha1-tGv8anAdgpvQy20AHPJx5EOHQhM=
 
 react-dev-utils@^11.0.4:
   version "11.0.4"

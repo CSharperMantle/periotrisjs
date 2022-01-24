@@ -1,12 +1,12 @@
 import dayjs, { Dayjs } from "dayjs"
 import { EventEmitter } from "events"
+import { isBrowser } from "is-in-browser"
 import _ from "lodash"
 import { action, makeObservable, observable } from "mobx"
 import { createContext } from "react"
 
 import {
   GameUpdateIntervalMilliseconds,
-  isBrowserEnv,
   Position,
   StopwatchUpdateIntervalMilliseconds,
 } from "../common"
@@ -20,7 +20,7 @@ import {
 } from "../model"
 import { IDisplayBlock } from "./IDisplayBlock"
 
-const Hammer = isBrowserEnv() ? require("hammerjs") : null
+const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
 class PeriotrisViewModel extends EventEmitter {
   public constructor() {
