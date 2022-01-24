@@ -31,7 +31,7 @@ class App extends React.Component {
       this._viewModel.onKeyDown.bind(this._viewModel)
     )
 
-    this._hammer = new Hammer(this._rowTwoRef.current)
+    this._hammer = new Hammer(this._rowTwoRef.current as HTMLElement)
     this._hammer.on("tap", this._viewModel.onTap.bind(this._viewModel))
     this._hammer.on("swipe", this._viewModel.onSwipe.bind(this._viewModel))
     this._hammer.on("pressup", this._viewModel.onPressUp.bind(this._viewModel))

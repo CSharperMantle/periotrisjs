@@ -9296,11 +9296,6 @@ rc@^1.2.7, rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-aspect-ratio@^1.0.50:
-  version "1.0.50"
-  resolved "https://registry.npmmirror.com/react-aspect-ratio/download/react-aspect-ratio-1.0.50.tgz#b46bfc6a701d829bd0cb6d001cf271e443874213"
-  integrity sha1-tGv8anAdgpvQy20AHPJx5EOHQhM=
-
 react-dev-utils@^11.0.4:
   version "11.0.4"
   resolved "https://registry.npmmirror.com/react-dev-utils/download/react-dev-utils-11.0.4.tgz#a7ccb60257a1ca2e0efe7a83e38e6700d17aa37a"
