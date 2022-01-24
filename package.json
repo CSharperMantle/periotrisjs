@@ -11,8 +11,7 @@
     "start": "yarn run develop",
     "serve": "gatsby serve",
     "test": "jest",
-    "coverage": "jest --coverage",
-    "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,html}"
+    "coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
