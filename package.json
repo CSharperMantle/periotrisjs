@@ -34,7 +34,7 @@
     "@mui/material": "^5.0.4",
     "@mui/system": "^5.0.4",
     "dayjs": "^1.10.7",
-    "gatsby": "^4.5.4",
+    "gatsby": "^4.6.0",
     "gatsby-plugin-manifest": "^4.5.2",
     "gatsby-plugin-material-ui": "^4.0.2",
     "gatsby-plugin-offline": "^5.5.2",
