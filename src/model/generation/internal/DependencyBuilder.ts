@@ -1,9 +1,9 @@
 import _ from "lodash"
 
-import { PlayAreaHeight, PlayAreaWidth } from "../../common"
-import { Block } from "../Block"
-import { Tetrimino } from "../Tetrimino"
-import { TetriminoKind } from "../TetriminoKind"
+import { PlayAreaHeight, PlayAreaWidth } from "../../../common"
+import { Block } from "../../Block"
+import { Tetrimino } from "../../Tetrimino"
+import { TetriminoKind } from "../../TetriminoKind"
 import { MemoizedBlock } from "./MemoizedBlock"
 import { TetriminoNode } from "./TetriminoNode"
 

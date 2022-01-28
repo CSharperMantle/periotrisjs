@@ -36,20 +36,20 @@ describe("createOffsetedBlocks", () => {
         new Position(0, 0),
         Direction.Down
       )
-    }).toThrowError(new RangeError("kind"))
+    }).toThrowError(new Error("Invalid tetrimino kind."))
     expect(() => {
       createOffsetedBlocks(
         TetriminoKind.UnavailableToFill,
         new Position(0, 0),
         Direction.Down
       )
-    }).toThrowError(new RangeError("kind"))
+    }).toThrowError(new Error("Invalid tetrimino kind."))
     expect(() => {
-      createOffsetedBlocks(9, new Position(0, 0), Direction.Down)
-    }).toThrowError(new RangeError("kind"))
+      createOffsetedBlocks(8, new Position(0, 0), Direction.Down)
+    }).toThrowError(new Error("Invalid tetrimino kind."))
     expect(() => {
       createOffsetedBlocks(TetriminoKind.Cubic, new Position(0, 0), 4)
-    }).toThrowError(new RangeError("direction"))
+    }).toThrowError(new Error("Invalid direction."))
   })
 })
 

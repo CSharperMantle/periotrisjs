@@ -5,22 +5,22 @@ import { Block } from "../Block"
 import { Direction } from "../Direction"
 import { TetriminoKind } from "../TetriminoKind"
 
-const CubicMaskDown: number[][] = [
+const CubicDownMask: number[][] = [
   [3, 4],
   [2, 1],
 ]
 
-const CubicMaskLeft: number[][] = [
+const CubicLeftMask: number[][] = [
   [2, 3],
   [1, 4],
 ]
 
-const CubicMaskRight: number[][] = [
+const CubicRightMask: number[][] = [
   [4, 1],
   [3, 2],
 ]
 
-const CubicMaskUp: number[][] = [
+const CubicUpMask: number[][] = [
   [1, 2],
   [4, 3],
 ]
@@ -173,6 +173,58 @@ const ZTransUpMask: number[][] = [
   [0, 0, 0],
 ]
 
+const BlocksMaskMapping = {
+  0: {
+    // TetriminoKind.Linear
+    0: LinearLeftMask,
+    1: LinearUpMask,
+    2: LinearRightMask,
+    3: LinearDownMask,
+  },
+  1: {
+    // TetriminoKind.Cubic
+    0: CubicUpMask,
+    1: CubicRightMask,
+    2: CubicDownMask,
+    3: CubicLeftMask,
+  },
+  2: {
+    // TetriminoKind.LShapedCis
+    0: LCisUpMask,
+    1: LCisRightMask,
+    2: LCisDownMask,
+    3: LCisLeftMask,
+  },
+  3: {
+    // TetriminoKind.LShapedTrans
+    0: LTransUpMask,
+    1: LTransRightMask,
+    2: LTransDownMask,
+    3: LTransLeftMask,
+  },
+  4: {
+    // TetriminoKind.ZigZagCis
+    0: ZCisUpMask,
+    1: ZCisRightMask,
+    2: ZCisDownMask,
+    3: ZCisLeftMask,
+  },
+  5: {
+    // TetriminoKind.ZigZagTrans
+    0: ZTransUpMask,
+    1: ZTransRightMask,
+    2: ZTransDownMask,
+    3: ZTransLeftMask,
+  },
+  6: {
+    // TetriminoKind.TeeShaped
+    0: TeeUpMask,
+    1: TeeRightMask,
+    2: TeeDownMask,
+    3: TeeLeftMask,
+  },
+}
+
 /**
  * Creates mask for blocks.
  * @param kind Kind of the tetrimino.
@@ -185,101 +237,17 @@ function createBlocksMask(
   kind: TetriminoKind,
   direction: Direction
 ): number[][] {
-  switch (kind) {
-    case TetriminoKind.Linear:
-      switch (direction) {
-        case Direction.Left:
-          return LinearLeftMask
-        case Direction.Up:
-          return LinearUpMask
-        case Direction.Right:
-          return LinearRightMask
-        case Direction.Down:
-          return LinearDownMask
-        default:
-          throw new RangeError("direction")
-      }
-    case TetriminoKind.Cubic:
-      switch (direction) {
-        case Direction.Up:
-          return CubicMaskUp
-        case Direction.Right:
-          return CubicMaskRight
-        case Direction.Down:
-          return CubicMaskDown
-        case Direction.Left:
-          return CubicMaskLeft
-        default:
-          throw new RangeError("direction")
-      }
-    case TetriminoKind.LShapedCis:
-      switch (direction) {
-        case Direction.Up:
-          return LCisUpMask
-        case Direction.Right:
-          return LCisRightMask
-        case Direction.Down:
-          return LCisDownMask
-        case Direction.Left:
-          return LCisLeftMask
-        default:
-          throw new RangeError("direction")
-      }
-    case TetriminoKind.LShapedTrans:
-      switch (direction) {
-        case Direction.Up:
-          return LTransUpMask
-        case Direction.Right:
-          return LTransRightMask
-        case Direction.Down:
-          return LTransDownMask
-        case Direction.Left:
-          return LTransLeftMask
-        default:
-          throw new RangeError("direction")
-      }
-    case TetriminoKind.ZigZagCis:
-      switch (direction) {
-        case Direction.Up:
-          return ZCisUpMask
-        case Direction.Right:
-          return ZCisRightMask
-        case Direction.Down:
-          return ZCisDownMask
-        case Direction.Left:
-          return ZCisLeftMask
-        default:
-          throw new RangeError("direction")
-      }
-    case TetriminoKind.ZigZagTrans:
-      switch (direction) {
-        case Direction.Up:
-          return ZTransUpMask
-        case Direction.Right:
-          return ZTransRightMask
-        case Direction.Down:
-          return ZTransDownMask
-        case Direction.Left:
-          return ZTransLeftMask
-        default:
-          throw new RangeError("direction")
-      }
-    case TetriminoKind.TeeShaped:
-      switch (direction) {
-        case Direction.Up:
-          return TeeUpMask
-        case Direction.Right:
-          return TeeRightMask
-        case Direction.Down:
-          return TeeDownMask
-        case Direction.Left:
-          return TeeLeftMask
-        default:
-          throw new RangeError("direction")
-      }
-    default:
-      throw new RangeError("kind")
+  if (
+    kind === TetriminoKind.AvailableToFill ||
+    kind === TetriminoKind.UnavailableToFill ||
+    kind > TetriminoKind.UnavailableToFill
+  ) {
+    throw new Error("Invalid tetrimino kind.")
   }
+  if (direction > 3) {
+    throw new Error("Invalid direction.")
+  }
+  return BlocksMaskMapping[kind][direction]
 }
 
 function getFirstBlockCoordByType(
@@ -298,7 +266,7 @@ function getFirstBlockCoordByType(
         case Direction.Down:
           return { row: 3, col: 2 }
         default:
-          throw new RangeError("facingDirection")
+          throw new Error("Invalid facing direction.")
       }
     case TetriminoKind.Cubic:
       return { row: 1, col: 1 }
@@ -313,7 +281,7 @@ function getFirstBlockCoordByType(
         case Direction.Down:
           return { row: 2, col: 1 }
         default:
-          throw new RangeError("facingDirection")
+          throw new Error("Invalid facing direction.")
       }
     case TetriminoKind.LShapedTrans:
       switch (facingDirection) {
@@ -326,7 +294,7 @@ function getFirstBlockCoordByType(
         case Direction.Down:
           return { row: 2, col: 1 }
         default:
-          throw new RangeError("facingDirection")
+          throw new Error("Invalid facing direction.")
       }
     case TetriminoKind.ZigZagCis:
       switch (facingDirection) {
@@ -339,7 +307,7 @@ function getFirstBlockCoordByType(
         case Direction.Down:
           return { row: 2, col: 2 }
         default:
-          throw new RangeError("facingDirection")
+          throw new Error("Invalid facing direction.")
       }
     case TetriminoKind.ZigZagTrans:
       switch (facingDirection) {
@@ -352,7 +320,7 @@ function getFirstBlockCoordByType(
         case Direction.Down:
           return { row: 2, col: 1 }
         default:
-          throw new RangeError("facingDirection")
+          throw new Error("Invalid facing direction.")
       }
     case TetriminoKind.TeeShaped:
       switch (facingDirection) {
@@ -365,10 +333,10 @@ function getFirstBlockCoordByType(
         case Direction.Down:
           return { row: 2, col: 1 }
         default:
-          throw new RangeError("facingDirection")
+          throw new Error("Invalid facing direction.")
       }
     default:
-      throw new RangeError("kind")
+      throw new Error("Invalid tetrimino kind.")
   }
 }
 

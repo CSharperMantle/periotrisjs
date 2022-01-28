@@ -1,6 +1,6 @@
 import _ from "lodash"
 
-import { Tetrimino } from "../Tetrimino"
+import { Tetrimino } from "../../Tetrimino"
 import { createTetriminoDependencyGraph } from "./DependencyBuilder"
 import { TetriminoNode } from "./TetriminoNode"
 

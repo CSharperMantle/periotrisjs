@@ -1,12 +1,12 @@
 import _ from "lodash"
 
-import { PlayAreaHeight, PlayAreaWidth, Position } from "../../common"
-import defaultMap from "../../json/DefaultMap.json"
-import { Block } from "../Block"
-import { Direction, RotationDirection } from "../Direction"
-import { repairBrokenTetriminos, Tetrimino } from "../Tetrimino"
-import { TetriminoKind } from "../TetriminoKind"
-import { getInitialPositionByKind } from "./GeneratorHelper"
+import { PlayAreaHeight, PlayAreaWidth, Position } from "../../../common"
+import defaultMap from "../../../json/DefaultMap.json"
+import { Block } from "../../Block"
+import { Direction, RotationDirection } from "../../Direction"
+import { repairBrokenTetriminos, Tetrimino } from "../../Tetrimino"
+import { TetriminoKind } from "../../TetriminoKind"
+import { getInitialPositionByKind } from "../GeneratorHelper"
 import { sort } from "./TetriminoSorter"
 
 async function getPlayablePattern(): Promise<Tetrimino[]> {
