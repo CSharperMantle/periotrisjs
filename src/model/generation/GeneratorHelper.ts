@@ -223,6 +223,8 @@ const BlocksMaskMapping = {
     2: TeeDownMask,
     3: TeeLeftMask,
   },
+  7: null, // TetriminoKind.AvailableToFill
+  8: null, // TetriminoKind.UnavailableToFill
 }
 
 /**
@@ -237,17 +239,15 @@ function createBlocksMask(
   kind: TetriminoKind,
   direction: Direction
 ): number[][] {
-  if (
-    kind === TetriminoKind.AvailableToFill ||
-    kind === TetriminoKind.UnavailableToFill ||
-    kind > TetriminoKind.UnavailableToFill
-  ) {
+  const directions = BlocksMaskMapping[kind]
+  if (_.isNil(directions)) {
     throw new Error("Invalid tetrimino kind.")
   }
-  if (direction > 3) {
+  const mask = directions[direction]
+  if (_.isNil(mask)) {
     throw new Error("Invalid direction.")
   }
-  return BlocksMaskMapping[kind][direction]
+  return mask
 }
 
 function getFirstBlockCoordByType(

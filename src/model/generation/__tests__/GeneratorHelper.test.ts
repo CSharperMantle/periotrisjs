@@ -45,7 +45,7 @@ describe("createOffsetedBlocks", () => {
       )
     }).toThrowError(new Error("Invalid tetrimino kind."))
     expect(() => {
-      createOffsetedBlocks(8, new Position(0, 0), Direction.Down)
+      createOffsetedBlocks(9, new Position(0, 0), Direction.Down)
     }).toThrowError(new Error("Invalid tetrimino kind."))
     expect(() => {
       createOffsetedBlocks(TetriminoKind.Cubic, new Position(0, 0), 4)
