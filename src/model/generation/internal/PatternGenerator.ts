@@ -7,6 +7,7 @@ import { Direction, RotationDirection } from "../../Direction"
 import { repairBrokenTetriminos, Tetrimino } from "../../Tetrimino"
 import { TetriminoKind } from "../../TetriminoKind"
 import { getInitialPositionByKind } from "../GeneratorHelper"
+import { ChunkedRandomList, ChunkedRandomListEntry } from "./ChunkedRandomList"
 import { sort } from "./TetriminoSorter"
 
 async function getPlayablePattern(): Promise<Tetrimino[]> {
@@ -64,7 +65,7 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
   // FIXME: Borked
   const workspace = _.cloneDeep(template)
   const settledTetriminos: Tetrimino[] = []
-  const pendingPossibilityStacks: TetriminoPossibilityStack[] = []
+  const pendingPossibilityLists: ChunkedRandomList<TetriminoPossibility>[] = []
 
   let rewindingRequired = false
   // eslint-disable-next-line no-constant-condition
@@ -74,15 +75,15 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
       return settledTetriminos
     }
 
-    let currentPossibilities: TetriminoPossibilityStack
+    let currentPossibilities: ChunkedRandomList<TetriminoPossibility>
     if (!rewindingRequired) {
-      currentPossibilities = new TetriminoPossibilityStack()
+      currentPossibilities = getNewTetriminoPossibilityList()
     } else {
       if (settledTetriminos.length === 0) {
         return settledTetriminos
       }
 
-      let poppedPossibilities = pendingPossibilityStacks.pop()
+      let poppedPossibilities = pendingPossibilityLists.pop()
       if (_.isNil(poppedPossibilities)) {
         throw new Error("poppedPossibilities")
       }
@@ -100,7 +101,7 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
     }
 
     let solutionFound = false
-    while (currentPossibilities.length() > 0) {
+    while (currentPossibilities.hasRemaining()) {
       const currentPossibility = currentPossibilities.pop()
 
       const tetrimino = Tetrimino.createTetriminoByFirstBlockPosition(
@@ -115,7 +116,7 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
 
       if (!willCollide) {
         settledTetriminos.push(tetrimino)
-        pendingPossibilityStacks.push(currentPossibilities)
+        pendingPossibilityLists.push(currentPossibilities)
         tetrimino.blocks.forEach((block: Block) => {
           block.atomicNumber =
             workspace[block.position.y][block.position.x].atomicNumber
@@ -151,27 +152,6 @@ function getFirstAvailableBlockCoord(blocks: Block[][]): Position {
   return new Position(-1, -1)
 }
 
-const AllDirections: Direction[] = [
-  Direction.Up,
-  Direction.Down,
-  Direction.Left,
-  Direction.Right,
-]
-
-const AllKinds: TetriminoKind[] = [
-  TetriminoKind.Cubic,
-  TetriminoKind.LShapedCis,
-  TetriminoKind.LShapedTrans,
-  TetriminoKind.Linear,
-  TetriminoKind.TeeShaped,
-  TetriminoKind.ZigZagCis,
-  TetriminoKind.ZigZagTrans,
-]
-
-function fastRandom(startInc: number, endExc: number): number {
-  return startInc + Math.floor(Math.random() * (endExc - startInc))
-}
-
 class TetriminoPossibility {
   public readonly kind: TetriminoKind
   public readonly direction: Direction
@@ -182,25 +162,54 @@ class TetriminoPossibility {
   }
 }
 
-class TetriminoPossibilityStack {
-  public readonly theStack: TetriminoPossibility[]
+const DefaultEntries = [
+  new ChunkedRandomListEntry<TetriminoPossibility>([
+    new TetriminoPossibility(TetriminoKind.Cubic, Direction.Up),
+    new TetriminoPossibility(TetriminoKind.Cubic, Direction.Down),
+    new TetriminoPossibility(TetriminoKind.Cubic, Direction.Left),
+    new TetriminoPossibility(TetriminoKind.Cubic, Direction.Right),
+  ]),
+  new ChunkedRandomListEntry<TetriminoPossibility>([
+    new TetriminoPossibility(TetriminoKind.LShapedCis, Direction.Up),
+    new TetriminoPossibility(TetriminoKind.LShapedCis, Direction.Down),
+    new TetriminoPossibility(TetriminoKind.LShapedCis, Direction.Left),
+    new TetriminoPossibility(TetriminoKind.LShapedCis, Direction.Right),
+  ]),
+  new ChunkedRandomListEntry<TetriminoPossibility>([
+    new TetriminoPossibility(TetriminoKind.LShapedTrans, Direction.Up),
+    new TetriminoPossibility(TetriminoKind.LShapedTrans, Direction.Down),
+    new TetriminoPossibility(TetriminoKind.LShapedTrans, Direction.Left),
+    new TetriminoPossibility(TetriminoKind.LShapedTrans, Direction.Right),
+  ]),
+  new ChunkedRandomListEntry<TetriminoPossibility>([
+    new TetriminoPossibility(TetriminoKind.Linear, Direction.Up),
+    new TetriminoPossibility(TetriminoKind.Linear, Direction.Down),
+    new TetriminoPossibility(TetriminoKind.Linear, Direction.Left),
+    new TetriminoPossibility(TetriminoKind.Linear, Direction.Right),
+  ]),
+  new ChunkedRandomListEntry<TetriminoPossibility>([
+    new TetriminoPossibility(TetriminoKind.TeeShaped, Direction.Up),
+    new TetriminoPossibility(TetriminoKind.TeeShaped, Direction.Down),
+    new TetriminoPossibility(TetriminoKind.TeeShaped, Direction.Left),
+    new TetriminoPossibility(TetriminoKind.TeeShaped, Direction.Right),
+  ]),
+  new ChunkedRandomListEntry<TetriminoPossibility>([
+    new TetriminoPossibility(TetriminoKind.ZigZagCis, Direction.Up),
+    new TetriminoPossibility(TetriminoKind.ZigZagCis, Direction.Down),
+    new TetriminoPossibility(TetriminoKind.ZigZagCis, Direction.Left),
+    new TetriminoPossibility(TetriminoKind.ZigZagCis, Direction.Right),
+  ]),
+  new ChunkedRandomListEntry<TetriminoPossibility>([
+    new TetriminoPossibility(TetriminoKind.ZigZagTrans, Direction.Up),
+    new TetriminoPossibility(TetriminoKind.ZigZagTrans, Direction.Down),
+    new TetriminoPossibility(TetriminoKind.ZigZagTrans, Direction.Left),
+    new TetriminoPossibility(TetriminoKind.ZigZagTrans, Direction.Right),
+  ]),
+]
 
-  public constructor() {
-    this.theStack = AllKinds.flatMap((kind) =>
-      AllDirections.map(
-        (direction) => new TetriminoPossibility(kind, direction)
-      )
-    )
-  }
-
-  public pop(): TetriminoPossibility {
-    const index = fastRandom(0, this.theStack.length)
-    return this.theStack.splice(index, 1)[0]
-  }
-
-  public length(): number {
-    return this.theStack.length
-  }
+function getNewTetriminoPossibilityList(): ChunkedRandomList<TetriminoPossibility> {
+  const entries = _.cloneDeep(DefaultEntries)
+  return new ChunkedRandomList(entries)
 }
 
 export { getPlayablePattern }
