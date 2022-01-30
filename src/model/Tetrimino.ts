@@ -5,8 +5,7 @@ import { Block } from "./Block"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
 import {
   createOffsetedBlocks,
-  getFirstBlockPositionByPosition,
-  getPositionByFirstBlockPosition,
+  getTransformedCoord,
   mapAtomicNumberForNewBlocks,
 } from "./generation/GeneratorHelper"
 import { TetriminoKind } from "./TetriminoKind"
@@ -127,7 +126,7 @@ class Tetrimino {
     return new Tetrimino(
       kind,
       position,
-      getFirstBlockPositionByPosition(position, kind, facingDirection),
+      getTransformedCoord(position, kind, facingDirection, true),
       facingDirection
     )
   }
@@ -139,7 +138,7 @@ class Tetrimino {
   ): Tetrimino {
     return new Tetrimino(
       kind,
-      getPositionByFirstBlockPosition(firstBlockPos, kind, facingDirection),
+      getTransformedCoord(firstBlockPos, kind, facingDirection, false),
       firstBlockPos,
       facingDirection
     )

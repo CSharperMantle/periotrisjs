@@ -233,7 +233,7 @@ const BlocksMaskMapping = {
  * @param direction Direction of the tetrimino.
  * @returns An 'number[][]' of the mask.
  *
- * @throws RangeError
+ * @throws Error
  */
 function createBlocksMask(
   kind: TetriminoKind,
@@ -250,119 +250,210 @@ function createBlocksMask(
   return mask
 }
 
+const FirstBlockCoordMapping = {
+  0: {
+    // TetriminoKind.Linear
+    0: {
+      // Direction.Left
+      row: 2,
+      col: 3,
+    },
+    1: {
+      // Direction.Up
+      row: 3,
+      col: 1,
+    },
+    2: {
+      // Direction.Right
+      row: 1,
+      col: 3,
+    },
+    3: {
+      // Direction.Down
+      row: 3,
+      col: 2,
+    },
+  },
+  1: {
+    // TetriminoKind.Cubic
+    0: {
+      // Direction.Left
+      row: 1,
+      col: 1,
+    },
+    1: {
+      // Direction.Up
+      row: 1,
+      col: 1,
+    },
+    2: {
+      // Direction.Right
+      row: 1,
+      col: 1,
+    },
+    3: {
+      // Direction.Down
+      row: 1,
+      col: 1,
+    },
+  },
+  2: {
+    // TetriminoKind.LShapedCis
+    0: {
+      // Direction.Left
+      row: 1,
+      col: 2,
+    },
+    1: {
+      // Direction.Up
+      row: 2,
+      col: 2,
+    },
+    2: {
+      // Direction.Right
+      row: 2,
+      col: 0,
+    },
+    3: {
+      // Direction.Down
+      row: 2,
+      col: 1,
+    },
+  },
+  3: {
+    // TetriminoKind.LShapedTrans
+    0: {
+      // Direction.Left
+      row: 2,
+      col: 2,
+    },
+    1: {
+      // Direction.Up
+      row: 2,
+      col: 1,
+    },
+    2: {
+      // Direction.Right
+      row: 1,
+      col: 2,
+    },
+    3: {
+      // Direction.Down
+      row: 2,
+      col: 1,
+    },
+  },
+  4: {
+    // TetriminoKind.ZigZagCis
+    0: {
+      // Direction.Left
+      row: 2,
+      col: 0,
+    },
+    1: {
+      // Direction.Up
+      row: 1,
+      col: 2,
+    },
+    2: {
+      // Direction.Right
+      row: 2,
+      col: 1,
+    },
+    3: {
+      // Direction.Down
+      row: 2,
+      col: 2,
+    },
+  },
+  5: {
+    // TetriminoKind.ZigZagTrans
+    0: {
+      // Direction.Left
+      row: 2,
+      col: 1,
+    },
+    1: {
+      // Direction.Up
+      row: 1,
+      col: 1,
+    },
+    2: {
+      // Direction.Right
+      row: 2,
+      col: 2,
+    },
+    3: {
+      // Direction.Down
+      row: 2,
+      col: 1,
+    },
+  },
+  6: {
+    // TetriminoKind.TeeShaped
+    0: {
+      // Direction.Left
+      row: 2,
+      col: 1,
+    },
+    1: {
+      // Direction.Up
+      row: 1,
+      col: 2,
+    },
+    2: {
+      // Direction.Right
+      row: 2,
+      col: 1,
+    },
+    3: {
+      // Direction.Down
+      row: 2,
+      col: 1,
+    },
+  },
+  7: null, // TetriminoKind.AvailableToFill
+  8: null, // TetriminoKind.UnavailableToFill
+}
+
 function getFirstBlockCoordByType(
   kind: TetriminoKind,
   facingDirection: Direction
 ): { row: number; col: number } {
-  switch (kind) {
-    case TetriminoKind.Linear:
-      switch (facingDirection) {
-        case Direction.Left:
-          return { row: 2, col: 3 }
-        case Direction.Up:
-          return { row: 3, col: 1 }
-        case Direction.Right:
-          return { row: 1, col: 3 }
-        case Direction.Down:
-          return { row: 3, col: 2 }
-        default:
-          throw new Error("Invalid facing direction.")
-      }
-    case TetriminoKind.Cubic:
-      return { row: 1, col: 1 }
-    case TetriminoKind.LShapedCis:
-      switch (facingDirection) {
-        case Direction.Left:
-          return { row: 1, col: 2 }
-        case Direction.Up:
-          return { row: 2, col: 2 }
-        case Direction.Right:
-          return { row: 2, col: 0 }
-        case Direction.Down:
-          return { row: 2, col: 1 }
-        default:
-          throw new Error("Invalid facing direction.")
-      }
-    case TetriminoKind.LShapedTrans:
-      switch (facingDirection) {
-        case Direction.Left:
-          return { row: 2, col: 2 }
-        case Direction.Up:
-          return { row: 2, col: 1 }
-        case Direction.Right:
-          return { row: 1, col: 2 }
-        case Direction.Down:
-          return { row: 2, col: 1 }
-        default:
-          throw new Error("Invalid facing direction.")
-      }
-    case TetriminoKind.ZigZagCis:
-      switch (facingDirection) {
-        case Direction.Left:
-          return { row: 2, col: 0 }
-        case Direction.Up:
-          return { row: 1, col: 2 }
-        case Direction.Right:
-          return { row: 2, col: 1 }
-        case Direction.Down:
-          return { row: 2, col: 2 }
-        default:
-          throw new Error("Invalid facing direction.")
-      }
-    case TetriminoKind.ZigZagTrans:
-      switch (facingDirection) {
-        case Direction.Left:
-          return { row: 2, col: 1 }
-        case Direction.Up:
-          return { row: 1, col: 1 }
-        case Direction.Right:
-          return { row: 2, col: 2 }
-        case Direction.Down:
-          return { row: 2, col: 1 }
-        default:
-          throw new Error("Invalid facing direction.")
-      }
-    case TetriminoKind.TeeShaped:
-      switch (facingDirection) {
-        case Direction.Left:
-          return { row: 2, col: 1 }
-        case Direction.Up:
-          return { row: 1, col: 2 }
-        case Direction.Right:
-          return { row: 2, col: 1 }
-        case Direction.Down:
-          return { row: 2, col: 1 }
-        default:
-          throw new Error("Invalid facing direction.")
-      }
-    default:
-      throw new Error("Invalid tetrimino kind.")
+  const firstBlockCoord = FirstBlockCoordMapping[kind]
+  if (_.isNil(firstBlockCoord)) {
+    throw new Error("Invalid tetrimino kind.")
   }
+  const coord = firstBlockCoord[facingDirection]
+  if (_.isNil(coord)) {
+    throw new Error("Invalid facing direction.")
+  }
+  return coord
 }
 
-function getPositionByFirstBlockPosition(
-  firstBlockPosition: Position,
+/**
+ * Transform a position of a Tetrimino into its corresponding Position
+ * of the first block, or back.
+ * @param position Position to transform
+ * @param kind Kind of the Tetrimino
+ * @param facingDirection Facing direction of the Tetrimino
+ * @param isToFirstBlockCoord Whether to transform into the first block position or back.
+ * @returns The transformed position
+ */
+function getTransformedCoord(
+  position: Position,
   kind: TetriminoKind,
-  facingDirection: Direction
+  facingDirection: Direction,
+  isToFirstBlockCoord: boolean
 ): Position {
+  const coefficient = isToFirstBlockCoord ? 1 : -1
   const firstBlockCoord = getFirstBlockCoordByType(kind, facingDirection)
   const firstBlockRow = firstBlockCoord.row
   const firstBlockCol = firstBlockCoord.col
   return new Position(
-    firstBlockPosition.x - firstBlockCol,
-    firstBlockPosition.y - firstBlockRow
+    position.x + coefficient * firstBlockCol,
+    position.y + coefficient * firstBlockRow
   )
-}
-
-function getFirstBlockPositionByPosition(
-  position: Position,
-  kind: TetriminoKind,
-  facingDirection: Direction
-): Position {
-  const firstBlockCoord = getFirstBlockCoordByType(kind, facingDirection)
-  const firstBlockRow = firstBlockCoord.row
-  const firstBlockCol = firstBlockCoord.col
-  return new Position(position.x + firstBlockCol, position.y + firstBlockRow)
 }
 
 function getInitialPositionByKind(kind: TetriminoKind): Position {
@@ -448,8 +539,7 @@ function mapAtomicNumberForNewBlocks(
 export {
   createOffsetedBlocks,
   getFirstBlockCoordByType,
-  getFirstBlockPositionByPosition,
-  getPositionByFirstBlockPosition,
+  getTransformedCoord,
   getInitialPositionByKind,
   mapAtomicNumberForNewBlocks,
 }
