@@ -7,7 +7,7 @@ import { Direction, RotationDirection } from "../../Direction"
 import { repairBrokenTetriminos, Tetrimino } from "../../Tetrimino"
 import { TetriminoKind } from "../../TetriminoKind"
 import { getInitialPositionByKind } from "../GeneratorHelper"
-import { ChunkedRandomList, ChunkedRandomListEntry } from "./ChunkedRandomList"
+import { ChunkedRandomList } from "./ChunkedRandomList"
 import { sort } from "./TetriminoSorter"
 
 async function getPlayablePattern(): Promise<Tetrimino[]> {
@@ -162,53 +162,51 @@ class TetriminoPossibility {
   }
 }
 
-const DefaultEntries = [
-  new ChunkedRandomListEntry<TetriminoPossibility>([
-    new TetriminoPossibility(TetriminoKind.Cubic, Direction.Up),
-    new TetriminoPossibility(TetriminoKind.Cubic, Direction.Down),
-    new TetriminoPossibility(TetriminoKind.Cubic, Direction.Left),
-    new TetriminoPossibility(TetriminoKind.Cubic, Direction.Right),
-  ]),
-  new ChunkedRandomListEntry<TetriminoPossibility>([
-    new TetriminoPossibility(TetriminoKind.LShapedCis, Direction.Up),
-    new TetriminoPossibility(TetriminoKind.LShapedCis, Direction.Down),
-    new TetriminoPossibility(TetriminoKind.LShapedCis, Direction.Left),
-    new TetriminoPossibility(TetriminoKind.LShapedCis, Direction.Right),
-  ]),
-  new ChunkedRandomListEntry<TetriminoPossibility>([
-    new TetriminoPossibility(TetriminoKind.LShapedTrans, Direction.Up),
-    new TetriminoPossibility(TetriminoKind.LShapedTrans, Direction.Down),
-    new TetriminoPossibility(TetriminoKind.LShapedTrans, Direction.Left),
-    new TetriminoPossibility(TetriminoKind.LShapedTrans, Direction.Right),
-  ]),
-  new ChunkedRandomListEntry<TetriminoPossibility>([
-    new TetriminoPossibility(TetriminoKind.Linear, Direction.Up),
-    new TetriminoPossibility(TetriminoKind.Linear, Direction.Down),
-    new TetriminoPossibility(TetriminoKind.Linear, Direction.Left),
-    new TetriminoPossibility(TetriminoKind.Linear, Direction.Right),
-  ]),
-  new ChunkedRandomListEntry<TetriminoPossibility>([
-    new TetriminoPossibility(TetriminoKind.TeeShaped, Direction.Up),
-    new TetriminoPossibility(TetriminoKind.TeeShaped, Direction.Down),
-    new TetriminoPossibility(TetriminoKind.TeeShaped, Direction.Left),
-    new TetriminoPossibility(TetriminoKind.TeeShaped, Direction.Right),
-  ]),
-  new ChunkedRandomListEntry<TetriminoPossibility>([
-    new TetriminoPossibility(TetriminoKind.ZigZagCis, Direction.Up),
-    new TetriminoPossibility(TetriminoKind.ZigZagCis, Direction.Down),
-    new TetriminoPossibility(TetriminoKind.ZigZagCis, Direction.Left),
-    new TetriminoPossibility(TetriminoKind.ZigZagCis, Direction.Right),
-  ]),
-  new ChunkedRandomListEntry<TetriminoPossibility>([
-    new TetriminoPossibility(TetriminoKind.ZigZagTrans, Direction.Up),
-    new TetriminoPossibility(TetriminoKind.ZigZagTrans, Direction.Down),
-    new TetriminoPossibility(TetriminoKind.ZigZagTrans, Direction.Left),
-    new TetriminoPossibility(TetriminoKind.ZigZagTrans, Direction.Right),
-  ]),
-]
-
 function getNewTetriminoPossibilityList(): ChunkedRandomList<TetriminoPossibility> {
-  const entries = _.cloneDeep(DefaultEntries)
+  const entries = [
+    [
+      new TetriminoPossibility(TetriminoKind.Cubic, Direction.Up),
+      new TetriminoPossibility(TetriminoKind.Cubic, Direction.Down),
+      new TetriminoPossibility(TetriminoKind.Cubic, Direction.Left),
+      new TetriminoPossibility(TetriminoKind.Cubic, Direction.Right),
+    ],
+    [
+      new TetriminoPossibility(TetriminoKind.LShapedCis, Direction.Up),
+      new TetriminoPossibility(TetriminoKind.LShapedCis, Direction.Down),
+      new TetriminoPossibility(TetriminoKind.LShapedCis, Direction.Left),
+      new TetriminoPossibility(TetriminoKind.LShapedCis, Direction.Right),
+    ],
+    [
+      new TetriminoPossibility(TetriminoKind.LShapedTrans, Direction.Up),
+      new TetriminoPossibility(TetriminoKind.LShapedTrans, Direction.Down),
+      new TetriminoPossibility(TetriminoKind.LShapedTrans, Direction.Left),
+      new TetriminoPossibility(TetriminoKind.LShapedTrans, Direction.Right),
+    ],
+    [
+      new TetriminoPossibility(TetriminoKind.Linear, Direction.Up),
+      new TetriminoPossibility(TetriminoKind.Linear, Direction.Down),
+      new TetriminoPossibility(TetriminoKind.Linear, Direction.Left),
+      new TetriminoPossibility(TetriminoKind.Linear, Direction.Right),
+    ],
+    [
+      new TetriminoPossibility(TetriminoKind.TeeShaped, Direction.Up),
+      new TetriminoPossibility(TetriminoKind.TeeShaped, Direction.Down),
+      new TetriminoPossibility(TetriminoKind.TeeShaped, Direction.Left),
+      new TetriminoPossibility(TetriminoKind.TeeShaped, Direction.Right),
+    ],
+    [
+      new TetriminoPossibility(TetriminoKind.ZigZagCis, Direction.Up),
+      new TetriminoPossibility(TetriminoKind.ZigZagCis, Direction.Down),
+      new TetriminoPossibility(TetriminoKind.ZigZagCis, Direction.Left),
+      new TetriminoPossibility(TetriminoKind.ZigZagCis, Direction.Right),
+    ],
+    [
+      new TetriminoPossibility(TetriminoKind.ZigZagTrans, Direction.Up),
+      new TetriminoPossibility(TetriminoKind.ZigZagTrans, Direction.Down),
+      new TetriminoPossibility(TetriminoKind.ZigZagTrans, Direction.Left),
+      new TetriminoPossibility(TetriminoKind.ZigZagTrans, Direction.Right),
+    ],
+  ]
   return new ChunkedRandomList(entries)
 }
 

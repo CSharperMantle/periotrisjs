@@ -1,50 +1,50 @@
 import _ from "lodash"
 
-class ChunkedRandomListEntry<T> {
-  private data: T[]
+function nativeRandom(minInclusive: number, maxExclusive: number): number {
+  return (
+    minInclusive + Math.floor(Math.random() * (maxExclusive - minInclusive))
+  )
+}
 
-  public constructor(data: T[]) {
-    this.data = data
+function popRandomFromArray<T>(array: T[]): T {
+  if (array.length === 0) {
+    throw new Error("Cannot pop from empty array.")
   }
-
-  public pop(): T {
-    if (this.data.length === 0) {
-      throw new Error("Cannot pop from empty list.")
-    }
-    const index = _.random(0, this.data.length - 1)
-    return this.data.splice(index, 1)[0]
-  }
-
-  public isEmpty(): boolean {
-    return this.data.length === 0
-  }
+  const index = nativeRandom(0, array.length)
+  return array.splice(index)[0]
 }
 
 class ChunkedRandomList<T> {
-  private entries: ChunkedRandomListEntry<T>[] = []
+  private chunks: T[][] = []
+  private chunkIndices: number[] = []
+  private cursor: number = -1
 
-  public constructor(entries: ChunkedRandomListEntry<T>[]) {
-    this.entries = _.shuffle(entries)
+  public constructor(entries: T[][]) {
+    this.chunks = entries
+    this.chunkIndices = _.range(0, entries.length)
+    this.cursor = nativeRandom(0, this.chunkIndices.length)
   }
 
   public pop(): T {
-    if (this.entries.length === 0) {
+    if (this.chunkIndices.length === 0) {
       throw new Error("Cannot pop from empty list.")
     }
-    const entry = this.entries[this.entries.length - 1]
-    if (entry === undefined) {
-      throw new Error("Cannot pop from empty list.")
+
+    const chunkIndex = this.chunkIndices[this.cursor]
+    const chunk = this.chunks[chunkIndex]
+    const element = popRandomFromArray(chunk)
+
+    if (chunk.length === 0) {
+      this.chunkIndices.splice(this.cursor, 1)
+      this.cursor = nativeRandom(0, this.chunkIndices.length)
     }
-    const element = entry.pop()
-    if (entry.isEmpty()) {
-      this.entries.pop()
-    }
+
     return element
   }
 
   public hasRemaining(): boolean {
-    return this.entries.length > 0
+    return this.chunkIndices.length > 0
   }
 }
 
-export { ChunkedRandomList, ChunkedRandomListEntry }
+export { ChunkedRandomList }
