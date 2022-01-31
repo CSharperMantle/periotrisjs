@@ -57,12 +57,13 @@ class Tetrimino {
     const deltaY = newPos.y - origPos.y
 
     const newBlocks = _.cloneDeep(this.blocks)
-    newBlocks.forEach((block: Block) => {
+    for (let i = 0, len = newBlocks.length; i < len; i++) {
+      const block = newBlocks[i]
       block.position = new Position(
         block.position.x + deltaX,
         block.position.y + deltaY
       )
-    })
+    }
 
     if (newBlocks.some(collisionChecker)) {
       return false
@@ -96,7 +97,7 @@ class Tetrimino {
     const adjustPattern: number[] =
       this.kind === TetriminoKind.Linear ? [0, 1, -1, 2, -2] : [0, 1, -1]
 
-    for (let i = 0; i < adjustPattern.length; i++) {
+    for (let i = 0, len = adjustPattern.length; i < len; i++) {
       const adjust = adjustPattern[i]
       const newPos: Position = new Position(
         this.position.x + adjust,

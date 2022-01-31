@@ -155,9 +155,10 @@ class PeriotrisModel extends EventEmitter {
   }
 
   public prepareStartGame(): void {
-    this._frozenBlocks.forEach((block: Block) => {
+    for (let i = 0, len = this._frozenBlocks.length; i < len; i++) {
+      const block = this._frozenBlocks[i]
       this.onBlockChanged(block, true)
-    })
+    }
     this._frozenBlocks.length = 0
 
     if (!_.isNil(this._activeTetrimino)) {
@@ -187,9 +188,7 @@ class PeriotrisModel extends EventEmitter {
 
   private realStartGame(tetriminos: Tetrimino[]): void {
     const generatedTetrimino: Tetrimino[] = tetriminos.reverse()
-    generatedTetrimino.forEach((tetrimino: Tetrimino) => {
-      this._pendingTetriminos.push(tetrimino)
-    })
+    this._pendingTetriminos.push(...generatedTetrimino)
 
     this.spawnNextTetrimino()
     this.gameState = GameState.InProgress
@@ -203,14 +202,16 @@ class PeriotrisModel extends EventEmitter {
     }
 
     this.moveActiveTetrimino(MoveDirection.Down)
-    this._frozenBlocks.forEach((block: Block) => {
+    for (let i = 0, len = this._frozenBlocks.length; i < len; i++) {
+      const block = this._frozenBlocks[i]
       if (
         defaultMap.periodicTable[block.position.y][block.position.x]
           .atomicNumber !== block.atomicNumber
       ) {
         this.endGame(false)
+        break
       }
-    })
+    }
 
     if (this._frozenBlocks.length >= defaultMap.totalAvailableBlocksCount) {
       this.endGame(true)
@@ -242,10 +243,11 @@ class PeriotrisModel extends EventEmitter {
   }
 
   private updateFrozenBlocks(): void {
-    this._frozenBlocks.forEach((block: Block) => {
+    for (let i = 0, len = this._frozenBlocks.length; i < len; i++) {
+      const block = this._frozenBlocks[i]
       this.onBlockChanged(block, true)
       this.onBlockChanged(block, false)
-    })
+    }
   }
 
   private onGameStart(): void {
@@ -277,9 +279,7 @@ class PeriotrisModel extends EventEmitter {
       console.warn("PeriotrisModel.freezeActiveTetrimino() null check")
       return
     }
-    this._activeTetrimino.blocks.forEach((block: Block) => {
-      this._frozenBlocks.push(block)
-    })
+    this._frozenBlocks.push(...this._activeTetrimino.blocks)
     this.updateFrozenBlocks()
   }
 
@@ -298,9 +298,10 @@ class PeriotrisModel extends EventEmitter {
 
   private updateActiveTetrimino(disappeared: boolean): void {
     if (!_.isNil(this._activeTetrimino)) {
-      this._activeTetrimino.blocks.forEach((block: Block) => {
+      for (let i = 0, len = this._activeTetrimino.blocks.length; i < len; i++) {
+        const block = this._activeTetrimino.blocks[i]
         this.onBlockChanged(block, disappeared)
-      })
+      }
     }
   }
 }

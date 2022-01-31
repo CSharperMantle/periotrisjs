@@ -173,60 +173,6 @@ const ZTransUpMask: number[][] = [
   [0, 0, 0],
 ]
 
-const BlocksMaskMapping = {
-  0: {
-    // TetriminoKind.Linear
-    0: LinearLeftMask,
-    1: LinearUpMask,
-    2: LinearRightMask,
-    3: LinearDownMask,
-  },
-  1: {
-    // TetriminoKind.Cubic
-    0: CubicUpMask,
-    1: CubicRightMask,
-    2: CubicDownMask,
-    3: CubicLeftMask,
-  },
-  2: {
-    // TetriminoKind.LShapedCis
-    0: LCisUpMask,
-    1: LCisRightMask,
-    2: LCisDownMask,
-    3: LCisLeftMask,
-  },
-  3: {
-    // TetriminoKind.LShapedTrans
-    0: LTransUpMask,
-    1: LTransRightMask,
-    2: LTransDownMask,
-    3: LTransLeftMask,
-  },
-  4: {
-    // TetriminoKind.ZigZagCis
-    0: ZCisUpMask,
-    1: ZCisRightMask,
-    2: ZCisDownMask,
-    3: ZCisLeftMask,
-  },
-  5: {
-    // TetriminoKind.ZigZagTrans
-    0: ZTransUpMask,
-    1: ZTransRightMask,
-    2: ZTransDownMask,
-    3: ZTransLeftMask,
-  },
-  6: {
-    // TetriminoKind.TeeShaped
-    0: TeeUpMask,
-    1: TeeRightMask,
-    2: TeeDownMask,
-    3: TeeLeftMask,
-  },
-  7: null, // TetriminoKind.AvailableToFill
-  8: null, // TetriminoKind.UnavailableToFill
-}
-
 /**
  * Creates mask for blocks.
  * @param kind Kind of the tetrimino.
@@ -239,196 +185,191 @@ function createBlocksMask(
   kind: TetriminoKind,
   direction: Direction
 ): number[][] {
-  const directions = BlocksMaskMapping[kind]
-  if (_.isNil(directions)) {
-    throw new Error("Invalid tetrimino kind.")
+  switch (kind) {
+    case TetriminoKind.Linear:
+      switch (direction) {
+        case Direction.Left:
+          return LinearLeftMask
+        case Direction.Up:
+          return LinearUpMask
+        case Direction.Right:
+          return LinearRightMask
+        case Direction.Down:
+          return LinearDownMask
+        default:
+          throw new Error("Invalid direction.")
+      }
+    case TetriminoKind.Cubic:
+      switch (direction) {
+        case Direction.Up:
+          return CubicUpMask
+        case Direction.Right:
+          return CubicRightMask
+        case Direction.Down:
+          return CubicDownMask
+        case Direction.Left:
+          return CubicLeftMask
+        default:
+          throw new Error("Invalid direction.")
+      }
+    case TetriminoKind.LShapedCis:
+      switch (direction) {
+        case Direction.Up:
+          return LCisUpMask
+        case Direction.Right:
+          return LCisRightMask
+        case Direction.Down:
+          return LCisDownMask
+        case Direction.Left:
+          return LCisLeftMask
+        default:
+          throw new Error("Invalid direction.")
+      }
+    case TetriminoKind.LShapedTrans:
+      switch (direction) {
+        case Direction.Up:
+          return LTransUpMask
+        case Direction.Right:
+          return LTransRightMask
+        case Direction.Down:
+          return LTransDownMask
+        case Direction.Left:
+          return LTransLeftMask
+        default:
+          throw new Error("Invalid direction.")
+      }
+    case TetriminoKind.ZigZagCis:
+      switch (direction) {
+        case Direction.Up:
+          return ZCisUpMask
+        case Direction.Right:
+          return ZCisRightMask
+        case Direction.Down:
+          return ZCisDownMask
+        case Direction.Left:
+          return ZCisLeftMask
+        default:
+          throw new Error("Invalid direction.")
+      }
+    case TetriminoKind.ZigZagTrans:
+      switch (direction) {
+        case Direction.Up:
+          return ZTransUpMask
+        case Direction.Right:
+          return ZTransRightMask
+        case Direction.Down:
+          return ZTransDownMask
+        case Direction.Left:
+          return ZTransLeftMask
+        default:
+          throw new Error("Invalid direction.")
+      }
+    case TetriminoKind.TeeShaped:
+      switch (direction) {
+        case Direction.Up:
+          return TeeUpMask
+        case Direction.Right:
+          return TeeRightMask
+        case Direction.Down:
+          return TeeDownMask
+        case Direction.Left:
+          return TeeLeftMask
+        default:
+          throw new Error("Invalid direction.")
+      }
+    default:
+      throw new Error("Invalid tetrimino kind.")
   }
-  const mask = directions[direction]
-  if (_.isNil(mask)) {
-    throw new Error("Invalid direction.")
-  }
-  return mask
-}
-
-const FirstBlockCoordMapping = {
-  0: {
-    // TetriminoKind.Linear
-    0: {
-      // Direction.Left
-      row: 2,
-      col: 3,
-    },
-    1: {
-      // Direction.Up
-      row: 3,
-      col: 1,
-    },
-    2: {
-      // Direction.Right
-      row: 1,
-      col: 3,
-    },
-    3: {
-      // Direction.Down
-      row: 3,
-      col: 2,
-    },
-  },
-  1: {
-    // TetriminoKind.Cubic
-    0: {
-      // Direction.Left
-      row: 1,
-      col: 1,
-    },
-    1: {
-      // Direction.Up
-      row: 1,
-      col: 1,
-    },
-    2: {
-      // Direction.Right
-      row: 1,
-      col: 1,
-    },
-    3: {
-      // Direction.Down
-      row: 1,
-      col: 1,
-    },
-  },
-  2: {
-    // TetriminoKind.LShapedCis
-    0: {
-      // Direction.Left
-      row: 1,
-      col: 2,
-    },
-    1: {
-      // Direction.Up
-      row: 2,
-      col: 2,
-    },
-    2: {
-      // Direction.Right
-      row: 2,
-      col: 0,
-    },
-    3: {
-      // Direction.Down
-      row: 2,
-      col: 1,
-    },
-  },
-  3: {
-    // TetriminoKind.LShapedTrans
-    0: {
-      // Direction.Left
-      row: 2,
-      col: 2,
-    },
-    1: {
-      // Direction.Up
-      row: 2,
-      col: 1,
-    },
-    2: {
-      // Direction.Right
-      row: 1,
-      col: 2,
-    },
-    3: {
-      // Direction.Down
-      row: 2,
-      col: 1,
-    },
-  },
-  4: {
-    // TetriminoKind.ZigZagCis
-    0: {
-      // Direction.Left
-      row: 2,
-      col: 0,
-    },
-    1: {
-      // Direction.Up
-      row: 1,
-      col: 2,
-    },
-    2: {
-      // Direction.Right
-      row: 2,
-      col: 1,
-    },
-    3: {
-      // Direction.Down
-      row: 2,
-      col: 2,
-    },
-  },
-  5: {
-    // TetriminoKind.ZigZagTrans
-    0: {
-      // Direction.Left
-      row: 2,
-      col: 1,
-    },
-    1: {
-      // Direction.Up
-      row: 1,
-      col: 1,
-    },
-    2: {
-      // Direction.Right
-      row: 2,
-      col: 2,
-    },
-    3: {
-      // Direction.Down
-      row: 2,
-      col: 1,
-    },
-  },
-  6: {
-    // TetriminoKind.TeeShaped
-    0: {
-      // Direction.Left
-      row: 2,
-      col: 1,
-    },
-    1: {
-      // Direction.Up
-      row: 1,
-      col: 2,
-    },
-    2: {
-      // Direction.Right
-      row: 2,
-      col: 1,
-    },
-    3: {
-      // Direction.Down
-      row: 2,
-      col: 1,
-    },
-  },
-  7: null, // TetriminoKind.AvailableToFill
-  8: null, // TetriminoKind.UnavailableToFill
 }
 
 function getFirstBlockCoordByType(
   kind: TetriminoKind,
   facingDirection: Direction
 ): { row: number; col: number } {
-  const firstBlockCoord = FirstBlockCoordMapping[kind]
-  if (_.isNil(firstBlockCoord)) {
-    throw new Error("Invalid tetrimino kind.")
+  switch (kind) {
+    case TetriminoKind.Linear:
+      switch (facingDirection) {
+        case Direction.Left:
+          return { row: 2, col: 3 }
+        case Direction.Up:
+          return { row: 3, col: 1 }
+        case Direction.Right:
+          return { row: 1, col: 3 }
+        case Direction.Down:
+          return { row: 3, col: 2 }
+        default:
+          throw new Error("Invalid facing direction.")
+      }
+    case TetriminoKind.Cubic:
+      return { row: 1, col: 1 }
+    case TetriminoKind.LShapedCis:
+      switch (facingDirection) {
+        case Direction.Left:
+          return { row: 1, col: 2 }
+        case Direction.Up:
+          return { row: 2, col: 2 }
+        case Direction.Right:
+          return { row: 2, col: 0 }
+        case Direction.Down:
+          return { row: 2, col: 1 }
+        default:
+          throw new Error("Invalid facing direction.")
+      }
+    case TetriminoKind.LShapedTrans:
+      switch (facingDirection) {
+        case Direction.Left:
+          return { row: 2, col: 2 }
+        case Direction.Up:
+          return { row: 2, col: 1 }
+        case Direction.Right:
+          return { row: 1, col: 2 }
+        case Direction.Down:
+          return { row: 2, col: 1 }
+        default:
+          throw new Error("Invalid facing direction.")
+      }
+    case TetriminoKind.ZigZagCis:
+      switch (facingDirection) {
+        case Direction.Left:
+          return { row: 2, col: 0 }
+        case Direction.Up:
+          return { row: 1, col: 2 }
+        case Direction.Right:
+          return { row: 2, col: 1 }
+        case Direction.Down:
+          return { row: 2, col: 2 }
+        default:
+          throw new Error("Invalid facing direction.")
+      }
+    case TetriminoKind.ZigZagTrans:
+      switch (facingDirection) {
+        case Direction.Left:
+          return { row: 2, col: 1 }
+        case Direction.Up:
+          return { row: 1, col: 1 }
+        case Direction.Right:
+          return { row: 2, col: 2 }
+        case Direction.Down:
+          return { row: 2, col: 1 }
+        default:
+          throw new Error("Invalid facing direction.")
+      }
+    case TetriminoKind.TeeShaped:
+      switch (facingDirection) {
+        case Direction.Left:
+          return { row: 2, col: 1 }
+        case Direction.Up:
+          return { row: 1, col: 2 }
+        case Direction.Right:
+          return { row: 2, col: 1 }
+        case Direction.Down:
+          return { row: 2, col: 1 }
+        default:
+          throw new Error("Invalid facing direction.")
+      }
+    default:
+      throw new Error("Invalid tetrimino kind.")
   }
-  const coord = firstBlockCoord[facingDirection]
-  if (_.isNil(coord)) {
-    throw new Error("Invalid facing direction.")
-  }
-  return coord
 }
 
 /**
@@ -473,7 +414,7 @@ function getInitialPositionByKind(kind: TetriminoKind): Position {
       length = 3
       break
     default:
-      throw new RangeError("kind")
+      throw new Error("Invalid tetrimino kind.")
   }
   const row = 0
   const col = Math.floor((PlayAreaWidth - length) / 2)
@@ -487,9 +428,9 @@ function createOffsetedBlocks(
 ): Block[] {
   const mask = createBlocksMask(kind, direction)
   const offsetBlocks: Block[] = []
-  for (let nRow = 0; nRow < mask.length; nRow++) {
+  for (let nRow = 0, len_i = mask.length; nRow < len_i; nRow++) {
     const row = mask[nRow]
-    for (let nCol = 0; nCol < row.length; nCol++) {
+    for (let nCol = 0, len_j = row.length; nCol < len_j; nCol++) {
       const identifier = row[nCol]
       if (identifier !== 0) {
         offsetBlocks.push(
@@ -523,16 +464,18 @@ function mapAtomicNumberForNewBlocks(
     throw new Error("oldBlocks.length !== newBlocks.length")
   }
   const result: Block[] = []
-  oldBlocks.forEach((oldBlock: Block) => {
+  for (let i = 0, len = oldBlocks.length; i < len; i++) {
+    const oldBlock = oldBlocks[i]
     const correspondingNewBlocks = _.cloneDeep(
-      newBlocks.filter((newBlock: Block) => newBlock.id === oldBlock.id)
+      _.filter(newBlocks, (newBlock: Block) => newBlock.id === oldBlock.id)
     )
+    for (let j = 0, len = correspondingNewBlocks.length; j < len; j++) {
+      const newBlock = correspondingNewBlocks[j]
 
-    correspondingNewBlocks.forEach((block: Block) => {
-      block.atomicNumber = oldBlock.atomicNumber
-      result.push(block)
-    })
-  })
+      newBlock.atomicNumber = oldBlock.atomicNumber
+      result.push(newBlock)
+    }
+  }
   return result
 }
 

@@ -150,12 +150,12 @@ describe("getInitialPositionByKind", () => {
   it("should handle incorrect arguments gracefully", () => {
     expect(() => {
       getInitialPositionByKind(TetriminoKind.AvailableToFill)
-    }).toThrowError(new RangeError("kind"))
+    }).toThrowError(new Error("Invalid tetrimino kind."))
     expect(() => {
       getInitialPositionByKind(TetriminoKind.UnavailableToFill)
-    }).toThrowError(new RangeError("kind"))
+    }).toThrowError(new Error("Invalid tetrimino kind."))
     expect(() => {
       getInitialPositionByKind(9)
-    }).toThrowError(new RangeError("kind"))
+    }).toThrowError(new Error("Invalid tetrimino kind."))
   })
 })

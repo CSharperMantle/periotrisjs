@@ -27,9 +27,10 @@ const BlocksGrid = observer((): React.ReactElement => {
     }
   }
   const sprites = viewModel.sprites
-  sprites.forEach((block: IDisplayBlock) => {
+  for (let i = 0, len = sprites.length; i < len; i++) {
+    const block = sprites[i]
     paddedBlocks[block.row][block.column] = block
-  })
+  }
   const flattened = paddedBlocks.flat()
 
   const blocks = flattened.map((block: IDisplayBlock, index: number) => {
