@@ -1,16 +1,15 @@
+import { isBrowser } from "is-in-browser"
 import _ from "lodash"
 
-import { isBrowserEnv } from "../common"
-
 function store<T = unknown>(key: string, value: T): boolean {
-  if (!isBrowserEnv()) return false
+  if (!isBrowser) return false
 
   window.localStorage.setItem(key, JSON.stringify(value))
   return true
 }
 
 function retrieve(key: string): unknown {
-  if (!isBrowserEnv()) return null
+  if (!isBrowser) return null
 
   const result = window.localStorage.getItem(key)
   if (!_.isNil(result)) {

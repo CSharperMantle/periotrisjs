@@ -1,7 +1,7 @@
-import { Position } from "../../common"
-import { Direction } from "../Direction"
-import { Tetrimino } from "../Tetrimino"
-import { TetriminoKind } from "../TetriminoKind"
+import { Position } from "../../../common"
+import { Direction } from "../../Direction"
+import { Tetrimino } from "../../Tetrimino"
+import { TetriminoKind } from "../../TetriminoKind"
 import { MemoizedBlock } from "./MemoizedBlock"
 
 class TetriminoNode extends Tetrimino {

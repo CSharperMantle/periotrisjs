@@ -1,10 +1,11 @@
 import dayjs from "dayjs"
 import { EventEmitter } from "events"
+import { isBrowser } from "is-in-browser"
 import _ from "lodash"
 import PatternGeneratorWorker from "worker-loader!./generation/PatternGeneratorWorker"
 
-import { isBrowserEnv, PlayAreaHeight, PlayAreaWidth } from "../common"
-import { History } from "../customization/history/History"
+import { PlayAreaHeight, PlayAreaWidth } from "../common"
+import { History } from "../customization/history"
 import defaultMap from "../json/DefaultMap.json"
 import { Block } from "./Block"
 import { BlockChangedEventArgs } from "./BlockChangedEventArgs"
@@ -18,6 +19,10 @@ import {
 import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
 
 class PeriotrisModel extends EventEmitter {
+  private readonly _patternGeneratorWorker: PatternGeneratorWorker = isBrowser
+    ? new PatternGeneratorWorker()
+    : (undefined as unknown as PatternGeneratorWorker)
+
   private readonly _frozenBlocks: Block[] = []
   private readonly _pendingTetriminos: Tetrimino[] = []
   private _activeTetrimino: Tetrimino | null = null
@@ -150,9 +155,10 @@ class PeriotrisModel extends EventEmitter {
   }
 
   public prepareStartGame(): void {
-    this._frozenBlocks.forEach((block: Block) => {
+    for (let i = 0, len = this._frozenBlocks.length; i < len; i++) {
+      const block = this._frozenBlocks[i]
       this.onBlockChanged(block, true)
-    })
+    }
     this._frozenBlocks.length = 0
 
     if (!_.isNil(this._activeTetrimino)) {
@@ -162,29 +168,18 @@ class PeriotrisModel extends EventEmitter {
 
     this.gameState = GameState.Preparing
 
-    if (isBrowserEnv()) {
-      // Use Web Worker
-      const worker = new PatternGeneratorWorker()
-
-      worker.onmessage = (eventArgs) => {
-        const data = eventArgs.data as IGeneratorMessage
-        if (data.type === MessageType.ResponseSuccess) {
-          const content = data.content as Tetrimino[]
-          const fixedTetriminos = repairBrokenTetriminos(content)
-          this.realStartGame(fixedTetriminos)
-          worker.terminate()
-        } else {
-          console.warn(data)
-        }
-      }
-
-      const message: IGeneratorMessage = {
+    if (isBrowser) {
+      // We have workers
+      const message: IGeneratorMessage<unknown> = {
         type: MessageType.RequestGeneration,
         content: null,
       }
-      worker.postMessage(message)
+      this._patternGeneratorWorker.postMessage(message)
     } else {
       // Use single-threaded approach
+      console.warn(
+        "Web workers unavailable. Running pattern generator on UI thread."
+      )
       getPlayablePattern().then((tetriminos) => {
         this.realStartGame(tetriminos)
       })
@@ -193,9 +188,7 @@ class PeriotrisModel extends EventEmitter {
 
   private realStartGame(tetriminos: Tetrimino[]): void {
     const generatedTetrimino: Tetrimino[] = tetriminos.reverse()
-    generatedTetrimino.forEach((tetrimino: Tetrimino) => {
-      this._pendingTetriminos.push(tetrimino)
-    })
+    this._pendingTetriminos.push(...generatedTetrimino)
 
     this.spawnNextTetrimino()
     this.gameState = GameState.InProgress
@@ -209,14 +202,16 @@ class PeriotrisModel extends EventEmitter {
     }
 
     this.moveActiveTetrimino(MoveDirection.Down)
-    this._frozenBlocks.forEach((block: Block) => {
+    for (let i = 0, len = this._frozenBlocks.length; i < len; i++) {
+      const block = this._frozenBlocks[i]
       if (
         defaultMap.periodicTable[block.position.y][block.position.x]
           .atomicNumber !== block.atomicNumber
       ) {
         this.endGame(false)
+        break
       }
-    })
+    }
 
     if (this._frozenBlocks.length >= defaultMap.totalAvailableBlocksCount) {
       this.endGame(true)
@@ -225,15 +220,34 @@ class PeriotrisModel extends EventEmitter {
 
   public constructor() {
     super()
+
+    if (isBrowser) {
+      // Assign Worker message handler
+      this._patternGeneratorWorker.addEventListener(
+        "message",
+        (eventArgs: MessageEvent<IGeneratorMessage<Tetrimino[]>>) => {
+          const data = eventArgs.data
+          if (data.type === MessageType.ResponseSuccess) {
+            const content = data.content
+            const fixedTetriminos = repairBrokenTetriminos(content)
+            this.realStartGame(fixedTetriminos)
+          } else {
+            console.warn(data)
+          }
+        }
+      )
+    }
+
     this._history = History.fromLocalStorage()
     this.endGame(false)
   }
 
   private updateFrozenBlocks(): void {
-    this._frozenBlocks.forEach((block: Block) => {
+    for (let i = 0, len = this._frozenBlocks.length; i < len; i++) {
+      const block = this._frozenBlocks[i]
       this.onBlockChanged(block, true)
       this.onBlockChanged(block, false)
-    })
+    }
   }
 
   private onGameStart(): void {
@@ -265,9 +279,7 @@ class PeriotrisModel extends EventEmitter {
       console.warn("PeriotrisModel.freezeActiveTetrimino() null check")
       return
     }
-    this._activeTetrimino.blocks.forEach((block: Block) => {
-      this._frozenBlocks.push(block)
-    })
+    this._frozenBlocks.push(...this._activeTetrimino.blocks)
     this.updateFrozenBlocks()
   }
 
@@ -286,9 +298,10 @@ class PeriotrisModel extends EventEmitter {
 
   private updateActiveTetrimino(disappeared: boolean): void {
     if (!_.isNil(this._activeTetrimino)) {
-      this._activeTetrimino.blocks.forEach((block: Block) => {
+      for (let i = 0, len = this._activeTetrimino.blocks.length; i < len; i++) {
+        const block = this._activeTetrimino.blocks[i]
         this.onBlockChanged(block, disappeared)
-      })
+      }
     }
   }
 }

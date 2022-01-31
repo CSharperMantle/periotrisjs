@@ -1,40 +1,31 @@
 import React from "react"
 
-import { Backdrop, Grid, Theme, Typography, useMediaQuery } from "@mui/material"
-import { createStyles, makeStyles } from "@mui/styles"
-
-const useStyles = makeStyles((theme: Theme) => {
-  return createStyles({
-    modalBackdrop: {
-      zIndex: theme.zIndex.modal,
-    },
-    grid: {
-      height: "100%",
-    },
-    text: {
-      textAlign: "center",
-    },
-  })
-})
+import { Backdrop, Grid, Typography, useMediaQuery } from "@mui/material"
 
 const PortraitWarningBackdrop = (): React.ReactElement => {
-  const styles = useStyles()
   const isPortrait = useMediaQuery("(orientation: portrait)")
 
   return (
-    <Backdrop className={styles.modalBackdrop} open={isPortrait}>
+    <Backdrop
+      sx={{
+        zIndex: "modal",
+      }}
+      open={isPortrait}
+    >
       <Grid
         container
-        className={styles.grid}
+        sx={{
+          height: "100%",
+        }}
         direction="column"
         alignItems="center"
         justifyContent="space-evenly"
         spacing={1}
       >
-        <Typography className={styles.text} variant="h2">
+        <Typography sx={{ textAlign: "center" }} variant="h2">
           Landscape.
         </Typography>
-        <Typography className={styles.text} variant="body1">
+        <Typography sx={{ textAlign: "center" }} variant="body1">
           You are now in portrait mode.
           <br />
           Please switch to landscape mode.

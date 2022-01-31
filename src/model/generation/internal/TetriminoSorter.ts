@@ -1,6 +1,6 @@
 import _ from "lodash"
 
-import { Tetrimino } from "../Tetrimino"
+import { Tetrimino } from "../../Tetrimino"
 import { createTetriminoDependencyGraph } from "./DependencyBuilder"
 import { TetriminoNode } from "./TetriminoNode"
 
@@ -21,13 +21,14 @@ function sort(tetriminos: Tetrimino[]): Tetrimino[] {
     _.remove(startNodes, (node: TetriminoNode) => node === n)
     result.push(n)
     const dependedBy = [...n.dependedBy]
-    dependedBy.forEach((m: TetriminoNode) => {
+    for (let i = 0, len = dependedBy.length; i < len; i++) {
+      const m = dependedBy[i]
       n.dependedBy.delete(m)
       m.depending.delete(n)
       if (m.depending.size === 0) {
         startNodes.push(m)
       }
-    })
+    }
   }
 
   if (

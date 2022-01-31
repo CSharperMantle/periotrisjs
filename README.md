@@ -1,5 +1,7 @@
 # Periotris.js
 
+> Get familiar with the Periodic Table of Elements in a fun way, directly in your browsers.
+
 A Progressive Web App-compliant Periotris game built with [React](https://reactjs.org/), [Gatsby](https://www.gatsbyjs.com/) and [Material UI](https://material-ui.com/).
 
 ![Periotris.js v1.3.2 PWA screenshot](https://user-images.githubusercontent.com/32665105/129712653-04dbe225-dd75-4143-ad22-7b0385b6b866.png)
@@ -16,9 +18,11 @@ _FIGURE 1: Periotris.js v1.3.2 screenshot, captured in a standalone PWA window i
 
 ### The popular way: play in browsers directly
 
-An instance of Periotris.js is hosted on GitHub Pages as a Progressive Web Application ([PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps)). Try it [here](https://csharpermantle.github.io/periotrisjs).
+Instances of Periotris.js are hosted on GitHub Pages and Vercel. Try it on [GitHub Pages](https://csharpermantle.github.io/periotrisjs) or [Vercel](https://periotrisjs.vercel.app/).
 
-**Tips:** The app runs best on screens larger than 1024*768. If you are using mobile browsers please switch to *landscape mode\* for better experience.
+The game can also act as a [Progressive Web Application](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps). This enables it to be installed like a native app on browsers supporting PWAs. Known browsers that support this feature include Microsoft Edge and Firefox.
+
+**Tips:** The app runs best on screens larger than 1024\*768. If you are using mobile browsers please switch to landscape for better experience.
 
 ### The geek way: build the project
 
