@@ -1,6 +1,6 @@
 {
   "name": "periotrisjs",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "Get familiar with the Periodic Table of Elements in a fun way, directly in your browsers.",
   "scripts": {
     "clean": "npx rimraf coverage public && gatsby clean",
