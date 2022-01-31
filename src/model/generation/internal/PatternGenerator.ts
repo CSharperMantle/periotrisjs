@@ -35,6 +35,7 @@ async function getPlayablePattern(): Promise<Tetrimino[]> {
 
   const fixedTetriminos = repairBrokenTetriminos(tetriminos)
 
+  // Randomly rotate tetriminos, then place them to initial positions
   for (let i = 0, len = fixedTetriminos.length; i < len; i++) {
     const tetrimino = fixedTetriminos[i]
     const originalPos = tetrimino.position
@@ -105,13 +106,12 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
     }
 
     let solutionFound = false
-    while (!solutionFound && currentKindDirectionsPairStack.length > 0) {
+    while (currentKindDirectionsPairStack.length > 0) {
       const currentPair = currentKindDirectionsPairStack.pop()
       if (_.isNil(currentPair)) {
         throw new Error("currentPair")
       }
-
-      while (!solutionFound && currentPair.directions.length > 0) {
+      while (currentPair.directions.length > 0) {
         const direction = currentPair.popRandomDirection()
         const tetrimino = Tetrimino.createTetriminoByFirstBlockPosition(
           currentPair.kind,
@@ -131,14 +131,14 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
               block.filledBy
           }
           solutionFound = true
-          rewindingRequired = false
+          break
         }
       }
+      if (solutionFound) {
+        break
+      }
     }
-
-    if (!solutionFound) {
-      rewindingRequired = true
-    }
+    rewindingRequired = !solutionFound
   }
 }
 
