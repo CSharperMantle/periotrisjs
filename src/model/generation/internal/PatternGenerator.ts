@@ -9,6 +9,10 @@ import { TetriminoKind } from "../../TetriminoKind"
 import { getInitialPositionByKind } from "../GeneratorHelper"
 import { sort } from "./TetriminoSorter"
 
+function fastRandom(startInc: number, endExc: number): number {
+  return startInc + Math.floor(Math.random() * (endExc - startInc))
+}
+
 async function getPlayablePattern(): Promise<Tetrimino[]> {
   const template: Block[][] = []
 
@@ -54,7 +58,10 @@ async function getPlayablePattern(): Promise<Tetrimino[]> {
     tetrimino.blocks = newBlocks
     tetrimino.position = newPos
 
-    const rotationCount = _.random(0, Object.keys(Direction).length / 2)
+    const rotationCount = fastRandom(
+      0,
+      Math.floor(Object.keys(Direction).length / 2) + 1
+    )
     for (let i = 0; i < rotationCount; i++) {
       tetrimino.tryRotate(RotationDirection.Right, () => false)
     }
@@ -173,10 +180,6 @@ function getFirstAvailableBlockCoord(blocks: Block[][]): Position {
     }
   }
   return new Position(-1, -1)
-}
-
-function fastRandom(startInc: number, endExc: number): number {
-  return startInc + Math.floor(Math.random() * (endExc - startInc))
 }
 
 class KindDirectionsPair {
