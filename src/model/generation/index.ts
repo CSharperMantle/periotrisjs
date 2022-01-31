@@ -1,4 +1,5 @@
+import { IGeneratorMessage } from "./IGeneratorMessage"
 import { MessageType } from "./MessageType"
-import { getPlayablePattern } from "./PatternGenerator"
+import { getPlayablePattern } from "./internal"
 
-export { getPlayablePattern, MessageType }
+export { getPlayablePattern, MessageType, IGeneratorMessage }

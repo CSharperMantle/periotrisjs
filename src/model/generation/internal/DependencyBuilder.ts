@@ -1,9 +1,9 @@
 import _ from "lodash"
 
-import { PlayAreaHeight, PlayAreaWidth } from "../../common"
-import { Block } from "../Block"
-import { Tetrimino } from "../Tetrimino"
-import { TetriminoKind } from "../TetriminoKind"
+import { PlayAreaHeight, PlayAreaWidth } from "../../../common"
+import { Block } from "../../Block"
+import { Tetrimino } from "../../Tetrimino"
+import { TetriminoKind } from "../../TetriminoKind"
 import { MemoizedBlock } from "./MemoizedBlock"
 import { TetriminoNode } from "./TetriminoNode"
 
@@ -35,16 +35,22 @@ function createTetriminoDependencyGraph(
       )
       tetriminoNode.blocks = tetriminoNode.memoizedBlocks
 
-      tetriminoNode.memoizedBlocks.forEach((block: MemoizedBlock) => {
+      for (let i = 0, len = tetriminoNode.memoizedBlocks.length; i < len; i++) {
+        const block = tetriminoNode.memoizedBlocks[i]
         memoizedMap[block.position.y][block.position.x] = block
-      })
+      }
 
       return tetriminoNode
     }
   )
-
-  tetriminoNodes.forEach((tetriminoNode: TetriminoNode) => {
-    tetriminoNode.memoizedBlocks.forEach((block: MemoizedBlock) => {
+  for (let i = 0, len_i = tetriminoNodes.length; i < len_i; i++) {
+    const tetriminoNode = tetriminoNodes[i]
+    for (
+      let j = 0, len_j = tetriminoNode.memoizedBlocks.length;
+      j < len_j;
+      j++
+    ) {
+      const block = tetriminoNode.memoizedBlocks[j]
       const dependedBlockRow: number = block.position.y + 1
       const dependedBlockCol: number = block.position.x
       const { isSuccessful, result }: ITryGetOccupiedTetriminoNodeResult =
@@ -56,12 +62,12 @@ function createTetriminoDependencyGraph(
           PlayAreaHeight
         )
       if (!isSuccessful || _.isNil(result) || result === tetriminoNode) {
-        return
+        continue
       }
       result.dependedBy.add(tetriminoNode)
       tetriminoNode.depending.add(result)
-    })
-  })
+    }
+  }
   return tetriminoNodes
 }
 

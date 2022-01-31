@@ -1,42 +1,13 @@
 import { observer } from "mobx-react"
 import React, { useState } from "react"
 
-import {
-  Container,
-  Grid,
-  Grow,
-  Link,
-  Paper,
-  Theme,
-  Typography,
-} from "@mui/material"
-import { createStyles, makeStyles } from "@mui/styles"
-
-const useStyles = makeStyles((theme: Theme) => {
-  return createStyles({
-    paper: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      zIndex: theme.zIndex.drawer,
-    },
-    container: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      height: "100%",
-    },
-  })
-})
+import { Container, Grid, Grow, Link, Paper, Typography } from "@mui/material"
 
 interface IAppStartSplashProps {
   goOutTimeout: number
 }
 
 const AppStartSplash = observer(({ goOutTimeout }: IAppStartSplashProps) => {
-  const styles = useStyles()
   const [visibleState, setVisibleState] = useState(true)
 
   setTimeout(() => {
@@ -45,8 +16,25 @@ const AppStartSplash = observer(({ goOutTimeout }: IAppStartSplashProps) => {
 
   return (
     <Grow in={visibleState}>
-      <Paper className={styles.paper} elevation={3}>
-        <Container className={styles.container}>
+      <Paper
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: "drawer",
+        }}
+        elevation={3}
+      >
+        <Container
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
           <Grid
             container
             direction="column"

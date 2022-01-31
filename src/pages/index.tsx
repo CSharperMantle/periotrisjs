@@ -1,9 +1,9 @@
 import "./index.css"
 
+import { isBrowser } from "is-in-browser"
 import { SnackbarProvider } from "notistack"
 import React from "react"
 
-import { isBrowserEnv } from "../common"
 import {
   AppStartSplash,
   BlocksGrid,
@@ -13,13 +13,13 @@ import {
 } from "../components"
 import { PeriotrisViewModel, PeriotrisViewModelContext } from "../viewmodel"
 
-const Hammer = isBrowserEnv() ? require("hammerjs") : null
+const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
 class App extends React.Component {
   private readonly _viewModel: PeriotrisViewModel = new PeriotrisViewModel()
   private readonly _rowTwoRef: React.RefObject<HTMLDivElement> =
     React.createRef<HTMLDivElement>()
-  private _hammer: HammerManager
+  private _hammer!: HammerManager // FIXME: Borked
 
   public constructor(props: Record<string, never>) {
     super(props)
@@ -31,7 +31,7 @@ class App extends React.Component {
       this._viewModel.onKeyDown.bind(this._viewModel)
     )
 
-    this._hammer = new Hammer(this._rowTwoRef.current)
+    this._hammer = new Hammer(this._rowTwoRef.current as HTMLElement)
     this._hammer.on("tap", this._viewModel.onTap.bind(this._viewModel))
     this._hammer.on("swipe", this._viewModel.onSwipe.bind(this._viewModel))
     this._hammer.on("pressup", this._viewModel.onPressUp.bind(this._viewModel))

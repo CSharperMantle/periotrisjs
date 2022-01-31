@@ -3,6 +3,7 @@
     "bindgen",
     "blks",
     "blockchanged",
+    "Borked",
     "Coord",
     "easytimer",
     "fluentui",

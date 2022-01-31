@@ -1,13 +1,17 @@
 import _ from "lodash"
 
-import { PlayAreaHeight, PlayAreaWidth, Position } from "../../common"
-import defaultMap from "../../json/DefaultMap.json"
-import { Block } from "../Block"
-import { Direction, RotationDirection } from "../Direction"
-import { repairBrokenTetriminos, Tetrimino } from "../Tetrimino"
-import { TetriminoKind } from "../TetriminoKind"
-import { getInitialPositionByKind } from "./GeneratorHelper"
+import { PlayAreaHeight, PlayAreaWidth, Position } from "../../../common"
+import defaultMap from "../../../json/DefaultMap.json"
+import { Block } from "../../Block"
+import { Direction, RotationDirection } from "../../Direction"
+import { repairBrokenTetriminos, Tetrimino } from "../../Tetrimino"
+import { TetriminoKind } from "../../TetriminoKind"
+import { getInitialPositionByKind } from "../GeneratorHelper"
 import { sort } from "./TetriminoSorter"
+
+function fastRandom(startInc: number, endExc: number): number {
+  return startInc + Math.floor(Math.random() * (endExc - startInc))
+}
 
 async function getPlayablePattern(): Promise<Tetrimino[]> {
   const template: Block[][] = []
@@ -35,7 +39,9 @@ async function getPlayablePattern(): Promise<Tetrimino[]> {
 
   const fixedTetriminos = repairBrokenTetriminos(tetriminos)
 
-  fixedTetriminos.forEach((tetrimino: Tetrimino) => {
+  // Randomly rotate tetriminos, then place them to initial positions
+  for (let i = 0, len = fixedTetriminos.length; i < len; i++) {
+    const tetrimino = fixedTetriminos[i]
     const originalPos = tetrimino.position
     const newPos = getInitialPositionByKind(tetrimino.kind)
     const deltaX = newPos.x - originalPos.x
@@ -52,11 +58,14 @@ async function getPlayablePattern(): Promise<Tetrimino[]> {
     tetrimino.blocks = newBlocks
     tetrimino.position = newPos
 
-    const rotationCount = _.random(0, Object.keys(Direction).length / 2)
+    const rotationCount = fastRandom(
+      0,
+      Math.floor(Object.keys(Direction).length / 2) + 1
+    )
     for (let i = 0; i < rotationCount; i++) {
       tetrimino.tryRotate(RotationDirection.Right, () => false)
     }
-  })
+  }
 
   return fixedTetriminos
 }
@@ -96,20 +105,20 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
         throw new Error("lastTetrimino")
       }
 
-      lastTetrimino.blocks.forEach((block: Block) => {
+      for (let i = 0, len = lastTetrimino.blocks.length; i < len; i++) {
+        const block = lastTetrimino.blocks[i]
         workspace[block.position.y][block.position.x].filledBy =
           TetriminoKind.AvailableToFill
-      })
+      }
     }
 
     let solutionFound = false
-    while (!solutionFound && currentKindDirectionsPairStack.length > 0) {
+    while (currentKindDirectionsPairStack.length > 0) {
       const currentPair = currentKindDirectionsPairStack.pop()
       if (_.isNil(currentPair)) {
         throw new Error("currentPair")
       }
-
-      while (!solutionFound && currentPair.directions.length > 0) {
+      while (currentPair.directions.length > 0) {
         const direction = currentPair.popRandomDirection()
         const tetrimino = Tetrimino.createTetriminoByFirstBlockPosition(
           currentPair.kind,
@@ -121,21 +130,22 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
         ) {
           settledTetriminos.push(tetrimino)
           pendingTetriminoKinds.push(currentKindDirectionsPairStack)
-          tetrimino.blocks.forEach((block: Block) => {
+          for (let i = 0, len = tetrimino.blocks.length; i < len; i++) {
+            const block = tetrimino.blocks[i]
             block.atomicNumber =
               workspace[block.position.y][block.position.x].atomicNumber
             workspace[block.position.y][block.position.x].filledBy =
               block.filledBy
-          })
+          }
           solutionFound = true
-          rewindingRequired = false
+          break
         }
       }
+      if (solutionFound) {
+        break
+      }
     }
-
-    if (!solutionFound) {
-      rewindingRequired = true
-    }
+    rewindingRequired = !solutionFound
   }
 }
 
@@ -178,20 +188,18 @@ class KindDirectionsPair {
 
   public constructor(kind: TetriminoKind) {
     this.kind = kind
-    this.directions = _.clone(AllDirections)
+    this.directions = [
+      Direction.Up,
+      Direction.Down,
+      Direction.Left,
+      Direction.Right,
+    ]
   }
 
   public popRandomDirection(): Direction {
-    const index = _.random(0, this.directions.length - 1)
+    const index = fastRandom(0, this.directions.length)
     return this.directions.splice(index)[0]
   }
 }
-
-const AllDirections: Direction[] = [
-  Direction.Up,
-  Direction.Down,
-  Direction.Left,
-  Direction.Right,
-]
 
 export { getPlayablePattern }

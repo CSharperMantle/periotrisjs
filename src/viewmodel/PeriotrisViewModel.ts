@@ -1,12 +1,12 @@
 import dayjs, { Dayjs } from "dayjs"
 import { EventEmitter } from "events"
+import { isBrowser } from "is-in-browser"
 import _ from "lodash"
 import { action, makeObservable, observable } from "mobx"
 import { createContext } from "react"
 
 import {
   GameUpdateIntervalMilliseconds,
-  isBrowserEnv,
   Position,
   StopwatchUpdateIntervalMilliseconds,
 } from "../common"
@@ -20,7 +20,7 @@ import {
 } from "../model"
 import { IDisplayBlock } from "./IDisplayBlock"
 
-const Hammer = isBrowserEnv() ? require("hammerjs") : null
+const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
 class PeriotrisViewModel extends EventEmitter {
   public constructor() {
@@ -228,7 +228,9 @@ class PeriotrisViewModel extends EventEmitter {
   private refreshGameStatus(): void {
     this.gameState = this._model.gameState
     this.isNewRecord = this._model.isNewRecord
-    this.fastestRecord = this._model.history.fastestRecord
+    this.fastestRecord = _.isNil(this._model.history.fastestRecord)
+      ? dayjs(0)
+      : this._model.history.fastestRecord
   }
 
   @action

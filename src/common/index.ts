@@ -1,4 +1,3 @@
-import { isBrowserEnv } from "./IsBrowserEnv"
 import {
   GameUpdateIntervalMilliseconds,
   HistoryLocalStorageKey,
@@ -9,7 +8,6 @@ import {
 import { Position } from "./Position"
 
 export {
-  isBrowserEnv,
   PlayAreaHeight,
   PlayAreaWidth,
   GameUpdateIntervalMilliseconds,
