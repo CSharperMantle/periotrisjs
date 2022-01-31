@@ -83,7 +83,7 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
         return settledTetriminos
       }
 
-      let poppedPossibilities = pendingPossibilityLists.pop()
+      const poppedPossibilities = pendingPossibilityLists.pop()
       if (_.isNil(poppedPossibilities)) {
         throw new Error("poppedPossibilities")
       }
@@ -110,7 +110,7 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
         currentPossibility.direction
       )
 
-      let willCollide = tetrimino.blocks.some(
+      const willCollide = tetrimino.blocks.some(
         collisionChecker.bind(undefined, workspace)
       )
 

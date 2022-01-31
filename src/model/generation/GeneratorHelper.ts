@@ -486,7 +486,7 @@ function createOffsetedBlocks(
   direction: Direction = Direction.Up
 ): Block[] {
   const mask = createBlocksMask(kind, direction)
-  const offsetBlocks: Block[] = Array(4)
+  const offsetBlocks: Block[] = []
   for (let nRow = 0; nRow < mask.length; nRow++) {
     const row = mask[nRow]
     for (let nCol = 0; nCol < row.length; nCol++) {
