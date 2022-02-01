@@ -1,27 +1,11 @@
 import React from "react"
-import { HashRouter, Route, Routes } from "react-router-dom"
 
-import {
-  AboutPage,
-  CommonLayout,
-  GamePage,
-  HomePage,
-  SettingsPage,
-} from "../components"
+import loadable from "@loadable/component"
+
+const AppRoutes = loadable(() => import("../components/AppRoutes"))
 
 const App = (): React.ReactElement => {
-  return (
-    <HashRouter>
-      <Routes>
-        <Route path="/" element={<CommonLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="game" element={<GamePage />} />
-          <Route path="about" element={<AboutPage />} />
-          <Route path="settings" element={<SettingsPage />} />
-        </Route>
-      </Routes>
-    </HashRouter>
-  )
+  return <AppRoutes />
 }
 
 export default App
