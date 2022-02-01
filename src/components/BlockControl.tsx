@@ -52,7 +52,6 @@ const BlockControl = ({
   atomicNumber,
   row,
   column,
-  symbolColor,
 }: IBlockControlProps): React.ReactElement => {
   const backgroundColor = withContent
     ? getBackgroundColorByAtomicNumber(atomicNumber)
