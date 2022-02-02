@@ -1,4 +1,7 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import "@fontsource/roboto/400.css"
+import "@fontsource/roboto/500.css"
+import "@fontsource/roboto/700.css"
+
 import PropTypes from "prop-types"
 import React from "react"
 import { Helmet } from "react-helmet"
@@ -18,11 +21,7 @@ export default function TopLayout(props) {
         />
         <meta
           name="description"
-          content="Periotris game built with Gatsby, React and Material UI"
-        />
-        <link
-          href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap"
-          rel="stylesheet"
+          content="Get familiar with the Periodic Table of Elements in a fun way, directly in your browsers."
         />
       </Helmet>
       <StyledEngineProvider injectFirst>
