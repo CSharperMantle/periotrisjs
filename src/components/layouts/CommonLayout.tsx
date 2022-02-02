@@ -1,23 +1,45 @@
 import "./CommonLayout.css"
 
-import { Link } from "gatsby"
-import _ from "lodash"
 import React from "react"
 
 import { Menu as MenuIcon } from "@mui/icons-material"
 import {
   AppBar,
   Box,
-  Button,
   Container,
   IconButton,
   Menu,
-  MenuItem,
   Toolbar,
   Typography,
 } from "@mui/material"
 
 import PageLocation from "../../json/PageLocation.json"
+import { MenuPageLinkList } from "./MenuPageLinkList"
+import { MenuTitleButtonList } from "./MenuTitleButtonList"
+
+export interface PageLocationElement {
+  name: string
+  path: string
+}
+
+interface IMenuButtonProps {
+  handleOpenMenu: (event: React.MouseEvent<HTMLElement>) => void
+}
+
+const MenuButton = (props: IMenuButtonProps): React.ReactElement => {
+  return (
+    <IconButton
+      size="large"
+      aria-label="account of current user"
+      aria-controls="menu-app-bar"
+      aria-haspopup="true"
+      onClick={props.handleOpenMenu}
+      color="inherit"
+    >
+      <MenuIcon />
+    </IconButton>
+  )
+}
 
 interface ICommonLayoutProps {
   children: React.ReactNode
@@ -59,18 +81,8 @@ const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
             >
               Periotris.js
             </Typography>
-
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-app-bar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
+              <MenuButton handleOpenMenu={handleOpenNavMenu} />
               <Menu
                 id="menu-app-bar"
                 anchorEl={anchorElNav}
@@ -89,21 +101,10 @@ const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                {_.map(PageLocation, (page) => (
-                  <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                    <Typography
-                      textAlign="center"
-                      component={Link}
-                      to={page.path}
-                      sx={{
-                        textDecoration: "none",
-                        color: "inherit",
-                      }}
-                    >
-                      {page.name}
-                    </Typography>
-                  </MenuItem>
-                ))}
+                <MenuPageLinkList
+                  pageLocation={PageLocation}
+                  handleCloseMenu={handleCloseNavMenu}
+                />
               </Menu>
             </Box>
             <Typography
@@ -115,17 +116,10 @@ const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
               Periotris.js
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {_.map(PageLocation, (page) => (
-                <Button
-                  key={page.name}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                  component={Link}
-                  to={page.path}
-                >
-                  {page.name}
-                </Button>
-              ))}
+              <MenuTitleButtonList
+                pageLocation={PageLocation}
+                handleCloseMenu={handleCloseNavMenu}
+              />
             </Box>
           </Toolbar>
         </Container>
