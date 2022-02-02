@@ -15,7 +15,7 @@ jobs:
       - name: Set up dependencies
         run: |
           yarn global add gatsby-cli
-          yarn install --frozen-lockfile
+          yarn run ci-install-deps
       - name: Build
         run: |
           yarn run build
@@ -41,7 +41,7 @@ jobs:
       - name: Set up dependencies
         run: |
           yarn global add jest
-          yarn install --frozen-lockfile
+          yarn run ci-install-deps
       - name: Test
         run: |
           yarn run test
@@ -60,7 +60,7 @@ jobs:
       - name: Set up dependencies
         run: |
           yarn global add jest
-          yarn install --frozen-lockfile
+          yarn run ci-install-deps
       - name: Coverage
         uses: paambaati/codeclimate-action@v3.0.0
         env:

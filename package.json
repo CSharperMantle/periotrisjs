@@ -3,9 +3,10 @@
   "version": "1.8.2",
   "description": "Get familiar with the Periodic Table of Elements in a fun way, directly in your browsers.",
   "scripts": {
+    "ci-install-deps": "yarn install --prefer-offline --frozen-lockfile",
+    "ci-build-prefixed": "gatsby build --prefix-paths",
     "clean": "npx rimraf coverage public && gatsby clean",
     "build": "gatsby build",
-    "build-prefixed": "gatsby build --prefix-paths",
     "rebuild": "yarn run clean && yarn run build",
     "develop": "gatsby develop",
     "start": "yarn run develop",

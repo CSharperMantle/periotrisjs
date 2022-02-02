@@ -5,6 +5,7 @@
     "blockchanged",
     "Borked",
     "Coord",
+    "deps",
     "easytimer",
     "fluentui",
     "fontawesome",

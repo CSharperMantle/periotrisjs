@@ -19,10 +19,10 @@ jobs:
       - name: Set up dependencies
         run: |
           yarn global add gatsby-cli
-          yarn install --frozen-lockfile
+          yarn run ci-install-deps
       - name: Build
         run: |
-          yarn run build-prefixed
+          yarn run ci-build-prefixed
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
