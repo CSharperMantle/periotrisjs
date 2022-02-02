@@ -2,7 +2,7 @@ import "./CommonLayout.css"
 
 import React from "react"
 
-import { Menu as MenuIcon } from "@mui/icons-material"
+import { GitHub as GitHubIcon } from "@mui/icons-material"
 import {
   AppBar,
   Box,
@@ -10,35 +10,18 @@ import {
   IconButton,
   Menu,
   Toolbar,
+  Tooltip,
   Typography,
 } from "@mui/material"
 
 import PageLocation from "../../json/PageLocation.json"
+import { MenuButton } from "./MenuButton"
 import { MenuPageLinkList } from "./MenuPageLinkList"
 import { MenuTitleButtonList } from "./MenuTitleButtonList"
 
 export interface PageLocationElement {
   name: string
   path: string
-}
-
-interface IMenuButtonProps {
-  handleOpenMenu: (event: React.MouseEvent<HTMLElement>) => void
-}
-
-const MenuButton = (props: IMenuButtonProps): React.ReactElement => {
-  return (
-    <IconButton
-      size="large"
-      aria-label="account of current user"
-      aria-controls="menu-app-bar"
-      aria-haspopup="true"
-      onClick={props.handleOpenMenu}
-      color="inherit"
-    >
-      <MenuIcon />
-    </IconButton>
-  )
 }
 
 interface ICommonLayoutProps {
@@ -120,6 +103,18 @@ const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
                 pageLocation={PageLocation}
                 handleCloseMenu={handleCloseNavMenu}
               />
+            </Box>
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open on GitHub">
+                <IconButton
+                  aria-label="github"
+                  href="https://github.com/CSharperMantle/periotrisjs/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <GitHubIcon />
+                </IconButton>
+              </Tooltip>
             </Box>
           </Toolbar>
         </Container>

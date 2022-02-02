@@ -2,7 +2,7 @@ import { Link } from "gatsby"
 import _ from "lodash"
 import React from "react"
 
-import { Button } from "@mui/material"
+import { Box, Button } from "@mui/material"
 
 import { PageLocationElement } from "./CommonLayout"
 
@@ -24,7 +24,9 @@ const MenuTitleButtonList = (
           component={Link}
           to={page.path}
         >
-          {page.name}
+          <Box textAlign="center" margin="0 auto">
+            {page.name}
+          </Box>
         </Button>
       ))}
     </>
