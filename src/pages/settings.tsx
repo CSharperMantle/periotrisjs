@@ -4,7 +4,6 @@ import { Stack, Typography } from "@mui/material"
 
 import { CommonLayout } from "../components"
 
-// TODO: Finish this!
 const App = (): React.ReactElement => {
   return (
     <CommonLayout>

@@ -1,9 +1,8 @@
 import "./CommonLayout.css"
 
+import { Link } from "gatsby"
 import _ from "lodash"
 import React from "react"
-import { Outlet } from "react-router"
-import { Link } from "react-router-dom"
 
 import { Menu as MenuIcon } from "@mui/icons-material"
 import {
@@ -18,10 +17,13 @@ import {
   Typography,
 } from "@mui/material"
 
-import PageLocation from "../pages/PageLocation.json"
+import PageLocation from "../../json/PageLocation.json"
 
-// TODO: Finish this!
-const CommonLayout = (): React.ReactElement => {
+interface ICommonLayoutProps {
+  children: React.ReactNode
+}
+
+const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -128,7 +130,7 @@ const CommonLayout = (): React.ReactElement => {
           </Toolbar>
         </Container>
       </AppBar>
-      <Outlet />
+      {props.children}
     </Box>
   )
 }
