@@ -8,6 +8,7 @@ import {
   BlocksGrid,
   CommonLayout,
   GameControlButton,
+  ICommonLayoutProps,
   PortraitWarningBackdrop,
   SnackbarPopper,
 } from "../components"
@@ -20,6 +21,13 @@ class App extends React.Component {
   private readonly _rowTwoRef: React.RefObject<HTMLDivElement> =
     React.createRef<HTMLDivElement>()
   private _hammer!: HammerManager // FIXME: Borked
+
+  static Layout: (
+    props: ICommonLayoutProps
+  ) => React.ReactElement<
+    unknown,
+    string | React.JSXElementConstructor<unknown>
+  >
 
   public constructor(props: Record<string, never>) {
     super(props)
@@ -50,55 +58,53 @@ class App extends React.Component {
 
   public render(): React.ReactElement {
     return (
-      <CommonLayout>
-        <PeriotrisViewModelContext.Provider value={this._viewModel}>
-          <SnackbarProvider
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center",
+      <PeriotrisViewModelContext.Provider value={this._viewModel}>
+        <SnackbarProvider
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+        >
+          <Box
+            sx={{
+              /* display-related props */ display: "grid",
+              gridTemplateRows: "1fr 80% 1fr",
+
+              /* layouts: width, height, margin, padding, etc.*/
+              position: "relative",
+              height: "100%",
+              minHeight: "0px",
+              width: "100%",
+              minWidth: "0px",
+              boxSizing: "border-box",
+              flex: "1 1 auto" /* For CommonLayout.tsx headers */,
+
+              /* element-specific props */
+              /* background-color to be filled */
             }}
           >
+            <PortraitWarningBackdrop />
             <Box
+              className="game-page__row-2"
+              ref={this._rowTwoRef}
               sx={{
-                /* display-related props */ display: "grid",
-                gridTemplateRows: "1fr 80% 1fr",
-
-                /* layouts: width, height, margin, padding, etc.*/
+                gridRow: 2,
                 position: "relative",
-                height: "100%",
-                minHeight: "0px",
-                width: "100%",
-                minWidth: "0px",
-                boxSizing: "border-box",
-                flex: "1 1 auto" /* For CommonLayout.tsx headers */,
-
-                /* element-specific props */
-                /* background-color to be filled */
               }}
             >
-              <PortraitWarningBackdrop />
-              <Box
-                className="game-page__row-2"
-                ref={this._rowTwoRef}
-                sx={{
-                  gridRow: 2,
-                  position: "relative",
-                }}
-              >
-                <BlocksGrid />
-              </Box>
-              <SnackbarPopper />
-              <GameControlButton
-                onClick={this._viewModel.invokeGameControl.bind(
-                  this._viewModel
-                )}
-              />
+              <BlocksGrid />
             </Box>
-          </SnackbarProvider>
-        </PeriotrisViewModelContext.Provider>
-      </CommonLayout>
+            <SnackbarPopper />
+            <GameControlButton
+              onClick={this._viewModel.invokeGameControl.bind(this._viewModel)}
+            />
+          </Box>
+        </SnackbarProvider>
+      </PeriotrisViewModelContext.Provider>
     )
   }
 }
+
+App.Layout = CommonLayout
 
 export default App

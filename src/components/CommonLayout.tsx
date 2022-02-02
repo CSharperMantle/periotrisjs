@@ -1,17 +1,27 @@
+import "./CommonLayout.css"
 import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
 
-import PropTypes from "prop-types"
 import React from "react"
 import { Helmet } from "react-helmet"
 
-import CssBaseline from "@mui/material/CssBaseline"
+import { Box, CssBaseline } from "@mui/material"
 import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles"
 
 import { theme } from "../../src/ThemeOptions"
+import { MainAppBar } from "./MainAppBar"
 
-export default function TopLayout(props) {
+export interface PageLocationElement {
+  name: string
+  path: string
+}
+
+interface ICommonLayoutProps {
+  children: React.ReactNode
+}
+
+const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
   return (
     <>
       <Helmet title="Periotris.js">
@@ -28,13 +38,22 @@ export default function TopLayout(props) {
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          {props.children}
+          <Box
+            sx={{
+              display: "flex",
+              flexFlow: "column nowrap",
+              minHeight: "100vh",
+              maxHeight: "100vh",
+            }}
+          >
+            <MainAppBar />
+            {/* Now injecting real children. */}
+            {props.children}
+          </Box>
         </ThemeProvider>
       </StyledEngineProvider>
     </>
   )
 }
 
-TopLayout.propTypes = {
-  children: PropTypes.node,
-}
+export { ICommonLayoutProps, CommonLayout }

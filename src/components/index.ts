@@ -4,7 +4,7 @@ import { GameControlButton } from "./GameControlButton"
 import { PortraitWarningBackdrop } from "./PortraitWarningBackdrop"
 import { TimerDisplay } from "./TimerDisplay"
 import { SnackbarPopper } from "./SnackbarPopper"
-import { CommonLayout } from "./layouts/CommonLayout"
+import { ICommonLayoutProps, CommonLayout } from "./CommonLayout"
 
 export {
   BlockControl,
@@ -13,5 +13,6 @@ export {
   PortraitWarningBackdrop,
   TimerDisplay,
   SnackbarPopper,
+  ICommonLayoutProps,
   CommonLayout,
 }
