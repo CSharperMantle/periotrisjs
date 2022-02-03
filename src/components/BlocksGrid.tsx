@@ -5,9 +5,10 @@ import { Box } from "@mui/material"
 
 import { PlayAreaHeight, PlayAreaWidth } from "../common"
 import { PeriotrisViewModelContext } from "../viewmodel"
-import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
 import { BlockControl } from "./BlockControl"
 import { TimerDisplay } from "./TimerDisplay"
+
+import type { IDisplayBlock } from "../viewmodel"
 
 const BlocksGrid = observer((): React.ReactElement => {
   const viewModel = useContext(PeriotrisViewModelContext)

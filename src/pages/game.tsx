@@ -8,11 +8,12 @@ import {
   BlocksGrid,
   CommonLayout,
   GameControlButton,
-  ICommonLayoutProps,
   PortraitWarningBackdrop,
   SnackbarPopper,
 } from "../components"
 import { PeriotrisViewModel, PeriotrisViewModelContext } from "../viewmodel"
+
+import type { ICommonLayoutProps } from "../components"
 
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 

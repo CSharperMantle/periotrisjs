@@ -11,12 +11,10 @@ import { Block } from "./Block"
 import { BlockChangedEventArgs } from "./BlockChangedEventArgs"
 import { MoveDirection, RotationDirection } from "./Direction"
 import { GameState } from "./GameState"
-import {
-  getPlayablePattern,
-  IGeneratorMessage,
-  MessageType,
-} from "./generation"
+import { getPlayablePattern, MessageType } from "./generation"
 import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
+
+import type { IGeneratorMessage } from "./generation"
 
 class PeriotrisModel extends EventEmitter {
   private readonly _patternGeneratorWorker: PatternGeneratorWorker = isBrowser
@@ -93,7 +91,6 @@ class PeriotrisModel extends EventEmitter {
 
     if (victory) {
       this.isNewRecord = this.history.add(dayjs(this.elapsedMilliseconds))
-      History.toLocalStorage(this.history)
     }
   }
 

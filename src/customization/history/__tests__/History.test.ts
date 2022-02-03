@@ -45,8 +45,8 @@ describe("History", () => {
       expect(key).toBe(HistoryLocalStorageKey)
       return null
     })
-    const mockedStore = store as jest.Mock<boolean, [string, any]>
-    mockedStore.mockImplementationOnce((key: string, object: any) => {
+    const mockedStore = store as jest.Mock<boolean, [string, History]>
+    mockedStore.mockImplementationOnce((key: string, object: History) => {
       expect(key).toBe(HistoryLocalStorageKey)
       expect(object).toBeInstanceOf(History)
       expect((object as History).records).toHaveLength(0)
@@ -56,7 +56,7 @@ describe("History", () => {
 
     const h = History.fromLocalStorage()
     expect(mockedRetrieve).toBeCalledTimes(1)
-    History.toLocalStorage(h)
+    h.toLocalStorage()
     expect(mockedStore).toBeCalledTimes(1)
   })
 })

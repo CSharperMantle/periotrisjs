@@ -18,7 +18,8 @@ import {
   PeriotrisModel,
   RotationDirection,
 } from "../model"
-import { IDisplayBlock } from "./IDisplayBlock"
+
+import type { IDisplayBlock } from "./IDisplayBlock"
 
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 

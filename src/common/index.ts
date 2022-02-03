@@ -3,6 +3,7 @@ import {
   HistoryLocalStorageKey,
   PlayAreaHeight,
   PlayAreaWidth,
+  SettingsLocalStorageKey,
   StopwatchUpdateIntervalMilliseconds,
 } from "./PeriotrisConst"
 import { Position } from "./Position"
@@ -13,5 +14,6 @@ export {
   GameUpdateIntervalMilliseconds,
   StopwatchUpdateIntervalMilliseconds,
   HistoryLocalStorageKey,
+  SettingsLocalStorageKey,
   Position,
 }

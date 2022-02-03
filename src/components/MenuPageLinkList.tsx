@@ -4,10 +4,10 @@ import React from "react"
 
 import { MenuItem, Typography } from "@mui/material"
 
-import { PageLocationElement } from "./CommonLayout"
+import type { IPageLocationElement } from "./CommonLayout"
 
 interface IMenuPageLinkListProps {
-  pageLocation: PageLocationElement[]
+  pageLocation: IPageLocationElement[]
   handleCloseMenu: (event: React.MouseEvent<HTMLElement>) => void
 }
 

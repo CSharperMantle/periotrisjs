@@ -12,7 +12,7 @@ import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles"
 import { theme } from "../../src/ThemeOptions"
 import { MainAppBar } from "./MainAppBar"
 
-export interface PageLocationElement {
+interface IPageLocationElement {
   name: string
   path: string
 }
@@ -56,4 +56,6 @@ const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
   )
 }
 
-export { ICommonLayoutProps, CommonLayout }
+export { CommonLayout }
+
+export type { IPageLocationElement, ICommonLayoutProps }

@@ -4,10 +4,10 @@ import React from "react"
 
 import { Box, Button } from "@mui/material"
 
-import { PageLocationElement } from "./CommonLayout"
+import type { IPageLocationElement } from "./CommonLayout"
 
 interface IMenuTitleButtonListProps {
-  pageLocation: PageLocationElement[]
+  pageLocation: IPageLocationElement[]
   handleCloseMenu: (event: React.MouseEvent<HTMLElement>) => void
 }
 

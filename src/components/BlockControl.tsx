@@ -5,7 +5,8 @@ import { Box, Typography } from "@mui/material"
 
 import defaultColorScheme from "../json/DefaultColorScheme.json"
 import defaultPeriodicTable from "../json/DefaultPeriodicTable.json"
-import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
+
+import type { IDisplayBlock } from "../viewmodel"
 
 interface IBlockControlText {
   withContent: boolean

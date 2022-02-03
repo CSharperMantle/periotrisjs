@@ -6,4 +6,4 @@ interface IDisplayBlock {
   symbolColor: string
 }
 
-export { IDisplayBlock }
+export type { IDisplayBlock }

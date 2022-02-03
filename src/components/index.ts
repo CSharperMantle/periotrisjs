@@ -1,10 +1,12 @@
 import { BlockControl } from "./BlockControl"
 import { BlocksGrid } from "./BlocksGrid"
+import { CommonLayout } from "./CommonLayout"
 import { GameControlButton } from "./GameControlButton"
 import { PortraitWarningBackdrop } from "./PortraitWarningBackdrop"
-import { TimerDisplay } from "./TimerDisplay"
 import { SnackbarPopper } from "./SnackbarPopper"
-import { ICommonLayoutProps, CommonLayout } from "./CommonLayout"
+import { TimerDisplay } from "./TimerDisplay"
+
+import type { ICommonLayoutProps } from "./CommonLayout"
 
 export {
   BlockControl,
@@ -13,6 +15,7 @@ export {
   PortraitWarningBackdrop,
   TimerDisplay,
   SnackbarPopper,
-  ICommonLayoutProps,
   CommonLayout,
 }
+
+export type { ICommonLayoutProps }
