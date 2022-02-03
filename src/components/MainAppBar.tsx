@@ -8,15 +8,14 @@ import {
   AppBar,
   Box,
   Container,
-  IconButton,
   Menu,
   Stack,
   Toolbar,
-  Tooltip,
   Typography,
 } from "@mui/material"
 
 import PageLocation from "../json/PageLocation.json"
+import { IconExternalLink } from "./IconExternalLink"
 import { MenuButton } from "./MenuButton"
 import { MenuPageLinkList } from "./MenuPageLinkList"
 import { MenuTitleButtonList } from "./MenuTitleButtonList"
@@ -81,7 +80,7 @@ const MainAppBar = (): React.ReactElement => {
             component="div"
             sx={{ flex: "1 1 0", display: { xs: "flex", md: "none" } }}
           >
-            Periotris.js
+            <Box sx={{ margin: "0 auto" }}>Periotris.js</Box>
           </Typography>
           <Box sx={{ flex: "1 1 auto", display: { xs: "none", md: "flex" } }}>
             <MenuTitleButtonList
@@ -96,26 +95,18 @@ const MainAppBar = (): React.ReactElement => {
             alignItems="center"
             spacing={1}
           >
-            <Tooltip title="Sponsor the project">
-              <IconButton
-                aria-label="sponsor"
-                href="https://afdian.net/@CSharperMantle"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FavoriteIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Open on GitHub">
-              <IconButton
-                aria-label="github"
-                href="https://github.com/CSharperMantle/periotrisjs/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <GitHubIcon />
-              </IconButton>
-            </Tooltip>
+            <IconExternalLink
+              ariaLabel="sponsor"
+              href="https://afdian.net/@CSharperMantle"
+              tooltipTitle="Sponsor the author"
+              icon={<FavoriteIcon />}
+            />
+            <IconExternalLink
+              ariaLabel="github"
+              href="https://github.com/CSharperMantle/periotrisjs"
+              tooltipTitle="Open GitHub repository"
+              icon={<GitHubIcon />}
+            />
           </Stack>
         </Toolbar>
       </Container>
