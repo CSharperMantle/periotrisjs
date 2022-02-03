@@ -273,6 +273,7 @@ class PeriotrisViewModel extends EventEmitter {
       if (!this._blocksByPosition.has(eventArgs.block.position)) {
         const displayBlock: IDisplayBlock = {
           withContent: true,
+          withBorder: this.showGridLine,
           atomicNumber: block.atomicNumber,
           row: block.position.y,
           column: block.position.x,
