@@ -15,7 +15,7 @@ import { TetriminoKind } from "./TetriminoKind"
  *
  * @returns 'false' if no collision found. Otherwise 'true'.
  */
-type BlockCollisionChecker = (block: Block) => boolean
+type TBlockCollisionChecker = (block: Block) => boolean
 
 class Tetrimino {
   public facingDirection: Direction
@@ -40,7 +40,7 @@ class Tetrimino {
    */
   public tryMove(
     direction: MoveDirection,
-    collisionChecker: BlockCollisionChecker
+    collisionChecker: TBlockCollisionChecker
   ): boolean {
     const origPos = this.position
     let newPos: Position
@@ -83,7 +83,7 @@ class Tetrimino {
    */
   public tryRotate(
     rotationDirection: RotationDirection,
-    collisionChecker: BlockCollisionChecker
+    collisionChecker: TBlockCollisionChecker
   ): boolean {
     const count: number = Object.keys(Direction).length / 2
     const delta: number = rotationDirection === RotationDirection.Right ? 1 : -1
@@ -209,4 +209,6 @@ function repairBrokenTetriminos(brokenTetriminos: Tetrimino[]): Tetrimino[] {
   return repairedTetriminos
 }
 
-export { Tetrimino, BlockCollisionChecker, repairBrokenTetriminos }
+export { Tetrimino, repairBrokenTetriminos }
+
+export type { TBlockCollisionChecker }

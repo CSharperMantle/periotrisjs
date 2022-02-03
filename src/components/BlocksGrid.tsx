@@ -20,6 +20,7 @@ const BlocksGrid = observer((): React.ReactElement => {
     for (let j = 0; j < PlayAreaWidth; j++) {
       paddedBlocks[i][j] = {
         withContent: false,
+        withBorder: viewModel.showGridLine,
         atomicNumber: 0,
         row: i,
         column: j,
@@ -39,6 +40,7 @@ const BlocksGrid = observer((): React.ReactElement => {
       <BlockControl
         key={index}
         withContent={block.withContent}
+        withBorder={block.withBorder}
         atomicNumber={block.atomicNumber}
         row={block.row}
         column={block.column}

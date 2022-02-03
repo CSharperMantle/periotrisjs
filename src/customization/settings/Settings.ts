@@ -16,12 +16,12 @@ class Settings {
     this.toLocalStorage()
   }
 
-  private _gameUpdateIntervalMillisecond = 1000
-  public get gameUpdateIntervalMillisecond(): number {
-    return this._gameUpdateIntervalMillisecond
+  private _gameUpdateIntervalMilliseconds = 1000
+  public get gameUpdateIntervalMilliseconds(): number {
+    return this._gameUpdateIntervalMilliseconds
   }
-  public set gameUpdateIntervalMillisecond(v: number) {
-    this._gameUpdateIntervalMillisecond = v
+  public set gameUpdateIntervalMilliseconds(v: number) {
+    this._gameUpdateIntervalMilliseconds = v
     this.toLocalStorage()
   }
 
