@@ -1,12 +1,16 @@
 import React from "react"
 
-import { GitHub as GitHubIcon } from "@mui/icons-material"
+import {
+  Favorite as FavoriteIcon,
+  GitHub as GitHubIcon,
+} from "@mui/icons-material"
 import {
   AppBar,
   Box,
   Container,
   IconButton,
   Menu,
+  Stack,
   Toolbar,
   Tooltip,
   Typography,
@@ -45,7 +49,7 @@ const MainAppBar = (): React.ReactElement => {
           >
             Periotris.js
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ flex: "1 1 0", display: { xs: "flex", md: "none" } }}>
             <MenuButton handleOpenMenu={handleOpenNavMenu} />
             <Menu
               id="menu-app-bar"
@@ -75,17 +79,33 @@ const MainAppBar = (): React.ReactElement => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+            sx={{ flex: "1 1 0", display: { xs: "flex", md: "none" } }}
           >
             Periotris.js
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flex: "1 1 auto", display: { xs: "none", md: "flex" } }}>
             <MenuTitleButtonList
               pageLocation={PageLocation}
               handleCloseMenu={handleCloseNavMenu}
             />
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
+          <Stack
+            sx={{ flex: "1 1 0" }}
+            direction="row"
+            justifyContent="flex-end"
+            alignItems="center"
+            spacing={1}
+          >
+            <Tooltip title="Sponsor the project">
+              <IconButton
+                aria-label="sponsor"
+                href="https://afdian.net/@CSharperMantle"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FavoriteIcon />
+              </IconButton>
+            </Tooltip>
             <Tooltip title="Open on GitHub">
               <IconButton
                 aria-label="github"
@@ -96,7 +116,7 @@ const MainAppBar = (): React.ReactElement => {
                 <GitHubIcon />
               </IconButton>
             </Tooltip>
-          </Box>
+          </Stack>
         </Toolbar>
       </Container>
     </AppBar>
