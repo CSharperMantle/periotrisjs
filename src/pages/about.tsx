@@ -1,22 +1,73 @@
+import "@fontsource/fira-code/400.css"
+
+import { graphql, useStaticQuery } from "gatsby"
 import React from "react"
 
-import { Stack, Typography } from "@mui/material"
+import { Container, Divider, Stack, Typography } from "@mui/material"
 
 import { CommonLayout } from "../components"
 
 const App = (): React.ReactElement => {
+  const data = useStaticQuery(graphql`
+    {
+      gitCommit(latest: { eq: true }) {
+        hash
+      }
+      gitTag(latest: { eq: true }) {
+        name
+      }
+      gitBranch(current: { eq: true }) {
+        name
+      }
+    }
+  `)
+
   return (
-    <Stack
-      direction="column"
-      justifyContent="center"
-      alignItems="center"
-      spacing={1}
+    <Container
+      maxWidth="lg"
       sx={{
         flex: "1 1 auto",
+        paddingTop: "3rem",
       }}
     >
-      <Typography variant="h6">Under construction.</Typography>
-    </Stack>
+      <Stack spacing={1}>
+        <Typography variant="h2">Periotris.js</Typography>
+        <Typography
+          variant="h6"
+          color={"darkgray"}
+          fontFamily={'"Fira Code", Consolas, monospace'}
+        >
+          {data.gitTag.name}
+        </Typography>
+        <Typography
+          variant="h6"
+          color={"darkgray"}
+          fontFamily={'"Fira Code", Consolas, monospace'}
+        >
+          {data.gitCommit.hash.slice(0, 8)} @ {data.gitBranch.name}
+        </Typography>
+        <Divider variant="middle" />
+        <Typography variant="body1" paragraph>
+          Some text will eventually fill this place.
+        </Typography>
+        <Typography variant="body1" paragraph>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tempus
+          facilisis velit, sit amet maximus lacus commodo ac. Aenean lacus ante,
+          tincidunt sed molestie a, interdum sit amet quam. Sed dictum mauris
+          hendrerit tristique blandit. In eu quam id massa hendrerit sagittis et
+          nec massa. Phasellus a dui pretium, mollis nulla quis, faucibus justo.
+          Vivamus aliquam urna eget placerat imperdiet.
+        </Typography>
+        <Typography variant="body1" paragraph>
+          Nullam non nisl eu arcu laoreet commodo ac vitae tellus. Class aptent
+          taciti sociosqu ad litora torquent per conubia nostra, per inceptos
+          himenaeos. Donec in libero rutrum, porttitor nisl vitae, pulvinar
+          nulla. Sed augue turpis, laoreet a maximus quis, tempor et nulla. Sed
+          in facilisis diam. Nulla facilisi. Nullam a mauris sed diam venenatis
+          faucibus. Donec nec interdum nisi. Ut vitae tellus massa.{" "}
+        </Typography>
+      </Stack>
+    </Container>
   )
 }
 
