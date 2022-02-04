@@ -9,6 +9,7 @@ import { BlockControl } from "./BlockControl"
 import { TimerDisplay } from "./TimerDisplay"
 
 import type { IDisplayBlock } from "../viewmodel"
+import _ from "lodash"
 
 const BlocksGrid = observer((): React.ReactElement => {
   const viewModel = useContext(PeriotrisViewModelContext)
@@ -33,21 +34,23 @@ const BlocksGrid = observer((): React.ReactElement => {
     const block = sprites[i]
     paddedBlocks[block.row][block.column] = block
   }
-  const flattened = paddedBlocks.flat()
 
-  const blocks = flattened.map((block: IDisplayBlock, index: number) => {
-    return (
-      <BlockControl
-        key={index}
-        withContent={block.withContent}
-        withBorder={block.withBorder}
-        atomicNumber={block.atomicNumber}
-        row={block.row}
-        column={block.column}
-        symbolColor={block.symbolColor}
-      />
-    )
-  })
+  const blocks = _.map(
+    _.flatten(paddedBlocks),
+    (block: IDisplayBlock, index: number) => {
+      return (
+        <BlockControl
+          key={index}
+          withContent={block.withContent}
+          withBorder={block.withBorder}
+          atomicNumber={block.atomicNumber}
+          row={block.row}
+          column={block.column}
+          symbolColor={block.symbolColor}
+        />
+      )
+    }
+  )
 
   return (
     <Box

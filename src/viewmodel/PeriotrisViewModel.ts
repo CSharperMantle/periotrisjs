@@ -108,14 +108,14 @@ class PeriotrisViewModel extends EventEmitter {
 
   @action
   public onKeyDown(ev: KeyboardEvent): boolean {
-    const key: string = _.toLower(ev.key)
+    const key: string = ev.key.toLowerCase()
+    ev.preventDefault()
     if (this.paused) {
-      if (key === "escape") {
-        this.paused = !this.paused
+      if (key !== "escape") {
+        // Ignore anything except Esc when paused
+        return false
       }
-      return true
     }
-
     switch (key) {
       case "a":
         this._model.moveActiveTetrimino(MoveDirection.Left)
@@ -138,7 +138,6 @@ class PeriotrisViewModel extends EventEmitter {
       default:
         return false
     }
-    ev.preventDefault()
     return true
   }
 
