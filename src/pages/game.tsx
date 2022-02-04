@@ -1,6 +1,6 @@
 import { isBrowser } from "is-in-browser"
 import { SnackbarProvider } from "notistack"
-import React from "react"
+import React, { useEffect, useRef } from "react"
 
 import { Box } from "@mui/material"
 
@@ -13,97 +13,76 @@ import {
 } from "../components"
 import { PeriotrisViewModel, PeriotrisViewModelContext } from "../viewmodel"
 
-import type { ICommonLayoutProps } from "../components"
-
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
-class App extends React.Component {
-  private readonly _viewModel: PeriotrisViewModel = new PeriotrisViewModel()
-  private readonly _rowTwoRef: React.RefObject<HTMLDivElement> =
-    React.createRef<HTMLDivElement>()
-  private _hammer!: HammerManager // FIXME: Borked
+const App = (): React.ReactElement => {
+  const viewModel = new PeriotrisViewModel()
 
-  static Layout: (
-    props: ICommonLayoutProps
-  ) => React.ReactElement<
-    unknown,
-    string | React.JSXElementConstructor<unknown>
-  >
+  const rowTwoRef = useRef<HTMLElement>()
+  let hammer: HammerManager
 
-  public constructor(props: Record<string, never>) {
-    super(props)
-  }
+  useEffect(() => {
+    window.addEventListener("keydown", viewModel.onKeyDown.bind(viewModel))
 
-  public componentDidMount(): void {
-    window.addEventListener(
-      "keydown",
-      this._viewModel.onKeyDown.bind(this._viewModel)
-    )
+    hammer = new Hammer(rowTwoRef.current as HTMLElement)
+    hammer.on("tap", viewModel.onTap.bind(viewModel))
+    hammer.on("swipe", viewModel.onSwipe.bind(viewModel))
+    hammer.on("pressup", viewModel.onPressUp.bind(viewModel))
 
-    this._hammer = new Hammer(this._rowTwoRef.current as HTMLElement)
-    this._hammer.on("tap", this._viewModel.onTap.bind(this._viewModel))
-    this._hammer.on("swipe", this._viewModel.onSwipe.bind(this._viewModel))
-    this._hammer.on("pressup", this._viewModel.onPressUp.bind(this._viewModel))
-  }
+    return () => {
+      window.removeEventListener("keydown", viewModel.onKeyDown.bind(viewModel))
 
-  public componentWillUnmount(): void {
-    window.removeEventListener(
-      "keydown",
-      this._viewModel.onKeyDown.bind(this._viewModel)
-    )
+      hammer.off("tap", viewModel.onTap.bind(viewModel))
+      hammer.off("swipe", viewModel.onSwipe.bind(viewModel))
+      hammer.off("pressup", viewModel.onPressUp.bind(viewModel))
+    }
+  }, [])
 
-    this._hammer.off("tap", this._viewModel.onTap.bind(this._viewModel))
-    this._hammer.off("swipe", this._viewModel.onSwipe.bind(this._viewModel))
-    this._hammer.off("pressup", this._viewModel.onPressUp.bind(this._viewModel))
-  }
+  return (
+    <PeriotrisViewModelContext.Provider value={viewModel}>
+      <SnackbarProvider
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+      >
+        <Box
+          sx={{
+            /* display-related props */ display: "grid",
+            gridTemplateRows: "1fr 80% 1fr",
 
-  public render(): React.ReactElement {
-    return (
-      <PeriotrisViewModelContext.Provider value={this._viewModel}>
-        <SnackbarProvider
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
+            /* layouts: width, height, margin, padding, etc.*/
+            position: "relative",
+            height: "100%",
+            minHeight: "0px",
+            width: "100%",
+            minWidth: "0px",
+            boxSizing: "border-box",
+            flex: "1 1 auto" /* For CommonLayout.tsx headers */,
+
+            /* element-specific props */
+            /* background-color to be filled */
           }}
         >
+          <PortraitWarningBackdrop />
           <Box
+            className="game-page__row-2"
+            ref={rowTwoRef}
             sx={{
-              /* display-related props */ display: "grid",
-              gridTemplateRows: "1fr 80% 1fr",
-
-              /* layouts: width, height, margin, padding, etc.*/
+              gridRow: 2,
               position: "relative",
-              height: "100%",
-              minHeight: "0px",
-              width: "100%",
-              minWidth: "0px",
-              boxSizing: "border-box",
-              flex: "1 1 auto" /* For CommonLayout.tsx headers */,
-
-              /* element-specific props */
-              /* background-color to be filled */
             }}
           >
-            <PortraitWarningBackdrop />
-            <Box
-              className="game-page__row-2"
-              ref={this._rowTwoRef}
-              sx={{
-                gridRow: 2,
-                position: "relative",
-              }}
-            >
-              <BlocksGrid />
-            </Box>
-            <SnackbarPopper />
-            <GameControlButton
-              onClick={this._viewModel.invokeGameControl.bind(this._viewModel)}
-            />
+            <BlocksGrid />
           </Box>
-        </SnackbarProvider>
-      </PeriotrisViewModelContext.Provider>
-    )
-  }
+          <SnackbarPopper />
+          <GameControlButton
+            onClick={viewModel.invokeGameControl.bind(viewModel)}
+          />
+        </Box>
+      </SnackbarProvider>
+    </PeriotrisViewModelContext.Provider>
+  )
 }
 
 App.Layout = CommonLayout
