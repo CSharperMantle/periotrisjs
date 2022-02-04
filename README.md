@@ -35,7 +35,7 @@ git clone --depth 1 -- https://github.com/CSharperMantle/periotrisjs.git
 cd periotrisjs
 ```
 
-You may omit the `--depth=1` flag if you want a complete commit history rather than a grafted shallow history (which saves disk space). **Remainder:** Do not use 'Download ZIP' button! Make sure that you have your git repository initialized or Periotris.js will fail to determine its revision.
+You may omit the `--depth=1` flag if you want a complete commit history rather than a grafted shallow history (which saves disk space). **Reminder:** Do not use 'Download ZIP' button! Make sure that you have your git repository initialized or Periotris.js will fail to determine its revision.
 
 #### Install dependencies
 
