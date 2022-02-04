@@ -3,6 +3,7 @@ import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
 
+import { graphql, useStaticQuery } from "gatsby"
 import React from "react"
 import { Helmet } from "react-helmet"
 
@@ -22,16 +23,27 @@ interface ICommonLayoutProps {
 }
 
 const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
+  const data = useStaticQuery(graphql`
+    query HomePageQuery {
+      site {
+        siteMetadata {
+          title
+          description
+        }
+      }
+    }
+  `)
+
   return (
     <>
-      <Helmet title="Periotris.js">
+      <Helmet title={`${data.site.siteMetadata.title}`}>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
         <meta
           name="description"
-          content="Get familiar with the Periodic Table of Elements in a fun way, directly in your browsers."
+          content={`${data.site.siteMetadata.description}`}
         />
       </Helmet>
       <StyledEngineProvider injectFirst>
