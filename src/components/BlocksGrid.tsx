@@ -38,17 +38,7 @@ const BlocksGrid = observer((): React.ReactElement => {
   const blocks = _.map(
     _.flatten(paddedBlocks),
     (block: IDisplayBlock, index: number) => {
-      return (
-        <BlockControl
-          key={index}
-          withContent={block.withContent}
-          withBorder={block.withBorder}
-          atomicNumber={block.atomicNumber}
-          row={block.row}
-          column={block.column}
-          symbolColor={block.symbolColor}
-        />
-      )
+      return <BlockControl key={index} {...block} />
     }
   )
 
