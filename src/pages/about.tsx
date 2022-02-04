@@ -34,7 +34,7 @@ const App = (): React.ReactElement => {
           color={"darkgray"}
           fontFamily={'"Fira Code", Consolas, monospace'}
         >
-          {data.gitCommit.hash.slice(0, 8)} @ {data.gitBranch.name}
+          Revision {data.gitCommit.hash.slice(0, 8)} @ {data.gitBranch.name}
         </Typography>
         <Divider variant="middle" />
         <Typography variant="body1" paragraph>
