@@ -13,9 +13,6 @@ const App = (): React.ReactElement => {
       gitCommit(latest: { eq: true }) {
         hash
       }
-      gitTag(latest: { eq: true }) {
-        name
-      }
       gitBranch(current: { eq: true }) {
         name
       }
@@ -32,13 +29,6 @@ const App = (): React.ReactElement => {
     >
       <Stack spacing={1}>
         <Typography variant="h2">Periotris.js</Typography>
-        <Typography
-          variant="h6"
-          color={"darkgray"}
-          fontFamily={'"Fira Code", Consolas, monospace'}
-        >
-          {data.gitTag.name}
-        </Typography>
         <Typography
           variant="h6"
           color={"darkgray"}
