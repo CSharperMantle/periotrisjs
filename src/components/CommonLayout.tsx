@@ -24,12 +24,14 @@ interface ICommonLayoutProps {
 
 const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
   const data = useStaticQuery(graphql`
-    query HomePageQuery {
+    query {
       site {
         siteMetadata {
           title
-          description
         }
+      }
+      package {
+        description
       }
     }
   `)
@@ -41,10 +43,7 @@ const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
-        <meta
-          name="description"
-          content={`${data.site.siteMetadata.description}`}
-        />
+        <meta name="description" content={`${data.package.description}`} />
       </Helmet>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>

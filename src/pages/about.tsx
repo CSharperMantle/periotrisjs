@@ -37,7 +37,7 @@ const App = (): React.ReactElement => {
       }}
     >
       <Stack spacing={1}>
-        <Typography variant="h2">Periotris.js</Typography>
+        <Typography variant="h2">About Periotris.js</Typography>
         <Typography variant="h6" {...codeStyle}>
           Version {data.package.version}
         </Typography>
@@ -49,25 +49,31 @@ const App = (): React.ReactElement => {
         </Typography>
         <Divider variant="middle" />
         <Typography variant="body1" paragraph>
-          Some text will eventually fill this place.
+          Periotris.js is your best companion for learning and memorizing the
+          Periodic Table of Elements.
         </Typography>
         <Typography variant="body1" paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tempus
-          facilisis velit, sit amet maximus lacus commodo ac. Aenean lacus ante,
-          tincidunt sed molestie a, interdum sit amet quam. Sed dictum mauris
-          hendrerit tristique blandit. In eu quam id massa hendrerit sagittis et
-          nec massa. Phasellus a dui pretium, mollis nulla quis, faucibus justo.
-          Vivamus aliquam urna eget placerat imperdiet.
+          Combining the classic game experience of Tetris with the periodic
+          table, Periotris.js is a successful attempt of breathing vitality into
+          the boredom of chemistry learning.
         </Typography>
         <Typography variant="body1" paragraph>
-          Nullam non nisl eu arcu laoreet commodo ac vitae tellus. Class aptent
-          taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-          himenaeos. Donec in libero rutrum, porttitor nisl vitae, pulvinar
-          nulla. Sed augue turpis, laoreet a maximus quis, tempor et nulla. Sed
-          in facilisis diam. Nulla facilisi. Nullam a mauris sed diam venenatis
-          faucibus. Donec nec interdum nisi. Ut vitae tellus massa.{" "}
+          The rumor that periodic table is constructed out of a game of Tetris
+          has been brought to reality. By playing Periotris.js you can
+          experience the thrill of fitting elements into right slots like a real
+          chemist. Despite its simplicity, Periotris.js is a challenging game
+          that puts the player&apos;s knowledge of descriptive chemistry to the
+          test. Try finish the game in the shortest time possible and experience
+          the excitement of completing another brick in the wall of chemistry.
+        </Typography>
+        <Typography variant="body1" paragraph>
+          Built with ❤ by{" "}
+          <Link href="https://github.com/CSharperMantle">CSharperMantle</Link>.
+          Special thanks to Mr. Longdi Xu, my high school chemistry teacher, for
+          sparking the idea that finally went so far as this.
         </Typography>
         <Divider variant="middle" />
+        <Typography variant="h4">License</Typography>
         <Typography variant="body1" paragraph>
           Copyright (C) 2021 Rong &quot;Mantle&quot; Bao
         </Typography>
