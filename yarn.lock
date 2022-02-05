@@ -5837,6 +5837,14 @@ gatsby-source-local-git-modern@^2.0.1:
   dependencies:
     simple-git "^3.1.1"
 
+gatsby-source-package@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/gatsby-source-package/-/gatsby-source-package-1.0.0.tgz#426dd0f07b56690d54b778f65a6a0afa66f0ca9b"
+  integrity sha512-oMR5ypDs5kxIwgzJwtAmebZtfrLTKQbRtQtUqa91CXrxXyebPdbwi/2XqLAV3lzbQqTIel7hml2CVvfJn3UpsQ==
+  dependencies:
+    fs-extra "^10.0.0"
+    lodash "^4.17.21"
+
 gatsby-telemetry@^3.6.0:
   version "3.6.0"
   resolved "https://registry.npmmirror.com/gatsby-telemetry/download/gatsby-telemetry-3.6.0.tgz#8f54f85b8bd36eb293a7f80da85a138810b3f38e"

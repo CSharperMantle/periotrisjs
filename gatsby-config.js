@@ -22,6 +22,7 @@ module.exports = {
     },
     "gatsby-plugin-offline",
     "gatsby-source-local-git-modern",
+    "gatsby-source-package",
   ],
   siteMetadata: {
     title: "Periotris.js",
