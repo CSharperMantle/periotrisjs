@@ -34,6 +34,7 @@ const App = (): React.ReactElement => {
       sx={{
         flex: "1 1 auto",
         paddingTop: "3rem",
+        paddingBottom: "16px",
       }}
     >
       <Stack spacing={1}>
