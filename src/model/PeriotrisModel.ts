@@ -6,17 +6,16 @@ import PatternGeneratorWorker from "worker-loader!./generation/PatternGeneratorW
 
 import { PlayAreaHeight, PlayAreaWidth } from "../common"
 import { History } from "../customization/history"
+import { Settings } from "../customization/settings"
 import defaultMap from "../json/DefaultMap.json"
 import { Block } from "./Block"
 import { BlockChangedEventArgs } from "./BlockChangedEventArgs"
 import { MoveDirection, RotationDirection } from "./Direction"
 import { GameState } from "./GameState"
-import {
-  getPlayablePattern,
-  IGeneratorMessage,
-  MessageType,
-} from "./generation"
+import { getPlayablePattern, MessageType } from "./generation"
 import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
+
+import type { IGeneratorMessage } from "./generation"
 
 class PeriotrisModel extends EventEmitter {
   private readonly _patternGeneratorWorker: PatternGeneratorWorker = isBrowser
@@ -27,7 +26,15 @@ class PeriotrisModel extends EventEmitter {
   private readonly _pendingTetriminos: Tetrimino[] = []
   private _activeTetrimino: Tetrimino | null = null
 
-  private _history: History
+  private _settings: Settings = Settings.fromLocalStorage()
+  public get settings(): Settings {
+    return this._settings
+  }
+  public set settings(v: Settings) {
+    this._settings = v
+  }
+
+  private _history: History = History.fromLocalStorage()
   public get history(): History {
     return this._history
   }
@@ -93,7 +100,6 @@ class PeriotrisModel extends EventEmitter {
 
     if (victory) {
       this.isNewRecord = this.history.add(dayjs(this.elapsedMilliseconds))
-      History.toLocalStorage(this.history)
     }
   }
 
@@ -238,7 +244,6 @@ class PeriotrisModel extends EventEmitter {
       )
     }
 
-    this._history = History.fromLocalStorage()
     this.endGame(false)
   }
 

@@ -5,7 +5,8 @@ import { Box, Typography } from "@mui/material"
 
 import defaultColorScheme from "../json/DefaultColorScheme.json"
 import defaultPeriodicTable from "../json/DefaultPeriodicTable.json"
-import { IDisplayBlock } from "../viewmodel/IDisplayBlock"
+
+import type { IDisplayBlock } from "../viewmodel"
 
 interface IBlockControlText {
   withContent: boolean
@@ -49,14 +50,15 @@ interface IBlockControlProps extends IDisplayBlock {
 
 const BlockControl = ({
   withContent,
+  withBorder,
   atomicNumber,
   row,
   column,
-  symbolColor,
 }: IBlockControlProps): React.ReactElement => {
   const backgroundColor = withContent
     ? getBackgroundColorByAtomicNumber(atomicNumber)
     : "black"
+  const border = withBorder ? "1px solid #393939" : "none"
   return (
     <Box
       sx={{
@@ -70,8 +72,7 @@ const BlockControl = ({
         padding: "5% 5% 5% 5%",
         boxSizing: "border-box",
 
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-        border: "solid 1px #393939",
+        border: { border },
 
         gridRow: row + 1,
         gridColumn: column + 1,

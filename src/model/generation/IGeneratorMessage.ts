@@ -5,4 +5,4 @@ interface IGeneratorMessage<T> {
   content: T
 }
 
-export { IGeneratorMessage }
+export type { IGeneratorMessage }

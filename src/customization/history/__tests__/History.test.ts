@@ -39,24 +39,46 @@ describe("History", () => {
     expect(h.fastestRecord).toEqual(dayjs(1000))
   })
 
-  it("should interact with LocalStorage gracefully", () => {
+  it("should interact with LocalStorage correctly", () => {
     const mockedRetrieve = retrieve as jest.Mock<unknown, [string]>
+    mockedRetrieve.mockReset()
     mockedRetrieve.mockImplementationOnce((key: string) => {
       expect(key).toBe(HistoryLocalStorageKey)
       return null
     })
-    const mockedStore = store as jest.Mock<boolean, [string, any]>
-    mockedStore.mockImplementationOnce((key: string, object: any) => {
-      expect(key).toBe(HistoryLocalStorageKey)
-      expect(object).toBeInstanceOf(History)
-      expect((object as History).records).toHaveLength(0)
-      expect((object as History).fastestRecord).toBeNull()
-      return true
-    })
+    const mockedStore = store as jest.Mock<boolean, [string, History]>
+    mockedStore.mockReset()
+    mockedStore
+      .mockImplementationOnce((key: string, object: History) => {
+        expect(key).toBe(HistoryLocalStorageKey)
+        expect(object).toBeInstanceOf(History)
+        expect((object as History).records).toHaveLength(1)
+        expect((object as History).fastestRecord).toEqual(dayjs(1000))
+        return true
+      })
+      .mockImplementationOnce((key: string, object: History) => {
+        expect((object as History).records).toHaveLength(2)
+        expect((object as History).fastestRecord).toEqual(dayjs(1000))
+        return true
+      })
+      .mockImplementationOnce((key: string, object: History) => {
+        expect((object as History).records).toHaveLength(3)
+        expect((object as History).fastestRecord).toEqual(dayjs(1000))
+        return true
+      })
+      .mockImplementationOnce((key: string, object: History) => {
+        expect((object as History).records).toHaveLength(4)
+        expect((object as History).fastestRecord).toEqual(dayjs(500))
+        return true
+      })
 
     const h = History.fromLocalStorage()
+
     expect(mockedRetrieve).toBeCalledTimes(1)
-    History.toLocalStorage(h)
-    expect(mockedStore).toBeCalledTimes(1)
+    h.add(dayjs(1000))
+    h.add(dayjs(2000))
+    h.add(dayjs(3000))
+    h.add(dayjs(500))
+    expect(mockedStore).toBeCalledTimes(4)
   })
 })

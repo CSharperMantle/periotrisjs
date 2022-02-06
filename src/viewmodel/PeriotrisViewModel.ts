@@ -5,11 +5,7 @@ import _ from "lodash"
 import { action, makeObservable, observable } from "mobx"
 import { createContext } from "react"
 
-import {
-  GameUpdateIntervalMilliseconds,
-  Position,
-  StopwatchUpdateIntervalMilliseconds,
-} from "../common"
+import { Position, StopwatchUpdateIntervalMilliseconds } from "../common"
 import {
   Block,
   BlockChangedEventArgs,
@@ -18,7 +14,8 @@ import {
   PeriotrisModel,
   RotationDirection,
 } from "../model"
-import { IDisplayBlock } from "./IDisplayBlock"
+
+import type { IDisplayBlock } from "./IDisplayBlock"
 
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
@@ -37,6 +34,7 @@ class PeriotrisViewModel extends EventEmitter {
     this._model.addListener("gamestart", () => {
       this.modelGameStartEventHandler()
     })
+    this._showGridLine = this._model.settings.showGridLine
 
     this.endGame()
   }
@@ -78,8 +76,18 @@ class PeriotrisViewModel extends EventEmitter {
   public get isNewRecord(): boolean {
     return this._isNewRecord
   }
-  public set isNewRecord(v: boolean) {
+  private set isNewRecord(v: boolean) {
     this._isNewRecord = v
+  }
+
+  @observable
+  private _showGridLine: boolean
+
+  public get showGridLine(): boolean {
+    return this._showGridLine
+  }
+  private set showGridLine(v: boolean) {
+    this._showGridLine = v
   }
 
   @observable
@@ -100,14 +108,14 @@ class PeriotrisViewModel extends EventEmitter {
 
   @action
   public onKeyDown(ev: KeyboardEvent): boolean {
-    const key: string = _.toLower(ev.key)
+    const key: string = ev.key.toLowerCase()
+    ev.preventDefault()
     if (this.paused) {
-      if (key === "escape") {
-        this.paused = !this.paused
+      if (key !== "escape") {
+        // Ignore anything except Esc when paused
+        return false
       }
-      return true
     }
-
     switch (key) {
       case "a":
         this._model.moveActiveTetrimino(MoveDirection.Left)
@@ -130,7 +138,6 @@ class PeriotrisViewModel extends EventEmitter {
       default:
         return false
     }
-    ev.preventDefault()
     return true
   }
 
@@ -207,7 +214,7 @@ class PeriotrisViewModel extends EventEmitter {
     this.paused = false
     this._gameIntervalTimerHandle = window.setInterval(() => {
       this.intervalTickEventHandler()
-    }, GameUpdateIntervalMilliseconds)
+    }, this._model.settings.gameUpdateIntervalMilliseconds)
     this._gameStopwatchUpdateTimerHandle = window.setInterval(() => {
       this.intervalStopwatchUpdateEventHandler()
     }, StopwatchUpdateIntervalMilliseconds)
@@ -265,6 +272,7 @@ class PeriotrisViewModel extends EventEmitter {
       if (!this._blocksByPosition.has(eventArgs.block.position)) {
         const displayBlock: IDisplayBlock = {
           withContent: true,
+          withBorder: this.showGridLine,
           atomicNumber: block.atomicNumber,
           row: block.position.y,
           column: block.position.x,

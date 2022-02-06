@@ -23,13 +23,18 @@ class History {
 
   public add(v: Dayjs): boolean {
     this.records.push(v)
+    let isFastestRecordUpdated = false
     if (_.isNil(this.fastestRecord) || this.fastestRecord.diff(v) > 0) {
       this.fastestRecord = v
-      return true
+      isFastestRecordUpdated = true
     }
-    return false
+    this.toLocalStorage()
+    return isFastestRecordUpdated
   }
 
+  /**
+   * Note: For testing only. Do not use in user code.
+   */
   public constructor() {
     this._fastestRecord = null
     this._records = []
@@ -52,8 +57,14 @@ class History {
     return repairedHistory
   }
 
-  public static toLocalStorage(v: History): void {
-    store(HistoryLocalStorageKey, v)
+  /**
+   * Write the History object to local storage.
+   *
+   * Note: You will hardly need to call this method because modifications
+   * to the History object will be automatically persisted.
+   */
+  public toLocalStorage(): void {
+    store(HistoryLocalStorageKey, this)
   }
 }
 

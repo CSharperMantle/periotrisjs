@@ -2,7 +2,6 @@
 module.exports = {
   plugins: [
     "gatsby-plugin-typescript",
-    "gatsby-plugin-top-layout",
     {
       resolve: "gatsby-plugin-material-ui",
       options: {},
@@ -22,6 +21,8 @@ module.exports = {
       },
     },
     "gatsby-plugin-offline",
+    "gatsby-source-local-git-modern",
+    "gatsby-source-package",
   ],
   siteMetadata: {
     title: "Periotris.js",

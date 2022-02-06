@@ -28,23 +28,21 @@ The game can also act as a [Progressive Web Application](https://developer.mozil
 
 #### Clone
 
-Run (if you have not done it previously):
+Run:
 
 ```sh
-git clone https://github.com/CSharperMantle/periotrisjs.git --depth=1
+git clone --depth 1 -- https://github.com/CSharperMantle/periotrisjs.git
 cd periotrisjs
 ```
 
-You may omit the `--depth=1` flag if you want a complete commit history rather than a grafted shallow history (which saves disk space).
+You may omit the `--depth=1` flag if you want a complete commit history rather than a grafted shallow history (which saves disk space). **Reminder:** Do not use 'Download ZIP' button! Make sure that you have your git repository initialized or Periotris.js will fail to determine its revision.
 
 #### Install dependencies
 
 Dependencies that need to be installed manually:
 
 - [Node.js v14.x+](https://nodejs.org/)
-- [yarn v1](https://classic.yarnpkg.com/en/docs/install) **Important: yarn v2 is untested.**
-- [Rust v1.50+](https://www.rust-lang.org/learn/get-started)
-- [wasm-pack v1+](https://rustwasm.github.io/)
+- [yarn v1](https://classic.yarnpkg.com/en/docs/install) **Important: yarn v2 is unsupported.**
 
 Once you have installed all above, run the following commands:
 

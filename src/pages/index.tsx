@@ -1,77 +1,88 @@
-import "./index.css"
-
-import { isBrowser } from "is-in-browser"
-import { SnackbarProvider } from "notistack"
+import { graphql, Link, useStaticQuery } from "gatsby"
+import _ from "lodash"
 import React from "react"
 
-import {
-  AppStartSplash,
-  BlocksGrid,
-  GameControlButton,
-  PortraitWarningBackdrop,
-  SnackbarPopper,
-} from "../components"
-import { PeriotrisViewModel, PeriotrisViewModelContext } from "../viewmodel"
+import { Settings as SettingsIcon } from "@mui/icons-material"
+import { Button, Container, IconButton, Stack, Typography } from "@mui/material"
 
-const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
+import { CommonLayout } from "../components"
+import PageLocation from "../json/PageLocation.json"
 
-class App extends React.Component {
-  private readonly _viewModel: PeriotrisViewModel = new PeriotrisViewModel()
-  private readonly _rowTwoRef: React.RefObject<HTMLDivElement> =
-    React.createRef<HTMLDivElement>()
-  private _hammer!: HammerManager // FIXME: Borked
-
-  public constructor(props: Record<string, never>) {
-    super(props)
-  }
-
-  public componentDidMount(): void {
-    window.addEventListener(
-      "keydown",
-      this._viewModel.onKeyDown.bind(this._viewModel)
-    )
-
-    this._hammer = new Hammer(this._rowTwoRef.current as HTMLElement)
-    this._hammer.on("tap", this._viewModel.onTap.bind(this._viewModel))
-    this._hammer.on("swipe", this._viewModel.onSwipe.bind(this._viewModel))
-    this._hammer.on("pressup", this._viewModel.onPressUp.bind(this._viewModel))
-  }
-
-  public componentWillUnmount(): void {
-    window.removeEventListener(
-      "keydown",
-      this._viewModel.onKeyDown.bind(this._viewModel)
-    )
-
-    this._hammer.off("tap", this._viewModel.onTap.bind(this._viewModel))
-    this._hammer.off("swipe", this._viewModel.onSwipe.bind(this._viewModel))
-    this._hammer.off("pressup", this._viewModel.onPressUp.bind(this._viewModel))
-  }
-
-  public render(): React.ReactElement {
-    return (
-      <PeriotrisViewModelContext.Provider value={this._viewModel}>
-        <SnackbarProvider
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-        >
-          <main className="game-page">
-            <PortraitWarningBackdrop />
-            <div className="game-page__row-2" ref={this._rowTwoRef}>
-              <BlocksGrid />
-              <AppStartSplash goOutTimeout={3000} />
-            </div>
-            <SnackbarPopper />
-            <GameControlButton
-              onClick={this._viewModel.invokeGameControl.bind(this._viewModel)}
-            />
-          </main>
-        </SnackbarProvider>
-      </PeriotrisViewModelContext.Provider>
-    )
-  }
+const codeStyle = {
+  fontFamily: '"Fira Code", Consolas, monospace',
 }
+
+// TODO: Finish this!
+const App = (): React.ReactElement => {
+  const data = useStaticQuery(graphql`
+    query {
+      package {
+        version
+      }
+    }
+  `)
+
+  const gamePage = _.filter(PageLocation, (page) => page.name === "Game")[0]
+  const settingsPage = _.filter(
+    PageLocation,
+    (page) => page.name === "Settings"
+  )[0]
+
+  return (
+    <Stack
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+      spacing={16}
+      sx={{
+        flex: "1 1 auto",
+        padding: "16px",
+      }}
+    >
+      <Stack
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        spacing={1}
+      >
+        <Typography variant="h2">Periotris.js</Typography>
+        <Typography variant="body1" {...codeStyle}>
+          v{data.package.version}
+        </Typography>
+      </Stack>
+      <Container maxWidth="sm">
+        <Stack
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          spacing={2}
+        >
+          <Button
+            variant="outlined"
+            size="large"
+            sx={{
+              borderColor: "white",
+              color: "white",
+              alignSelf: "stretch",
+            }}
+            component={Link}
+            to={gamePage.path}
+          >
+            Start
+          </Button>
+        </Stack>
+      </Container>
+      <IconButton
+        aria-label="open settings"
+        component={Link}
+        to={settingsPage.path}
+      >
+        <SettingsIcon />
+      </IconButton>
+    </Stack>
+  )
+}
+
+App.Layout = CommonLayout
 
 export default App

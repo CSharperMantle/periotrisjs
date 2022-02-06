@@ -2,59 +2,37 @@ import { observer } from "mobx-react"
 import React, { MouseEventHandler, useContext } from "react"
 
 import {
-  faClock,
-  faPause,
-  faPlay,
-  faQuestion,
-  faRedo,
-  IconDefinition,
-} from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Box, Fab, PropTypes, useTheme } from "@mui/material"
+  HourglassFull as HourglassFullIcon,
+  Pause as PauseIcon,
+  PlayArrow as PlayArrowIcon,
+  QuestionMark as QuestionMarkIcon,
+  Replay as ReplayIcon,
+} from "@mui/icons-material"
+import { Fab, PropTypes, useTheme } from "@mui/material"
 
 import { GameState } from "../model"
 import { PeriotrisViewModelContext } from "../viewmodel"
 
-interface IButtonLabelIconWrapper {
-  icon: IconDefinition
-}
-
-function ButtonLabelIconWrapper(props: IButtonLabelIconWrapper) {
-  return (
-    <Box
-      sx={{
-        marginRight: 1,
-      }}
-    >
-      <FontAwesomeIcon icon={props.icon} />
-    </Box>
-  )
-}
-
-interface IGameControlButtonProps {
-  onClick: MouseEventHandler
-}
-
 function getIconByGameState(
   gameState: GameState,
   paused: boolean
-): IconDefinition {
+): JSX.Element {
   switch (gameState) {
     case GameState.NotStarted:
-      return faPlay
+      return <PlayArrowIcon sx={{ mr: 1 }} />
     case GameState.Lost:
     case GameState.Won:
-      return faRedo
+      return <ReplayIcon sx={{ mr: 1 }} />
     case GameState.InProgress:
       if (paused) {
-        return faPlay
+        return <PlayArrowIcon sx={{ mr: 1 }} />
       } else {
-        return faPause
+        return <PauseIcon sx={{ mr: 1 }} />
       }
     case GameState.Preparing:
-      return faClock
+      return <HourglassFullIcon sx={{ mr: 1 }} />
     default:
-      return faQuestion
+      return <QuestionMarkIcon sx={{ mr: 1 }} />
   }
 }
 
@@ -87,6 +65,10 @@ function getLabelByGameState(gameState: GameState, paused: boolean): string {
   }
 }
 
+interface IGameControlButtonProps {
+  onClick: MouseEventHandler
+}
+
 const GameControlButton = observer(({ onClick }: IGameControlButtonProps) => {
   const theme = useTheme()
   const viewModel = useContext(PeriotrisViewModelContext)
@@ -109,7 +91,7 @@ const GameControlButton = observer(({ onClick }: IGameControlButtonProps) => {
       onClick={onClick}
       aria-label={label}
     >
-      <ButtonLabelIconWrapper icon={icon} />
+      {icon}
       {label}
     </Fab>
   )
