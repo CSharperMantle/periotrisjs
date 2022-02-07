@@ -2996,6 +2996,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/events@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@types/events@npm:3.0.0::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Fevents%2F-%2Fevents-3.0.0.tgz"
+  checksum: 9a424c2da210957d5636e0763e8c9fc3aaeee35bf411284ddec62a56a6abe31de9c7c2e713dabdd8a76ff98b47db2bd52f61310be6609641d6234cc842ecbbe3
+  languageName: node
+  linkType: hard
+
 "@types/get-port@npm:^3.2.0":
   version: 3.2.0
   resolution: "@types/get-port@npm:3.2.0::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Fget-port%2F-%2Fget-port-3.2.0.tgz"
@@ -3133,7 +3140,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.92":
+"@types/lodash@npm:^4.14.178, @types/lodash@npm:^4.14.92":
   version: 4.14.178
   resolution: "@types/lodash@npm:4.14.178::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Flodash%2F-%2Flodash-4.14.178.tgz"
   checksum: a69a04a60bfc5257c3130a554b4efa0c383f0141b7b3db8ab7cf07ad2a46ea085fce66d0242da41da7e5647b133d5dfb2c15add9cbed8d7fef955e4a1e5b3128
@@ -7246,6 +7253,13 @@ __metadata:
 "events@npm:^3.2.0":
   version: 3.3.0
   resolution: "events@npm:3.3.0"
+  checksum: f6f487ad2198aa41d878fa31452f1a3c00958f46e9019286ff4787c84aac329332ab45c9cdc8c445928fc6d7ded294b9e005a7fce9426488518017831b272780
+  languageName: node
+  linkType: hard
+
+"events@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "events@npm:3.3.0::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2Fevents%2F-%2Fevents-3.3.0.tgz"
   checksum: f6f487ad2198aa41d878fa31452f1a3c00958f46e9019286ff4787c84aac329332ab45c9cdc8c445928fc6d7ded294b9e005a7fce9426488518017831b272780
   languageName: node
   linkType: hard
@@ -12956,10 +12970,12 @@ __metadata:
     "@mui/material": ^5.3.1
     "@mui/system": ^5.3.0
     "@testing-library/react": ^12.1.2
+    "@types/events": ^3.0.0
     "@types/hammerjs": ^2.0.40
     "@types/jest": ^27.4.0
     "@types/jsdom": ^16.2.13
     "@types/loadable__component": ^5.13.4
+    "@types/lodash": ^4.14.178
     "@types/react": ^17.0.38
     "@types/react-dom": ^17.0.11
     "@types/react-helmet": ^6.1.5
@@ -12970,6 +12986,7 @@ __metadata:
     dayjs: ^1.10.7
     eslint: ^8.8.0
     eslint-plugin-react: ^7.28.0
+    events: ^3.3.0
     gatsby: ^4.6.0
     gatsby-plugin-manifest: ^4.5.2
     gatsby-plugin-material-ui: ^4.0.2
