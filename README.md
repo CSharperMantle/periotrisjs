@@ -42,13 +42,12 @@ You may omit the `--depth=1` flag if you want a complete commit history rather t
 Dependencies that need to be installed manually:
 
 - [Node.js v14.x+](https://nodejs.org/)
-- [yarn v1](https://classic.yarnpkg.com/en/docs/install) **Important: yarn v2 is unsupported.**
+- [yarn v2+](https://yarnpkg.com/)
 
 Once you have installed all above, run the following commands:
 
 ```sh
-yarn install # for runtime deps
-yarn global add gatsby-cli # for running Gatsby CLI commands
+yarn install --immutable
 ```
 
 #### Build and serve
@@ -59,7 +58,7 @@ Run the following command to build and serve a static, release-ready [Gatsby](ht
 yarn run build && yarn run serve
 ```
 
-If you prefer hot-reload, friendly exception notice and other development-friendly features of Gatsby, run the following commands to start a dev server:
+If you prefer hot-reload, friendly exception messages and other development-friendly features of Gatsby, run the following commands to start a dev server:
 
 ```sh
 yarn run develop
@@ -68,12 +67,11 @@ yarn run develop
 After these commands are executed, you should see in the terminal an address to visit.
 The address is usually `http://localhost:8000/` or `http://localhost:9000/` depending on whether your build is for dev or production.
 
-#### _OPTIONAL:_ Test
+#### Test _(Optional)_
 
-Run the following to start [`jest`](https://jestjs.io/) unit testing framework:
+Run the following to start unit tests:
 
 ```sh
-yarn global add jest # for jest framework
 yarn run test
 ```
 
