@@ -18,8 +18,7 @@ jobs:
           cache: "yarn"
       - name: Set up dependencies
         run: |
-          yarn global add gatsby-cli
-          yarn run ci-install-deps
+          yarn install --immutable
       - name: Build
         run: |
           yarn run ci-build-prefixed
