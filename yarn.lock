@@ -3131,15 +3131,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/loadable__component@npm:^5.13.4":
-  version: 5.13.4
-  resolution: "@types/loadable__component@npm:5.13.4"
-  dependencies:
-    "@types/react": "*"
-  checksum: a2d1c77b952eb15c45dfad841a7a0a3e4045f828e1f0ecbab997a306a56a48cd48ee12ee75bf79f59bbcff0347bbeb120106e8e66c91a38a530a028e1598b130
-  languageName: node
-  linkType: hard
-
 "@types/lodash@npm:^4.14.178, @types/lodash@npm:^4.14.92":
   version: 4.14.178
   resolution: "@types/lodash@npm:4.14.178::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Flodash%2F-%2Flodash-4.14.178.tgz"
@@ -12677,7 +12668,6 @@ __metadata:
     "@types/hammerjs": ^2.0.40
     "@types/jest": ^27.4.0
     "@types/jsdom": ^16.2.13
-    "@types/loadable__component": ^5.13.4
     "@types/lodash": ^4.14.178
     "@types/react": ^17.0.38
     "@types/react-dom": ^17.0.11
