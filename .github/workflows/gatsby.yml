@@ -14,7 +14,6 @@ jobs:
           cache: "yarn"
       - name: Set up dependencies
         run: |
-          yarn global add gatsby-cli
           yarn run ci-install-deps
       - name: Build
         run: |
@@ -40,7 +39,6 @@ jobs:
           cache: "yarn"
       - name: Set up dependencies
         run: |
-          yarn global add jest
           yarn run ci-install-deps
       - name: Test
         run: |
@@ -59,7 +57,6 @@ jobs:
           cache: "yarn"
       - name: Set up dependencies
         run: |
-          yarn global add jest
           yarn run ci-install-deps
       - name: Coverage
         uses: paambaati/codeclimate-action@v3.0.0
