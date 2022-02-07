@@ -3,7 +3,6 @@
   "version": "2.0.0",
   "description": "Get familiar with the Periodic Table of Elements in a fun way, directly in your browsers.",
   "scripts": {
-    "ci-install-deps": "yarn install --immutable",
     "ci-build-prefixed": "yarn run -B gatsby build --prefix-paths",
     "clean": "yarn run -B rimraf coverage public && yarn run -B gatsby clean",
     "build": "yarn run -B gatsby build",
