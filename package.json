@@ -80,5 +80,6 @@
     "ts-jest": "^27.1.3",
     "typescript": "^4.5.5",
     "workerloader-jest-transformer": "^0.0.5"
-  }
+  },
+  "packageManager": "yarn@3.1.1"
 }
