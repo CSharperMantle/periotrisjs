@@ -20,7 +20,12 @@ module.exports = {
         orientation: "landscape",
       },
     },
-    "gatsby-plugin-offline",
+    {
+      resolve: "gatsby-plugin-offline",
+      options: {
+        precachePages: ["/", "/404", "/about", "/game", "/settings"],
+      },
+    },
     "gatsby-source-local-git-modern",
     "gatsby-source-package",
   ],
