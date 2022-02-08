@@ -189,7 +189,7 @@ class PeriotrisViewModel extends EventEmitter {
       case GameState.Lost:
       case GameState.Won:
       case GameState.NotStarted:
-        this.prepareStartGame()
+        this.prepareGame()
         break
       default:
         throw new RangeError("gameState")
@@ -197,19 +197,19 @@ class PeriotrisViewModel extends EventEmitter {
   }
 
   @action
-  private prepareStartGame(): void {
+  private prepareGame(): void {
     for (const element of this._blocksByPosition.values()) {
       _.remove(this.sprites, (value: IDisplayBlock) =>
         _.isEqual(value, element)
       )
     }
     this._blocksByPosition.clear()
-    this._model.prepareStartGame()
+    this._model.prepareGame()
     this.refreshGameStatus()
   }
 
   @action
-  private realStartGame(): void {
+  private startPreparedGame(): void {
     this.refreshGameStatus()
     this.paused = false
     this._gameIntervalTimerHandle = window.setInterval(() => {
@@ -299,7 +299,7 @@ class PeriotrisViewModel extends EventEmitter {
 
   @action
   private modelGameStartEventHandler(): void {
-    this.realStartGame()
+    this.startPreparedGame()
   }
 }
 
