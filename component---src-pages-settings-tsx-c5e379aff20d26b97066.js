@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkperiotrisjs=self.webpackChunkperiotrisjs||[]).push([[410],{1448:function(e,t,n){n.r(t);var r=n(7294),s=n(4382),c=n(9308),i=n(7230);const a=()=>r.createElement(s.Z,{direction:"column",justifyContent:"center",alignItems:"center",spacing:1,sx:{flex:"1 1 auto"}},r.createElement(c.Z,{variant:"h6"},"Under construction."));a.Layout=i.j7,t.default=a}}]);
-//# sourceMappingURL=component---src-pages-settings-tsx-c5e379aff20d26b97066.js.map
