@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from "dayjs"
 import { EventEmitter } from "events"
 import { isBrowser } from "is-in-browser"
 import _ from "lodash"
-import { action, makeObservable, observable } from "mobx"
+import { makeObservable, observable, action } from "mobx"
 import { createContext } from "react"
 
 import { Position, StopwatchUpdateIntervalMilliseconds } from "../common"
@@ -19,11 +19,51 @@ import type { IDisplayBlock } from "./IDisplayBlock"
 
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
+type TPeriotrisViewModelObservablePrivateFields =
+  keyof typeof PeriotrisViewModelPrivateAnnotationsMap
+
+const PeriotrisViewModelPublicAnnotationsMap = {
+  paused: observable,
+  sprites: observable,
+
+  onKeyDown: action,
+  onTap: action,
+  onSwipe: action,
+  onPressUp: action,
+  invokeGameControl: action,
+}
+
+const PeriotrisViewModelPrivateAnnotationsMap = {
+  _gameState: observable,
+  _elapsedTime: observable,
+  _fastestRecord: observable,
+  _isNewRecord: observable,
+
+  prepareGame: action,
+  startPreparedGame: action,
+  endGame: action,
+  refreshGameStatus: action,
+  intervalTickEventHandler: action,
+  intervalStopwatchUpdateEventHandler: action,
+  onGameStateChanged: action,
+  modelBlockChangedEventHandler: action,
+  modelGameEndEventHandler: action,
+  modelGameStartEventHandler: action,
+}
+
+const PeriotrisViewModelAnnotationsMap = {
+  ...PeriotrisViewModelPublicAnnotationsMap,
+  ...PeriotrisViewModelPrivateAnnotationsMap,
+}
+
 class PeriotrisViewModel extends EventEmitter {
   public constructor() {
     super()
 
-    makeObservable(this)
+    makeObservable<
+      PeriotrisViewModel,
+      TPeriotrisViewModelObservablePrivateFields
+    >(this, PeriotrisViewModelAnnotationsMap)
 
     this._model.addListener("blockchanged", (eventArgs) => {
       this.modelBlockChangedEventHandler(eventArgs)
@@ -34,14 +74,11 @@ class PeriotrisViewModel extends EventEmitter {
     this._model.addListener("gamestart", () => {
       this.modelGameStartEventHandler()
     })
-    this._showGridLine = this._model.settings.showGridLine
 
     this.endGame()
   }
 
-  @observable
   private _gameState = GameState.NotStarted
-
   public get gameState(): GameState {
     return this._gameState
   }
@@ -50,9 +87,7 @@ class PeriotrisViewModel extends EventEmitter {
     this.onGameStateChanged()
   }
 
-  @observable
   private _elapsedTime: Dayjs = dayjs(0)
-
   public get elapsedTime(): Dayjs {
     return this._elapsedTime
   }
@@ -60,9 +95,7 @@ class PeriotrisViewModel extends EventEmitter {
     this._elapsedTime = v
   }
 
-  @observable
   private _fastestRecord: Dayjs = dayjs(0)
-
   public get fastestRecord(): Dayjs {
     return this._fastestRecord
   }
@@ -70,9 +103,7 @@ class PeriotrisViewModel extends EventEmitter {
     this._fastestRecord = v
   }
 
-  @observable
   private _isNewRecord = false
-
   public get isNewRecord(): boolean {
     return this._isNewRecord
   }
@@ -80,20 +111,12 @@ class PeriotrisViewModel extends EventEmitter {
     this._isNewRecord = v
   }
 
-  @observable
-  private _showGridLine: boolean
-
   public get showGridLine(): boolean {
-    return this._showGridLine
-  }
-  private set showGridLine(v: boolean) {
-    this._showGridLine = v
+    return this._model.settings.showGridLine
   }
 
-  @observable
   public paused = false
 
-  @observable
   public readonly sprites: IDisplayBlock[] = []
 
   private readonly _model: PeriotrisModel = new PeriotrisModel()
@@ -106,7 +129,6 @@ class PeriotrisViewModel extends EventEmitter {
 
   private _lastPaused = true
 
-  @action
   public onKeyDown(ev: KeyboardEvent): boolean {
     const key: string = ev.key.toLowerCase()
     ev.preventDefault()
@@ -141,7 +163,6 @@ class PeriotrisViewModel extends EventEmitter {
     return true
   }
 
-  @action
   public onTap(): boolean {
     if (this.paused) {
       return false
@@ -150,7 +171,6 @@ class PeriotrisViewModel extends EventEmitter {
     return true
   }
 
-  @action
   public onSwipe(ev: HammerInput): boolean {
     if (this.paused) {
       return false
@@ -171,7 +191,6 @@ class PeriotrisViewModel extends EventEmitter {
     return true
   }
 
-  @action
   public onPressUp(): boolean {
     if (this.paused) {
       return false
@@ -180,7 +199,6 @@ class PeriotrisViewModel extends EventEmitter {
     return true
   }
 
-  @action
   public invokeGameControl(): void {
     switch (this.gameState) {
       case GameState.InProgress:
@@ -196,7 +214,6 @@ class PeriotrisViewModel extends EventEmitter {
     }
   }
 
-  @action
   private prepareGame(): void {
     for (const element of this._blocksByPosition.values()) {
       _.remove(this.sprites, (value: IDisplayBlock) =>
@@ -208,7 +225,6 @@ class PeriotrisViewModel extends EventEmitter {
     this.refreshGameStatus()
   }
 
-  @action
   private startPreparedGame(): void {
     this.refreshGameStatus()
     this.paused = false
@@ -220,7 +236,6 @@ class PeriotrisViewModel extends EventEmitter {
     }, StopwatchUpdateIntervalMilliseconds)
   }
 
-  @action
   private endGame(): void {
     if (this._gameIntervalTimerHandle !== -1) {
       clearInterval(this._gameIntervalTimerHandle)
@@ -231,7 +246,6 @@ class PeriotrisViewModel extends EventEmitter {
     this.refreshGameStatus()
   }
 
-  @action
   private refreshGameStatus(): void {
     this.gameState = this._model.gameState
     this.isNewRecord = this._model.isNewRecord
@@ -240,7 +254,6 @@ class PeriotrisViewModel extends EventEmitter {
       : this._model.history.fastestRecord
   }
 
-  @action
   private intervalTickEventHandler(): void {
     if (this._lastPaused !== this.paused) {
       this.paused = !!this.paused // Force update event
@@ -252,17 +265,14 @@ class PeriotrisViewModel extends EventEmitter {
     }
   }
 
-  @action
   private intervalStopwatchUpdateEventHandler(): void {
     this.elapsedTime = dayjs(this._model.elapsedMilliseconds)
   }
 
-  @action
   private onGameStateChanged(): void {
     this.emit("gamestatechanged")
   }
 
-  @action
   private modelBlockChangedEventHandler(
     eventArgs: BlockChangedEventArgs
   ): void {
@@ -292,12 +302,10 @@ class PeriotrisViewModel extends EventEmitter {
     }
   }
 
-  @action
   private modelGameEndEventHandler(): void {
     this.endGame()
   }
 
-  @action
   private modelGameStartEventHandler(): void {
     this.startPreparedGame()
   }

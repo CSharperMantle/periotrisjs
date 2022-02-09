@@ -138,7 +138,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helper-create-class-features-plugin@npm:^7.16.10, @babel/helper-create-class-features-plugin@npm:^7.16.7, @babel/helper-create-class-features-plugin@npm:^7.17.0":
+"@babel/helper-create-class-features-plugin@npm:^7.16.10, @babel/helper-create-class-features-plugin@npm:^7.16.7":
   version: 7.17.1
   resolution: "@babel/helper-create-class-features-plugin@npm:7.17.1::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2F%40babel%2Fhelper-create-class-features-plugin%2F-%2Fhelper-create-class-features-plugin-7.17.1.tgz"
   dependencies:
@@ -427,7 +427,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-proposal-class-properties@npm:^7.14.0, @babel/plugin-proposal-class-properties@npm:^7.14.5, @babel/plugin-proposal-class-properties@npm:^7.16.7":
+"@babel/plugin-proposal-class-properties@npm:^7.14.0, @babel/plugin-proposal-class-properties@npm:^7.16.7":
   version: 7.16.7
   resolution: "@babel/plugin-proposal-class-properties@npm:7.16.7::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2F%40babel%2Fplugin-proposal-class-properties%2F-%2Fplugin-proposal-class-properties-7.16.7.tgz"
   dependencies:
@@ -449,21 +449,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.12.0
   checksum: 3b95b5137e089f0be17de667299ea2e28867b6310ab94219a5a89ac7675824e69f316d31930586142b9f432122ef3b98eb05fffdffae01b5587019ce9aab4ef3
-  languageName: node
-  linkType: hard
-
-"@babel/plugin-proposal-decorators@npm:^7.14.5":
-  version: 7.17.0
-  resolution: "@babel/plugin-proposal-decorators@npm:7.17.0::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2F%40babel%2Fplugin-proposal-decorators%2F-%2Fplugin-proposal-decorators-7.17.0.tgz"
-  dependencies:
-    "@babel/helper-create-class-features-plugin": ^7.17.0
-    "@babel/helper-plugin-utils": ^7.16.7
-    "@babel/helper-replace-supers": ^7.16.7
-    "@babel/plugin-syntax-decorators": ^7.17.0
-    charcodes: ^0.2.0
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-  checksum: 363d0fc3e9d75753797c6026cc18132c97cef104c8bfb0f0ecf13411bcc484b49e36254afaa9ceb074f8ed16346270285bfe83c391267076d19a90b4befb8083
   languageName: node
   linkType: hard
 
@@ -658,17 +643,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0-0
   checksum: 3e80814b5b6d4fe17826093918680a351c2d34398a914ce6e55d8083d72a9bdde4fbaf6a2dcea0e23a03de26dc2917ae3efd603d27099e2b98380345703bf948
-  languageName: node
-  linkType: hard
-
-"@babel/plugin-syntax-decorators@npm:^7.17.0":
-  version: 7.17.0
-  resolution: "@babel/plugin-syntax-decorators@npm:7.17.0::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2F%40babel%2Fplugin-syntax-decorators%2F-%2Fplugin-syntax-decorators-7.17.0.tgz"
-  dependencies:
-    "@babel/helper-plugin-utils": ^7.16.7
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-  checksum: 745a3553c8ad4d2ea4805eaf50634cf0cb3036f1259fbfa1cd3cb04d685cec68b6f2f0b3ca1856091730e5aca630975283f9f910d87694141e81754fbc074a7a
   languageName: node
   linkType: hard
 
@@ -5078,13 +5052,6 @@ __metadata:
   version: 1.0.2
   resolution: "char-regex@npm:1.0.2"
   checksum: b563e4b6039b15213114626621e7a3d12f31008bdce20f9c741d69987f62aeaace7ec30f6018890ad77b2e9b4d95324c9f5acfca58a9441e3b1dcdd1e2525d17
-  languageName: node
-  linkType: hard
-
-"charcodes@npm:^0.2.0":
-  version: 0.2.0
-  resolution: "charcodes@npm:0.2.0::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2Fcharcodes%2F-%2Fcharcodes-0.2.0.tgz"
-  checksum: 972443ed359d54382e721b9db0a298eb95c4c454386f7e98886586f433e1e6686225416114e6f6bb2e6ef3facc9ba3b4ab9946a56a180fe64ef67816a05d4fe4
   languageName: node
   linkType: hard
 
@@ -12651,8 +12618,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "periotrisjs@workspace:."
   dependencies:
-    "@babel/plugin-proposal-class-properties": ^7.14.5
-    "@babel/plugin-proposal-decorators": ^7.14.5
     "@babel/plugin-transform-typescript": ^7.14.6
     "@babel/preset-react": ^7.14.5
     "@emotion/react": ^11.4.1
