@@ -48,7 +48,8 @@ const App = (): React.ReactElement => {
       >
         <Box
           sx={{
-            /* display-related props */ display: "grid",
+            /* display-related props */
+            display: "grid",
             gridTemplateRows: "1fr 80% 1fr",
 
             /* layouts: width, height, margin, padding, etc.*/
@@ -66,7 +67,6 @@ const App = (): React.ReactElement => {
         >
           <PortraitWarningBackdrop />
           <Box
-            className="game-page__row-2"
             ref={rowTwoRef}
             sx={{
               gridRow: 2,

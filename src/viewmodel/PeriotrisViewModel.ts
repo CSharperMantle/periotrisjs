@@ -65,14 +65,17 @@ class PeriotrisViewModel extends EventEmitter {
       TPeriotrisViewModelObservablePrivateFields
     >(this, PeriotrisViewModelAnnotationsMap)
 
-    this._model.addListener("blockchanged", (eventArgs) => {
+    this._model.on("blockchanged", (eventArgs) => {
       this.modelBlockChangedEventHandler(eventArgs)
     })
-    this._model.addListener("gameend", () => {
+    this._model.on("gameended", () => {
       this.modelGameEndEventHandler()
     })
-    this._model.addListener("gamestart", () => {
+    this._model.on("gamestarted", () => {
       this.modelGameStartEventHandler()
+    })
+    this._model.on("gamestatechanged", () => {
+      this.modelGameStateChangedEventHandler()
     })
 
     this.endGame()
@@ -82,9 +85,8 @@ class PeriotrisViewModel extends EventEmitter {
   public get gameState(): GameState {
     return this._gameState
   }
-  public set gameState(v: GameState) {
+  private set gameState(v: GameState) {
     this._gameState = v
-    this.onGameStateChanged()
   }
 
   private _elapsedTime: Dayjs = dayjs(0)
@@ -308,6 +310,10 @@ class PeriotrisViewModel extends EventEmitter {
 
   private modelGameStartEventHandler(): void {
     this.startPreparedGame()
+  }
+
+  private modelGameStateChangedEventHandler(): void {
+    this.onGameStateChanged()
   }
 }
 

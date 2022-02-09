@@ -46,7 +46,7 @@ class PeriotrisModel extends EventEmitter {
     this._isNewRecord = v
   }
 
-  private _startDate: number = Date.now()
+  private _startDate = Date.now()
 
   private _endDate = Date.now()
 
@@ -71,7 +71,7 @@ class PeriotrisModel extends EventEmitter {
       }
     }
     this._pendingTetriminos.length = 0
-    this.onGameEnd()
+    this.onGameEnded()
     this._endDate = Date.now()
 
     if (victory) {
@@ -174,7 +174,7 @@ class PeriotrisModel extends EventEmitter {
     this.spawnNextTetrimino()
     this.gameState = GameState.InProgress
     this._startDate = Date.now()
-    this.onGameStart()
+    this.onGameStarted()
   }
 
   public update(): void {
@@ -230,16 +230,20 @@ class PeriotrisModel extends EventEmitter {
     }
   }
 
-  private onGameStart(): void {
-    this.emit("gamestart")
+  private onGameStarted(): void {
+    this.emit("gamestarted")
   }
 
-  private onGameEnd(): void {
-    this.emit("gameend")
+  private onGameEnded(): void {
+    this.emit("gameended")
   }
 
   private onBlockChanged(block: Block, disappeared: boolean): void {
     this.emit("blockchanged", new BlockChangedEventArgs(block, disappeared))
+  }
+
+  private onGameStateChanged(): void {
+    this.emit("gamestatechanged")
   }
 
   private checkBlockCollision(block: Block): boolean {
