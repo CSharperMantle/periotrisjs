@@ -19,6 +19,9 @@ jobs:
       - name: Set up dependencies
         run: |
           yarn install --immutable
+      - name: Static type check
+        run: |
+          yarn run check
       - name: Build
         run: |
           yarn run ci-build-prefixed
