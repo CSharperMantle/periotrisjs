@@ -1,4 +1,5 @@
 import { Position } from "../../../common"
+import { Block } from "../../Block"
 import { Direction } from "../../Direction"
 import { Tetrimino } from "../../Tetrimino"
 import { TetriminoKind } from "../../TetriminoKind"
@@ -12,12 +13,26 @@ class TetriminoNode extends Tetrimino {
   public readonly depending: Set<TetriminoNode> = new Set<TetriminoNode>()
 
   public constructor(
-    kind: TetriminoKind,
-    position: Position,
-    firstBlockPos: Position,
-    facingDirection: Direction
+    public kind: TetriminoKind,
+    public position: Position,
+    public firstBlockPos: Position,
+    public facingDirection: Direction,
+    originalTetrimino: Tetrimino
   ) {
     super(kind, position, firstBlockPos, facingDirection)
+    this.memoizedBlocks = Array.from(
+      originalTetrimino.blocks,
+      (block: Block) => {
+        return new MemoizedBlock(
+          block.filledBy,
+          block.position,
+          this,
+          block.atomicNumber,
+          block.id
+        )
+      }
+    )
+    this.blocks = this.memoizedBlocks
   }
 }
 

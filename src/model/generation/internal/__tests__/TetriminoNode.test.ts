@@ -15,7 +15,8 @@ describe("TetriminoNode", () => {
       t.kind,
       t.position,
       t.firstBlockPosition,
-      t.facingDirection
+      t.facingDirection,
+      t
     )
 
     expect(n.depending).toBeInstanceOf(Set)
