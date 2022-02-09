@@ -49,7 +49,7 @@ const BlocksGrid = observer((): React.ReactElement => {
 
         position: "relative",
         height: "100%",
-        aspectRatio: "auto 18 / 11",
+        aspectRatio: `auto ${PlayAreaWidth} / ${PlayAreaHeight}`,
 
         backgroundColor: "black",
       }}
@@ -58,8 +58,8 @@ const BlocksGrid = observer((): React.ReactElement => {
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: "repeat(18, 1fr)",
-          gridTemplateRows: "repeat(11, 1fr)",
+          gridTemplateColumns: `repeat(${PlayAreaWidth}, 1fr)`,
+          gridTemplateRows: `repeat(${PlayAreaHeight}, 1fr)`,
 
           position: "relative",
           width: "100%",

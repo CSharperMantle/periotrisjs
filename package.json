@@ -4,14 +4,15 @@
   "description": "Get familiar with the Periodic Table of Elements in a fun way, directly in your browsers.",
   "scripts": {
     "ci-build-prefixed": "yarn run -B gatsby build --prefix-paths",
-    "clean": "yarn run -B rimraf coverage public && yarn run -B gatsby clean",
+    "clean": "yarn run -B rimraf build coverage public && yarn run -B gatsby clean",
     "build": "yarn run -B gatsby build",
     "rebuild": "yarn run clean && yarn run build",
     "develop": "yarn run -B gatsby develop",
     "start": "yarn run develop",
     "serve": "yarn run -B gatsby serve",
     "test": "yarn run -B jest",
-    "coverage": "yarn run -B jest --coverage"
+    "coverage": "yarn run -B jest --coverage",
+    "check": "yarn run tsc --noEmit"
   },
   "repository": {
     "type": "git",
