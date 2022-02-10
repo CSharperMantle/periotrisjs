@@ -3,10 +3,10 @@ import React, { useContext, useEffect } from "react"
 import _ from "lodash"
 
 import { GameState } from "../model/GameState"
-import { PeriotrisViewModelContext } from "../viewmodel/PeriotrisViewModel"
+import { GameViewModelContext } from "../viewmodel"
 
 const SnackbarPopper = (): React.ReactElement => {
-  const viewModel = useContext(PeriotrisViewModelContext)
+  const viewModel = useContext(GameViewModelContext)
   const notistack = useSnackbar()
 
   const onGameStateChangedHandler = _.debounce(

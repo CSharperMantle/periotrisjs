@@ -11,12 +11,12 @@ import {
   PortraitWarningBackdrop,
   SnackbarPopper,
 } from "../components"
-import { PeriotrisViewModel, PeriotrisViewModelContext } from "../viewmodel"
+import { GameViewModel, GameViewModelContext } from "../viewmodel"
 
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
 const App = (): React.ReactElement => {
-  const viewModel = new PeriotrisViewModel()
+  const viewModel = new GameViewModel()
 
   const rowTwoRef = useRef<HTMLElement>()
   let hammer: HammerManager
@@ -39,7 +39,7 @@ const App = (): React.ReactElement => {
   }, [])
 
   return (
-    <PeriotrisViewModelContext.Provider value={viewModel}>
+    <GameViewModelContext.Provider value={viewModel}>
       <SnackbarProvider
         anchorOrigin={{
           vertical: "bottom",
@@ -81,7 +81,7 @@ const App = (): React.ReactElement => {
           />
         </Box>
       </SnackbarProvider>
-    </PeriotrisViewModelContext.Provider>
+    </GameViewModelContext.Provider>
   )
 }
 

@@ -11,7 +11,7 @@ import {
 import { Fab, PropTypes, useTheme } from "@mui/material"
 
 import { GameState } from "../model"
-import { PeriotrisViewModelContext } from "../viewmodel"
+import { GameViewModelContext } from "../viewmodel"
 
 function getIconByGameState(
   gameState: GameState,
@@ -71,7 +71,7 @@ interface IGameControlButtonProps {
 
 const GameControlButton = observer(({ onClick }: IGameControlButtonProps) => {
   const theme = useTheme()
-  const viewModel = useContext(PeriotrisViewModelContext)
+  const viewModel = useContext(GameViewModelContext)
 
   const icon = getIconByGameState(viewModel.gameState, viewModel.paused)
   const isDisabled = viewModel.gameState === GameState.Preparing

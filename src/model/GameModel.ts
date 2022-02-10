@@ -17,7 +17,7 @@ import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
 
 import type { IGeneratorMessage } from "./generation"
 
-class PeriotrisModel extends EventEmitter {
+class GameModel extends EventEmitter {
   private readonly _patternGeneratorWorker: PatternGeneratorWorker = isBrowser
     ? new PatternGeneratorWorker()
     : (undefined as unknown as PatternGeneratorWorker)
@@ -290,4 +290,4 @@ class PeriotrisModel extends EventEmitter {
   }
 }
 
-export { PeriotrisModel }
+export { GameModel }

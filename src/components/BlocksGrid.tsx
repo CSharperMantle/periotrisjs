@@ -4,7 +4,7 @@ import React, { useContext } from "react"
 import { Box } from "@mui/material"
 
 import { PlayAreaHeight, PlayAreaWidth } from "../common"
-import { PeriotrisViewModelContext } from "../viewmodel"
+import { GameViewModelContext } from "../viewmodel"
 import { BlockControl } from "./BlockControl"
 import { TimerDisplay } from "./TimerDisplay"
 
@@ -12,7 +12,7 @@ import type { IDisplayBlock } from "../viewmodel"
 import _ from "lodash"
 
 const BlocksGrid = observer((): React.ReactElement => {
-  const viewModel = useContext(PeriotrisViewModelContext)
+  const viewModel = useContext(GameViewModelContext)
 
   const paddedBlocks: IDisplayBlock[][] = []
 

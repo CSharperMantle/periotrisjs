@@ -11,7 +11,7 @@ import {
   BlockChangedEventArgs,
   GameState,
   MoveDirection,
-  PeriotrisModel,
+  GameModel,
   RotationDirection,
 } from "../model"
 
@@ -19,10 +19,10 @@ import type { IDisplayBlock } from "./IDisplayBlock"
 
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
-type TPeriotrisViewModelObservablePrivateFields =
-  keyof typeof PeriotrisViewModelPrivateAnnotationsMap
+type TGameViewModelObservablePrivateFields =
+  keyof typeof GameViewModelPrivateAnnotationsMap
 
-const PeriotrisViewModelPublicAnnotationsMap = {
+const GameViewModelPublicAnnotationsMap = {
   paused: observable,
   sprites: observable,
 
@@ -33,7 +33,7 @@ const PeriotrisViewModelPublicAnnotationsMap = {
   invokeGameControl: action,
 }
 
-const PeriotrisViewModelPrivateAnnotationsMap = {
+const GameViewModelPrivateAnnotationsMap = {
   _gameState: observable,
   _elapsedTime: observable,
   _fastestRecord: observable,
@@ -51,19 +51,19 @@ const PeriotrisViewModelPrivateAnnotationsMap = {
   modelGameStartEventHandler: action,
 }
 
-const PeriotrisViewModelAnnotationsMap = {
-  ...PeriotrisViewModelPublicAnnotationsMap,
-  ...PeriotrisViewModelPrivateAnnotationsMap,
+const GameViewModelAnnotationsMap = {
+  ...GameViewModelPublicAnnotationsMap,
+  ...GameViewModelPrivateAnnotationsMap,
 }
 
-class PeriotrisViewModel extends EventEmitter {
+class GameViewModel extends EventEmitter {
   public constructor() {
     super()
 
-    makeObservable<
-      PeriotrisViewModel,
-      TPeriotrisViewModelObservablePrivateFields
-    >(this, PeriotrisViewModelAnnotationsMap)
+    makeObservable<GameViewModel, TGameViewModelObservablePrivateFields>(
+      this,
+      GameViewModelAnnotationsMap
+    )
 
     this._model.on("blockchanged", (eventArgs) => {
       this.modelBlockChangedEventHandler(eventArgs)
@@ -121,7 +121,7 @@ class PeriotrisViewModel extends EventEmitter {
 
   public readonly sprites: IDisplayBlock[] = []
 
-  private readonly _model: PeriotrisModel = new PeriotrisModel()
+  private readonly _model: GameModel = new GameModel()
 
   private readonly _blocksByPosition: Map<Position, IDisplayBlock> = new Map()
 
@@ -317,8 +317,8 @@ class PeriotrisViewModel extends EventEmitter {
   }
 }
 
-const PeriotrisViewModelContext = createContext<PeriotrisViewModel>(
-  undefined as unknown as PeriotrisViewModel
+const GameViewModelContext = createContext<GameViewModel>(
+  undefined as unknown as GameViewModel
 )
 
-export { PeriotrisViewModel, PeriotrisViewModelContext }
+export { GameViewModel, GameViewModelContext }

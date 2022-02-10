@@ -1,10 +1,7 @@
-import {
-  PeriotrisViewModel,
-  PeriotrisViewModelContext,
-} from "./PeriotrisViewModel"
+import { GameViewModel, GameViewModelContext } from "./GameViewModel"
 
 import type { IDisplayBlock } from "./IDisplayBlock"
 
-export { PeriotrisViewModel, PeriotrisViewModelContext }
+export { GameViewModel, GameViewModelContext }
 
 export type { IDisplayBlock }
