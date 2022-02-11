@@ -1,4 +1,5 @@
 import { isBrowser } from "is-in-browser"
+import _ from "lodash"
 import React, { useEffect, useRef } from "react"
 
 import { Box } from "@mui/material"
@@ -15,19 +16,32 @@ const App = (): React.ReactElement => {
   let hammer: HammerManager
 
   useEffect(() => {
-    window.addEventListener("keydown", viewModel.onKeyDown.bind(viewModel))
+    const throttledKeyDownHandler = _.throttle(
+      viewModel.onKeyDown.bind(viewModel),
+      50
+    )
+    const throttledTapHandler = _.throttle(viewModel.onTap.bind(viewModel), 50)
+    const throttledSwipeHandler = _.throttle(
+      viewModel.onSwipe.bind(viewModel),
+      50
+    )
+    const throttledPressUpHandler = _.throttle(
+      viewModel.onPressUp.bind(viewModel),
+      50
+    )
+
+    window.addEventListener("keydown", throttledKeyDownHandler)
 
     hammer = new Hammer(rowTwoRef.current as HTMLElement)
-    hammer.on("tap", viewModel.onTap.bind(viewModel))
-    hammer.on("swipe", viewModel.onSwipe.bind(viewModel))
-    hammer.on("pressup", viewModel.onPressUp.bind(viewModel))
+    hammer.on("tap", throttledTapHandler)
+    hammer.on("swipe", throttledSwipeHandler)
+    hammer.on("pressup", throttledPressUpHandler)
 
     return () => {
-      window.removeEventListener("keydown", viewModel.onKeyDown.bind(viewModel))
-
-      hammer.off("tap", viewModel.onTap.bind(viewModel))
-      hammer.off("swipe", viewModel.onSwipe.bind(viewModel))
-      hammer.off("pressup", viewModel.onPressUp.bind(viewModel))
+      window.removeEventListener("keydown", throttledKeyDownHandler)
+      hammer.off("tap", throttledTapHandler)
+      hammer.off("swipe", throttledSwipeHandler)
+      hammer.off("pressup", throttledPressUpHandler)
     }
   }, [])
 
@@ -37,7 +51,7 @@ const App = (): React.ReactElement => {
         sx={{
           /* display-related props */
           display: "grid",
-          gridTemplateRows: "1fr 80% 1fr",
+          gridTemplateRows: "1fr 90% 1fr",
 
           /* layouts: width, height, margin, padding, etc.*/
           position: "relative",
@@ -52,8 +66,8 @@ const App = (): React.ReactElement => {
         }}
       >
         <GameControlBackdrop
-          startGameHandler={viewModel.invokeGameControl.bind(viewModel)}
-          pauseUnpauseGameHandler={viewModel.invokeGameControl.bind(viewModel)}
+          startGameHandler={viewModel.requestStartGame.bind(viewModel)}
+          switchPauseGameHandler={viewModel.switchPauseGame.bind(viewModel)}
         />
         <Box
           ref={rowTwoRef}

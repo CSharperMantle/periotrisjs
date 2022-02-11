@@ -31,7 +31,7 @@ const GameViewModelPublicAnnotationsMap = {
   onSwipe: action,
   onPressUp: action,
   requestStartGame: action,
-  invokeGameControl: action,
+  switchPauseGame: action,
 }
 
 const GameViewModelPrivateAnnotationsMap = {
@@ -200,22 +200,17 @@ class GameViewModel extends EventEmitter {
     return true
   }
 
-  public invokeGameControl(): void {
-    switch (this.gameState) {
-      case GameState.InProgress:
-        this.paused = !this.paused
-        break
-      case GameState.Lost:
-      case GameState.Won:
-      case GameState.NotStarted:
-        this.requestStartGame()
-        break
-      default:
-        throw new RangeError("gameState")
+  public switchPauseGame(): void {
+    if (this.gameState !== GameState.InProgress) {
+      return // Not allowed to pause/unpause outside of game
     }
+    this.paused = !this.paused
   }
 
   public requestStartGame(): void {
+    if ([GameState.InProgress, GameState.Preparing].includes(this.gameState)) {
+      return // Not allowed to start game twice
+    }
     for (const element of this._blocksByPosition.values()) {
       _.remove(this.sprites, (value: IDisplayBlock) =>
         _.isEqual(value, element)

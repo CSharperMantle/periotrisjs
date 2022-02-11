@@ -122,7 +122,7 @@ const GameWonContent = (props: IGameWonContentProps): React.ReactElement => {
 
 interface IGameStatusBackdropProps {
   startGameHandler: () => void
-  pauseUnpauseGameHandler: () => void
+  switchPauseGameHandler: () => void
 }
 
 const GameControlBackdrop = observer(

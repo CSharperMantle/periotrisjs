@@ -2884,6 +2884,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/canvas-confetti@npm:^1.4.2":
+  version: 1.4.2
+  resolution: "@types/canvas-confetti@npm:1.4.2::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Fcanvas-confetti%2F-%2Fcanvas-confetti-1.4.2.tgz"
+  checksum: 68327c85bec9f507a8002bf7bc57d8e1850816e91460c8d0c340ae7a06a782839c016b82e5b4adf5ff52fe96af94853c9a25e17bd317524d377ccdc0e00e8d9c
+  languageName: node
+  linkType: hard
+
 "@types/common-tags@npm:^1.8.1":
   version: 1.8.1
   resolution: "@types/common-tags@npm:1.8.1::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Fcommon-tags%2F-%2Fcommon-tags-1.8.1.tgz"
@@ -4998,6 +5005,13 @@ __metadata:
   version: 1.0.30001303
   resolution: "caniuse-lite@npm:1.0.30001303"
   checksum: fe77fb680c94c875be2fb78c9507a69d3ed6be8894832d3ee8a7d24e4c5c7599bf217f030fcdfd761ea211065042679bf697a57eefe114058a3208561e2fd042
+  languageName: node
+  linkType: hard
+
+"canvas-confetti@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "canvas-confetti@npm:1.5.1::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2Fcanvas-confetti%2F-%2Fcanvas-confetti-1.5.1.tgz"
+  checksum: e5932e34261615d629aac24aebad0472dd01c6cc3a3d6460ef37ab81eb533a2fdcec1cd842fcad6275f907fe378fc71cc90c91e1f997df63b0865ec2d5783ad8
   languageName: node
   linkType: hard
 
@@ -12592,6 +12606,7 @@ __metadata:
     "@mui/material": ^5.3.1
     "@mui/system": ^5.3.0
     "@testing-library/react": ^12.1.2
+    "@types/canvas-confetti": ^1.4.2
     "@types/events": ^3.0.0
     "@types/hammerjs": ^2.0.40
     "@types/jest": ^27.4.0
@@ -12603,6 +12618,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.10.1
     "@typescript-eslint/parser": ^5.10.1
     babel-jest: ^27.4.6
+    canvas-confetti: ^1.5.1
     dayjs: ^1.10.7
     eslint: ^8.8.0
     eslint-plugin-react: ^7.28.0
