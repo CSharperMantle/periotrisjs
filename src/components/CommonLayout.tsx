@@ -47,8 +47,7 @@ const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
       </Helmet>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
+          <CssBaseline enableColorScheme />
           <Box
             sx={{
               display: "flex",

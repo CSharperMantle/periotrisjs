@@ -90,8 +90,8 @@ const GameLostContent = (props: IGameLostContentProps): React.ReactElement => {
   return (
     <Content
       image={{ src: thinkingFace, alt: "Thinking face" }}
-      title="Oops... This does not seem to be right."
-      description="Don't worry. You can give it another shot."
+      title="Oops..."
+      description="This does not seem to be right. Ready to give it another shot?"
       button={{
         caption: "Try again",
         color: "secondary",
@@ -109,8 +109,8 @@ const GameWonContent = (props: IGameWonContentProps): React.ReactElement => {
   return (
     <Content
       image={{ src: partyingFace, alt: "Partying face" }}
-      title="Congrats! You won!"
-      description="Feel free to brag about it."
+      title="Congrats."
+      description="You won the game! Don't hesitate to brag about it."
       button={{
         caption: "Restart",
         color: "secondary",
@@ -160,6 +160,8 @@ const GameControlBackdrop = observer(
           top: 0,
           right: 0,
           bottom: 0,
+          paddingLeft: 2,
+          paddingRight: 2,
           zIndex: "modal",
         }}
         open={viewModel.gameState !== GameState.InProgress}

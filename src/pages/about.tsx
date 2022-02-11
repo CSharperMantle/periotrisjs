@@ -33,8 +33,8 @@ const App = (): React.ReactElement => {
       maxWidth="lg"
       sx={{
         flex: "1 1 auto",
-        paddingTop: "3rem",
-        paddingBottom: "16px",
+        paddingTop: 2,
+        paddingBottom: 2,
       }}
     >
       <Stack spacing={1}>
