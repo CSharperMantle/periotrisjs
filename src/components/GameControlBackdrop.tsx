@@ -64,7 +64,7 @@ const GameNotStartedContent = (
       title="Welcome! Your task: complete the Periodic Table."
       description="A/D/S/Swipe: move by one. W/Tap: rotate. Space/Long press: drop."
       button={{
-        caption: "I&apos;m ready",
+        caption: "I'm ready",
         color: "primary",
         onClick: props.startGameHandler,
       }}
@@ -76,7 +76,8 @@ const GamePreparingContent = (): React.ReactElement => {
   return (
     <Content
       image={{ src: hourglassNotDone, alt: "Hourglass with sand running" }}
-      title="Good luck! Please wait while we prepare your game."
+      title="Good luck!"
+      description="The game will start in a few seconds."
     />
   )
 }
