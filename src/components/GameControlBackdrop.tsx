@@ -10,6 +10,47 @@ import winkingFace from "../../assets/icon/noto-color-emoji/winking-face.svg"
 import { GameState } from "../model"
 import { GameViewModelContext } from "../viewmodel"
 
+interface IContentProps {
+  image: { src: string; alt: string }
+  title: string
+  description?: string
+  button?: {
+    caption: string
+    color: "primary" | "secondary"
+    onClick?: () => void
+  }
+}
+
+const Content = ({
+  image,
+  title,
+  description,
+  button,
+}: IContentProps): React.ReactElement => {
+  return (
+    <>
+      <img src={image.src} alt={image.alt} width="128" height="128" />
+      <Typography align="center" variant="h6">
+        {title}
+      </Typography>
+      {description && (
+        <Typography align="center" variant="body1">
+          {description}
+        </Typography>
+      )}
+      {button && (
+        <Button
+          variant="contained"
+          color={button.color}
+          onClick={button.onClick}
+        >
+          {button.caption}
+        </Button>
+      )}
+    </>
+  )
+}
+
 interface IGameNotStartedContentProps {
   startGameHandler: () => void
 }
@@ -18,38 +59,25 @@ const GameNotStartedContent = (
   props: IGameNotStartedContentProps
 ): React.ReactElement => {
   return (
-    <>
-      <img src={winkingFace} alt="Winking face" width="128" height="128" />
-      <Typography align="center" variant="h6">
-        Welcome! Your task: complete the Periodic Table.
-      </Typography>
-      <Typography align="center" variant="body1">
-        A/D/S/Swipe: move by one. W/Tap: rotate. Space/Long press: drop.
-      </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={props.startGameHandler}
-      >
-        I&apos;m ready
-      </Button>
-    </>
+    <Content
+      image={{ src: winkingFace, alt: "Winking face" }}
+      title="Welcome! Your task: complete the Periodic Table."
+      description="A/D/S/Swipe: move by one. W/Tap: rotate. Space/Long press: drop."
+      button={{
+        caption: "I&apos;m ready",
+        color: "primary",
+        onClick: props.startGameHandler,
+      }}
+    />
   )
 }
 
 const GamePreparingContent = (): React.ReactElement => {
   return (
-    <>
-      <img
-        src={hourglassNotDone}
-        alt="Hourglass with sand running"
-        width="128"
-        height="128"
-      />
-      <Typography align="center" variant="h6">
-        Good luck! Please wait while we prepare your game.
-      </Typography>
-    </>
+    <Content
+      image={{ src: hourglassNotDone, alt: "Hourglass with sand running" }}
+      title="Good luck! Please wait while we prepare your game."
+    />
   )
 }
 
@@ -59,19 +87,16 @@ interface IGameLostContentProps {
 
 const GameLostContent = (props: IGameLostContentProps): React.ReactElement => {
   return (
-    <>
-      <img src={thinkingFace} alt="Thinking face" width="128" height="128" />
-      <Typography align="center" variant="h6">
-        Oops... This does not seem to be right.
-      </Typography>
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={props.startGameHandler}
-      >
-        Try again
-      </Button>
-    </>
+    <Content
+      image={{ src: thinkingFace, alt: "Thinking face" }}
+      title="Oops... This does not seem to be right."
+      description="Don't worry. You can give it another shot."
+      button={{
+        caption: "Try again",
+        color: "secondary",
+        onClick: props.startGameHandler,
+      }}
+    />
   )
 }
 
@@ -81,19 +106,16 @@ interface IGameWonContentProps {
 
 const GameWonContent = (props: IGameWonContentProps): React.ReactElement => {
   return (
-    <>
-      <img src={partyingFace} alt="Partying face" width="128" height="128" />
-      <Typography align="center" variant="h6">
-        Congrats! You won!
-      </Typography>
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={props.startGameHandler}
-      >
-        Restart
-      </Button>
-    </>
+    <Content
+      image={{ src: partyingFace, alt: "Partying face" }}
+      title="Congrats! You won!"
+      description="Feel free to brag about it."
+      button={{
+        caption: "Restart",
+        color: "secondary",
+        onClick: props.startGameHandler,
+      }}
+    />
   )
 }
 

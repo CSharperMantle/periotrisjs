@@ -1,4 +1,4 @@
 declare module "*.svg" {
-  const hashedName: string | undefined
+  const hashedName: string
   export default hashedName
 }
