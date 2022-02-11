@@ -3,10 +3,10 @@ import React, { useContext } from "react"
 
 import { Box, Typography } from "@mui/material"
 
-import { PeriotrisViewModelContext } from "../viewmodel"
+import { GameViewModelContext } from "../viewmodel"
 
 const TimerDisplay = observer((): React.ReactElement => {
-  const viewModel = useContext(PeriotrisViewModelContext)
+  const viewModel = useContext(GameViewModelContext)
 
   const elapsedTime = viewModel.elapsedTime
   const fastestRecord = viewModel.fastestRecord

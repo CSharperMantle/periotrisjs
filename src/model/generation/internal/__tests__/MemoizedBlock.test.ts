@@ -16,7 +16,8 @@ describe("MemoizedBlock", () => {
       t.kind,
       t.position,
       t.firstBlockPosition,
-      t.facingDirection
+      t.facingDirection,
+      t
     )
     const b = new MemoizedBlock(
       n.kind,

@@ -121,7 +121,6 @@ tmp/
 temp/
 
 # yarn@berry
-
 .yarn/*
 .pnp.*
 !.yarn/patches
@@ -129,3 +128,6 @@ temp/
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# TypeScript build artifacts
+build/

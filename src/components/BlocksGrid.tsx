@@ -4,7 +4,7 @@ import React, { useContext } from "react"
 import { Box } from "@mui/material"
 
 import { PlayAreaHeight, PlayAreaWidth } from "../common"
-import { PeriotrisViewModelContext } from "../viewmodel"
+import { GameViewModelContext } from "../viewmodel"
 import { BlockControl } from "./BlockControl"
 import { TimerDisplay } from "./TimerDisplay"
 
@@ -12,7 +12,7 @@ import type { IDisplayBlock } from "../viewmodel"
 import _ from "lodash"
 
 const BlocksGrid = observer((): React.ReactElement => {
-  const viewModel = useContext(PeriotrisViewModelContext)
+  const viewModel = useContext(GameViewModelContext)
 
   const paddedBlocks: IDisplayBlock[][] = []
 
@@ -49,7 +49,7 @@ const BlocksGrid = observer((): React.ReactElement => {
 
         position: "relative",
         height: "100%",
-        aspectRatio: "auto 18 / 11",
+        aspectRatio: `auto ${PlayAreaWidth} / ${PlayAreaHeight}`,
 
         backgroundColor: "black",
       }}
@@ -58,8 +58,8 @@ const BlocksGrid = observer((): React.ReactElement => {
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: "repeat(18, 1fr)",
-          gridTemplateRows: "repeat(11, 1fr)",
+          gridTemplateColumns: `repeat(${PlayAreaWidth}, 1fr)`,
+          gridTemplateRows: `repeat(${PlayAreaHeight}, 1fr)`,
 
           position: "relative",
           width: "100%",

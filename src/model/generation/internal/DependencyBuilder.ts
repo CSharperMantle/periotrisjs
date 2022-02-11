@@ -1,7 +1,6 @@
 import _ from "lodash"
 
 import { PlayAreaHeight, PlayAreaWidth } from "../../../common"
-import { Block } from "../../Block"
 import { Tetrimino } from "../../Tetrimino"
 import { TetriminoKind } from "../../TetriminoKind"
 import { MemoizedBlock } from "./MemoizedBlock"
@@ -27,13 +26,9 @@ function createTetriminoDependencyGraph(
         tetrimino.kind,
         tetrimino.position,
         tetrimino.firstBlockPosition,
-        tetrimino.facingDirection
-      )
-      tetriminoNode.memoizedBlocks = getMemoizedBlocksForTetriminoNode(
-        tetriminoNode,
+        tetrimino.facingDirection,
         tetrimino
       )
-      tetriminoNode.blocks = tetriminoNode.memoizedBlocks
 
       for (let i = 0, len = tetriminoNode.memoizedBlocks.length; i < len; i++) {
         const block = tetriminoNode.memoizedBlocks[i]
@@ -69,25 +64,6 @@ function createTetriminoDependencyGraph(
     }
   }
   return tetriminoNodes
-}
-
-function getMemoizedBlocksForTetriminoNode(
-  node: TetriminoNode,
-  tetrimino: Tetrimino
-): MemoizedBlock[] {
-  const memoizedBlocks: MemoizedBlock[] = Array.from(
-    tetrimino.blocks,
-    (block: Block) => {
-      return new MemoizedBlock(
-        block.filledBy,
-        block.position,
-        node,
-        block.atomicNumber,
-        block.id
-      )
-    }
-  )
-  return memoizedBlocks
 }
 
 function tryGetOccupiedTetriminoNode(

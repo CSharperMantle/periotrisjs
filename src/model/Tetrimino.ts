@@ -18,17 +18,6 @@ import { TetriminoKind } from "./TetriminoKind"
 type TBlockCollisionChecker = (block: Block) => boolean
 
 class Tetrimino {
-  public facingDirection: Direction
-
-  /**
-   * The position of the most bottom-right Block.
-   */
-  public firstBlockPosition: Position
-
-  public kind: TetriminoKind
-
-  public position: Position
-
   public blocks: Block[]
 
   /**
@@ -146,15 +135,11 @@ class Tetrimino {
   }
 
   protected constructor(
-    kind: TetriminoKind,
-    position: Position,
-    firstBlockPos: Position,
-    facingDirection: Direction
+    public kind: TetriminoKind,
+    public position: Position,
+    public firstBlockPosition: Position,
+    public facingDirection: Direction
   ) {
-    this.position = position
-    this.kind = kind
-    this.firstBlockPosition = firstBlockPos
-    this.facingDirection = facingDirection
     this.blocks = createOffsetedBlocks(kind, position, facingDirection)
   }
 }

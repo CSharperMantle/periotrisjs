@@ -1,17 +1,18 @@
 {
   "name": "periotrisjs",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Get familiar with the Periodic Table of Elements in a fun way, directly in your browsers.",
   "scripts": {
     "ci-build-prefixed": "yarn run -B gatsby build --prefix-paths",
-    "clean": "yarn run -B rimraf coverage public && yarn run -B gatsby clean",
+    "clean": "yarn run -B rimraf build coverage public && yarn run -B gatsby clean",
     "build": "yarn run -B gatsby build",
     "rebuild": "yarn run clean && yarn run build",
-    "develop": "yarn run -B gatsby develop",
+    "develop": "yarn run -B gatsby develop -H 0.0.0.0",
     "start": "yarn run develop",
-    "serve": "yarn run -B gatsby serve",
+    "serve": "yarn run -B gatsby serve -H 0.0.0.0",
     "test": "yarn run -B jest",
-    "coverage": "yarn run -B jest --coverage"
+    "coverage": "yarn run -B jest --coverage",
+    "check": "yarn run tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -47,15 +48,12 @@
     "lodash": "^4.17.21",
     "mobx": "^6.3.13",
     "mobx-react": "^7.2.1",
-    "notistack": "^2.0.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",
     "worker-loader": "^3.0.8"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.14.5",
-    "@babel/plugin-proposal-decorators": "^7.14.5",
     "@babel/plugin-transform-typescript": "^7.14.6",
     "@babel/preset-react": "^7.14.5",
     "@testing-library/react": "^12.1.2",
@@ -69,7 +67,6 @@
     "@types/react-helmet": "^6.1.5",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
-    "babel-eslint": "^10.1.0",
     "babel-jest": "^27.4.6",
     "eslint": "^8.8.0",
     "eslint-plugin-react": "^7.28.0",

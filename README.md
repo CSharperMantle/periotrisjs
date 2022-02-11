@@ -4,29 +4,46 @@
 
 A Progressive Web App-compliant Periotris game built with [React](https://reactjs.org/), [Gatsby](https://www.gatsbyjs.com/) and [Material UI](https://material-ui.com/).
 
-![Periotris.js v1.3.2 PWA screenshot](https://user-images.githubusercontent.com/32665105/129712653-04dbe225-dd75-4143-ad22-7b0385b6b866.png)
-_FIGURE 1: Periotris.js v1.3.2 screenshot, captured in a standalone PWA window in Microsoft Edge_
+![Periotris.js v2.0.1 PWA screenshot](https://user-images.githubusercontent.com/32665105/152916976-93b9617a-7f82-489c-9ede-92f16a2c45e9.png)
+_Figure: Periotris.js v2.0.1 screenshot_
 
-## Build status
+#### Build status
 
-- `develop` (Active development branch): [![Gatsby](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml/badge.svg?branch=develop)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml)
-- `main` (Stable release branch): [![Gatsby](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml/badge.svg?branch=main)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml)
-- `CodeQL` (Code security scanner): [![CodeQL](https://github.com/CSharperMantle/periotrisjs/actions/workflows/codeql.yml/badge.svg?branch=develop)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/codeql.yml)
-- `CodeClimate` (Code quality scanner): [![Maintainability](https://api.codeclimate.com/v1/badges/ae11798505dd181ae9a5/maintainability)](https://codeclimate.com/github/CSharperMantle/periotrisjs/maintainability)
+- `develop`: [![Gatsby](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml/badge.svg?branch=develop)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml)
+- `main`: [![Gatsby](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml/badge.svg?branch=main)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml)
+- `CodeQL` on `develop`: [![CodeQL](https://github.com/CSharperMantle/periotrisjs/actions/workflows/codeql.yml/badge.svg?branch=develop)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/codeql.yml)
 
-## Getting started
+## 1. Experience Periotris.js
 
-### The popular way: play in browsers directly
+Instances of Periotris.js are hosted on GitHub Pages and Vercel.
 
-Instances of Periotris.js are hosted on GitHub Pages and Vercel. Try it on [GitHub Pages](https://csharpermantle.github.io/periotrisjs) or [Vercel](https://periotrisjs.vercel.app/).
+- GitHub Pages: [https://csharpermantle.github.io/periotrisjs](https://csharpermantle.github.io/periotrisjs)
+- Vercel: [https://periotrisjs.vercel.app/](https://periotrisjs.vercel.app/).
+- Vercel (develop preview): [https://periotrisjs-git-develop-csharpermantle.vercel.app/](https://periotrisjs-git-develop-csharpermantle.vercel.app/)
 
 The game can also act as a [Progressive Web Application](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps). This enables it to be installed like a native app on browsers supporting PWAs. Known browsers that support this feature include Microsoft Edge and Firefox.
 
-**Tips:** The app runs best on screens larger than 1024\*768. If you are using mobile browsers please switch to landscape for better experience.
+### 1.1. In-game controls
 
-### The geek way: build the project
+#### 1.1.1. Keyboard
 
-#### Clone
+- `W`: Rotate
+- `A`: Move left
+- `D`: Move right
+- `S`: Move down
+- `Space`: Instant drop
+
+#### 1.1.2. Pointer gesture
+
+- `Tap`: Rotate
+- `Swipe left`: Move left
+- `Swipe right`: Move right
+- `Swipe down`: Move down
+- `Long press`: Instant drop
+
+## 2. Getting started in development
+
+### 2.1. Clone
 
 Run:
 
@@ -37,7 +54,7 @@ cd periotrisjs
 
 You may omit the `--depth=1` flag if you want a complete commit history rather than a grafted shallow history (which saves disk space). **Reminder:** Do not use 'Download ZIP' button! Make sure that you have your git repository initialized or Periotris.js will fail to determine its revision.
 
-#### Install dependencies
+### 2.2. Install dependencies
 
 Dependencies that need to be installed manually:
 
@@ -50,7 +67,7 @@ Once you have installed all above, run the following commands:
 yarn install --immutable
 ```
 
-#### Build and serve
+### 2.3. Build and serve
 
 Run the following command to build and serve a static, release-ready [Gatsby](https://gatsbyjs.com/) site:
 
@@ -67,30 +84,12 @@ yarn run develop
 After these commands are executed, you should see in the terminal an address to visit.
 The address is usually `http://localhost:8000/` or `http://localhost:9000/` depending on whether your build is for dev or production.
 
-#### Test _(Optional)_
+### 2.4. Test
 
-Run the following to start unit tests:
+Run the following to run unit tests:
 
 ```sh
 yarn run test
 ```
 
-You should see green outputs like 'success' in the terminal after a while.
-
-### In-game controls
-
-#### Keyboard
-
-- `W`: Rotate
-- `A`: Move left
-- `D`: Move right
-- `S`: Move down
-- `Space`: Instant drop
-
-#### Pointer gesture
-
-- `Tap`: Rotate
-- `Swipe left`: Move left
-- `Swipe right`: Move right
-- `Swipe down`: Move down
-- `Long press`: Instant drop
+Normally every test suite should be "PASSED".

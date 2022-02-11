@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from "dayjs"
 import { EventEmitter } from "events"
 import { isBrowser } from "is-in-browser"
 import _ from "lodash"
-import { action, makeObservable, observable } from "mobx"
+import { makeObservable, observable, action } from "mobx"
 import { createContext } from "react"
 
 import { Position, StopwatchUpdateIntervalMilliseconds } from "../common"
@@ -11,7 +11,7 @@ import {
   BlockChangedEventArgs,
   GameState,
   MoveDirection,
-  PeriotrisModel,
+  GameModel,
   RotationDirection,
 } from "../model"
 
@@ -19,40 +19,76 @@ import type { IDisplayBlock } from "./IDisplayBlock"
 
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
-class PeriotrisViewModel extends EventEmitter {
+type TGameViewModelObservablePrivateFields =
+  keyof typeof GameViewModelPrivateAnnotationsMap
+
+const GameViewModelPublicAnnotationsMap = {
+  paused: observable,
+  sprites: observable,
+
+  onKeyDown: action,
+  onTap: action,
+  onSwipe: action,
+  onPressUp: action,
+  requestStartGame: action,
+  invokeGameControl: action,
+}
+
+const GameViewModelPrivateAnnotationsMap = {
+  _gameState: observable,
+  _elapsedTime: observable,
+  _fastestRecord: observable,
+  _isNewRecord: observable,
+
+  endGame: action,
+  refreshGameStatus: action,
+  intervalTickEventHandler: action,
+  intervalStopwatchUpdateEventHandler: action,
+  onGameStateChanged: action,
+  modelBlockChangedEventHandler: action,
+  modelGameEndEventHandler: action,
+  modelGameStartEventHandler: action,
+}
+
+const GameViewModelAnnotationsMap = {
+  ...GameViewModelPublicAnnotationsMap,
+  ...GameViewModelPrivateAnnotationsMap,
+}
+
+class GameViewModel extends EventEmitter {
   public constructor() {
     super()
 
-    makeObservable(this)
+    makeObservable<GameViewModel, TGameViewModelObservablePrivateFields>(
+      this,
+      GameViewModelAnnotationsMap
+    )
 
-    this._model.addListener("blockchanged", (eventArgs) => {
+    this._model.on("blockchanged", (eventArgs) => {
       this.modelBlockChangedEventHandler(eventArgs)
     })
-    this._model.addListener("gameend", () => {
+    this._model.on("gameended", () => {
       this.modelGameEndEventHandler()
     })
-    this._model.addListener("gamestart", () => {
+    this._model.on("gamestarted", () => {
       this.modelGameStartEventHandler()
     })
-    this._showGridLine = this._model.settings.showGridLine
+    this._model.on("gamestatechanged", () => {
+      this.modelGameStateChangedEventHandler()
+    })
 
     this.endGame()
   }
 
-  @observable
   private _gameState = GameState.NotStarted
-
   public get gameState(): GameState {
     return this._gameState
   }
-  public set gameState(v: GameState) {
+  private set gameState(v: GameState) {
     this._gameState = v
-    this.onGameStateChanged()
   }
 
-  @observable
   private _elapsedTime: Dayjs = dayjs(0)
-
   public get elapsedTime(): Dayjs {
     return this._elapsedTime
   }
@@ -60,9 +96,7 @@ class PeriotrisViewModel extends EventEmitter {
     this._elapsedTime = v
   }
 
-  @observable
   private _fastestRecord: Dayjs = dayjs(0)
-
   public get fastestRecord(): Dayjs {
     return this._fastestRecord
   }
@@ -70,9 +104,7 @@ class PeriotrisViewModel extends EventEmitter {
     this._fastestRecord = v
   }
 
-  @observable
   private _isNewRecord = false
-
   public get isNewRecord(): boolean {
     return this._isNewRecord
   }
@@ -80,23 +112,15 @@ class PeriotrisViewModel extends EventEmitter {
     this._isNewRecord = v
   }
 
-  @observable
-  private _showGridLine: boolean
-
   public get showGridLine(): boolean {
-    return this._showGridLine
-  }
-  private set showGridLine(v: boolean) {
-    this._showGridLine = v
+    return this._model.settings.showGridLine
   }
 
-  @observable
   public paused = false
 
-  @observable
   public readonly sprites: IDisplayBlock[] = []
 
-  private readonly _model: PeriotrisModel = new PeriotrisModel()
+  private readonly _model: GameModel = new GameModel()
 
   private readonly _blocksByPosition: Map<Position, IDisplayBlock> = new Map()
 
@@ -106,7 +130,6 @@ class PeriotrisViewModel extends EventEmitter {
 
   private _lastPaused = true
 
-  @action
   public onKeyDown(ev: KeyboardEvent): boolean {
     const key: string = ev.key.toLowerCase()
     ev.preventDefault()
@@ -141,7 +164,6 @@ class PeriotrisViewModel extends EventEmitter {
     return true
   }
 
-  @action
   public onTap(): boolean {
     if (this.paused) {
       return false
@@ -150,7 +172,6 @@ class PeriotrisViewModel extends EventEmitter {
     return true
   }
 
-  @action
   public onSwipe(ev: HammerInput): boolean {
     if (this.paused) {
       return false
@@ -171,7 +192,6 @@ class PeriotrisViewModel extends EventEmitter {
     return true
   }
 
-  @action
   public onPressUp(): boolean {
     if (this.paused) {
       return false
@@ -180,7 +200,6 @@ class PeriotrisViewModel extends EventEmitter {
     return true
   }
 
-  @action
   public invokeGameControl(): void {
     switch (this.gameState) {
       case GameState.InProgress:
@@ -189,38 +208,24 @@ class PeriotrisViewModel extends EventEmitter {
       case GameState.Lost:
       case GameState.Won:
       case GameState.NotStarted:
-        this.prepareStartGame()
+        this.requestStartGame()
         break
       default:
         throw new RangeError("gameState")
     }
   }
 
-  @action
-  private prepareStartGame(): void {
+  public requestStartGame(): void {
     for (const element of this._blocksByPosition.values()) {
       _.remove(this.sprites, (value: IDisplayBlock) =>
         _.isEqual(value, element)
       )
     }
     this._blocksByPosition.clear()
-    this._model.prepareStartGame()
+    this._model.prepareGame()
     this.refreshGameStatus()
   }
 
-  @action
-  private realStartGame(): void {
-    this.refreshGameStatus()
-    this.paused = false
-    this._gameIntervalTimerHandle = window.setInterval(() => {
-      this.intervalTickEventHandler()
-    }, this._model.settings.gameUpdateIntervalMilliseconds)
-    this._gameStopwatchUpdateTimerHandle = window.setInterval(() => {
-      this.intervalStopwatchUpdateEventHandler()
-    }, StopwatchUpdateIntervalMilliseconds)
-  }
-
-  @action
   private endGame(): void {
     if (this._gameIntervalTimerHandle !== -1) {
       clearInterval(this._gameIntervalTimerHandle)
@@ -231,7 +236,6 @@ class PeriotrisViewModel extends EventEmitter {
     this.refreshGameStatus()
   }
 
-  @action
   private refreshGameStatus(): void {
     this.gameState = this._model.gameState
     this.isNewRecord = this._model.isNewRecord
@@ -240,7 +244,6 @@ class PeriotrisViewModel extends EventEmitter {
       : this._model.history.fastestRecord
   }
 
-  @action
   private intervalTickEventHandler(): void {
     if (this._lastPaused !== this.paused) {
       this.paused = !!this.paused // Force update event
@@ -252,17 +255,14 @@ class PeriotrisViewModel extends EventEmitter {
     }
   }
 
-  @action
   private intervalStopwatchUpdateEventHandler(): void {
     this.elapsedTime = dayjs(this._model.elapsedMilliseconds)
   }
 
-  @action
   private onGameStateChanged(): void {
     this.emit("gamestatechanged")
   }
 
-  @action
   private modelBlockChangedEventHandler(
     eventArgs: BlockChangedEventArgs
   ): void {
@@ -292,19 +292,29 @@ class PeriotrisViewModel extends EventEmitter {
     }
   }
 
-  @action
   private modelGameEndEventHandler(): void {
     this.endGame()
   }
 
-  @action
   private modelGameStartEventHandler(): void {
-    this.realStartGame()
+    this.refreshGameStatus()
+    this.paused = false
+    this._gameIntervalTimerHandle = window.setInterval(() => {
+      this.intervalTickEventHandler()
+    }, this._model.settings.gameUpdateIntervalMilliseconds)
+    this._gameStopwatchUpdateTimerHandle = window.setInterval(() => {
+      this.intervalStopwatchUpdateEventHandler()
+    }, StopwatchUpdateIntervalMilliseconds)
+  }
+
+  private modelGameStateChangedEventHandler(): void {
+    this.refreshGameStatus()
+    this.onGameStateChanged()
   }
 }
 
-const PeriotrisViewModelContext = createContext<PeriotrisViewModel>(
-  undefined as unknown as PeriotrisViewModel
+const GameViewModelContext = createContext<GameViewModel>(
+  undefined as unknown as GameViewModel
 )
 
-export { PeriotrisViewModel, PeriotrisViewModelContext }
+export { GameViewModel, GameViewModelContext }

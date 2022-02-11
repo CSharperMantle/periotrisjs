@@ -17,7 +17,7 @@ import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
 
 import type { IGeneratorMessage } from "./generation"
 
-class PeriotrisModel extends EventEmitter {
+class GameModel extends EventEmitter {
   private readonly _patternGeneratorWorker: PatternGeneratorWorker = isBrowser
     ? new PatternGeneratorWorker()
     : (undefined as unknown as PatternGeneratorWorker)
@@ -26,21 +26,9 @@ class PeriotrisModel extends EventEmitter {
   private readonly _pendingTetriminos: Tetrimino[] = []
   private _activeTetrimino: Tetrimino | null = null
 
-  private _settings: Settings = Settings.fromLocalStorage()
-  public get settings(): Settings {
-    return this._settings
-  }
-  public set settings(v: Settings) {
-    this._settings = v
-  }
+  public readonly settings: Settings = Settings.fromLocalStorage()
 
-  private _history: History = History.fromLocalStorage()
-  public get history(): History {
-    return this._history
-  }
-  private set history(v: History) {
-    this._history = v
-  }
+  public readonly history: History = History.fromLocalStorage()
 
   private _gameState: GameState = GameState.NotStarted
   public get gameState(): GameState {
@@ -48,22 +36,7 @@ class PeriotrisModel extends EventEmitter {
   }
   private set gameState(v: GameState) {
     this._gameState = v
-  }
-
-  private _startDate: number = Date.now()
-  public get startDate(): number {
-    return this._startDate
-  }
-  private set startDate(v: number) {
-    this._startDate = v
-  }
-
-  private _endDate = Date.now()
-  public get endDate(): number {
-    return this._endDate
-  }
-  private set endDate(v: number) {
-    this._endDate = v
+    this.onGameStateChanged()
   }
 
   private _isNewRecord = false
@@ -74,13 +47,17 @@ class PeriotrisModel extends EventEmitter {
     this._isNewRecord = v
   }
 
+  private _startDate = Date.now()
+
+  private _endDate = Date.now()
+
   public get elapsedMilliseconds(): number {
     switch (this.gameState) {
       case GameState.InProgress:
-        return Date.now() - this.startDate
+        return Date.now() - this._startDate
       case GameState.Lost:
       case GameState.Won:
-        return this.endDate - this.startDate
+        return this._endDate - this._startDate
       default:
         return 0
     }
@@ -95,8 +72,8 @@ class PeriotrisModel extends EventEmitter {
       }
     }
     this._pendingTetriminos.length = 0
-    this.onGameEnd()
-    this.endDate = Date.now()
+    this.onGameEnded()
+    this._endDate = Date.now()
 
     if (victory) {
       this.isNewRecord = this.history.add(dayjs(this.elapsedMilliseconds))
@@ -160,7 +137,7 @@ class PeriotrisModel extends EventEmitter {
     this.updateActiveTetrimino(false)
   }
 
-  public prepareStartGame(): void {
+  public prepareGame(): void {
     for (let i = 0, len = this._frozenBlocks.length; i < len; i++) {
       const block = this._frozenBlocks[i]
       this.onBlockChanged(block, true)
@@ -175,31 +152,30 @@ class PeriotrisModel extends EventEmitter {
     this.gameState = GameState.Preparing
 
     if (isBrowser) {
-      // We have workers
+      // We have workers.
       const message: IGeneratorMessage<unknown> = {
         type: MessageType.RequestGeneration,
         content: null,
       }
       this._patternGeneratorWorker.postMessage(message)
     } else {
-      // Use single-threaded approach
       console.warn(
         "Web workers unavailable. Running pattern generator on UI thread."
       )
       getPlayablePattern().then((tetriminos) => {
-        this.realStartGame(tetriminos)
+        this.startPreparedGame(tetriminos)
       })
     }
   }
 
-  private realStartGame(tetriminos: Tetrimino[]): void {
+  private startPreparedGame(tetriminos: Tetrimino[]): void {
     const generatedTetrimino: Tetrimino[] = tetriminos.reverse()
     this._pendingTetriminos.push(...generatedTetrimino)
 
     this.spawnNextTetrimino()
     this.gameState = GameState.InProgress
-    this.startDate = Date.now()
-    this.onGameStart()
+    this._startDate = Date.now()
+    this.onGameStarted()
   }
 
   public update(): void {
@@ -236,7 +212,7 @@ class PeriotrisModel extends EventEmitter {
           if (data.type === MessageType.ResponseSuccess) {
             const content = data.content
             const fixedTetriminos = repairBrokenTetriminos(content)
-            this.realStartGame(fixedTetriminos)
+            this.startPreparedGame(fixedTetriminos)
           } else {
             console.warn(data)
           }
@@ -255,16 +231,20 @@ class PeriotrisModel extends EventEmitter {
     }
   }
 
-  private onGameStart(): void {
-    this.emit("gamestart")
+  private onGameStarted(): void {
+    this.emit("gamestarted")
   }
 
-  private onGameEnd(): void {
-    this.emit("gameend")
+  private onGameEnded(): void {
+    this.emit("gameended")
   }
 
   private onBlockChanged(block: Block, disappeared: boolean): void {
     this.emit("blockchanged", new BlockChangedEventArgs(block, disappeared))
+  }
+
+  private onGameStateChanged(): void {
+    this.emit("gamestatechanged")
   }
 
   private checkBlockCollision(block: Block): boolean {
@@ -311,4 +291,4 @@ class PeriotrisModel extends EventEmitter {
   }
 }
 
-export { PeriotrisModel }
+export { GameModel }
