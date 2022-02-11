@@ -36,6 +36,7 @@ class GameModel extends EventEmitter {
   }
   private set gameState(v: GameState) {
     this._gameState = v
+    this.onGameStateChanged()
   }
 
   private _isNewRecord = false

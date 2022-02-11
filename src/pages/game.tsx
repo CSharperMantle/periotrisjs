@@ -1,16 +1,9 @@
 import { isBrowser } from "is-in-browser"
-import { SnackbarProvider } from "notistack"
 import React, { useEffect, useRef } from "react"
 
 import { Box } from "@mui/material"
 
-import {
-  BlocksGrid,
-  CommonLayout,
-  GameControlButton,
-  PortraitWarningBackdrop,
-  SnackbarPopper,
-} from "../components"
+import { BlocksGrid, CommonLayout, GameControlBackdrop } from "../components"
 import { GameViewModel, GameViewModelContext } from "../viewmodel"
 
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
@@ -40,47 +33,38 @@ const App = (): React.ReactElement => {
 
   return (
     <GameViewModelContext.Provider value={viewModel}>
-      <SnackbarProvider
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+      <Box
+        sx={{
+          /* display-related props */
+          display: "grid",
+          gridTemplateRows: "1fr 80% 1fr",
+
+          /* layouts: width, height, margin, padding, etc.*/
+          position: "relative",
+          height: "100%",
+          minHeight: "0px",
+          width: "100%",
+          minWidth: "0px",
+          boxSizing: "border-box",
+          flex: "1 1 auto" /* For CommonLayout.tsx headers */,
+
+          /* element-specific props */
         }}
       >
+        <GameControlBackdrop
+          startGameHandler={viewModel.invokeGameControl.bind(viewModel)}
+          pauseUnpauseGameHandler={viewModel.invokeGameControl.bind(viewModel)}
+        />
         <Box
+          ref={rowTwoRef}
           sx={{
-            /* display-related props */
-            display: "grid",
-            gridTemplateRows: "1fr 80% 1fr",
-
-            /* layouts: width, height, margin, padding, etc.*/
+            gridRow: 2,
             position: "relative",
-            height: "100%",
-            minHeight: "0px",
-            width: "100%",
-            minWidth: "0px",
-            boxSizing: "border-box",
-            flex: "1 1 auto" /* For CommonLayout.tsx headers */,
-
-            /* element-specific props */
-            /* background-color to be filled */
           }}
         >
-          <PortraitWarningBackdrop />
-          <Box
-            ref={rowTwoRef}
-            sx={{
-              gridRow: 2,
-              position: "relative",
-            }}
-          >
-            <BlocksGrid />
-          </Box>
-          <SnackbarPopper />
-          <GameControlButton
-            onClick={viewModel.invokeGameControl.bind(viewModel)}
-          />
+          <BlocksGrid />
         </Box>
-      </SnackbarProvider>
+      </Box>
     </GameViewModelContext.Provider>
   )
 }

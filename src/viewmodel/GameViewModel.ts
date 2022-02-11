@@ -30,6 +30,7 @@ const GameViewModelPublicAnnotationsMap = {
   onTap: action,
   onSwipe: action,
   onPressUp: action,
+  requestStartGame: action,
   invokeGameControl: action,
 }
 
@@ -39,8 +40,6 @@ const GameViewModelPrivateAnnotationsMap = {
   _fastestRecord: observable,
   _isNewRecord: observable,
 
-  prepareGame: action,
-  startPreparedGame: action,
   endGame: action,
   refreshGameStatus: action,
   intervalTickEventHandler: action,
@@ -209,14 +208,14 @@ class GameViewModel extends EventEmitter {
       case GameState.Lost:
       case GameState.Won:
       case GameState.NotStarted:
-        this.prepareGame()
+        this.requestStartGame()
         break
       default:
         throw new RangeError("gameState")
     }
   }
 
-  private prepareGame(): void {
+  public requestStartGame(): void {
     for (const element of this._blocksByPosition.values()) {
       _.remove(this.sprites, (value: IDisplayBlock) =>
         _.isEqual(value, element)
@@ -225,17 +224,6 @@ class GameViewModel extends EventEmitter {
     this._blocksByPosition.clear()
     this._model.prepareGame()
     this.refreshGameStatus()
-  }
-
-  private startPreparedGame(): void {
-    this.refreshGameStatus()
-    this.paused = false
-    this._gameIntervalTimerHandle = window.setInterval(() => {
-      this.intervalTickEventHandler()
-    }, this._model.settings.gameUpdateIntervalMilliseconds)
-    this._gameStopwatchUpdateTimerHandle = window.setInterval(() => {
-      this.intervalStopwatchUpdateEventHandler()
-    }, StopwatchUpdateIntervalMilliseconds)
   }
 
   private endGame(): void {
@@ -309,10 +297,18 @@ class GameViewModel extends EventEmitter {
   }
 
   private modelGameStartEventHandler(): void {
-    this.startPreparedGame()
+    this.refreshGameStatus()
+    this.paused = false
+    this._gameIntervalTimerHandle = window.setInterval(() => {
+      this.intervalTickEventHandler()
+    }, this._model.settings.gameUpdateIntervalMilliseconds)
+    this._gameStopwatchUpdateTimerHandle = window.setInterval(() => {
+      this.intervalStopwatchUpdateEventHandler()
+    }, StopwatchUpdateIntervalMilliseconds)
   }
 
   private modelGameStateChangedEventHandler(): void {
+    this.refreshGameStatus()
     this.onGameStateChanged()
   }
 }
