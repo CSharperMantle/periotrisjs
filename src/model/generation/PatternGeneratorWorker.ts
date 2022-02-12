@@ -1,7 +1,7 @@
 import { Tetrimino } from "../Tetrimino"
 import { IGeneratorMessage } from "./IGeneratorMessage"
-import { MessageType } from "./MessageType"
 import { getPlayablePattern } from "./internal/PatternGenerator"
+import { MessageType } from "./MessageType"
 
 const ctx: Worker = self as never
 

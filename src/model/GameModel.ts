@@ -2,7 +2,6 @@ import dayjs from "dayjs"
 import { EventEmitter } from "events"
 import { isBrowser } from "is-in-browser"
 import _ from "lodash"
-import PatternGeneratorWorker from "worker-loader!./generation/PatternGeneratorWorker"
 
 import { PlayAreaHeight, PlayAreaWidth } from "../common"
 import { History } from "../customization/history"
@@ -18,9 +17,11 @@ import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
 import type { IGeneratorMessage } from "./generation"
 
 class GameModel extends EventEmitter {
-  private readonly _patternGeneratorWorker: PatternGeneratorWorker = isBrowser
-    ? new PatternGeneratorWorker()
-    : (undefined as unknown as PatternGeneratorWorker)
+  private readonly _patternGeneratorWorker = isBrowser
+    ? new Worker(
+        new URL("./generation/PatternGeneratorWorker", import.meta.url)
+      )
+    : null
 
   private readonly _frozenBlocks: Block[] = []
   private readonly _pendingTetriminos: Tetrimino[] = []
@@ -151,7 +152,7 @@ class GameModel extends EventEmitter {
 
     this.gameState = GameState.Preparing
 
-    if (isBrowser) {
+    if (!_.isNil(this._patternGeneratorWorker)) {
       // We have workers.
       const message: IGeneratorMessage<unknown> = {
         type: MessageType.RequestGeneration,
@@ -203,8 +204,7 @@ class GameModel extends EventEmitter {
   public constructor() {
     super()
 
-    if (isBrowser) {
-      // Assign Worker message handler
+    if (!_.isNil(this._patternGeneratorWorker)) {
       this._patternGeneratorWorker.addEventListener(
         "message",
         (eventArgs: MessageEvent<IGeneratorMessage<Tetrimino[]>>) => {
