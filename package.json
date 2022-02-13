@@ -54,6 +54,7 @@
     "react-helmet": "^6.1.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.17.2",
     "@babel/preset-react": "^7.16.7",
     "@testing-library/react": "^12.1.2",
     "@types/canvas-confetti": "^1.4.2",
