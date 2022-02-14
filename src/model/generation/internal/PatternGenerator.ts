@@ -35,6 +35,16 @@ async function getPlayablePattern(): Promise<Tetrimino[]> {
     }
   }
 
+  // run benchmark for 20 times
+  const benchmark = []
+  for (let i = 0; i < 20; i++) {
+    const start = performance.now()
+    sort(getPossibleTetriminoPattern(template)) as Tetrimino[]
+    const end = performance.now()
+    benchmark.push(end - start)
+  }
+  console.log(benchmark)
+
   const tetriminos = sort(getPossibleTetriminoPattern(template)) as Tetrimino[]
 
   const fixedTetriminos = repairBrokenTetriminos(tetriminos)
