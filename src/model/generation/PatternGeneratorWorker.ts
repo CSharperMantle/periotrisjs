@@ -1,6 +1,6 @@
 import { Tetrimino } from "../Tetrimino"
 import { IGeneratorMessage } from "./IGeneratorMessage"
-import { getPlayablePattern } from "./internal/PatternGenerator"
+import { getPlayablePattern, benchmark } from "./internal/PatternGenerator"
 import { MessageType } from "./MessageType"
 
 const ctx: Worker = self as never
@@ -10,6 +10,9 @@ ctx.onmessage = (eventArgs: MessageEvent<IGeneratorMessage<unknown>>) => {
   switch (data.type) {
     case MessageType.RequestGeneration:
       handleRequestGeneration()
+      break
+    case MessageType.RequestBenchmark:
+      handleRequestBenchmark()
       break
     default:
       handleDefault(data)
@@ -25,6 +28,15 @@ function handleRequestGeneration(): void {
     }
     ctx.postMessage(message)
   })
+}
+
+function handleRequestBenchmark(): void {
+  const result = benchmark()
+  const message: IGeneratorMessage<number[]> = {
+    type: MessageType.ResponseBenchmark,
+    content: result
+  }
+  ctx.postMessage(message)
 }
 
 function handleDefault(data: IGeneratorMessage<unknown>): void {

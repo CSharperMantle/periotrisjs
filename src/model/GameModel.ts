@@ -155,7 +155,7 @@ class GameModel extends EventEmitter {
     if (!_.isNil(this._patternGeneratorWorker)) {
       // We have workers.
       const message: IGeneratorMessage<unknown> = {
-        type: MessageType.RequestGeneration,
+        type: MessageType.RequestBenchmark,
         content: null,
       }
       this._patternGeneratorWorker.postMessage(message)
@@ -207,14 +207,19 @@ class GameModel extends EventEmitter {
     if (!_.isNil(this._patternGeneratorWorker)) {
       this._patternGeneratorWorker.addEventListener(
         "message",
-        (eventArgs: MessageEvent<IGeneratorMessage<Tetrimino[]>>) => {
+        (eventArgs: MessageEvent<IGeneratorMessage<unknown>>) => {
           const data = eventArgs.data
-          if (data.type === MessageType.ResponseSuccess) {
-            const content = data.content
-            const fixedTetriminos = repairBrokenTetriminos(content)
-            this.startPreparedGame(fixedTetriminos)
-          } else {
-            console.warn(data)
+          switch (data.type) {
+            case MessageType.ResponseSuccess:
+              const fixedTetriminos = repairBrokenTetriminos(data.content as Tetrimino[])
+              this.startPreparedGame(fixedTetriminos)
+              break
+            case MessageType.ResponseBenchmark:
+              alert(data.content as number[])
+              break
+            default:
+              console.warn(data)
+              break
           }
         }
       )

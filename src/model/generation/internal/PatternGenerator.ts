@@ -35,16 +35,6 @@ async function getPlayablePattern(): Promise<Tetrimino[]> {
     }
   }
 
-  // run benchmark for 20 times
-  const benchmark = []
-  for (let i = 0; i < 20; i++) {
-    const start = performance.now()
-    sort(getPossibleTetriminoPattern(template)) as Tetrimino[]
-    const end = performance.now()
-    benchmark.push(end - start)
-  }
-  console.log(benchmark)
-
   const tetriminos = sort(getPossibleTetriminoPattern(template)) as Tetrimino[]
 
   const fixedTetriminos = repairBrokenTetriminos(tetriminos)
@@ -212,4 +202,37 @@ class KindDirectionsPair {
   }
 }
 
-export { getPlayablePattern }
+function benchmark(): number[] {
+  const template: Block[][] = []
+
+  for (let i = 0; i < PlayAreaHeight; i++) {
+    template[i] = []
+
+    for (let j = 0; j < PlayAreaWidth; j++) {
+      const origElem: {
+        atomicNumber: number
+        filledBy: number
+        identifier: number
+        position: { X: number; Y: number }
+      } = defaultMap.periodicTable[i][j]
+      template[i][j] = new Block(
+        origElem.filledBy,
+        new Position(origElem.position.X, origElem.position.Y),
+        origElem.atomicNumber,
+        0
+      )
+    }
+  }
+
+  // run benchmark for 20 times
+  const benchmark: number[] = []
+  for (let i = 0; i < 20; i++) {
+    const start = performance.now()
+    sort(getPossibleTetriminoPattern(template)) as Tetrimino[]
+    const end = performance.now()
+    benchmark.push(end - start)
+  }
+  return benchmark
+}
+
+export { getPlayablePattern, benchmark }
