@@ -1,12 +1,20 @@
 import _ from "lodash"
 
-import { SettingsLocalStorageKey } from "../../common"
+import {
+  GameUpdateIntervalMilliseconds,
+  SettingsLocalStorageKey,
+} from "../../common"
 import { retrieve, store } from "../../localstorage"
+
+import type { ILocalStorageSerializable } from "../ILocalStorageSerializable"
+import type { IMap } from "../map"
+
+import defaultMap from "../../json/DefaultMap.json"
 
 /**
  * Settings for the app.
  */
-class Settings {
+class Settings implements ILocalStorageSerializable {
   private _showGridLine = true
   public get showGridLine(): boolean {
     return this._showGridLine
@@ -16,12 +24,21 @@ class Settings {
     this.toLocalStorage()
   }
 
-  private _gameUpdateIntervalMilliseconds = 1000
+  private _gameUpdateIntervalMilliseconds = GameUpdateIntervalMilliseconds
   public get gameUpdateIntervalMilliseconds(): number {
     return this._gameUpdateIntervalMilliseconds
   }
   public set gameUpdateIntervalMilliseconds(v: number) {
     this._gameUpdateIntervalMilliseconds = v
+    this.toLocalStorage()
+  }
+
+  private _gameMap: IMap = defaultMap
+  public get gameMap(): IMap {
+    return this._gameMap
+  }
+  public set gameMap(v: IMap) {
+    this._gameMap = v
     this.toLocalStorage()
   }
 

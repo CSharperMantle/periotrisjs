@@ -4,7 +4,7 @@ import { Tetrimino } from "../../Tetrimino"
 import { createTetriminoDependencyGraph } from "./DependencyBuilder"
 import { TetriminoNode } from "./TetriminoNode"
 
-function sort(tetriminos: Tetrimino[]): Tetrimino[] {
+async function sort(tetriminos: Tetrimino[]): Promise<Tetrimino[]> {
   const graph = createTetriminoDependencyGraph(tetriminos)
 
   const startNodes: TetriminoNode[] = graph.filter((node: TetriminoNode) => {

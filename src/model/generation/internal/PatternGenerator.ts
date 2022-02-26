@@ -1,7 +1,6 @@
 import _ from "lodash"
 
 import { PlayAreaHeight, PlayAreaWidth, Position } from "../../../common"
-import defaultMap from "../../../json/DefaultMap.json"
 import { Block } from "../../Block"
 import { Direction, RotationDirection } from "../../Direction"
 import { repairBrokenTetriminos, Tetrimino } from "../../Tetrimino"
@@ -9,11 +8,13 @@ import { TetriminoKind } from "../../TetriminoKind"
 import { getInitialPositionByKind } from "../GeneratorHelper"
 import { sort } from "./TetriminoSorter"
 
+import type { IMap } from "../../../customization"
+
 function fastRandom(startInc: number, endExc: number): number {
   return startInc + Math.floor(Math.random() * (endExc - startInc))
 }
 
-async function getPlayablePattern(): Promise<Tetrimino[]> {
+async function getPlayablePattern(map: IMap): Promise<Tetrimino[]> {
   const template: Block[][] = []
 
   for (let i = 0; i < PlayAreaHeight; i++) {
@@ -25,7 +26,7 @@ async function getPlayablePattern(): Promise<Tetrimino[]> {
         filledBy: number
         identifier: number
         position: { X: number; Y: number }
-      } = defaultMap.periodicTable[i][j]
+      } = map.periodicTable[i][j]
       template[i][j] = new Block(
         origElem.filledBy,
         new Position(origElem.position.X, origElem.position.Y),
@@ -35,42 +36,19 @@ async function getPlayablePattern(): Promise<Tetrimino[]> {
     }
   }
 
-  const tetriminos = sort(getPossibleTetriminoPattern(template)) as Tetrimino[]
+  const pattern = await getPossibleTetriminoPattern(template)
+  const ordered = await sort(pattern)
 
-  const fixedTetriminos = repairBrokenTetriminos(tetriminos)
+  const fixedTetriminos = repairBrokenTetriminos(ordered)
 
-  // Randomly rotate tetriminos, then place them to initial positions
-  for (let i = 0, len = fixedTetriminos.length; i < len; i++) {
-    const tetrimino = fixedTetriminos[i]
-    const originalPos = tetrimino.position
-    const newPos = getInitialPositionByKind(tetrimino.kind)
-    const deltaX = newPos.x - originalPos.x
-    const deltaY = newPos.y - originalPos.y
-    const newBlocks: Block[] = Array.from(tetrimino.blocks, (block: Block) => {
-      return new Block(
-        block.filledBy,
-        new Position(block.position.x + deltaX, block.position.y + deltaY),
-        block.atomicNumber,
-        block.id
-      )
-    })
-
-    tetrimino.blocks = newBlocks
-    tetrimino.position = newPos
-
-    const rotationCount = fastRandom(
-      0,
-      Math.floor(Object.keys(Direction).length / 2) + 1
-    )
-    for (let i = 0; i < rotationCount; i++) {
-      tetrimino.tryRotate(RotationDirection.Right, () => false)
-    }
-  }
+  moveAndRotateTetrimino(fixedTetriminos)
 
   return fixedTetriminos
 }
 
-function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
+async function getPossibleTetriminoPattern(
+  template: Block[][]
+): Promise<Tetrimino[]> {
   const workspace = _.cloneDeep(template)
   const settledTetriminos: Tetrimino[] = []
   const pendingTetriminoKinds: KindDirectionsPair[][] = []
@@ -199,6 +177,36 @@ class KindDirectionsPair {
   public popRandomDirection(): Direction {
     const index = fastRandom(0, this.directions.length)
     return this.directions.splice(index)[0]
+  }
+}
+
+function moveAndRotateTetrimino(tetriminos: Tetrimino[]) {
+  // Move to initial position and rotate randomly
+  for (let i = 0, len = tetriminos.length; i < len; i++) {
+    const tetrimino = tetriminos[i]
+    const originalPos = tetrimino.position
+    const newPos = getInitialPositionByKind(tetrimino.kind)
+    const deltaX = newPos.x - originalPos.x
+    const deltaY = newPos.y - originalPos.y
+    const newBlocks: Block[] = Array.from(tetrimino.blocks, (block: Block) => {
+      return new Block(
+        block.filledBy,
+        new Position(block.position.x + deltaX, block.position.y + deltaY),
+        block.atomicNumber,
+        block.id
+      )
+    })
+
+    tetrimino.blocks = newBlocks
+    tetrimino.position = newPos
+
+    const rotationCount = fastRandom(
+      0,
+      Math.floor(Object.keys(Direction).length / 2) + 1
+    )
+    for (let i = 0; i < rotationCount; i++) {
+      tetrimino.tryRotate(RotationDirection.Right, () => false)
+    }
   }
 }
 

@@ -113,7 +113,7 @@ class GameViewModel extends EventEmitter {
   }
 
   public get showGridLine(): boolean {
-    return this._model.settings.showGridLine
+    return this._model.customization.settings.showGridLine
   }
 
   public paused = false
@@ -234,9 +234,11 @@ class GameViewModel extends EventEmitter {
   private refreshGameStatus(): void {
     this.gameState = this._model.gameState
     this.isNewRecord = this._model.isNewRecord
-    this.fastestRecord = _.isNil(this._model.history.fastestRecord)
+    this.fastestRecord = _.isNil(
+      this._model.customization.history.fastestRecord
+    )
       ? dayjs(0)
-      : this._model.history.fastestRecord
+      : this._model.customization.history.fastestRecord
   }
 
   private intervalTickEventHandler(): void {
@@ -296,7 +298,7 @@ class GameViewModel extends EventEmitter {
     this.paused = false
     this._gameIntervalTimerHandle = window.setInterval(() => {
       this.intervalTickEventHandler()
-    }, this._model.settings.gameUpdateIntervalMilliseconds)
+    }, this._model.customization.settings.gameUpdateIntervalMilliseconds)
     this._gameStopwatchUpdateTimerHandle = window.setInterval(() => {
       this.intervalStopwatchUpdateEventHandler()
     }, StopwatchUpdateIntervalMilliseconds)

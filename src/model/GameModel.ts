@@ -4,9 +4,7 @@ import { isBrowser } from "is-in-browser"
 import _ from "lodash"
 
 import { PlayAreaHeight, PlayAreaWidth } from "../common"
-import { History } from "../customization/history"
-import { Settings } from "../customization/settings"
-import defaultMap from "../json/DefaultMap.json"
+import { CustomizationFacade } from "../customization"
 import { Block } from "./Block"
 import { BlockChangedEventArgs } from "./BlockChangedEventArgs"
 import { MoveDirection, RotationDirection } from "./Direction"
@@ -15,6 +13,7 @@ import { getPlayablePattern, MessageType } from "./generation"
 import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
 
 import type { IGeneratorMessage } from "./generation"
+import type { IMap } from "../customization"
 
 class GameModel extends EventEmitter {
   private readonly _patternGeneratorWorker = isBrowser
@@ -27,9 +26,7 @@ class GameModel extends EventEmitter {
   private readonly _pendingTetriminos: Tetrimino[] = []
   private _activeTetrimino: Tetrimino | null = null
 
-  public readonly settings: Settings = Settings.fromLocalStorage()
-
-  public readonly history: History = History.fromLocalStorage()
+  public readonly customization: CustomizationFacade = new CustomizationFacade()
 
   private _gameState: GameState = GameState.NotStarted
   public get gameState(): GameState {
@@ -77,7 +74,9 @@ class GameModel extends EventEmitter {
     this._endDate = Date.now()
 
     if (victory) {
-      this.isNewRecord = this.history.add(dayjs(this.elapsedMilliseconds))
+      this.isNewRecord = this.customization.history.add(
+        dayjs(this.elapsedMilliseconds)
+      )
     }
   }
 
@@ -154,18 +153,20 @@ class GameModel extends EventEmitter {
 
     if (!_.isNil(this._patternGeneratorWorker)) {
       // We have workers.
-      const message: IGeneratorMessage<unknown> = {
+      const message: IGeneratorMessage<IMap> = {
         type: MessageType.RequestGeneration,
-        content: null,
+        content: this.customization.settings.gameMap,
       }
       this._patternGeneratorWorker.postMessage(message)
     } else {
       console.warn(
         "Web workers unavailable. Running pattern generator on UI thread."
       )
-      getPlayablePattern().then((tetriminos) => {
-        this.startPreparedGame(tetriminos)
-      })
+      getPlayablePattern(this.customization.settings.gameMap).then(
+        (tetriminos) => {
+          this.startPreparedGame(tetriminos)
+        }
+      )
     }
   }
 
@@ -188,15 +189,19 @@ class GameModel extends EventEmitter {
     for (let i = 0, len = this._frozenBlocks.length; i < len; i++) {
       const block = this._frozenBlocks[i]
       if (
-        defaultMap.periodicTable[block.position.y][block.position.x]
-          .atomicNumber !== block.atomicNumber
+        this.customization.settings.gameMap.periodicTable[block.position.y][
+          block.position.x
+        ].atomicNumber !== block.atomicNumber
       ) {
         this.endGame(false)
         break
       }
     }
 
-    if (this._frozenBlocks.length >= defaultMap.totalAvailableBlocksCount) {
+    if (
+      this._frozenBlocks.length >=
+      this.customization.settings.gameMap.totalAvailableBlocksCount
+    ) {
       this.endGame(true)
     }
   }
