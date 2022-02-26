@@ -1,9 +1,7 @@
 import React from "react"
 
-import {
-  Favorite as FavoriteIcon,
-  GitHub as GitHubIcon,
-} from "@mui/icons-material"
+import FavoriteIcon from "@mui/icons-material/Favorite"
+import GitHubIcon from "@mui/icons-material/GitHub"
 import {
   AppBar,
   Box,

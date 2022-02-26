@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Menu as MenuIcon } from "@mui/icons-material"
+import MenuIcon from "@mui/icons-material/Menu"
 import { IconButton } from "@mui/material"
 
 interface IMenuButtonProps {
