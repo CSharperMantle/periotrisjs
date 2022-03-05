@@ -13,7 +13,7 @@
     "test": "yarn run -B jest",
     "coverage": "yarn run -B jest --coverage",
     "check": "yarn run tsc --noEmit",
-    "serve-bundle-stats": "yarn run -B webpack-bundle-analyzer ./public/stats.json -h 0.0.0.0"
+    "serve-bundle-stats": "yarn run -B webpack-bundle-analyzer ./public/stats.json -h 0.0.0.0 -O"
   },
   "repository": {
     "type": "git",

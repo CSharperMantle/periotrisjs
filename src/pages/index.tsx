@@ -2,7 +2,10 @@ import { graphql, Link, useStaticQuery } from "gatsby"
 import _ from "lodash"
 import React from "react"
 
-import { Button, Container, Stack, Typography } from "@mui/material"
+import Button from "@mui/material/Button"
+import Container from "@mui/material/Container"
+import Stack from "@mui/material/Stack"
+import Typography from "@mui/material/Typography"
 
 import { CommonLayout } from "../components"
 import PageLocation from "../json/PageLocation.json"

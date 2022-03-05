@@ -2,7 +2,7 @@ import { isBrowser } from "is-in-browser"
 import _ from "lodash"
 import React, { useEffect, useRef } from "react"
 
-import { Box } from "@mui/material"
+import Box from "@mui/material/Box"
 
 import { BlocksGrid, CommonLayout, GameControlBackdrop } from "../components"
 import { GameViewModel, GameViewModelContext } from "../viewmodel"

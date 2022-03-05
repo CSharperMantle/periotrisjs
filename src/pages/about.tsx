@@ -3,7 +3,11 @@ import "@fontsource/fira-code/400.css"
 import { graphql, useStaticQuery } from "gatsby"
 import React from "react"
 
-import { Container, Divider, Link, Stack, Typography } from "@mui/material"
+import Container from "@mui/material/Container"
+import Divider from "@mui/material/Divider"
+import Link from "@mui/material/Link"
+import Stack from "@mui/material/Stack"
+import Typography from "@mui/material/Typography"
 
 import { CommonLayout } from "../components"
 

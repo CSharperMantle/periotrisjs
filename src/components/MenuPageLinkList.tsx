@@ -2,7 +2,8 @@ import { Link } from "gatsby"
 import _ from "lodash"
 import React from "react"
 
-import { MenuItem, Typography } from "@mui/material"
+import MenuItem from "@mui/material/MenuItem"
+import Typography from "@mui/material/Typography"
 
 import type { IPageLocationElement } from "./CommonLayout"
 

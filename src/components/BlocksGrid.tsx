@@ -1,7 +1,8 @@
+import _ from "lodash"
 import { observer } from "mobx-react"
 import React, { useContext } from "react"
 
-import { Box } from "@mui/material"
+import Box from "@mui/material/Box"
 
 import { PlayAreaHeight, PlayAreaWidth } from "../common"
 import { GameViewModelContext } from "../viewmodel"
@@ -9,7 +10,6 @@ import { BlockControl } from "./BlockControl"
 import { TimerDisplay } from "./TimerDisplay"
 
 import type { IDisplayBlock } from "../viewmodel"
-import _ from "lodash"
 
 const BlocksGrid = observer((): React.ReactElement => {
   const viewModel = useContext(GameViewModelContext)

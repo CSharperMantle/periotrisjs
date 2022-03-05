@@ -1,7 +1,10 @@
 import { observer } from "mobx-react"
 import React, { useContext } from "react"
 
-import { Backdrop, Button, Stack, Typography } from "@mui/material"
+import Backdrop from "@mui/material/Backdrop"
+import Button from "@mui/material/Button"
+import Stack from "@mui/material/Stack"
+import Typography from "@mui/material/Typography"
 
 import hourglassNotDone from "../../assets/icon/noto-color-emoji/hourglass-not-done.svg"
 import partyingFace from "../../assets/icon/noto-color-emoji/partying-face.svg"

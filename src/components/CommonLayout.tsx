@@ -5,10 +5,12 @@ import "@fontsource/roboto/700.css"
 
 import { graphql, useStaticQuery } from "gatsby"
 import React from "react"
-import { Helmet } from "react-helmet"
+import Helmet from "react-helmet"
 
-import { Box, CssBaseline } from "@mui/material"
-import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles"
+import Box from "@mui/material/Box"
+import CssBaseline from "@mui/material/CssBaseline"
+import { StyledEngineProvider } from "@mui/material/styles"
+import ThemeProvider from "@mui/material/styles/ThemeProvider"
 
 import { theme } from "../../src/ThemeOptions"
 import { MainAppBar } from "./MainAppBar"
