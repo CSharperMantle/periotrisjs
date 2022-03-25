@@ -4,12 +4,13 @@ import {
   GameUpdateIntervalMilliseconds,
   SettingsLocalStorageKey,
 } from "../../common"
+import defaultColorScheme from "../../json/DefaultColorScheme.json"
+import defaultMap from "../../json/DefaultMap.json"
 import { retrieve, store } from "../../localstorage"
+import { IColorScheme } from "../color_scheme"
 
 import type { ILocalStorageSerializable } from "../ILocalStorageSerializable"
 import type { IMap } from "../map"
-
-import defaultMap from "../../json/DefaultMap.json"
 
 /**
  * Settings for the app.
@@ -39,6 +40,15 @@ class Settings implements ILocalStorageSerializable {
   }
   public set gameMap(v: IMap) {
     this._gameMap = v
+    this.toLocalStorage()
+  }
+
+  private _colorScheme: IColorScheme = defaultColorScheme
+  public get colorScheme(): IColorScheme {
+    return this._colorScheme
+  }
+  public set colorScheme(v: IColorScheme) {
+    this._colorScheme = v
     this.toLocalStorage()
   }
 
