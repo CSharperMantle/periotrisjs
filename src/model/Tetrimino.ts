@@ -68,7 +68,7 @@ class Tetrimino {
    *
    * @param rotationDirection The direction to rotate.
    * @param collisionChecker The BlockCollisionChecker function to use.
-   * @returns 'true' for a successful rotation, otherwise 'false'.
+   * @returns `true` for a successful rotation, otherwise 'false'.
    */
   public tryRotate(
     rotationDirection: RotationDirection,
@@ -160,6 +160,10 @@ function repairBrokenTetriminos(brokenTetriminos: Tetrimino[]): Tetrimino[] {
         Tetrimino.prototype,
         Object.getOwnPropertyDescriptors(brokenTetrimino)
       ) as Tetrimino
+      const o = _.create(
+        Tetrimino.prototype,
+        Object.getOwnPropertyDescriptors(brokenTetrimino)
+      )
 
       // Fix its block positions
       const repairedBlocks: Block[] = Array.from(

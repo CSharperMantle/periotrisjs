@@ -233,7 +233,7 @@ class GameViewModel extends EventEmitter {
 
   private refreshGameStatus(): void {
     this.gameState = this._model.gameState
-    this.isNewRecord = this._model.isNewRecord
+    this.isNewRecord = this._model.isNewHighRecord
     this.fastestRecord = _.isNil(
       this._model.customization.history.fastestRecord
     )
