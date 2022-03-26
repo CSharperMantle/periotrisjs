@@ -15,7 +15,7 @@ import {
   RotationDirection,
 } from "../model"
 
-import type { IDisplayBlock } from "./IDisplayBlock"
+import type { IBlockSprite } from "./IDisplayBlock"
 
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
@@ -84,32 +84,20 @@ class GameViewModel extends EventEmitter {
   public get gameState(): GameState {
     return this._gameState
   }
-  private set gameState(v: GameState) {
-    this._gameState = v
-  }
 
   private _elapsedTime: Dayjs = dayjs(0)
   public get elapsedTime(): Dayjs {
     return this._elapsedTime
   }
-  private set elapsedTime(v: Dayjs) {
-    this._elapsedTime = v
-  }
 
-  private _fastestRecord: Dayjs = dayjs(0)
-  public get fastestRecord(): Dayjs {
+  private _fastestRecord: Dayjs | null = dayjs(0)
+  public get fastestRecord(): Dayjs | null {
     return this._fastestRecord
-  }
-  private set fastestRecord(v: Dayjs) {
-    this._fastestRecord = v
   }
 
   private _isNewRecord = false
   public get isNewRecord(): boolean {
     return this._isNewRecord
-  }
-  private set isNewRecord(v: boolean) {
-    this._isNewRecord = v
   }
 
   public get showGridLine(): boolean {
@@ -118,11 +106,11 @@ class GameViewModel extends EventEmitter {
 
   public paused = false
 
-  public readonly sprites: IDisplayBlock[] = []
+  public readonly sprites: IBlockSprite[] = []
 
   private readonly _model: GameModel = new GameModel()
 
-  private readonly _blocksByPosition: Map<Position, IDisplayBlock> = new Map()
+  private readonly _blocksByPosition: Map<Position, IBlockSprite> = new Map()
 
   private _gameIntervalTimerHandle = -1
 
@@ -201,20 +189,18 @@ class GameViewModel extends EventEmitter {
   }
 
   public switchPauseGame(): void {
-    if (this.gameState !== GameState.InProgress) {
+    if (this._gameState !== GameState.InProgress) {
       return // Not allowed to pause/unpause outside of game
     }
     this.paused = !this.paused
   }
 
   public requestStartGame(): void {
-    if ([GameState.InProgress, GameState.Preparing].includes(this.gameState)) {
+    if ([GameState.InProgress, GameState.Preparing].includes(this._gameState)) {
       return // Not allowed to start game twice
     }
     for (const element of this._blocksByPosition.values()) {
-      _.remove(this.sprites, (value: IDisplayBlock) =>
-        _.isEqual(value, element)
-      )
+      _.remove(this.sprites, (value: IBlockSprite) => _.isEqual(value, element))
     }
     this._blocksByPosition.clear()
     this._model.prepareGame()
@@ -232,13 +218,9 @@ class GameViewModel extends EventEmitter {
   }
 
   private refreshGameStatus(): void {
-    this.gameState = this._model.gameState
-    this.isNewRecord = this._model.isNewHighRecord
-    this.fastestRecord = _.isNil(
-      this._model.customization.history.fastestRecord
-    )
-      ? dayjs(0)
-      : this._model.customization.history.fastestRecord
+    this._gameState = this._model.gameState
+    this._isNewRecord = this._model.isNewHighRecord
+    this._fastestRecord = this._model.customization.history.fastestRecord
   }
 
   private intervalTickEventHandler(): void {
@@ -253,7 +235,7 @@ class GameViewModel extends EventEmitter {
   }
 
   private intervalStopwatchUpdateEventHandler(): void {
-    this.elapsedTime = dayjs(this._model.elapsedMilliseconds)
+    this._elapsedTime = dayjs(this._model.elapsedMilliseconds)
   }
 
   private onGameStateChanged(): void {
@@ -267,13 +249,10 @@ class GameViewModel extends EventEmitter {
 
     if (!eventArgs.disappeared) {
       if (!this._blocksByPosition.has(eventArgs.block.position)) {
-        const displayBlock: IDisplayBlock = {
-          withContent: true,
-          withBorder: this.showGridLine,
+        const displayBlock: IBlockSprite = {
           atomicNumber: block.atomicNumber,
           row: block.position.y,
           column: block.position.x,
-          symbolColor: "black",
         }
         this._blocksByPosition.set(block.position, displayBlock)
         this.sprites.push(displayBlock)
@@ -281,7 +260,7 @@ class GameViewModel extends EventEmitter {
     } else {
       if (this._blocksByPosition.has(block.position)) {
         const displayBlock = this._blocksByPosition.get(block.position)
-        _.remove(this.sprites, (value: IDisplayBlock) =>
+        _.remove(this.sprites, (value: IBlockSprite) =>
           _.isEqual(value, displayBlock)
         )
         this._blocksByPosition.delete(block.position)

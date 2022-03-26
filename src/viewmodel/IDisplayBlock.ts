@@ -1,10 +1,7 @@
-interface IDisplayBlock {
-  withContent: boolean
-  withBorder: boolean
+interface IBlockSprite {
   atomicNumber: number
   column: number
   row: number
-  symbolColor: string
 }
 
-export type { IDisplayBlock }
+export type { IBlockSprite }

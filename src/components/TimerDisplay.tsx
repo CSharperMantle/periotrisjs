@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { observer } from "mobx-react"
 import React, { useContext } from "react"
 
@@ -38,7 +39,7 @@ const TimerDisplay = observer((): React.ReactElement => {
           color: "white",
         }}
       >
-        {fastestRecord.format("mm:ss")}
+        {_.isNil(fastestRecord) ? "--:--" : fastestRecord.format("mm:ss")}
       </Typography>
       <Typography
         sx={{

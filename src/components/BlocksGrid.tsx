@@ -9,19 +9,19 @@ import { GameViewModelContext } from "../viewmodel"
 import { BlockControl } from "./BlockControl"
 import { TimerDisplay } from "./TimerDisplay"
 
-import type { IDisplayBlock } from "../viewmodel"
+import type { IBlockDisplay } from "./IBlockDisplay"
 
 const BlocksGrid = observer((): React.ReactElement => {
   const viewModel = useContext(GameViewModelContext)
 
-  const paddedBlocks: IDisplayBlock[][] = []
+  const paddedBlocks: IBlockDisplay[][] = []
 
   for (let i = 0; i < PlayAreaHeight; i++) {
     paddedBlocks[i] = []
     for (let j = 0; j < PlayAreaWidth; j++) {
       paddedBlocks[i][j] = {
-        withContent: false,
-        withBorder: viewModel.showGridLine,
+        hasContent: false,
+        hasBorder: viewModel.showGridLine,
         atomicNumber: 0,
         row: i,
         column: j,
@@ -32,15 +32,17 @@ const BlocksGrid = observer((): React.ReactElement => {
   const sprites = viewModel.sprites
   for (let i = 0, len = sprites.length; i < len; i++) {
     const block = sprites[i]
-    paddedBlocks[block.row][block.column] = block
+    paddedBlocks[block.row][block.column] = {
+      ...block,
+      hasContent: true,
+      hasBorder: viewModel.showGridLine,
+      symbolColor: "black",
+    }
   }
 
-  const blocks = _.map(
-    _.flatten(paddedBlocks),
-    (block: IDisplayBlock, index: number) => {
-      return <BlockControl key={index} {...block} />
-    }
-  )
+  const blocks = _.map(_.flatten(paddedBlocks), (block: IBlockDisplay) => {
+    return <BlockControl block={block} />
+  })
 
   return (
     <Box

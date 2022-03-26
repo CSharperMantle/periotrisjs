@@ -70,9 +70,6 @@ class GameModel extends EventEmitter {
   public get isNewHighRecord(): boolean {
     return this._isNewHighRecord
   }
-  private set isNewHighRecord(v: boolean) {
-    this._isNewHighRecord = v
-  }
 
   /**
    * Starting time of the game.
@@ -121,7 +118,7 @@ class GameModel extends EventEmitter {
     this._endDate = Date.now()
 
     if (victory) {
-      this.isNewHighRecord = this.customization.history.add(
+      this._isNewHighRecord = this.customization.history.add(
         dayjs(this.elapsedMilliseconds)
       )
     }
