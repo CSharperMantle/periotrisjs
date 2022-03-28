@@ -7,20 +7,24 @@ import Box from "@mui/material/Box"
 import { GameViewModelContext } from "../viewmodel"
 import { BlockControl } from "./BlockControl"
 import { TimerDisplay } from "./TimerDisplay"
+import { customizationFacade } from "../customization"
 
 import type { IBlockDisplay } from "./IBlockDisplay"
 
 const BlocksGrid = observer((): React.ReactElement => {
   const viewModel = useContext(GameViewModelContext)
 
+  const playAreaSize = customizationFacade.settings.gameMap.playAreaSize
+  const showGridLine = customizationFacade.settings.showGridLine
+
   const paddedBlocks: IBlockDisplay[][] = []
 
-  for (let i = 0; i < viewModel.playAreaSize.height; i++) {
+  for (let i = 0; i < playAreaSize.height; i++) {
     paddedBlocks[i] = []
-    for (let j = 0; j < viewModel.playAreaSize.width; j++) {
+    for (let j = 0; j < playAreaSize.width; j++) {
       paddedBlocks[i][j] = {
         hasContent: false,
-        hasBorder: viewModel.showGridLine,
+        hasBorder: showGridLine,
         atomicNumber: 0,
         row: i,
         column: j,
@@ -34,7 +38,7 @@ const BlocksGrid = observer((): React.ReactElement => {
     paddedBlocks[block.row][block.column] = {
       ...block,
       hasContent: true,
-      hasBorder: viewModel.showGridLine,
+      hasBorder: showGridLine,
       symbolColor: "black",
     }
   }
@@ -50,7 +54,7 @@ const BlocksGrid = observer((): React.ReactElement => {
 
         position: "relative",
         height: "100%",
-        aspectRatio: `auto ${viewModel.playAreaSize.width} / ${viewModel.playAreaSize.height}`,
+        aspectRatio: `auto ${playAreaSize.width} / ${playAreaSize.height}`,
 
         backgroundColor: "black",
       }}
@@ -59,8 +63,8 @@ const BlocksGrid = observer((): React.ReactElement => {
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: `repeat(${viewModel.playAreaSize.width}, 1fr)`,
-          gridTemplateRows: `repeat(${viewModel.playAreaSize.height}, 1fr)`,
+          gridTemplateColumns: `repeat(${playAreaSize.width}, 1fr)`,
+          gridTemplateRows: `repeat(${playAreaSize.height}, 1fr)`,
 
           position: "relative",
           width: "100%",

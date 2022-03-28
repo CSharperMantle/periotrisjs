@@ -2,16 +2,17 @@ import dayjs, { Dayjs } from "dayjs"
 import { EventEmitter } from "events"
 import { isBrowser } from "is-in-browser"
 import _ from "lodash"
-import { makeObservable, observable, action } from "mobx"
+import { action, makeObservable, observable } from "mobx"
 import { createContext } from "react"
 
 import { Position, StopwatchUpdateIntervalMilliseconds } from "../common"
+import { customizationFacade } from "../customization"
 import {
   Block,
   BlockChangedEventArgs,
+  GameModel,
   GameState,
   MoveDirection,
-  GameModel,
   RotationDirection,
 } from "../model"
 
@@ -98,14 +99,6 @@ class GameViewModel extends EventEmitter {
   private _isNewRecord = false
   public get isNewRecord(): boolean {
     return this._isNewRecord
-  }
-
-  public get showGridLine(): boolean {
-    return this._model.customization.settings.showGridLine
-  }
-
-  public get playAreaSize(): { width: number; height: number } {
-    return this._model.customization.settings.gameMap.playAreaSize
   }
 
   public paused = false
@@ -224,7 +217,7 @@ class GameViewModel extends EventEmitter {
   private refreshGameStatus(): void {
     this._gameState = this._model.gameState
     this._isNewRecord = this._model.isNewHighRecord
-    this._fastestRecord = this._model.customization.history.fastestRecord
+    this._fastestRecord = customizationFacade.history.fastestRecord
   }
 
   private intervalTickEventHandler(): void {
@@ -281,7 +274,7 @@ class GameViewModel extends EventEmitter {
     this.paused = false
     this._gameIntervalTimerHandle = window.setInterval(() => {
       this.intervalTickEventHandler()
-    }, this._model.customization.settings.gameUpdateIntervalMilliseconds)
+    }, customizationFacade.settings.gameUpdateIntervalMilliseconds)
     this._gameStopwatchUpdateTimerHandle = window.setInterval(() => {
       this.intervalStopwatchUpdateEventHandler()
     }, StopwatchUpdateIntervalMilliseconds)

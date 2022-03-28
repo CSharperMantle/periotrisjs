@@ -52,6 +52,10 @@ class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
+  private constructor() {
+    // Do nothing.
+  }
+
   public static fromLocalStorage(): Settings {
     const result = retrieve(SettingsLocalStorageKey)
 
@@ -72,6 +76,13 @@ class Settings implements ILocalStorageSerializable {
    */
   public toLocalStorage(): void {
     store(SettingsLocalStorageKey, this)
+  }
+
+  /**
+   * Get default settings.
+   */
+  public static get Default(): Settings {
+    return new Settings()
   }
 }
 

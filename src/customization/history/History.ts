@@ -37,7 +37,7 @@ class History implements ILocalStorageSerializable {
   /**
    * Note: For testing only. Do not use in user code.
    */
-  public constructor() {
+  private constructor() {
     this._fastestRecord = null
     this._records = []
   }
@@ -67,6 +67,13 @@ class History implements ILocalStorageSerializable {
    */
   public toLocalStorage(): void {
     store(HistoryLocalStorageKey, this)
+  }
+
+  /**
+   * Get an empty History object.
+   */
+  public static get Empty(): History {
+    return new History()
   }
 }
 

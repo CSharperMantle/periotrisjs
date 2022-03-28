@@ -12,14 +12,14 @@ jest.mock("../../../localstorage", () => ({
 
 describe("History", () => {
   it("should be initialized empty", () => {
-    const h = new History()
+    const h = History.Empty
 
     expect(h.fastestRecord).toBeNull()
     expect(h.records).toHaveLength(0)
   })
 
   it("should be able to track records", () => {
-    const h = new History()
+    const h = History.Empty
 
     expect(h.records).toHaveLength(0)
     h.add(dayjs(1000))
@@ -28,7 +28,7 @@ describe("History", () => {
   })
 
   it("should update fastest record when necessary", () => {
-    const h = new History()
+    const h = History.Empty
 
     expect(h.fastestRecord).toBeNull()
     expect(h.add(dayjs(2000))).toBeTruthy()

@@ -3,7 +3,7 @@ import { EventEmitter } from "events"
 import { isBrowser } from "is-in-browser"
 import _ from "lodash"
 
-import { CustomizationFacade } from "../customization"
+import { customizationFacade } from "../customization"
 import { Block } from "./Block"
 import { BlockChangedEventArgs } from "./BlockChangedEventArgs"
 import { MoveDirection, RotationDirection } from "./Direction"
@@ -42,11 +42,6 @@ class GameModel extends EventEmitter {
    * and controllable by the player.
    */
   private _activeTetrimino: Tetrimino | null = null
-
-  /**
-   * Customization settings.
-   */
-  public readonly customization: CustomizationFacade = new CustomizationFacade()
 
   private _gameState: GameState = GameState.NotStarted
   /**
@@ -117,7 +112,7 @@ class GameModel extends EventEmitter {
     this._endDate = Date.now()
 
     if (victory) {
-      this._isNewHighRecord = this.customization.history.add(
+      this._isNewHighRecord = customizationFacade.history.add(
         dayjs(this.elapsedMilliseconds)
       )
     }
@@ -229,14 +224,14 @@ class GameModel extends EventEmitter {
       // We have workers.
       const message: IGeneratorMessage<IMap> = {
         type: MessageType.RequestGeneration,
-        content: this.customization.settings.gameMap,
+        content: customizationFacade.settings.gameMap,
       }
       this._patternGeneratorWorker.postMessage(message)
     } else {
       console.warn(
         "Web workers unavailable. Running pattern generator on UI thread."
       )
-      getPlayablePattern(this.customization.settings.gameMap).then(
+      getPlayablePattern(customizationFacade.settings.gameMap).then(
         (tetriminos) => {
           this.startPreparedGame(tetriminos)
         }
@@ -271,7 +266,7 @@ class GameModel extends EventEmitter {
     for (let i = 0, len = this._frozenBlocks.length; i < len; i++) {
       const block = this._frozenBlocks[i]
       if (
-        this.customization.settings.gameMap.periodicTable[block.position.y][
+        customizationFacade.settings.gameMap.periodicTable[block.position.y][
           block.position.x
         ].atomicNumber !== block.atomicNumber
       ) {
@@ -282,7 +277,7 @@ class GameModel extends EventEmitter {
 
     if (
       this._frozenBlocks.length >=
-      this.customization.settings.gameMap.totalAvailableBlocksCount
+      customizationFacade.settings.gameMap.totalAvailableBlocksCount
     ) {
       this.endGame(true)
     }
@@ -376,13 +371,14 @@ class GameModel extends EventEmitter {
   private checkBlockValidity(block: Block): boolean {
     if (
       block.position.x < 0 ||
-      block.position.x >= this.customization.settings.gameMap.playAreaSize.width
+      block.position.x >=
+        customizationFacade.settings.gameMap.playAreaSize.width
     ) {
       return true
     }
     if (
       block.position.y >=
-      this.customization.settings.gameMap.playAreaSize.height
+      customizationFacade.settings.gameMap.playAreaSize.height
     ) {
       return true
     }
