@@ -1211,5 +1211,6 @@
       }
     ]
   ],
-  "totalAvailableBlocksCount": 108
+  "totalAvailableBlocksCount": 108,
+  "playAreaSize": { "height": 11, "width": 18 }
 }

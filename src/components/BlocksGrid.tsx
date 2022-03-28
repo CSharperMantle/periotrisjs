@@ -4,7 +4,6 @@ import React, { useContext } from "react"
 
 import Box from "@mui/material/Box"
 
-import { PlayAreaHeight, PlayAreaWidth } from "../common"
 import { GameViewModelContext } from "../viewmodel"
 import { BlockControl } from "./BlockControl"
 import { TimerDisplay } from "./TimerDisplay"
@@ -16,9 +15,9 @@ const BlocksGrid = observer((): React.ReactElement => {
 
   const paddedBlocks: IBlockDisplay[][] = []
 
-  for (let i = 0; i < PlayAreaHeight; i++) {
+  for (let i = 0; i < viewModel.playAreaSize.height; i++) {
     paddedBlocks[i] = []
-    for (let j = 0; j < PlayAreaWidth; j++) {
+    for (let j = 0; j < viewModel.playAreaSize.width; j++) {
       paddedBlocks[i][j] = {
         hasContent: false,
         hasBorder: viewModel.showGridLine,
@@ -51,7 +50,7 @@ const BlocksGrid = observer((): React.ReactElement => {
 
         position: "relative",
         height: "100%",
-        aspectRatio: `auto ${PlayAreaWidth} / ${PlayAreaHeight}`,
+        aspectRatio: `auto ${viewModel.playAreaSize.width} / ${viewModel.playAreaSize.height}`,
 
         backgroundColor: "black",
       }}
@@ -60,8 +59,8 @@ const BlocksGrid = observer((): React.ReactElement => {
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: `repeat(${PlayAreaWidth}, 1fr)`,
-          gridTemplateRows: `repeat(${PlayAreaHeight}, 1fr)`,
+          gridTemplateColumns: `repeat(${viewModel.playAreaSize.width}, 1fr)`,
+          gridTemplateRows: `repeat(${viewModel.playAreaSize.height}, 1fr)`,
 
           position: "relative",
           width: "100%",

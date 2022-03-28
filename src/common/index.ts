@@ -8,6 +8,8 @@ import {
 } from "./PeriotrisConst"
 import { Position } from "./Position"
 
+import type { ISize } from "./ISize"
+
 export {
   PlayAreaHeight,
   PlayAreaWidth,
@@ -17,3 +19,5 @@ export {
   SettingsLocalStorageKey,
   Position,
 }
+
+export type { ISize }

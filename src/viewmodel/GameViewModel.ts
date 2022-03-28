@@ -104,6 +104,10 @@ class GameViewModel extends EventEmitter {
     return this._model.customization.settings.showGridLine
   }
 
+  public get playAreaSize(): { width: number; height: number } {
+    return this._model.customization.settings.gameMap.playAreaSize
+  }
+
   public paused = false
 
   public readonly sprites: IBlockSprite[] = []

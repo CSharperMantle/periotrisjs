@@ -1,9 +1,11 @@
 import _ from "lodash"
 
-import { PlayAreaWidth, Position } from "../../common"
+import { Position } from "../../common"
 import { Block } from "../Block"
 import { Direction } from "../Direction"
 import { TetriminoKind } from "../TetriminoKind"
+
+import type { ISize } from "../../common"
 
 const CubicDownMask: number[][] = [
   [3, 4],
@@ -397,7 +399,10 @@ function getTransformedCoord(
   )
 }
 
-function getInitialPositionByKind(kind: TetriminoKind): Position {
+function getInitialPositionByKind(
+  kind: TetriminoKind,
+  playAreaSize: ISize
+): Position {
   let length: number
   switch (kind) {
     case TetriminoKind.Linear:
@@ -417,7 +422,7 @@ function getInitialPositionByKind(kind: TetriminoKind): Position {
       throw new Error("Invalid tetrimino kind.")
   }
   const row = 0
-  const col = Math.floor((PlayAreaWidth - length) / 2)
+  const col = Math.floor((playAreaSize.width - length) / 2)
   return new Position(col, row)
 }
 

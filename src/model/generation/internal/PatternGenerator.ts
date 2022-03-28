@@ -1,6 +1,6 @@
 import _ from "lodash"
 
-import { PlayAreaHeight, PlayAreaWidth, Position } from "../../../common"
+import { Position } from "../../../common"
 import { Block } from "../../Block"
 import { Direction, RotationDirection } from "../../Direction"
 import { repairBrokenTetriminos, Tetrimino } from "../../Tetrimino"
@@ -8,6 +8,7 @@ import { TetriminoKind } from "../../TetriminoKind"
 import { getInitialPositionByKind } from "../GeneratorHelper"
 import { sort } from "./TetriminoSorter"
 
+import type { ISize } from "../../../common"
 import type { IMap } from "../../../customization"
 
 function fastRandom(startInc: number, endExc: number): number {
@@ -17,10 +18,10 @@ function fastRandom(startInc: number, endExc: number): number {
 async function getPlayablePattern(map: IMap): Promise<Tetrimino[]> {
   const template: Block[][] = []
 
-  for (let i = 0; i < PlayAreaHeight; i++) {
+  for (let i = 0; i < map.playAreaSize.height; i++) {
     template[i] = []
 
-    for (let j = 0; j < PlayAreaWidth; j++) {
+    for (let j = 0; j < map.playAreaSize.width; j++) {
       const origElem: {
         atomicNumber: number
         filledBy: number
@@ -37,11 +38,11 @@ async function getPlayablePattern(map: IMap): Promise<Tetrimino[]> {
   }
 
   const pattern = await getPossibleTetriminoPattern(template)
-  const ordered = await sort(pattern)
+  const ordered = await sort(pattern, map.playAreaSize)
 
   const fixedTetriminos = repairBrokenTetriminos(ordered)
 
-  moveAndRotateTetrimino(fixedTetriminos)
+  primeTetriminos(fixedTetriminos, map.playAreaSize)
 
   return fixedTetriminos
 }
@@ -180,12 +181,19 @@ class KindDirectionsPair {
   }
 }
 
-function moveAndRotateTetrimino(tetriminos: Tetrimino[]) {
+/**
+ * "Prime" the tetriminos, that is, move them to the top center of play
+ * area and rotate them randomly for initial direction.
+ *
+ * @param tetriminos The tetriminos to prime.
+ * @param playAreaSize Size of play area.
+ */
+function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
   // Move to initial position and rotate randomly
   for (let i = 0, len = tetriminos.length; i < len; i++) {
     const tetrimino = tetriminos[i]
     const originalPos = tetrimino.position
-    const newPos = getInitialPositionByKind(tetrimino.kind)
+    const newPos = getInitialPositionByKind(tetrimino.kind, playAreaSize)
     const deltaX = newPos.x - originalPos.x
     const deltaY = newPos.y - originalPos.y
     const newBlocks: Block[] = Array.from(tetrimino.blocks, (block: Block) => {

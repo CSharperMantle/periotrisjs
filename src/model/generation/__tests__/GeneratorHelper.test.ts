@@ -110,52 +110,56 @@ describe("mapAtomicNumberForNewBlocks", () => {
 
 describe("getInitialPositionByKind", () => {
   it("should have correct behavior", () => {
+    const size = { height: NaN, width: PlayAreaWidth }
+
     expect(
-      getInitialPositionByKind(TetriminoKind.Cubic).equals(
+      getInitialPositionByKind(TetriminoKind.Cubic, size).equals(
         new Position(Math.floor((PlayAreaWidth - 2) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.Linear).equals(
+      getInitialPositionByKind(TetriminoKind.Linear, size).equals(
         new Position(Math.floor((PlayAreaWidth - 4) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.TeeShaped).equals(
+      getInitialPositionByKind(TetriminoKind.TeeShaped, size).equals(
         new Position(Math.floor((PlayAreaWidth - 3) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.LShapedCis).equals(
+      getInitialPositionByKind(TetriminoKind.LShapedCis, size).equals(
         new Position(Math.floor((PlayAreaWidth - 3) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.LShapedTrans).equals(
+      getInitialPositionByKind(TetriminoKind.LShapedTrans, size).equals(
         new Position(Math.floor((PlayAreaWidth - 3) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.ZigZagCis).equals(
+      getInitialPositionByKind(TetriminoKind.ZigZagCis, size).equals(
         new Position(Math.floor((PlayAreaWidth - 3) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.ZigZagTrans).equals(
+      getInitialPositionByKind(TetriminoKind.ZigZagTrans, size).equals(
         new Position(Math.floor((PlayAreaWidth - 3) / 2), 0)
       )
     ).toBe(true)
   })
 
   it("should handle incorrect arguments gracefully", () => {
+    const size = { height: NaN, width: PlayAreaWidth }
+
     expect(() => {
-      getInitialPositionByKind(TetriminoKind.AvailableToFill)
+      getInitialPositionByKind(TetriminoKind.AvailableToFill, size)
     }).toThrowError(new Error("Invalid tetrimino kind."))
     expect(() => {
-      getInitialPositionByKind(TetriminoKind.UnavailableToFill)
+      getInitialPositionByKind(TetriminoKind.UnavailableToFill, size)
     }).toThrowError(new Error("Invalid tetrimino kind."))
     expect(() => {
-      getInitialPositionByKind(9)
+      getInitialPositionByKind(9, size)
     }).toThrowError(new Error("Invalid tetrimino kind."))
   })
 })

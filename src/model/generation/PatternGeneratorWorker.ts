@@ -5,7 +5,7 @@ import { MessageType } from "./MessageType"
 
 import type { IMap } from "../../customization"
 
-const ctx: Worker = self as never
+const ctx = self as unknown as Worker
 
 ctx.onmessage = (eventArgs: MessageEvent<IGeneratorMessage<unknown>>) => {
   const data = eventArgs.data

@@ -3,7 +3,6 @@ import { EventEmitter } from "events"
 import { isBrowser } from "is-in-browser"
 import _ from "lodash"
 
-import { PlayAreaHeight, PlayAreaWidth } from "../common"
 import { CustomizationFacade } from "../customization"
 import { Block } from "./Block"
 import { BlockChangedEventArgs } from "./BlockChangedEventArgs"
@@ -375,10 +374,16 @@ class GameModel extends EventEmitter {
    * @returns Whether the block is valid.
    */
   private checkBlockValidity(block: Block): boolean {
-    if (block.position.x < 0 || block.position.x >= PlayAreaWidth) {
+    if (
+      block.position.x < 0 ||
+      block.position.x >= this.customization.settings.gameMap.playAreaSize.width
+    ) {
       return true
     }
-    if (block.position.y >= PlayAreaHeight) {
+    if (
+      block.position.y >=
+      this.customization.settings.gameMap.playAreaSize.height
+    ) {
       return true
     }
     return this._frozenBlocks.some((frozenBlock: Block): boolean => {
