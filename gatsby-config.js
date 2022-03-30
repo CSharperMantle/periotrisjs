@@ -26,7 +26,7 @@ module.exports = {
         precachePages: ["/", "/404", "/about", "/game", "/settings"],
       },
     },
-    "gatsby-source-local-git-modern",
+    "gatsby-source-local-git",
     "gatsby-source-package",
   ],
   siteMetadata: {
