@@ -1,4 +1,4 @@
-import { PlayAreaWidth, Position } from "../../../common"
+import { PlayAreaWidth, Position, positionEquals } from "../../../common"
 import { Block } from "../../Block"
 import { Direction } from "../../Direction"
 import { TetriminoKind } from "../../TetriminoKind"
@@ -24,7 +24,7 @@ describe("createOffsetedBlocks", () => {
     ]
     blks.forEach((blk) => {
       expect(
-        expectedPos.filter((pos) => blk.position.equals(pos))
+        expectedPos.filter((pos) => positionEquals(blk.position, pos))
       ).toHaveLength(1)
     })
   })
@@ -113,37 +113,44 @@ describe("getInitialPositionByKind", () => {
     const size = { height: NaN, width: PlayAreaWidth }
 
     expect(
-      getInitialPositionByKind(TetriminoKind.Cubic, size).equals(
+      positionEquals(
+        getInitialPositionByKind(TetriminoKind.Cubic, size),
         new Position(Math.floor((PlayAreaWidth - 2) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.Linear, size).equals(
+      positionEquals(
+        getInitialPositionByKind(TetriminoKind.Linear, size),
         new Position(Math.floor((PlayAreaWidth - 4) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.TeeShaped, size).equals(
+      positionEquals(
+        getInitialPositionByKind(TetriminoKind.TeeShaped, size),
         new Position(Math.floor((PlayAreaWidth - 3) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.LShapedCis, size).equals(
+      positionEquals(
+        getInitialPositionByKind(TetriminoKind.LShapedCis, size),
         new Position(Math.floor((PlayAreaWidth - 3) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.LShapedTrans, size).equals(
+      positionEquals(
+        getInitialPositionByKind(TetriminoKind.LShapedTrans, size),
         new Position(Math.floor((PlayAreaWidth - 3) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.ZigZagCis, size).equals(
+      positionEquals(
+        getInitialPositionByKind(TetriminoKind.ZigZagCis, size),
         new Position(Math.floor((PlayAreaWidth - 3) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.ZigZagTrans, size).equals(
+      positionEquals(
+        getInitialPositionByKind(TetriminoKind.ZigZagTrans, size),
         new Position(Math.floor((PlayAreaWidth - 3) / 2), 0)
       )
     ).toBe(true)

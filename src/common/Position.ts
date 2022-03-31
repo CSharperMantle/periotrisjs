@@ -7,10 +7,10 @@
  */
 class Position {
   constructor(public readonly x: number, public readonly y: number) {}
-
-  public equals(another: Position): boolean {
-    return this.x === another.x && this.y === another.y
-  }
 }
 
-export { Position }
+function positionEquals(p1: Position, p2: Position): boolean {
+  return p1.x === p2.x && p1.y === p2.y
+}
+
+export { Position, positionEquals }

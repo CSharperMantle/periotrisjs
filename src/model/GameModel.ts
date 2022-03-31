@@ -3,6 +3,7 @@ import { EventEmitter } from "events"
 import { isBrowser } from "is-in-browser"
 import _ from "lodash"
 
+import { positionEquals } from "../common"
 import { customizationFacade } from "../customization"
 import { Block } from "./Block"
 import { BlockChangedEventArgs } from "./BlockChangedEventArgs"
@@ -388,7 +389,7 @@ class GameModel extends EventEmitter {
       return true
     }
     return this._frozenBlocks.some((frozenBlock: Block): boolean => {
-      return frozenBlock.position.equals(block.position)
+      return positionEquals(frozenBlock.position, block.position)
     })
   }
 

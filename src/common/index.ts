@@ -6,7 +6,7 @@ import {
   SettingsLocalStorageKey,
   StopwatchUpdateIntervalMilliseconds,
 } from "./PeriotrisConst"
-import { Position } from "./Position"
+import { Position, positionEquals } from "./Position"
 
 import type { ISize } from "./ISize"
 
@@ -18,6 +18,7 @@ export {
   HistoryLocalStorageKey,
   SettingsLocalStorageKey,
   Position,
+  positionEquals,
 }
 
 export type { ISize }
