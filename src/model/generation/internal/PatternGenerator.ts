@@ -22,15 +22,10 @@ async function getPlayablePattern(map: IMap): Promise<Tetrimino[]> {
     template[i] = []
 
     for (let j = 0; j < map.playAreaSize.width; j++) {
-      const origElem: {
-        atomicNumber: number
-        filledBy: number
-        identifier: number
-        position: { X: number; Y: number }
-      } = map.periodicTable[i][j]
+      const origElem = map.periodicTable[i][j]
       template[i][j] = new Block(
         origElem.filledBy,
-        new Position(origElem.position.X, origElem.position.Y),
+        new Position(origElem.position.x, origElem.position.y),
         origElem.atomicNumber,
         0
       )

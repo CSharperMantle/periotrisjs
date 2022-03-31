@@ -4,7 +4,7 @@ interface IMapCell {
   readonly atomicNumber: number
   readonly filledBy: number
   readonly identifier: number
-  readonly position: { X: number; Y: number }
+  readonly position: { x: number; y: number }
 }
 
 type TMapRow = IMapCell[]
