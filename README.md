@@ -13,7 +13,7 @@ _Figure: Periotris.js v2.0.1 screenshot_
 - `main`: [![Gatsby](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml/badge.svg?branch=main)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml)
 - `CodeQL` on `develop`: [![CodeQL](https://github.com/CSharperMantle/periotrisjs/actions/workflows/codeql.yml/badge.svg?branch=develop)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/codeql.yml)
 
-## 1. Experience Periotris.js
+## Experience Periotris.js
 
 Instances of Periotris.js are hosted on GitHub Pages and Vercel.
 
@@ -23,9 +23,9 @@ Instances of Periotris.js are hosted on GitHub Pages and Vercel.
 
 The game can also act as a [Progressive Web Application](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps). This enables it to be installed like a native app on browsers supporting PWAs. Known browsers that support this feature include Microsoft Edge and Firefox.
 
-### 1.1. In-game controls
+### In-game controls
 
-#### 1.1.1. Keyboard
+#### Keyboard
 
 - `W`: Rotate
 - `A`: Move left
@@ -33,7 +33,7 @@ The game can also act as a [Progressive Web Application](https://developer.mozil
 - `S`: Move down
 - `Space`: Instant drop
 
-#### 1.1.2. Pointer gesture
+#### Pointer gesture
 
 - `Tap`: Rotate
 - `Swipe left`: Move left
@@ -41,9 +41,9 @@ The game can also act as a [Progressive Web Application](https://developer.mozil
 - `Swipe down`: Move down
 - `Long press`: Instant drop
 
-## 2. Getting started in development
+## Getting started in development
 
-### 2.1. Clone
+### Clone
 
 Run:
 
@@ -54,7 +54,7 @@ cd periotrisjs
 
 You may omit the `--depth=1` flag if you want a complete commit history rather than a grafted shallow history (which saves disk space). **Reminder:** Do not use 'Download ZIP' button! Make sure that you have your git repository initialized or Periotris.js will fail to determine its revision.
 
-### 2.2. Install dependencies
+### Install dependencies
 
 Dependencies that need to be installed manually:
 
@@ -67,7 +67,7 @@ Once you have installed all above, run the following commands:
 yarn install --immutable
 ```
 
-### 2.3. Build and serve
+### Build and serve
 
 Run the following command to build and serve a static, release-ready [Gatsby](https://gatsbyjs.com/) site:
 
@@ -84,7 +84,7 @@ yarn run develop
 After these commands are executed, you should see in the terminal an address to visit.
 The address is usually `http://localhost:8000/` or `http://localhost:9000/` depending on whether your build is for dev or production.
 
-### 2.4. Test
+### Test
 
 Run the following to run unit tests:
 

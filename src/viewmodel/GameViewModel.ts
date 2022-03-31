@@ -56,6 +56,11 @@ const GameViewModelAnnotationsMap = {
   ...GameViewModelPrivateAnnotationsMap,
 }
 
+/**
+ * The view model of Periotris.
+ *
+ * @emits `gamestatechanged`
+ */
 class GameViewModel extends EventEmitter {
   public constructor() {
     super()

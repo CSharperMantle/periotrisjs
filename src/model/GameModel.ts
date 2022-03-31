@@ -16,6 +16,11 @@ import type { IMap } from "../customization"
 
 /**
  * The model of Periotris.
+ *
+ * @emits `gamestarted`
+ * @emits `gameended`
+ * @emits `blockchanged`
+ * @emits `gamestatechanged`
  */
 class GameModel extends EventEmitter {
   /**

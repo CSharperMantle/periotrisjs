@@ -1,5 +1,3 @@
-import _ from "lodash"
-
 import { Position } from "../common"
 import { Block } from "./Block"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
@@ -34,25 +32,25 @@ class Tetrimino {
     const origPos = this.position
     let newPos: Position
     if (direction === MoveDirection.Down) {
-      const row = origPos.y + 1
-      newPos = new Position(origPos.x, row)
+      newPos = new Position(origPos.x, origPos.y + 1)
     } else {
-      const delta = direction === MoveDirection.Right ? 1 : -1
-      const column = origPos.x + delta
-      newPos = new Position(column, origPos.y)
+      newPos = new Position(
+        origPos.x + (direction === MoveDirection.Right ? 1 : -1),
+        origPos.y
+      )
     }
 
     const deltaX = newPos.x - origPos.x
     const deltaY = newPos.y - origPos.y
 
-    const newBlocks = _.cloneDeep(this.blocks)
-    for (let i = 0, len = newBlocks.length; i < len; i++) {
-      const block = newBlocks[i]
-      block.position = new Position(
-        block.position.x + deltaX,
-        block.position.y + deltaY
-      )
-    }
+    const newBlocks = this.blocks.map((b) => {
+      return {
+        filledBy: b.filledBy,
+        position: new Position(b.position.x + deltaX, b.position.y + deltaY),
+        atomicNumber: b.atomicNumber,
+        id: b.id,
+      }
+    })
 
     if (newBlocks.some(collisionChecker)) {
       return false
@@ -160,10 +158,6 @@ function repairBrokenTetriminos(brokenTetriminos: Tetrimino[]): Tetrimino[] {
         Tetrimino.prototype,
         Object.getOwnPropertyDescriptors(brokenTetrimino)
       ) as Tetrimino
-      const o = _.create(
-        Tetrimino.prototype,
-        Object.getOwnPropertyDescriptors(brokenTetrimino)
-      )
 
       // Fix its block positions
       const repairedBlocks: Block[] = Array.from(

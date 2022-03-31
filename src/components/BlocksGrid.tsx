@@ -11,6 +11,19 @@ import { customizationFacade } from "../customization"
 
 import type { IBlockDisplay } from "./IBlockDisplay"
 
+/**
+ * Get hash code string for a display block.
+ *
+ * @param blockDisplay The display block to hash.
+ * @returns The hashed string of block.
+ */
+function getIBlockDisplayHash(blockDisplay: IBlockDisplay): string {
+  return `${blockDisplay.column}:${blockDisplay.row}-${blockDisplay.atomicNumber}`
+}
+
+/**
+ * Represents the main play area grid.
+ */
 const BlocksGrid = observer((): React.ReactElement => {
   const viewModel = useContext(GameViewModelContext)
 
@@ -44,7 +57,7 @@ const BlocksGrid = observer((): React.ReactElement => {
   }
 
   const blocks = _.map(_.flatten(paddedBlocks), (block: IBlockDisplay) => {
-    return <BlockControl block={block} />
+    return <BlockControl block={block} key={getIBlockDisplayHash(block)} />
   })
 
   return (
