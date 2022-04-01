@@ -2,6 +2,7 @@ import _ from "lodash"
 
 import { Position, positionEquals } from "../../common"
 import { Direction, MoveDirection, RotationDirection } from "../Direction"
+import { getPositionByFirstBlock } from "../generation/GeneratorHelper"
 import { repairBrokenTetriminos, Tetrimino } from "../Tetrimino"
 import { TetriminoKind } from "../TetriminoKind"
 
@@ -11,7 +12,7 @@ function structuredClone<T>(obj: T): T {
 
 describe("Tetrimino", () => {
   it("should create proper blocks by position", () => {
-    const t = Tetrimino.createTetriminoByPosition(
+    const t = new Tetrimino(
       TetriminoKind.Cubic,
       new Position(0, 0),
       Direction.Up
@@ -33,9 +34,13 @@ describe("Tetrimino", () => {
   })
 
   it("should create proper blocks by first block position", () => {
-    const t = Tetrimino.createTetriminoByFirstBlockPosition(
+    const t = new Tetrimino(
       TetriminoKind.Linear,
-      new Position(3, 0),
+      getPositionByFirstBlock(
+        new Position(3, 0),
+        TetriminoKind.Linear,
+        Direction.Left
+      ),
       Direction.Left
     )
 
@@ -56,7 +61,7 @@ describe("Tetrimino", () => {
   })
 
   it("should have correct tryMove() behavior", () => {
-    const t = Tetrimino.createTetriminoByPosition(
+    const t = new Tetrimino(
       TetriminoKind.Cubic,
       new Position(0, 0),
       Direction.Up
@@ -114,9 +119,13 @@ describe("Tetrimino", () => {
   })
 
   it("should have correct tryRotate() behavior", () => {
-    const t = Tetrimino.createTetriminoByFirstBlockPosition(
+    const t = new Tetrimino(
       TetriminoKind.Cubic,
-      new Position(5, 5),
+      getPositionByFirstBlock(
+        new Position(5, 5),
+        TetriminoKind.Cubic,
+        Direction.Up
+      ),
       Direction.Up
     )
     const b = _.cloneDeep(t.blocks)
@@ -140,9 +149,13 @@ describe("Tetrimino", () => {
   })
 
   it("should be structured-clone-friendly", () => {
-    const t = Tetrimino.createTetriminoByFirstBlockPosition(
+    const t = new Tetrimino(
       TetriminoKind.Cubic,
-      new Position(5, 5),
+      getPositionByFirstBlock(
+        new Position(5, 5),
+        TetriminoKind.Cubic,
+        Direction.Up
+      ),
       Direction.Up
     )
     const t2 = structuredClone(t)
@@ -151,14 +164,16 @@ describe("Tetrimino", () => {
     expect(t2).not.toHaveProperty("tryRotate")
     expect(t2.position).not.toBe(t.position)
     expect(t2.position).toEqual(t.position)
-    expect(t2.firstBlockPosition).not.toBe(t.firstBlockPosition)
-    expect(t2.firstBlockPosition).toEqual(t.firstBlockPosition)
   })
 
   it("should be repaired by a helper", () => {
-    const t = Tetrimino.createTetriminoByFirstBlockPosition(
+    const t = new Tetrimino(
       TetriminoKind.Cubic,
-      new Position(5, 5),
+      getPositionByFirstBlock(
+        new Position(5, 5),
+        TetriminoKind.Cubic,
+        Direction.Up
+      ),
       Direction.Up
     )
     const t2 = repairBrokenTetriminos([structuredClone(t)])[0]

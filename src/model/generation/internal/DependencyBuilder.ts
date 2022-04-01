@@ -27,7 +27,6 @@ function createTetriminoDependencyGraph(
       const tetriminoNode: TetriminoNode = new TetriminoNode(
         tetrimino.kind,
         tetrimino.position,
-        tetrimino.firstBlockPosition,
         tetrimino.facingDirection,
         tetrimino
       )

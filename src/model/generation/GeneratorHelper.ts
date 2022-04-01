@@ -375,28 +375,24 @@ function getFirstBlockCoordByType(
 }
 
 /**
- * Transform a position of a Tetrimino into its corresponding Position
- * of the first block, or back.
- * @param position Position to transform
- * @param kind Kind of the Tetrimino
- * @param facingDirection Facing direction of the Tetrimino
- * @param isToFirstBlockCoord Whether to transform into the first block position or back.
- * @returns The transformed position
+ * Get the position of a tetrimino by its first block position.
+ *
+ * @see {@link getFirstBlockCoordByType}
+ *
+ * @param position Position to transform.
+ * @param kind Kind of the Tetrimino.
+ * @param facingDirection Facing direction of the Tetrimino.
+ * @returns The transformed position.
  */
-function getTransformedCoord(
+function getPositionByFirstBlock(
   position: Position,
   kind: TetriminoKind,
-  facingDirection: Direction,
-  isToFirstBlockCoord: boolean
+  facingDirection: Direction
 ): Position {
-  const coefficient = isToFirstBlockCoord ? 1 : -1
   const firstBlockCoord = getFirstBlockCoordByType(kind, facingDirection)
   const firstBlockRow = firstBlockCoord.row
   const firstBlockCol = firstBlockCoord.col
-  return new Position(
-    position.x + coefficient * firstBlockCol,
-    position.y + coefficient * firstBlockRow
-  )
+  return new Position(position.x - firstBlockCol, position.y - firstBlockRow)
 }
 
 function getInitialPositionByKind(
@@ -487,7 +483,7 @@ function mapAtomicNumberForNewBlocks(
 export {
   createOffsetedBlocks,
   getFirstBlockCoordByType,
-  getTransformedCoord,
+  getPositionByFirstBlock,
   getInitialPositionByKind,
   mapAtomicNumberForNewBlocks,
 }

@@ -5,7 +5,10 @@ import { Block } from "../../Block"
 import { Direction, RotationDirection } from "../../Direction"
 import { repairBrokenTetriminos, Tetrimino } from "../../Tetrimino"
 import { TetriminoKind } from "../../TetriminoKind"
-import { getInitialPositionByKind } from "../GeneratorHelper"
+import {
+  getInitialPositionByKind,
+  getPositionByFirstBlock,
+} from "../GeneratorHelper"
 import { sort } from "./TetriminoSorter"
 
 import type { ISize } from "../../../common"
@@ -94,9 +97,9 @@ async function getPossibleTetriminoPattern(
       }
       while (currentPair.directions.length > 0) {
         const direction = currentPair.popRandomDirection()
-        const tetrimino = Tetrimino.createTetriminoByFirstBlockPosition(
+        const tetrimino = new Tetrimino(
           currentPair.kind,
-          firstBlockCoord,
+          getPositionByFirstBlock(firstBlockCoord, currentPair.kind, direction),
           direction
         )
         if (

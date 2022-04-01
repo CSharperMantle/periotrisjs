@@ -15,11 +15,10 @@ class TetriminoNode extends Tetrimino {
   public constructor(
     public kind: TetriminoKind,
     public position: Position,
-    public firstBlockPos: Position,
     public facingDirection: Direction,
     originalTetrimino: Tetrimino
   ) {
-    super(kind, position, firstBlockPos, facingDirection)
+    super(kind, position, facingDirection)
     this.memoizedBlocks = Array.from(
       originalTetrimino.blocks,
       (block: Block) => {

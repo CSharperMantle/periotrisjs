@@ -3,10 +3,12 @@ import { Block } from "./Block"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
 import {
   createOffsetedBlocks,
-  getTransformedCoord,
   mapAtomicNumberForNewBlocks,
 } from "./generation/GeneratorHelper"
 import { TetriminoKind } from "./TetriminoKind"
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { getPositionByFirstBlock } from "./generation/GeneratorHelper"
 
 /**
  * The type for block collision checker.
@@ -103,36 +105,18 @@ class Tetrimino {
     return false
   }
 
-  public static createTetriminoByPosition(
-    kind: TetriminoKind,
-    position: Position,
-    facingDirection: Direction
-  ): Tetrimino {
-    return new Tetrimino(
-      kind,
-      position,
-      getTransformedCoord(position, kind, facingDirection, true),
-      facingDirection
-    )
-  }
-
-  public static createTetriminoByFirstBlockPosition(
-    kind: TetriminoKind,
-    firstBlockPos: Position,
-    facingDirection: Direction
-  ): Tetrimino {
-    return new Tetrimino(
-      kind,
-      getTransformedCoord(firstBlockPos, kind, facingDirection, false),
-      firstBlockPos,
-      facingDirection
-    )
-  }
-
-  protected constructor(
+  /**
+   * Creates a new tetrimino.
+   *
+   * @see {@link getPositionByFirstBlock}
+   *
+   * @param kind The kind of tetrimino to create.
+   * @param position The position of the tetrimino.
+   * @param facingDirection The direction the tetrimino is facing.
+   */
+  public constructor(
     public kind: TetriminoKind,
     public position: Position,
-    public firstBlockPosition: Position,
     public facingDirection: Direction
   ) {
     this.blocks = createOffsetedBlocks(kind, position, facingDirection)
