@@ -1,4 +1,4 @@
-import { PlayAreaWidth, Position, positionEquals } from "../../../common"
+import { Position, positionEquals } from "../../../common"
 import { Block } from "../../Block"
 import { Direction } from "../../Direction"
 import { TetriminoKind } from "../../TetriminoKind"
@@ -7,6 +7,8 @@ import {
   getInitialPositionByKind,
   mapAtomicNumberForNewBlocks,
 } from "../GeneratorHelper"
+
+const PlayAreaWidth = 18
 
 describe("createOffsetedBlocks", () => {
   it("should have correct behavior", () => {

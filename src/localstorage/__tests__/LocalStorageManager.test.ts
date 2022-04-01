@@ -26,9 +26,10 @@ describe("LocalStorageManager", () => {
         expect(JSON.parse(value as string).testProp).toBe(2)
       })
 
-    store("__test_item", { testProp: 2 })
+    const result = store("__test_item", { testProp: 2 })
 
     expect(setItemSpy).toBeCalledTimes(1)
+    expect(result).toBe(true)
 
     setItemSpy.mockReset()
   })
@@ -46,5 +47,20 @@ describe("LocalStorageManager", () => {
     expect(obj).toBeNull()
 
     getItemSpy.mockReset()
+  })
+
+  it("should handle quota exceeded errors gracefully when storing", () => {
+    const setItemSpy = jest
+      .spyOn(window.localStorage.__proto__, "setItem")
+      .mockImplementation((): void => {
+        throw new DOMException("Quota exceeded", "QuotaExceededError")
+      })
+
+    const result = store("__test_item", { testProp: 1 })
+
+    expect(setItemSpy).toBeCalledTimes(1)
+    expect(result).toBe(false)
+
+    setItemSpy.mockReset()
   })
 })

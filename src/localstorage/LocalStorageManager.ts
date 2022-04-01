@@ -4,7 +4,12 @@ import _ from "lodash"
 function store<T = unknown>(key: string, value: T): boolean {
   if (!isBrowser) return false
 
-  window.localStorage.setItem(key, JSON.stringify(value))
+  try {
+    window.localStorage.setItem(key, JSON.stringify(value))
+  } catch (err: unknown) {
+    console.warn(err)
+    return false
+  }
   return true
 }
 
