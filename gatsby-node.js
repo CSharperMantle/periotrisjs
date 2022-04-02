@@ -2,14 +2,23 @@
 /* eslint-disable no-undef */
 const BundleAnalyzer = require("webpack-bundle-analyzer")
 
-exports.onCreateWebpackConfig = ({ actions }) => {
+const defaultPlugins = []
+const developOnlyPlugins = []
+const releaseOnlyPlugins = [
+  new BundleAnalyzer.BundleAnalyzerPlugin({
+    analyzerMode: "disabled",
+    generateStatsFile: true,
+    statsFilename: "stats.json",
+  }),
+]
+
+exports.onCreateWebpackConfig = ({ stage, actions }) => {
   actions.setWebpackConfig({
     plugins: [
-      new BundleAnalyzer.BundleAnalyzerPlugin({
-        analyzerMode: "disabled",
-        generateStatsFile: true,
-        statsFilename: "stats.json",
-      }),
+      ...defaultPlugins,
+      ...(stage === "develop" || stage === "develop-html"
+        ? developOnlyPlugins
+        : releaseOnlyPlugins),
     ],
   })
 }

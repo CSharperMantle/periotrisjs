@@ -8,7 +8,6 @@ import { createContext } from "react"
 import { Position, StopwatchUpdateIntervalMilliseconds } from "../common"
 import { customizationFacade } from "../customization"
 import {
-  Block,
   BlockChangedEventArgs,
   GameModel,
   GameState,
@@ -247,7 +246,7 @@ class GameViewModel extends EventEmitter {
   private modelBlockChangedEventHandler(
     eventArgs: BlockChangedEventArgs
   ): void {
-    const block: Block = eventArgs.block
+    const block = eventArgs.block
 
     if (!eventArgs.disappeared) {
       if (!this._blocksByPosition.has(eventArgs.block.position)) {
@@ -261,10 +260,10 @@ class GameViewModel extends EventEmitter {
       }
     } else {
       if (this._blocksByPosition.has(block.position)) {
-        const displayBlock = this._blocksByPosition.get(block.position)
-        _.remove(this.sprites, (value: IBlockSprite) =>
-          _.isEqual(value, displayBlock)
-        )
+        const displayBlock = this._blocksByPosition.get(
+          block.position
+        ) as IBlockSprite
+        this.sprites.splice(this.sprites.indexOf(displayBlock), 1)
         this._blocksByPosition.delete(block.position)
       }
     }
