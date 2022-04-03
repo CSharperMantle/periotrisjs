@@ -5840,9 +5840,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:^1.1.1":
+"clsx@npm:^1.1.0, clsx@npm:^1.1.1":
   version: 1.1.1
-  resolution: "clsx@npm:1.1.1"
+  resolution: "clsx@npm:1.1.1::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2Fclsx%2F-%2Fclsx-1.1.1.tgz"
   checksum: ff052650329773b9b245177305fc4c4dc3129f7b2be84af4f58dc5defa99538c61d4207be7419405a5f8f3d92007c954f4daba5a7b74e563d5de71c28c830063
   languageName: node
   linkType: hard
@@ -9420,9 +9420,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hoist-non-react-statics@npm:^3.3.1, hoist-non-react-statics@npm:^3.3.2":
+"hoist-non-react-statics@npm:^3.3.0, hoist-non-react-statics@npm:^3.3.1, hoist-non-react-statics@npm:^3.3.2":
   version: 3.3.2
-  resolution: "hoist-non-react-statics@npm:3.3.2"
+  resolution: "hoist-non-react-statics@npm:3.3.2::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2Fhoist-non-react-statics%2F-%2Fhoist-non-react-statics-3.3.2.tgz"
   dependencies:
     react-is: ^16.7.0
   checksum: b1538270429b13901ee586aa44f4cc3ecd8831c061d06cb8322e50ea17b3f5ce4d0e2e66394761e6c8e152cd8c34fb3b4b690116c6ce2bd45b18c746516cb9e8
@@ -12490,6 +12490,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"notistack@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "notistack@npm:2.0.3::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2Fnotistack%2F-%2Fnotistack-2.0.3.tgz"
+  dependencies:
+    clsx: ^1.1.0
+    hoist-non-react-statics: ^3.3.0
+  peerDependencies:
+    "@emotion/react": ^11.4.1
+    "@emotion/styled": ^11.3.0
+    "@mui/material": ^5.0.0
+    react: ^16.8.0 || ^17.0.0
+    react-dom: ^16.8.0 || ^17.0.0
+  peerDependenciesMeta:
+    "@emotion/react":
+      optional: true
+    "@emotion/styled":
+      optional: true
+  checksum: a01c72d877b7636a625ac0709d4160559e2abc5882592498841e300bf0b2a88d4983884a0e00296d119d33c5c37c0df8cb89cf5fe89b696293a947e363e5c2a2
+  languageName: node
+  linkType: hard
+
 "npm-run-path@npm:^2.0.0":
   version: 2.0.2
   resolution: "npm-run-path@npm:2.0.2"
@@ -13135,6 +13156,7 @@ __metadata:
     lodash: ^4.17.21
     mobx: ^6.3.13
     mobx-react: ^7.2.1
+    notistack: ^2.0.3
     prettier: ^2.5.1
     react: ^17.0.2
     react-dom: ^17.0.2
