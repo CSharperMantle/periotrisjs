@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkperiotrisjs=self.webpackChunkperiotrisjs||[]).push([[218],{7726:function(e,r,s){s.r(r);var a=s(6687);r.default=()=>a.createElement("main",null,"Placeholder error page")}}]);
-//# sourceMappingURL=component---src-pages-404-tsx-218ca40b0161d34bd3f3.js.map
