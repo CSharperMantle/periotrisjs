@@ -24,7 +24,7 @@ interface IFileUploadButtonProps {
   accept: string
   multiple?: boolean
   caption: string
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const FileUploadButton = ({
@@ -32,7 +32,7 @@ const FileUploadButton = ({
   accept,
   multiple,
   caption,
-  onChange,
+  onFileChange,
 }: IFileUploadButtonProps): React.ReactElement => {
   return (
     <>
@@ -41,7 +41,7 @@ const FileUploadButton = ({
         accept={accept}
         multiple={multiple}
         id={id}
-        onChange={onChange}
+        onChange={onFileChange}
       />
       <label htmlFor={id}>
         <Button
@@ -71,6 +71,8 @@ const assistanceGridAppearanceOptions = [
 ]
 
 const App = (): React.ReactElement => {
+  // TODO: Prettify this component and make it more readable!
+
   const [assistanceGridMode, setAssistanceGridMode] = React.useState(
     customizationFacade.settings.showGridLine ? "visible" : "hidden"
   )
@@ -87,7 +89,7 @@ const App = (): React.ReactElement => {
     JSON.stringify(customizationFacade.settings.colorScheme)
   )
 
-  const handleColorSchemeChange = async (
+  const handleColorSchemeFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const files = _.isNil(event.target.files) ? [] : event.target.files
@@ -147,6 +149,9 @@ const App = (): React.ReactElement => {
                   fullWidth
                   value={colorSchemeJsonString}
                   label="Color Scheme"
+                  InputProps={{
+                    readOnly: true,
+                  }}
                   aria-describedby="color-scheme-input-string-helper-text"
                 />
               </Grid>
@@ -155,13 +160,12 @@ const App = (): React.ReactElement => {
                   id="color-scheme-input-upload"
                   accept="application/json"
                   caption="Open..."
-                  onChange={handleColorSchemeChange}
+                  onFileChange={handleColorSchemeFileChange}
                 />
               </Grid>
             </Grid>
             <FormHelperText id="color-scheme-input-string-helper-text">
-              Controls the color scheme of the game in JSON via either direct
-              input or a file.
+              Controls the color scheme of Periotris via JSON.
             </FormHelperText>
           </FormControl>
         </Stack>
