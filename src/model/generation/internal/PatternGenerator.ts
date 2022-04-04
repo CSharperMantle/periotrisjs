@@ -1,76 +1,53 @@
 import _ from "lodash"
 
-import { PlayAreaHeight, PlayAreaWidth, Position } from "../../../common"
-import defaultMap from "../../../json/DefaultMap.json"
+import { Position } from "../../../common"
 import { Block } from "../../Block"
 import { Direction, RotationDirection } from "../../Direction"
 import { repairBrokenTetriminos, Tetrimino } from "../../Tetrimino"
 import { TetriminoKind } from "../../TetriminoKind"
-import { getInitialPositionByKind } from "../GeneratorHelper"
+import {
+  getInitialPositionByKind,
+  getPositionByFirstBlock,
+} from "../GeneratorHelper"
 import { sort } from "./TetriminoSorter"
+
+import type { ISize } from "../../../common"
+import type { IMap } from "../../../customization"
 
 function fastRandom(startInc: number, endExc: number): number {
   return startInc + Math.floor(Math.random() * (endExc - startInc))
 }
 
-async function getPlayablePattern(): Promise<Tetrimino[]> {
+async function getPlayablePattern(map: IMap): Promise<Tetrimino[]> {
   const template: Block[][] = []
 
-  for (let i = 0; i < PlayAreaHeight; i++) {
+  for (let i = 0; i < map.playAreaSize.height; i++) {
     template[i] = []
 
-    for (let j = 0; j < PlayAreaWidth; j++) {
-      const origElem: {
-        atomicNumber: number
-        filledBy: number
-        identifier: number
-        position: { X: number; Y: number }
-      } = defaultMap.periodicTable[i][j]
+    for (let j = 0; j < map.playAreaSize.width; j++) {
+      const origElem = map.periodicTable[i][j]
       template[i][j] = new Block(
         origElem.filledBy,
-        new Position(origElem.position.X, origElem.position.Y),
+        new Position(origElem.position.x, origElem.position.y),
         origElem.atomicNumber,
         0
       )
     }
   }
 
-  const tetriminos = sort(getPossibleTetriminoPattern(template)) as Tetrimino[]
+  const pattern = await getPossibleTetriminoPattern(template)
+  const ordered = await sort(pattern, map.playAreaSize)
 
-  const fixedTetriminos = repairBrokenTetriminos(tetriminos)
+  const fixedTetriminos = repairBrokenTetriminos(ordered)
 
-  // Randomly rotate tetriminos, then place them to initial positions
-  for (let i = 0, len = fixedTetriminos.length; i < len; i++) {
-    const tetrimino = fixedTetriminos[i]
-    const originalPos = tetrimino.position
-    const newPos = getInitialPositionByKind(tetrimino.kind)
-    const deltaX = newPos.x - originalPos.x
-    const deltaY = newPos.y - originalPos.y
-    const newBlocks: Block[] = Array.from(tetrimino.blocks, (block: Block) => {
-      return new Block(
-        block.filledBy,
-        new Position(block.position.x + deltaX, block.position.y + deltaY),
-        block.atomicNumber,
-        block.id
-      )
-    })
-
-    tetrimino.blocks = newBlocks
-    tetrimino.position = newPos
-
-    const rotationCount = fastRandom(
-      0,
-      Math.floor(Object.keys(Direction).length / 2) + 1
-    )
-    for (let i = 0; i < rotationCount; i++) {
-      tetrimino.tryRotate(RotationDirection.Right, () => false)
-    }
-  }
+  primeTetriminos(fixedTetriminos, map.playAreaSize)
 
   return fixedTetriminos
 }
 
-function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
+async function getPossibleTetriminoPattern(
+  template: Block[][]
+): Promise<Tetrimino[]> {
   const workspace = _.cloneDeep(template)
   const settledTetriminos: Tetrimino[] = []
   const pendingTetriminoKinds: KindDirectionsPair[][] = []
@@ -120,9 +97,9 @@ function getPossibleTetriminoPattern(template: Block[][]): Tetrimino[] {
       }
       while (currentPair.directions.length > 0) {
         const direction = currentPair.popRandomDirection()
-        const tetrimino = Tetrimino.createTetriminoByFirstBlockPosition(
+        const tetrimino = new Tetrimino(
           currentPair.kind,
-          firstBlockCoord,
+          getPositionByFirstBlock(firstBlockCoord, currentPair.kind, direction),
           direction
         )
         if (
@@ -199,6 +176,43 @@ class KindDirectionsPair {
   public popRandomDirection(): Direction {
     const index = fastRandom(0, this.directions.length)
     return this.directions.splice(index)[0]
+  }
+}
+
+/**
+ * "Prime" the tetriminos, that is, move them to the top center of play
+ * area and rotate them randomly for initial direction.
+ *
+ * @param tetriminos The tetriminos to prime.
+ * @param playAreaSize Size of play area.
+ */
+function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
+  // Move to initial position and rotate randomly
+  for (let i = 0, len = tetriminos.length; i < len; i++) {
+    const tetrimino = tetriminos[i]
+    const originalPos = tetrimino.position
+    const newPos = getInitialPositionByKind(tetrimino.kind, playAreaSize)
+    const deltaX = newPos.x - originalPos.x
+    const deltaY = newPos.y - originalPos.y
+    const newBlocks: Block[] = Array.from(tetrimino.blocks, (block: Block) => {
+      return new Block(
+        block.filledBy,
+        new Position(block.position.x + deltaX, block.position.y + deltaY),
+        block.atomicNumber,
+        block.id
+      )
+    })
+
+    tetrimino.blocks = newBlocks
+    tetrimino.position = newPos
+
+    const rotationCount = fastRandom(
+      0,
+      Math.floor(Object.keys(Direction).length / 2) + 1
+    )
+    for (let i = 0; i < rotationCount; i++) {
+      tetrimino.tryRotate(RotationDirection.Right, () => false)
+    }
   }
 }
 

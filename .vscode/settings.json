@@ -12,18 +12,23 @@
     "fontawesome",
     "fontsource",
     "fortawesome",
-    "gameend",
-    "gamestart",
+    "gameended",
+    "gamestarted",
     "gamestatechanged",
+    "googlefonts",
     "lightgreen",
     "localstorage",
     "notistack",
+    "noto",
     "Offseted",
+    "opentype",
     "periotris",
     "periotrisjs",
+    "precache",
     "pressup",
     "roboto",
     "Rong",
+    "Segoe",
     "semibold",
     "structs",
     "tetrimino",
@@ -60,5 +65,13 @@
     }
   ],
   "importSorter.sortConfiguration.removeUnusedImports": true,
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "eslint.nodePath": ".yarn/sdks",
+  "prettier.prettierPath": ".yarn/sdks/prettier/index.js",
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }

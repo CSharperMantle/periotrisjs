@@ -1,6 +1,9 @@
 import React from "react"
 
-import { Backdrop, Grid, Typography, useMediaQuery } from "@mui/material"
+import Backdrop from "@mui/material/Backdrop"
+import Grid from "@mui/material/Grid"
+import Typography from "@mui/material/Typography"
+import useMediaQuery from "@mui/material/useMediaQuery"
 
 const PortraitWarningBackdrop = (): React.ReactElement => {
   const isPortrait = useMediaQuery("(orientation: portrait)")
@@ -8,6 +11,11 @@ const PortraitWarningBackdrop = (): React.ReactElement => {
   return (
     <Backdrop
       sx={{
+        position: "absolute",
+        left: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
         zIndex: "modal",
       }}
       open={isPortrait}

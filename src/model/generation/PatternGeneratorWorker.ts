@@ -1,15 +1,17 @@
 import { Tetrimino } from "../Tetrimino"
 import { IGeneratorMessage } from "./IGeneratorMessage"
-import { MessageType } from "./MessageType"
 import { getPlayablePattern } from "./internal/PatternGenerator"
+import { MessageType } from "./MessageType"
 
-const ctx: Worker = self as never
+import type { IMap } from "../../customization"
+
+const ctx = self as unknown as Worker
 
 ctx.onmessage = (eventArgs: MessageEvent<IGeneratorMessage<unknown>>) => {
   const data = eventArgs.data
   switch (data.type) {
     case MessageType.RequestGeneration:
-      handleRequestGeneration()
+      handleRequestGeneration(data.content as IMap)
       break
     default:
       handleDefault(data)
@@ -17,8 +19,8 @@ ctx.onmessage = (eventArgs: MessageEvent<IGeneratorMessage<unknown>>) => {
   }
 }
 
-function handleRequestGeneration(): void {
-  getPlayablePattern().then((tetriminos) => {
+function handleRequestGeneration(map: IMap): void {
+  getPlayablePattern(map).then((tetriminos) => {
     const message: IGeneratorMessage<Tetrimino[]> = {
       type: MessageType.ResponseSuccess,
       content: tetriminos,

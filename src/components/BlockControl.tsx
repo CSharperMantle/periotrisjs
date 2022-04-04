@@ -1,23 +1,24 @@
 import _ from "lodash"
 import React from "react"
 
-import { Box, Typography } from "@mui/material"
+import Box from "@mui/material/Box"
+import Typography from "@mui/material/Typography"
 
-import defaultColorScheme from "../json/DefaultColorScheme.json"
+import { customizationFacade } from "../customization"
 import defaultPeriodicTable from "../json/DefaultPeriodicTable.json"
 
-import type { IDisplayBlock } from "../viewmodel"
+import type { IBlockDisplay } from "./IBlockDisplay"
 
 interface IBlockControlText {
-  withContent: boolean
+  hasContent: boolean
   atomicNumber: number
 }
 
 const BlockControlText = ({
-  withContent,
+  hasContent,
   atomicNumber,
 }: IBlockControlText): React.ReactElement => {
-  if (withContent) {
+  if (hasContent) {
     // This is a block with textual content.
     return (
       <Typography
@@ -44,21 +45,15 @@ const BlockControlText = ({
   }
 }
 
-interface IBlockControlProps extends IDisplayBlock {
-  key: number
+interface IBlockControlProps {
+  block: IBlockDisplay
 }
 
-const BlockControl = ({
-  withContent,
-  withBorder,
-  atomicNumber,
-  row,
-  column,
-}: IBlockControlProps): React.ReactElement => {
-  const backgroundColor = withContent
-    ? getBackgroundColorByAtomicNumber(atomicNumber)
+const BlockControl = ({ block }: IBlockControlProps): React.ReactElement => {
+  const backgroundColor = block.hasContent
+    ? getBackgroundColorByAtomicNumber(block.atomicNumber)
     : "black"
-  const border = withBorder ? "1px solid #393939" : "none"
+  const border = block.hasBorder ? "1px solid #393939" : "none"
   return (
     <Box
       sx={{
@@ -74,19 +69,24 @@ const BlockControl = ({
 
         border: { border },
 
-        gridRow: row + 1,
-        gridColumn: column + 1,
+        gridRow: block.row + 1,
+        gridColumn: block.column + 1,
         backgroundColor: backgroundColor,
       }}
     >
-      <BlockControlText withContent={withContent} atomicNumber={atomicNumber} />
+      <BlockControlText
+        hasContent={block.hasContent}
+        atomicNumber={block.atomicNumber}
+      />
     </Box>
   )
 }
 
 function getBackgroundColorByAtomicNumber(atomicNumber: number): string {
-  for (let i = 0; i < defaultColorScheme.rules.length; i++) {
-    const rule = defaultColorScheme.rules[i]
+  const colorScheme = customizationFacade.settings.colorScheme
+
+  for (let i = 0; i < colorScheme.rules.length; i++) {
+    const rule = colorScheme.rules[i]
     if (
       _.inRange(
         atomicNumber,

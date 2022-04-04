@@ -1,27 +1,43 @@
+import _ from "lodash"
 import { observer } from "mobx-react"
 import React, { useContext } from "react"
 
-import { Box } from "@mui/material"
+import Box from "@mui/material/Box"
 
-import { PlayAreaHeight, PlayAreaWidth } from "../common"
-import { PeriotrisViewModelContext } from "../viewmodel"
+import { GameViewModelContext } from "../viewmodel"
 import { BlockControl } from "./BlockControl"
 import { TimerDisplay } from "./TimerDisplay"
+import { customizationFacade } from "../customization"
 
-import type { IDisplayBlock } from "../viewmodel"
-import _ from "lodash"
+import type { IBlockDisplay } from "./IBlockDisplay"
 
+/**
+ * Get hash code string for a display block.
+ *
+ * @param blockDisplay The display block to hash.
+ * @returns The hashed string of block.
+ */
+function getIBlockDisplayHash(blockDisplay: IBlockDisplay): string {
+  return `${blockDisplay.column}:${blockDisplay.row}-${blockDisplay.atomicNumber}`
+}
+
+/**
+ * Represents the main play area grid.
+ */
 const BlocksGrid = observer((): React.ReactElement => {
-  const viewModel = useContext(PeriotrisViewModelContext)
+  const viewModel = useContext(GameViewModelContext)
 
-  const paddedBlocks: IDisplayBlock[][] = []
+  const playAreaSize = customizationFacade.settings.gameMap.playAreaSize
+  const showGridLine = customizationFacade.settings.showGridLine
 
-  for (let i = 0; i < PlayAreaHeight; i++) {
+  const paddedBlocks: IBlockDisplay[][] = []
+
+  for (let i = 0; i < playAreaSize.height; i++) {
     paddedBlocks[i] = []
-    for (let j = 0; j < PlayAreaWidth; j++) {
+    for (let j = 0; j < playAreaSize.width; j++) {
       paddedBlocks[i][j] = {
-        withContent: false,
-        withBorder: viewModel.showGridLine,
+        hasContent: false,
+        hasBorder: showGridLine,
         atomicNumber: 0,
         row: i,
         column: j,
@@ -32,15 +48,17 @@ const BlocksGrid = observer((): React.ReactElement => {
   const sprites = viewModel.sprites
   for (let i = 0, len = sprites.length; i < len; i++) {
     const block = sprites[i]
-    paddedBlocks[block.row][block.column] = block
+    paddedBlocks[block.row][block.column] = {
+      ...block,
+      hasContent: true,
+      hasBorder: showGridLine,
+      symbolColor: "black",
+    }
   }
 
-  const blocks = _.map(
-    _.flatten(paddedBlocks),
-    (block: IDisplayBlock, index: number) => {
-      return <BlockControl key={index} {...block} />
-    }
-  )
+  const blocks = _.map(_.flatten(paddedBlocks), (block: IBlockDisplay) => {
+    return <BlockControl block={block} key={getIBlockDisplayHash(block)} />
+  })
 
   return (
     <Box
@@ -49,7 +67,7 @@ const BlocksGrid = observer((): React.ReactElement => {
 
         position: "relative",
         height: "100%",
-        aspectRatio: "auto 18 / 11",
+        aspectRatio: `auto ${playAreaSize.width} / ${playAreaSize.height}`,
 
         backgroundColor: "black",
       }}
@@ -58,8 +76,8 @@ const BlocksGrid = observer((): React.ReactElement => {
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: "repeat(18, 1fr)",
-          gridTemplateRows: "repeat(11, 1fr)",
+          gridTemplateColumns: `repeat(${playAreaSize.width}, 1fr)`,
+          gridTemplateRows: `repeat(${playAreaSize.height}, 1fr)`,
 
           position: "relative",
           width: "100%",

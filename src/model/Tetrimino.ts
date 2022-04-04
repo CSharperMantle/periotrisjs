@@ -1,14 +1,14 @@
-import _ from "lodash"
-
 import { Position } from "../common"
 import { Block } from "./Block"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
 import {
   createOffsetedBlocks,
-  getTransformedCoord,
   mapAtomicNumberForNewBlocks,
 } from "./generation/GeneratorHelper"
 import { TetriminoKind } from "./TetriminoKind"
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { getPositionByFirstBlock } from "./generation/GeneratorHelper"
 
 /**
  * The type for block collision checker.
@@ -18,17 +18,6 @@ import { TetriminoKind } from "./TetriminoKind"
 type TBlockCollisionChecker = (block: Block) => boolean
 
 class Tetrimino {
-  public facingDirection: Direction
-
-  /**
-   * The position of the most bottom-right Block.
-   */
-  public firstBlockPosition: Position
-
-  public kind: TetriminoKind
-
-  public position: Position
-
   public blocks: Block[]
 
   /**
@@ -42,34 +31,31 @@ class Tetrimino {
     direction: MoveDirection,
     collisionChecker: TBlockCollisionChecker
   ): boolean {
-    const origPos = this.position
-    let newPos: Position
+    let deltaX = 0
+    let deltaY = 0
     if (direction === MoveDirection.Down) {
-      const row = origPos.y + 1
-      newPos = new Position(origPos.x, row)
+      deltaY = 1
     } else {
-      const delta = direction === MoveDirection.Right ? 1 : -1
-      const column = origPos.x + delta
-      newPos = new Position(column, origPos.y)
+      deltaX = direction === MoveDirection.Right ? 1 : -1
     }
 
-    const deltaX = newPos.x - origPos.x
-    const deltaY = newPos.y - origPos.y
-
-    const newBlocks = _.cloneDeep(this.blocks)
-    for (let i = 0, len = newBlocks.length; i < len; i++) {
-      const block = newBlocks[i]
-      block.position = new Position(
-        block.position.x + deltaX,
-        block.position.y + deltaY
-      )
-    }
+    const newBlocks = this.blocks.map((b) => {
+      return {
+        filledBy: b.filledBy,
+        position: new Position(b.position.x + deltaX, b.position.y + deltaY),
+        atomicNumber: b.atomicNumber,
+        id: b.id,
+      }
+    })
 
     if (newBlocks.some(collisionChecker)) {
       return false
     }
 
-    this.position = newPos
+    this.position = new Position(
+      this.position.x + deltaX,
+      this.position.y + deltaY
+    )
     this.blocks = newBlocks
     return true
   }
@@ -79,7 +65,7 @@ class Tetrimino {
    *
    * @param rotationDirection The direction to rotate.
    * @param collisionChecker The BlockCollisionChecker function to use.
-   * @returns 'true' for a successful rotation, otherwise 'false'.
+   * @returns `true` for a successful rotation, otherwise 'false'.
    */
   public tryRotate(
     rotationDirection: RotationDirection,
@@ -119,92 +105,38 @@ class Tetrimino {
     return false
   }
 
-  public static createTetriminoByPosition(
-    kind: TetriminoKind,
-    position: Position,
-    facingDirection: Direction
-  ): Tetrimino {
-    return new Tetrimino(
-      kind,
-      position,
-      getTransformedCoord(position, kind, facingDirection, true),
-      facingDirection
-    )
-  }
-
-  public static createTetriminoByFirstBlockPosition(
-    kind: TetriminoKind,
-    firstBlockPos: Position,
-    facingDirection: Direction
-  ): Tetrimino {
-    return new Tetrimino(
-      kind,
-      getTransformedCoord(firstBlockPos, kind, facingDirection, false),
-      firstBlockPos,
-      facingDirection
-    )
-  }
-
-  protected constructor(
-    kind: TetriminoKind,
-    position: Position,
-    firstBlockPos: Position,
-    facingDirection: Direction
+  /**
+   * Creates a new tetrimino.
+   *
+   * @see {@link getPositionByFirstBlock}
+   *
+   * @param kind The kind of tetrimino to create.
+   * @param position The position of the tetrimino.
+   * @param facingDirection The direction the tetrimino is facing.
+   */
+  public constructor(
+    public kind: TetriminoKind,
+    public position: Position,
+    public facingDirection: Direction
   ) {
-    this.position = position
-    this.kind = kind
-    this.firstBlockPosition = firstBlockPos
-    this.facingDirection = facingDirection
     this.blocks = createOffsetedBlocks(kind, position, facingDirection)
   }
 }
 
+/**
+ * Repair the prototype for a plainly-created tetrimino.
+ *
+ * Object's prototype chain will be lost when transferred through
+ * messages, thanks to the limitations of Structured Clone. This
+ * method's purpose is to restore the method mapping of the objects.
+ */
 function repairBrokenTetriminos(brokenTetriminos: Tetrimino[]): Tetrimino[] {
-  /*
-   * HACK: Object's prototype chain will be lost when
-   * transferred through messages, thanks to the limitations
-   * of Structured Clone. The following code's
-   * purpose is to restore the method mapping of the
-   * objects.
-   */
-  const repairedTetriminos: Tetrimino[] = Array.from(
-    brokenTetriminos,
-    (brokenTetrimino: Tetrimino) => {
-      // Fix tetrimino itself
-      const repairedTetrimino = Object.create(
+  const repairedTetriminos = brokenTetriminos.map(
+    (brokenTetrimino) =>
+      Object.create(
         Tetrimino.prototype,
         Object.getOwnPropertyDescriptors(brokenTetrimino)
       ) as Tetrimino
-
-      // Fix its block positions
-      const repairedBlocks: Block[] = Array.from(
-        repairedTetrimino.blocks,
-        (block: Block) => {
-          const repairedBlock = Object.create(
-            Block.prototype,
-            Object.getOwnPropertyDescriptors(block)
-          ) as Block
-          repairedBlock.position = Object.create(
-            Position.prototype,
-            Object.getOwnPropertyDescriptors(repairedBlock.position)
-          ) as Position
-          return repairedBlock
-        }
-      )
-      repairedTetrimino.blocks = repairedBlocks
-
-      // Fix its own positions
-      repairedTetrimino.firstBlockPosition = Object.create(
-        Position.prototype,
-        Object.getOwnPropertyDescriptors(repairedTetrimino.firstBlockPosition)
-      ) as Position
-      repairedTetrimino.position = Object.create(
-        Position.prototype,
-        Object.getOwnPropertyDescriptors(repairedTetrimino.position)
-      ) as Position
-
-      return repairedTetrimino
-    }
   )
   return repairedTetriminos
 }

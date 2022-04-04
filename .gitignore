@@ -120,7 +120,14 @@ public
 tmp/
 temp/
 
-# Added by cargo
+# yarn@berry
+.yarn/*
+.pnp.*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 
-target/
-pkg/
+# TypeScript build artifacts
+build/

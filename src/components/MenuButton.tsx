@@ -1,7 +1,7 @@
 import React from "react"
 
-import { Menu as MenuIcon } from "@mui/icons-material"
-import { IconButton } from "@mui/material"
+import MenuIcon from "@mui/icons-material/Menu"
+import IconButton from "@mui/material/IconButton"
 
 interface IMenuButtonProps {
   handleOpenMenu: (event: React.MouseEvent<HTMLElement>) => void

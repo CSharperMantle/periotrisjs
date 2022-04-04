@@ -1,11 +1,11 @@
 import _ from "lodash"
 
-import { PlayAreaHeight, PlayAreaWidth } from "../../../common"
-import { Block } from "../../Block"
 import { Tetrimino } from "../../Tetrimino"
 import { TetriminoKind } from "../../TetriminoKind"
 import { MemoizedBlock } from "./MemoizedBlock"
 import { TetriminoNode } from "./TetriminoNode"
+
+import type { ISize } from "../../../common"
 
 interface ITryGetOccupiedTetriminoNodeResult {
   isSuccessful: boolean
@@ -13,10 +13,11 @@ interface ITryGetOccupiedTetriminoNodeResult {
 }
 
 function createTetriminoDependencyGraph(
-  tetriminos: Tetrimino[]
+  tetriminos: Tetrimino[],
+  playAreaSize: ISize
 ): TetriminoNode[] {
   const memoizedMap: MemoizedBlock[][] = []
-  for (let i = 0; i < PlayAreaHeight; i++) {
+  for (let i = 0; i < playAreaSize.height; i++) {
     memoizedMap[i] = []
   }
 
@@ -26,14 +27,9 @@ function createTetriminoDependencyGraph(
       const tetriminoNode: TetriminoNode = new TetriminoNode(
         tetrimino.kind,
         tetrimino.position,
-        tetrimino.firstBlockPosition,
-        tetrimino.facingDirection
-      )
-      tetriminoNode.memoizedBlocks = getMemoizedBlocksForTetriminoNode(
-        tetriminoNode,
+        tetrimino.facingDirection,
         tetrimino
       )
-      tetriminoNode.blocks = tetriminoNode.memoizedBlocks
 
       for (let i = 0, len = tetriminoNode.memoizedBlocks.length; i < len; i++) {
         const block = tetriminoNode.memoizedBlocks[i]
@@ -58,8 +54,7 @@ function createTetriminoDependencyGraph(
           memoizedMap,
           dependedBlockRow,
           dependedBlockCol,
-          PlayAreaWidth,
-          PlayAreaHeight
+          playAreaSize
         )
       if (!isSuccessful || _.isNil(result) || result === tetriminoNode) {
         continue
@@ -71,33 +66,18 @@ function createTetriminoDependencyGraph(
   return tetriminoNodes
 }
 
-function getMemoizedBlocksForTetriminoNode(
-  node: TetriminoNode,
-  tetrimino: Tetrimino
-): MemoizedBlock[] {
-  const memoizedBlocks: MemoizedBlock[] = Array.from(
-    tetrimino.blocks,
-    (block: Block) => {
-      return new MemoizedBlock(
-        block.filledBy,
-        block.position,
-        node,
-        block.atomicNumber,
-        block.id
-      )
-    }
-  )
-  return memoizedBlocks
-}
-
 function tryGetOccupiedTetriminoNode(
   map: MemoizedBlock[][],
   row: number,
   col: number,
-  playAreaWidth: number,
-  playAreaHeight: number
+  playAreaSize: ISize
 ): ITryGetOccupiedTetriminoNodeResult {
-  if (row < 0 || row >= playAreaHeight || col < 0 || col >= playAreaWidth) {
+  if (
+    row < 0 ||
+    row >= playAreaSize.height ||
+    col < 0 ||
+    col >= playAreaSize.width
+  ) {
     return { isSuccessful: false, result: null }
   }
 

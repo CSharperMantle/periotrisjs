@@ -1,18 +1,14 @@
 import React from "react"
 
-import {
-  Favorite as FavoriteIcon,
-  GitHub as GitHubIcon,
-} from "@mui/icons-material"
-import {
-  AppBar,
-  Box,
-  Container,
-  Menu,
-  Stack,
-  Toolbar,
-  Typography,
-} from "@mui/material"
+import FavoriteIcon from "@mui/icons-material/Favorite"
+import GitHubIcon from "@mui/icons-material/GitHub"
+import AppBar from "@mui/material/AppBar"
+import Box from "@mui/material/Box"
+import Container from "@mui/material/Container"
+import Menu from "@mui/material/Menu"
+import Stack from "@mui/material/Stack"
+import Toolbar from "@mui/material/Toolbar"
+import Typography from "@mui/material/Typography"
 
 import PageLocation from "../json/PageLocation.json"
 import { IconExternalLink } from "./IconExternalLink"

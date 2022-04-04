@@ -1,12 +1,14 @@
+import _ from "lodash"
 import { observer } from "mobx-react"
 import React, { useContext } from "react"
 
-import { Box, Typography } from "@mui/material"
+import Box from "@mui/material/Box"
+import Typography from "@mui/material/Typography"
 
-import { PeriotrisViewModelContext } from "../viewmodel"
+import { GameViewModelContext } from "../viewmodel"
 
 const TimerDisplay = observer((): React.ReactElement => {
-  const viewModel = useContext(PeriotrisViewModelContext)
+  const viewModel = useContext(GameViewModelContext)
 
   const elapsedTime = viewModel.elapsedTime
   const fastestRecord = viewModel.fastestRecord
@@ -37,7 +39,7 @@ const TimerDisplay = observer((): React.ReactElement => {
           color: "white",
         }}
       >
-        {fastestRecord.format("mm:ss")}
+        {_.isNil(fastestRecord) ? "--:--" : fastestRecord.format("mm:ss")}
       </Typography>
       <Typography
         sx={{

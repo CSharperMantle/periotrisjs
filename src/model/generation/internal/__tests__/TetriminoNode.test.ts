@@ -6,17 +6,12 @@ import { TetriminoNode } from "../TetriminoNode"
 
 describe("TetriminoNode", () => {
   it("should be initialized with proper props", () => {
-    const t = Tetrimino.createTetriminoByPosition(
+    const t = new Tetrimino(
       TetriminoKind.Cubic,
       new Position(0, 0),
       Direction.Up
     )
-    const n = new TetriminoNode(
-      t.kind,
-      t.position,
-      t.firstBlockPosition,
-      t.facingDirection
-    )
+    const n = new TetriminoNode(t.kind, t.position, t.facingDirection, t)
 
     expect(n.depending).toBeInstanceOf(Set)
     expect(n.depending.size).toBe(0)

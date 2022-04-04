@@ -4,7 +4,9 @@ import _ from "lodash"
 import { HistoryLocalStorageKey } from "../../common"
 import { retrieve, store } from "../../localstorage"
 
-class History {
+import type { ILocalStorageSerializable } from "../ILocalStorageSerializable"
+
+class History implements ILocalStorageSerializable {
   private _fastestRecord: Dayjs | null
   public get fastestRecord(): Dayjs | null {
     return this._fastestRecord
@@ -35,7 +37,7 @@ class History {
   /**
    * Note: For testing only. Do not use in user code.
    */
-  public constructor() {
+  private constructor() {
     this._fastestRecord = null
     this._records = []
   }
@@ -65,6 +67,13 @@ class History {
    */
   public toLocalStorage(): void {
     store(HistoryLocalStorageKey, this)
+  }
+
+  /**
+   * Get an empty History object.
+   */
+  public static get Empty(): History {
+    return new History()
   }
 }
 

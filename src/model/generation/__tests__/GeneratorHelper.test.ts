@@ -1,4 +1,4 @@
-import { PlayAreaWidth, Position } from "../../../common"
+import { Position, positionEquals } from "../../../common"
 import { Block } from "../../Block"
 import { Direction } from "../../Direction"
 import { TetriminoKind } from "../../TetriminoKind"
@@ -7,6 +7,8 @@ import {
   getInitialPositionByKind,
   mapAtomicNumberForNewBlocks,
 } from "../GeneratorHelper"
+
+const PlayAreaWidth = 18
 
 describe("createOffsetedBlocks", () => {
   it("should have correct behavior", () => {
@@ -24,7 +26,7 @@ describe("createOffsetedBlocks", () => {
     ]
     blks.forEach((blk) => {
       expect(
-        expectedPos.filter((pos) => blk.position.equals(pos))
+        expectedPos.filter((pos) => positionEquals(blk.position, pos))
       ).toHaveLength(1)
     })
   })
@@ -110,52 +112,63 @@ describe("mapAtomicNumberForNewBlocks", () => {
 
 describe("getInitialPositionByKind", () => {
   it("should have correct behavior", () => {
+    const size = { height: NaN, width: PlayAreaWidth }
+
     expect(
-      getInitialPositionByKind(TetriminoKind.Cubic).equals(
+      positionEquals(
+        getInitialPositionByKind(TetriminoKind.Cubic, size),
         new Position(Math.floor((PlayAreaWidth - 2) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.Linear).equals(
+      positionEquals(
+        getInitialPositionByKind(TetriminoKind.Linear, size),
         new Position(Math.floor((PlayAreaWidth - 4) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.TeeShaped).equals(
+      positionEquals(
+        getInitialPositionByKind(TetriminoKind.TeeShaped, size),
         new Position(Math.floor((PlayAreaWidth - 3) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.LShapedCis).equals(
+      positionEquals(
+        getInitialPositionByKind(TetriminoKind.LShapedCis, size),
         new Position(Math.floor((PlayAreaWidth - 3) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.LShapedTrans).equals(
+      positionEquals(
+        getInitialPositionByKind(TetriminoKind.LShapedTrans, size),
         new Position(Math.floor((PlayAreaWidth - 3) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.ZigZagCis).equals(
+      positionEquals(
+        getInitialPositionByKind(TetriminoKind.ZigZagCis, size),
         new Position(Math.floor((PlayAreaWidth - 3) / 2), 0)
       )
     ).toBe(true)
     expect(
-      getInitialPositionByKind(TetriminoKind.ZigZagTrans).equals(
+      positionEquals(
+        getInitialPositionByKind(TetriminoKind.ZigZagTrans, size),
         new Position(Math.floor((PlayAreaWidth - 3) / 2), 0)
       )
     ).toBe(true)
   })
 
   it("should handle incorrect arguments gracefully", () => {
+    const size = { height: NaN, width: PlayAreaWidth }
+
     expect(() => {
-      getInitialPositionByKind(TetriminoKind.AvailableToFill)
+      getInitialPositionByKind(TetriminoKind.AvailableToFill, size)
     }).toThrowError(new Error("Invalid tetrimino kind."))
     expect(() => {
-      getInitialPositionByKind(TetriminoKind.UnavailableToFill)
+      getInitialPositionByKind(TetriminoKind.UnavailableToFill, size)
     }).toThrowError(new Error("Invalid tetrimino kind."))
     expect(() => {
-      getInitialPositionByKind(9)
+      getInitialPositionByKind(9, size)
     }).toThrowError(new Error("Invalid tetrimino kind."))
   })
 })

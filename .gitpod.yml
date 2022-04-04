@@ -1,6 +1,6 @@
 # Commands to start on workspace startup
 tasks:
-  - init: yarn install --frozen-lockfile && yarn global add gatsby-cli jest
+  - init: yarn install --immutable
     command: yarn run develop
 
 # Ports to expose on workspace startup
@@ -10,12 +10,15 @@ ports:
 
 vscode:
   extensions:
+    # Utils
     - streetsidesoftware.code-spell-checker
     - esbenp.prettier-vscode
-    - dbaeumer.vscode-eslint
     - vscode-icons-team.vscode-icons
-    - bungcip.better-toml
-    - kavod-io.vscode-jest-test-adapter
     - wayou.vscode-todo-highlight
+    - github.copilot
+    - arcanis.vscode-zipfs
+    # Language
+    - dbaeumer.vscode-eslint
+    - kavod-io.vscode-jest-test-adapter
     - mike-co.import-sorter
     - hbenl.vscode-test-explorer

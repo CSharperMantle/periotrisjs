@@ -1,87 +1,85 @@
 import { isBrowser } from "is-in-browser"
-import { SnackbarProvider } from "notistack"
+import _ from "lodash"
 import React, { useEffect, useRef } from "react"
 
-import { Box } from "@mui/material"
+import Box from "@mui/material/Box"
 
-import {
-  BlocksGrid,
-  CommonLayout,
-  GameControlButton,
-  PortraitWarningBackdrop,
-  SnackbarPopper,
-} from "../components"
-import { PeriotrisViewModel, PeriotrisViewModelContext } from "../viewmodel"
+import { BlocksGrid, CommonLayout, GameControlBackdrop } from "../components"
+import { GameViewModel, GameViewModelContext } from "../viewmodel"
 
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
 const App = (): React.ReactElement => {
-  const viewModel = new PeriotrisViewModel()
+  const viewModel = new GameViewModel()
 
   const rowTwoRef = useRef<HTMLElement>()
   let hammer: HammerManager
 
   useEffect(() => {
-    window.addEventListener("keydown", viewModel.onKeyDown.bind(viewModel))
+    const throttledKeyDownHandler = _.throttle(
+      viewModel.onKeyDown.bind(viewModel),
+      50
+    )
+    const throttledTapHandler = _.throttle(viewModel.onTap.bind(viewModel), 50)
+    const throttledSwipeHandler = _.throttle(
+      viewModel.onSwipe.bind(viewModel),
+      50
+    )
+    const throttledPressUpHandler = _.throttle(
+      viewModel.onPressUp.bind(viewModel),
+      50
+    )
+
+    window.addEventListener("keydown", throttledKeyDownHandler)
 
     hammer = new Hammer(rowTwoRef.current as HTMLElement)
-    hammer.on("tap", viewModel.onTap.bind(viewModel))
-    hammer.on("swipe", viewModel.onSwipe.bind(viewModel))
-    hammer.on("pressup", viewModel.onPressUp.bind(viewModel))
+    hammer.on("tap", throttledTapHandler)
+    hammer.on("swipe", throttledSwipeHandler)
+    hammer.on("pressup", throttledPressUpHandler)
 
     return () => {
-      window.removeEventListener("keydown", viewModel.onKeyDown.bind(viewModel))
-
-      hammer.off("tap", viewModel.onTap.bind(viewModel))
-      hammer.off("swipe", viewModel.onSwipe.bind(viewModel))
-      hammer.off("pressup", viewModel.onPressUp.bind(viewModel))
+      window.removeEventListener("keydown", throttledKeyDownHandler)
+      hammer.off("tap", throttledTapHandler)
+      hammer.off("swipe", throttledSwipeHandler)
+      hammer.off("pressup", throttledPressUpHandler)
     }
   }, [])
 
   return (
-    <PeriotrisViewModelContext.Provider value={viewModel}>
-      <SnackbarProvider
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+    <GameViewModelContext.Provider value={viewModel}>
+      <Box
+        sx={{
+          /* display-related props */
+          display: "grid",
+          gridTemplateRows: "1fr 90% 1fr",
+
+          /* layouts: width, height, margin, padding, etc.*/
+          position: "relative",
+          height: "100%",
+          minHeight: "0px",
+          width: "100%",
+          minWidth: "0px",
+          boxSizing: "border-box",
+          flex: "1 1 auto" /* For CommonLayout.tsx headers */,
+
+          /* element-specific props */
         }}
       >
+        <GameControlBackdrop
+          startGameHandler={viewModel.requestStartGame.bind(viewModel)}
+          switchPauseGameHandler={viewModel.switchPauseGame.bind(viewModel)}
+        />
         <Box
+          ref={rowTwoRef}
           sx={{
-            /* display-related props */ display: "grid",
-            gridTemplateRows: "1fr 80% 1fr",
-
-            /* layouts: width, height, margin, padding, etc.*/
+            gridRow: 2,
             position: "relative",
-            height: "100%",
-            minHeight: "0px",
-            width: "100%",
-            minWidth: "0px",
-            boxSizing: "border-box",
-            flex: "1 1 auto" /* For CommonLayout.tsx headers */,
-
-            /* element-specific props */
-            /* background-color to be filled */
           }}
         >
-          <PortraitWarningBackdrop />
-          <Box
-            className="game-page__row-2"
-            ref={rowTwoRef}
-            sx={{
-              gridRow: 2,
-              position: "relative",
-            }}
-          >
-            <BlocksGrid />
-          </Box>
-          <SnackbarPopper />
-          <GameControlButton
-            onClick={viewModel.invokeGameControl.bind(viewModel)}
-          />
+          <BlocksGrid />
         </Box>
-      </SnackbarProvider>
-    </PeriotrisViewModelContext.Provider>
+      </Box>
+    </GameViewModelContext.Provider>
   )
 }
 

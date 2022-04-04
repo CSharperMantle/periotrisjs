@@ -4,8 +4,13 @@ import { Tetrimino } from "../../Tetrimino"
 import { createTetriminoDependencyGraph } from "./DependencyBuilder"
 import { TetriminoNode } from "./TetriminoNode"
 
-function sort(tetriminos: Tetrimino[]): Tetrimino[] {
-  const graph = createTetriminoDependencyGraph(tetriminos)
+import type { ISize } from "../../../common"
+
+async function sort(
+  tetriminos: Tetrimino[],
+  playAreaSize: ISize
+): Promise<Tetrimino[]> {
+  const graph = createTetriminoDependencyGraph(tetriminos, playAreaSize)
 
   const startNodes: TetriminoNode[] = graph.filter((node: TetriminoNode) => {
     return node.depending.size === 0

@@ -1,9 +1,11 @@
 import _ from "lodash"
 
-import { PlayAreaWidth, Position } from "../../common"
+import { Position } from "../../common"
 import { Block } from "../Block"
 import { Direction } from "../Direction"
 import { TetriminoKind } from "../TetriminoKind"
+
+import type { ISize } from "../../common"
 
 const CubicDownMask: number[][] = [
   [3, 4],
@@ -373,31 +375,30 @@ function getFirstBlockCoordByType(
 }
 
 /**
- * Transform a position of a Tetrimino into its corresponding Position
- * of the first block, or back.
- * @param position Position to transform
- * @param kind Kind of the Tetrimino
- * @param facingDirection Facing direction of the Tetrimino
- * @param isToFirstBlockCoord Whether to transform into the first block position or back.
- * @returns The transformed position
+ * Get the position of a tetrimino by its first block position.
+ *
+ * @see {@link getFirstBlockCoordByType}
+ *
+ * @param position Position to transform.
+ * @param kind Kind of the Tetrimino.
+ * @param facingDirection Facing direction of the Tetrimino.
+ * @returns The transformed position.
  */
-function getTransformedCoord(
+function getPositionByFirstBlock(
   position: Position,
   kind: TetriminoKind,
-  facingDirection: Direction,
-  isToFirstBlockCoord: boolean
+  facingDirection: Direction
 ): Position {
-  const coefficient = isToFirstBlockCoord ? 1 : -1
   const firstBlockCoord = getFirstBlockCoordByType(kind, facingDirection)
   const firstBlockRow = firstBlockCoord.row
   const firstBlockCol = firstBlockCoord.col
-  return new Position(
-    position.x + coefficient * firstBlockCol,
-    position.y + coefficient * firstBlockRow
-  )
+  return new Position(position.x - firstBlockCol, position.y - firstBlockRow)
 }
 
-function getInitialPositionByKind(kind: TetriminoKind): Position {
+function getInitialPositionByKind(
+  kind: TetriminoKind,
+  playAreaSize: ISize
+): Position {
   let length: number
   switch (kind) {
     case TetriminoKind.Linear:
@@ -417,7 +418,7 @@ function getInitialPositionByKind(kind: TetriminoKind): Position {
       throw new Error("Invalid tetrimino kind.")
   }
   const row = 0
-  const col = Math.floor((PlayAreaWidth - length) / 2)
+  const col = Math.floor((playAreaSize.width - length) / 2)
   return new Position(col, row)
 }
 
@@ -482,7 +483,7 @@ function mapAtomicNumberForNewBlocks(
 export {
   createOffsetedBlocks,
   getFirstBlockCoordByType,
-  getTransformedCoord,
+  getPositionByFirstBlock,
   getInitialPositionByKind,
   mapAtomicNumberForNewBlocks,
 }
