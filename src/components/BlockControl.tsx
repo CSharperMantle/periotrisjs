@@ -4,7 +4,7 @@ import React from "react"
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 
-import defaultColorScheme from "../json/DefaultColorScheme.json"
+import { customizationFacade } from "../customization"
 import defaultPeriodicTable from "../json/DefaultPeriodicTable.json"
 
 import type { IBlockDisplay } from "./IBlockDisplay"
@@ -83,8 +83,10 @@ const BlockControl = ({ block }: IBlockControlProps): React.ReactElement => {
 }
 
 function getBackgroundColorByAtomicNumber(atomicNumber: number): string {
-  for (let i = 0; i < defaultColorScheme.rules.length; i++) {
-    const rule = defaultColorScheme.rules[i]
+  const colorScheme = customizationFacade.settings.colorScheme
+
+  for (let i = 0; i < colorScheme.rules.length; i++) {
+    const rule = colorScheme.rules[i]
     if (
       _.inRange(
         atomicNumber,
