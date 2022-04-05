@@ -51,7 +51,7 @@ const BlocksGrid = observer((): React.ReactElement => {
     paddedBlocks[block.row][block.column] = {
       ...block,
       hasContent: true,
-      hasBorder: showGridLine,
+      hasBorder: true,
       symbolColor: "black",
     }
   }

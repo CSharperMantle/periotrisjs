@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://csharpermantle.github.io/periotris/schema/Map.schema.json",
+  "title": "Map",
+  "description": "A map used in Periotris game",
+  "type": "object",
+  "properties": {
+    "periodicTable": {
+      "description": "The rows of the map",
+      "type": "array",
+      "items": {
+        "description": "A row of the map",
+        "type": "array",
+        "items": {
+          "description": "A cell of the map",
+          "type": "object",
+          "properties": {
+            "atomicNumber": {
+              "description": "The atomic number of the element placed in the cell, negative if it represents a header",
+              "type": "integer"
+            },
+            "filledBy": {
+              "description": "Whether the cell represents an element or a space, 7 for an element and 8 for a space",
+              "type": "integer",
+              "minimum": 7,
+              "maximum": 8
+            },
+            "identifier": { "description": "Unused", "type": "integer" },
+            "position": {
+              "description": "The position of the cell in the game map",
+              "type": "object",
+              "properties": {
+                "x": {
+                  "description": "The x coordinate of the cell",
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "y": {
+                  "description": "The y coordinate of the cell",
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": ["x", "y"]
+            }
+          },
+          "required": ["atomicNumber", "filledBy"]
+        },
+        "uniqueItems": true
+      },
+      "uniqueItems": true
+    },
+    "totalAvailableBlocksCount": {
+      "description": "The total number of blocks available (b.filledBy === 7) in the map",
+      "type": "integer",
+      "minimum": 0
+    },
+    "playAreaSize": {
+      "description": "The size of the map",
+      "type": "object",
+      "properties": {
+        "height": {
+          "description": "The height of the map",
+          "type": "integer",
+          "minimum": 0
+        },
+        "width": {
+          "description": "The width of the map",
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": ["height", "width"]
+    }
+  },
+  "required": ["periodicTable", "totalAvailableBlocksCount", "playAreaSize"]
+}

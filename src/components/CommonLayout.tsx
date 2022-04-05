@@ -4,6 +4,7 @@ import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
 
 import { graphql, useStaticQuery } from "gatsby"
+import { SnackbarProvider } from "notistack"
 import React from "react"
 import Helmet from "react-helmet"
 
@@ -49,19 +50,26 @@ const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
       </Helmet>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <CssBaseline enableColorScheme />
-          <Box
-            sx={{
-              display: "flex",
-              flexFlow: "column nowrap",
-              minHeight: "100vh",
-              maxHeight: "100vh",
+          <SnackbarProvider
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
             }}
           >
-            <MainAppBar />
-            {/* Now injecting real children. */}
-            {props.children}
-          </Box>
+            <CssBaseline enableColorScheme />
+            <Box
+              sx={{
+                display: "flex",
+                flexFlow: "column nowrap",
+                minHeight: "100vh",
+                maxHeight: "100vh",
+              }}
+            >
+              <MainAppBar />
+              {/* Now injecting real children. */}
+              {props.children}
+            </Box>
+          </SnackbarProvider>
         </ThemeProvider>
       </StyledEngineProvider>
     </>
