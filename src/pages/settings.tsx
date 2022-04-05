@@ -1,5 +1,7 @@
 import React from "react"
 
+import Ajv from "ajv"
+
 import Container from "@mui/material/Container"
 import FormControl from "@mui/material/FormControl"
 import FormHelperText from "@mui/material/FormHelperText"
@@ -10,6 +12,11 @@ import Typography from "@mui/material/Typography"
 
 import { CommonLayout, FileFormControl } from "../components"
 import { customizationFacade } from "../customization"
+
+import colorSchemeSchema from "../json/schema/ColorScheme.schema.json"
+import mapSchema from "../json/schema/Map.schema.json"
+
+const ajv = new Ajv()
 
 const assistanceGridAppearanceOptions = [
   {
@@ -41,14 +48,22 @@ const App = (): React.ReactElement => {
     return JSON.stringify(JSON.parse(json))
   }
 
-  const handleColorSchemeFileChange = (newContent: string) => {
+  const handleColorSchemeFileChange = (newContent: string): boolean => {
     const obj = JSON.parse(newContent)
-    customizationFacade.settings.colorScheme = obj
+    if (ajv.validate(colorSchemeSchema, obj)) {
+      customizationFacade.settings.colorScheme = obj
+      return true
+    }
+    return false
   }
 
-  const handleGameMapFileChange = (newContent: string) => {
+  const handleGameMapFileChange = (newContent: string): boolean => {
     const obj = JSON.parse(newContent)
-    customizationFacade.settings.gameMap = obj
+    if (ajv.validate(mapSchema, obj)) {
+      customizationFacade.settings.gameMap = obj
+      return true
+    }
+    return false
   }
 
   return (

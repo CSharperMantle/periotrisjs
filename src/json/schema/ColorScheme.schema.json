@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "https://csharpermantle.github.io/periotris/schema/ColorScheme.schema.json",
+  "title": "Color Scheme",
+  "description": "A color scheme used in Periotris game",
+  "type": "object",
+  "properties": {
+    "rules": {
+      "description": "Rules of the color scheme",
+      "type": "array",
+      "items": {
+        "description": "A rule of the color scheme",
+        "type": "object",
+        "properties": {
+          "atomicNumberRange": {
+            "description": "The range of elements to apply the rule to",
+            "type": "object",
+            "properties": {
+              "from": { "type": "integer" },
+              "to": { "type": "integer" }
+            }
+          },
+          "color": {
+            "description": "The color of the element",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

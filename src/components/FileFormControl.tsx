@@ -60,7 +60,7 @@ interface IFileFormControlProps {
   label: string
   helperText: string
   readOnly?: boolean
-  onFileChange: (newContent: string) => void
+  onFileChange: (newContent: string) => boolean | void
   contentPreprocessor?: (content: string) => string
 }
 
@@ -104,8 +104,10 @@ const FileFormControl = ({
               content = !_.isNil(contentPreprocessor)
                 ? contentPreprocessor(content)
                 : content
-              setFileContent(content)
-              onFileChange(content)
+              const result = onFileChange(content)
+              if (_.isNil(result) || result) {
+                setFileContent(content)
+              }
             }}
           />
         </Grid>
