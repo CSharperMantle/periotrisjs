@@ -1,63 +1,15 @@
-import _ from "lodash"
 import React from "react"
 
-import Button from "@mui/material/Button"
 import Container from "@mui/material/Container"
 import FormControl from "@mui/material/FormControl"
 import FormHelperText from "@mui/material/FormHelperText"
-import Grid from "@mui/material/Grid"
 import MenuItem from "@mui/material/MenuItem"
 import Stack from "@mui/material/Stack"
-import { styled } from "@mui/material/styles"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 
-import { CommonLayout } from "../components"
+import { CommonLayout, FileFormControl } from "../components"
 import { customizationFacade } from "../customization"
-
-const HiddenInput = styled("input")({
-  display: "none",
-})
-
-interface IFileUploadButtonProps {
-  id: string
-  accept: string
-  multiple?: boolean
-  caption: string
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-}
-
-const FileUploadButton = ({
-  id,
-  accept,
-  multiple,
-  caption,
-  onChange,
-}: IFileUploadButtonProps): React.ReactElement => {
-  return (
-    <>
-      <HiddenInput
-        type="file"
-        accept={accept}
-        multiple={multiple}
-        id={id}
-        onChange={onChange}
-      />
-      <label htmlFor={id}>
-        <Button
-          variant="outlined"
-          sx={{
-            width: "100%",
-            height: "100%",
-          }}
-          component="span"
-        >
-          {caption}
-        </Button>
-      </label>
-    </>
-  )
-}
 
 const assistanceGridAppearanceOptions = [
   {
@@ -71,6 +23,8 @@ const assistanceGridAppearanceOptions = [
 ]
 
 const App = (): React.ReactElement => {
+  // TODO: Prettify this component and make it more readable!
+
   const [assistanceGridMode, setAssistanceGridMode] = React.useState(
     customizationFacade.settings.showGridLine ? "visible" : "hidden"
   )
@@ -83,19 +37,18 @@ const App = (): React.ReactElement => {
     setAssistanceGridMode(value)
   }
 
-  const [colorSchemeJsonString, setColorSchemeJsonString] = React.useState(
-    JSON.stringify(customizationFacade.settings.colorScheme)
-  )
+  const jsonMinifyPreprocessor = (json: string): string => {
+    return JSON.stringify(JSON.parse(json))
+  }
 
-  const handleColorSchemeChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const files = _.isNil(event.target.files) ? [] : event.target.files
-    if (files.length === 0) return
-    const text = await files[0].text()
-    const obj = JSON.parse(text)
+  const handleColorSchemeFileChange = (newContent: string) => {
+    const obj = JSON.parse(newContent)
     customizationFacade.settings.colorScheme = obj
-    setColorSchemeJsonString(JSON.stringify(obj))
+  }
+
+  const handleGameMapFileChange = (newContent: string) => {
+    const obj = JSON.parse(newContent)
+    customizationFacade.settings.gameMap = obj
   }
 
   return (
@@ -139,31 +92,42 @@ const App = (): React.ReactElement => {
               help you better position falling blocks.
             </FormHelperText>
           </FormControl>
-          <FormControl>
-            <Grid container spacing={1}>
-              <Grid item xs={10}>
-                <TextField
-                  id="color-scheme-input-string"
-                  fullWidth
-                  value={colorSchemeJsonString}
-                  label="Color Scheme"
-                  aria-describedby="color-scheme-input-string-helper-text"
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <FileUploadButton
-                  id="color-scheme-input-upload"
-                  accept="application/json"
-                  caption="Open..."
-                  onChange={handleColorSchemeChange}
-                />
-              </Grid>
-            </Grid>
-            <FormHelperText id="color-scheme-input-string-helper-text">
-              Controls the color scheme of the game in JSON via either direct
-              input or a file.
-            </FormHelperText>
-          </FormControl>
+          <FileFormControl
+            id="color-scheme-input"
+            readOnly
+            initialFileContent={JSON.stringify(
+              customizationFacade.settings.colorScheme
+            )}
+            accept="application/json"
+            label="Color Scheme"
+            helperText="Controls the color scheme of Periotris via JSON."
+            buttonCaption="BROWSE"
+            onFileChange={handleColorSchemeFileChange}
+            contentPreprocessor={jsonMinifyPreprocessor}
+          />
+        </Stack>
+        <Stack direction="column" spacing={3}>
+          <Typography
+            variant="h5"
+            sx={{
+              mb: 2,
+            }}
+          >
+            Gameplay
+          </Typography>
+          <FileFormControl
+            id="game-map-input"
+            readOnly
+            initialFileContent={JSON.stringify(
+              customizationFacade.settings.gameMap
+            )}
+            accept="application/json"
+            label="Game Map"
+            helperText="Controls the periodic table map to play with in the game via JSON."
+            buttonCaption="BROWSE"
+            onFileChange={handleGameMapFileChange}
+            contentPreprocessor={jsonMinifyPreprocessor}
+          />
         </Stack>
       </Stack>
     </Container>

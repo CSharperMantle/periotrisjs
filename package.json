@@ -1,6 +1,6 @@
 {
   "name": "periotrisjs",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Get familiar with the Periodic Table of Elements in a fun way, directly in your browsers.",
   "scripts": {
     "ci-build-prefixed": "yarn run -B gatsby build --prefix-paths",

@@ -269,23 +269,26 @@ class GameModel extends EventEmitter {
     }
 
     this.moveActiveTetrimino(MoveDirection.Down)
-    for (let i = 0, len = this._frozenBlocks.length; i < len; i++) {
-      const block = this._frozenBlocks[i]
-      if (
-        customizationFacade.settings.gameMap.periodicTable[block.position.y][
-          block.position.x
-        ].atomicNumber !== block.atomicNumber
-      ) {
-        this.endGame(false)
-        break
-      }
-    }
 
     if (
-      this._frozenBlocks.length >=
-      customizationFacade.settings.gameMap.totalAvailableBlocksCount
+      this._frozenBlocks.some(
+        (block) =>
+          customizationFacade.settings.gameMap.periodicTable[block.position.y][
+            block.position.x
+          ].atomicNumber !== block.atomicNumber
+      )
     ) {
-      this.endGame(true)
+      // The player made a mistake, so end the game.
+      this.endGame(false)
+    } else {
+      if (
+        this._frozenBlocks.length >=
+        customizationFacade.settings.gameMap.totalAvailableBlocksCount
+      ) {
+        // The player won.
+        this.endGame(true)
+      }
+      // Otherwise, the game continues.
     }
   }
 
