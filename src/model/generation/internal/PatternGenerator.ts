@@ -56,10 +56,11 @@ async function getPossibleTetriminoPattern(
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const firstBlockCoord = getFirstAvailableBlockCoord(workspace)
-    const firstBlockCol = firstBlockCoord.x
-    const firstBlockRow = firstBlockCoord.y
-    if (!(firstBlockCol >= 0 && firstBlockRow >= 0)) {
+    const hasEmptyBlocks = workspace.some((row) =>
+      row.some((block) => block.filledBy === TetriminoKind.AvailableToFill)
+    )
+
+    if (!hasEmptyBlocks) {
       return settledTetriminos
     }
 
@@ -88,6 +89,8 @@ async function getPossibleTetriminoPattern(
           TetriminoKind.AvailableToFill
       }
     }
+
+    const firstBlockCoord = getFirstAvailableBlockCoord(workspace)
 
     let solutionFound = false
     while (currentKindDirectionsPairStack.length > 0) {
@@ -127,7 +130,7 @@ async function getPossibleTetriminoPattern(
 }
 
 function createShuffledKindDirectionsPairs(): KindDirectionsPair[] {
-  return _.shuffle([
+  return [
     new KindDirectionsPair(TetriminoKind.Cubic),
     new KindDirectionsPair(TetriminoKind.LShapedCis),
     new KindDirectionsPair(TetriminoKind.LShapedTrans),
@@ -135,13 +138,18 @@ function createShuffledKindDirectionsPairs(): KindDirectionsPair[] {
     new KindDirectionsPair(TetriminoKind.TeeShaped),
     new KindDirectionsPair(TetriminoKind.ZigZagCis),
     new KindDirectionsPair(TetriminoKind.ZigZagTrans),
-  ])
+  ]
 }
 
 function collisionChecker(workspace: Block[][], block: Block): boolean {
   const nRow = block.position.y
   const nCol = block.position.x
-  if (nCol < 0 || nCol >= workspace[0].length || nRow >= workspace.length) {
+  if (
+    nCol < 0 ||
+    nCol >= workspace[0].length ||
+    nRow < 0 ||
+    nRow >= workspace.length
+  ) {
     return true
   }
   return workspace[nRow][nCol].filledBy !== TetriminoKind.AvailableToFill
