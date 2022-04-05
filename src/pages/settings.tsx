@@ -1,6 +1,7 @@
-import React from "react"
-
 import Ajv from "ajv"
+import _ from "lodash"
+import { useSnackbar } from "notistack"
+import React from "react"
 
 import Container from "@mui/material/Container"
 import FormControl from "@mui/material/FormControl"
@@ -12,11 +13,16 @@ import Typography from "@mui/material/Typography"
 
 import { CommonLayout, FileFormControl } from "../components"
 import { customizationFacade } from "../customization"
-
 import colorSchemeSchema from "../json/schema/ColorScheme.schema.json"
 import mapSchema from "../json/schema/Map.schema.json"
 
+import type { IColorScheme, IMap } from "../customization"
+import { InputAdornment } from "@mui/material"
+
 const ajv = new Ajv()
+
+const validateColorScheme = ajv.compile<IColorScheme>(colorSchemeSchema)
+const validateMap = ajv.compile<IMap>(mapSchema)
 
 const assistanceGridAppearanceOptions = [
   {
@@ -31,6 +37,8 @@ const assistanceGridAppearanceOptions = [
 
 const App = (): React.ReactElement => {
   // TODO: Prettify this component and make it more readable!
+
+  const { enqueueSnackbar } = useSnackbar()
 
   const [assistanceGridMode, setAssistanceGridMode] = React.useState(
     customizationFacade.settings.showGridLine ? "visible" : "hidden"
@@ -50,20 +58,41 @@ const App = (): React.ReactElement => {
 
   const handleColorSchemeFileChange = (newContent: string): boolean => {
     const obj = JSON.parse(newContent)
-    if (ajv.validate(colorSchemeSchema, obj)) {
+    if (validateColorScheme(obj)) {
       customizationFacade.settings.colorScheme = obj
       return true
     }
+    enqueueSnackbar(
+      "Invalid color scheme file. Please check your file format.",
+      { variant: "error" }
+    )
     return false
   }
 
   const handleGameMapFileChange = (newContent: string): boolean => {
     const obj = JSON.parse(newContent)
-    if (ajv.validate(mapSchema, obj)) {
+    if (validateMap(obj)) {
       customizationFacade.settings.gameMap = obj
       return true
     }
+    enqueueSnackbar("Invalid game map file. Please check your file format.", {
+      variant: "error",
+    })
     return false
+  }
+
+  const [fallingSpeed, setFallingSpeed] = React.useState(
+    customizationFacade.settings.gameUpdateIntervalMilliseconds.toString()
+  )
+
+  const handleFallingSpeedChange = (newContent: string): boolean => {
+    const value = parseInt(newContent, 10)
+    if (_.isNaN(value)) {
+      enqueueSnackbar("Invalid falling speed value.", { variant: "error" })
+      return false
+    }
+    customizationFacade.settings.gameUpdateIntervalMilliseconds = value
+    return true
   }
 
   return (
@@ -116,7 +145,7 @@ const App = (): React.ReactElement => {
             accept="application/json"
             label="Color Scheme"
             helperText="Controls the color scheme of Periotris via JSON."
-            buttonCaption="BROWSE"
+            buttonCaption="OPEN"
             onFileChange={handleColorSchemeFileChange}
             contentPreprocessor={jsonMinifyPreprocessor}
           />
@@ -139,10 +168,33 @@ const App = (): React.ReactElement => {
             accept="application/json"
             label="Game Map"
             helperText="Controls the periodic table map to play with in the game via JSON."
-            buttonCaption="BROWSE"
+            buttonCaption="OPEN"
             onFileChange={handleGameMapFileChange}
             contentPreprocessor={jsonMinifyPreprocessor}
           />
+          <FormControl>
+            <TextField
+              id="falling-speed-input"
+              value={fallingSpeed}
+              label="Tetrimino Falling Speed"
+              type="number"
+              aria-describedby={`falling-speed-input-helper-text`}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">ms</InputAdornment>
+                ),
+              }}
+              onChange={(event) => {
+                const content = event.target.value
+                if (handleFallingSpeedChange(content)) {
+                  setFallingSpeed(content)
+                }
+              }}
+            />
+            <FormHelperText id={`falling-speed-input-helper-text`}>
+              Controls the speed of falling tetriminos in milliseconds.
+            </FormHelperText>
+          </FormControl>
         </Stack>
       </Stack>
     </Container>
