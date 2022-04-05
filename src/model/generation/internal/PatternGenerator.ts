@@ -130,7 +130,7 @@ async function getPossibleTetriminoPattern(
 }
 
 function createShuffledKindDirectionsPairs(): KindDirectionsPair[] {
-  return [
+  return _.shuffle([
     new KindDirectionsPair(TetriminoKind.Cubic),
     new KindDirectionsPair(TetriminoKind.LShapedCis),
     new KindDirectionsPair(TetriminoKind.LShapedTrans),
@@ -138,7 +138,7 @@ function createShuffledKindDirectionsPairs(): KindDirectionsPair[] {
     new KindDirectionsPair(TetriminoKind.TeeShaped),
     new KindDirectionsPair(TetriminoKind.ZigZagCis),
     new KindDirectionsPair(TetriminoKind.ZigZagTrans),
-  ]
+  ])
 }
 
 function collisionChecker(workspace: Block[][], block: Block): boolean {
