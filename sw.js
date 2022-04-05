@@ -27,7 +27,7 @@ workbox.core.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-b39a02c8bab78e1d8207.js"
+    "url": "webpack-runtime-4d863bdb73257ccc15fa.js"
   },
   {
     "url": "framework-109f897ac1c4de17fd7b.js"
@@ -39,17 +39,17 @@ self.__precacheManifest = [
     "url": "91cfaedf-223d9ef2b1f4d81bc242.js"
   },
   {
-    "url": "8c94476aecfffef8bb188161ebc5955ec9aac41a-94b6d696546808b3980a.js"
+    "url": "8c94476aecfffef8bb188161ebc5955ec9aac41a-fc86e7748288654442a7.js"
   },
   {
     "url": "dc6a8720040df98778fe970bf6c000a41750d3ae-a1a1fb14cd230c267cb3.js"
   },
   {
-    "url": "app-ce21be04b3e9d0d5fb8b.js"
+    "url": "app-c023ae50e07787ef8f3f.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "9ac7d557f889fb632ac3896ab9a2e9a0"
+    "revision": "485fa2c5ca0fdc21ed8d6910b3e6adc6"
   },
   {
     "url": "page-data/offline-plugin-app-shell-fallback/page-data.json",
@@ -57,11 +57,11 @@ self.__precacheManifest = [
   },
   {
     "url": "page-data/sq/d/1170113242.json",
-    "revision": "06c0bc5ff80a7e4a6a38f02137aae7c8"
+    "revision": "08845f5fbfb54c8960a9c561db952d96"
   },
   {
     "url": "page-data/sq/d/3387501435.json",
-    "revision": "16a858c2798a38dc36e020b1481f97aa"
+    "revision": "11a6c8b3cc4847343cc08d3e64d4d6ed"
   },
   {
     "url": "page-data/sq/d/3992131839.json",
@@ -69,7 +69,7 @@ self.__precacheManifest = [
   },
   {
     "url": "page-data/app-data.json",
-    "revision": "41212d79a50be5edbc6e45c435f6f425"
+    "revision": "b912cbda64e2a4d06a142d92eae26626"
   },
   {
     "url": "polyfill-4b4ce6cee4dcefa48e5a.js"
@@ -206,7 +206,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/periotrisjs/app-ce21be04b3e9d0d5fb8b.js`))) {
+  if (!resources || !(await caches.match(`/periotrisjs/app-c023ae50e07787ef8f3f.js`))) {
     return await fetch(event.request)
   }
 
