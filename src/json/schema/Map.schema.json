@@ -5,7 +5,7 @@
   "description": "A map used in Periotris game",
   "type": "object",
   "properties": {
-    "periodicTable": {
+    "map": {
       "description": "The rows of the map",
       "type": "array",
       "items": {
@@ -25,7 +25,6 @@
               "minimum": 7,
               "maximum": 8
             },
-            "identifier": { "description": "Unused", "type": "integer" },
             "position": {
               "description": "The position of the cell in the game map",
               "type": "object",
@@ -73,5 +72,5 @@
       "required": ["height", "width"]
     }
   },
-  "required": ["periodicTable", "totalAvailableBlocksCount", "playAreaSize"]
+  "required": ["map", "totalAvailableBlocksCount", "playAreaSize"]
 }

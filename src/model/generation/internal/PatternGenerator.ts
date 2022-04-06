@@ -18,14 +18,14 @@ function fastRandom(startInc: number, endExc: number): number {
   return startInc + Math.floor(Math.random() * (endExc - startInc))
 }
 
-async function getPlayablePattern(map: IMap): Promise<Tetrimino[]> {
+async function getPlayablePattern(gameMap: IMap): Promise<Tetrimino[]> {
   const template: Block[][] = []
 
-  for (let i = 0; i < map.playAreaSize.height; i++) {
+  for (let i = 0; i < gameMap.playAreaSize.height; i++) {
     template[i] = []
 
-    for (let j = 0; j < map.playAreaSize.width; j++) {
-      const origElem = map.periodicTable[i][j]
+    for (let j = 0; j < gameMap.playAreaSize.width; j++) {
+      const origElem = gameMap.map[i][j]
       template[i][j] = new Block(
         origElem.filledBy,
         new Position(origElem.position.x, origElem.position.y),
@@ -36,11 +36,11 @@ async function getPlayablePattern(map: IMap): Promise<Tetrimino[]> {
   }
 
   const pattern = await getPossibleTetriminoPattern(template)
-  const ordered = await sort(pattern, map.playAreaSize)
+  const ordered = await sort(pattern, gameMap.playAreaSize)
 
   const fixedTetriminos = repairBrokenTetriminos(ordered)
 
-  primeTetriminos(fixedTetriminos, map.playAreaSize)
+  primeTetriminos(fixedTetriminos, gameMap.playAreaSize)
 
   return fixedTetriminos
 }
