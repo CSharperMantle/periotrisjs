@@ -72,6 +72,7 @@
     "@types/webpack-bundle-analyzer": "^4.4.1",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
+    "ajv-json-loader": "^0.2.0",
     "babel-jest": "^27.5.1",
     "babel-preset-gatsby": "^2.11.1",
     "eslint": "^8.12.0",

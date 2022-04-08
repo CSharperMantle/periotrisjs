@@ -72,5 +72,5 @@
     "resolveJsonModule": true
   },
   "include": ["./src/**/*"],
-  "exclude": ["./build/**/*", "./public/**/*"]
+  "exclude": ["./build/**/*", "./public/**/*", "*.schema.json"]
 }

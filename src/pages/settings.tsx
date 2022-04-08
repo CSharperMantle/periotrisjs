@@ -1,4 +1,5 @@
-import Ajv from "ajv"
+import validateColorScheme from "ajv-json-loader!../json/schema/ColorScheme.json.schema"
+import validateMap from "ajv-json-loader!../json/schema/Map.json.schema"
 import _ from "lodash"
 import { useSnackbar } from "notistack"
 import React from "react"
@@ -6,6 +7,7 @@ import React from "react"
 import Container from "@mui/material/Container"
 import FormControl from "@mui/material/FormControl"
 import FormHelperText from "@mui/material/FormHelperText"
+import InputAdornment from "@mui/material/InputAdornment"
 import MenuItem from "@mui/material/MenuItem"
 import Stack from "@mui/material/Stack"
 import TextField from "@mui/material/TextField"
@@ -13,16 +15,6 @@ import Typography from "@mui/material/Typography"
 
 import { CommonLayout, FileFormControl } from "../components"
 import { customizationFacade } from "../customization"
-import colorSchemeSchema from "../json/schema/ColorScheme.schema.json"
-import mapSchema from "../json/schema/Map.schema.json"
-
-import type { IColorScheme, IMap } from "../customization"
-import { InputAdornment } from "@mui/material"
-
-const ajv = new Ajv()
-
-const validateColorScheme = ajv.compile<IColorScheme>(colorSchemeSchema)
-const validateMap = ajv.compile<IMap>(mapSchema)
 
 const assistanceGridAppearanceOptions = [
   {
