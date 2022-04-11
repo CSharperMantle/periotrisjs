@@ -1,5 +1,6 @@
 import {
-  GameUpdateIntervalMilliseconds,
+  DefaultBorderThickness,
+  DefaultGameUpdateIntervalMilliseconds,
   HistoryLocalStorageKey,
   SettingsLocalStorageKey,
   StopwatchUpdateIntervalMilliseconds,
@@ -9,10 +10,11 @@ import { Position, positionEquals } from "./Position"
 import type { ISize } from "./ISize"
 
 export {
-  GameUpdateIntervalMilliseconds,
+  DefaultGameUpdateIntervalMilliseconds,
   StopwatchUpdateIntervalMilliseconds,
   HistoryLocalStorageKey,
   SettingsLocalStorageKey,
+  DefaultBorderThickness,
   Position,
   positionEquals,
 }

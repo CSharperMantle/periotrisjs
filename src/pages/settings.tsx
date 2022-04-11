@@ -13,7 +13,7 @@ import Stack from "@mui/material/Stack"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 
-import { CommonLayout, FileFormControl } from "../components"
+import { CommonLayout, FileFormControl, NumberFormControl } from "../components"
 import { customizationFacade } from "../customization"
 
 const assistanceGridAppearanceOptions = [
@@ -28,8 +28,6 @@ const assistanceGridAppearanceOptions = [
 ]
 
 const App = (): React.ReactElement => {
-  // TODO: Prettify this component and make it more readable!
-
   const { enqueueSnackbar } = useSnackbar()
 
   const [assistanceGridMode, setAssistanceGridMode] = React.useState(
@@ -73,17 +71,23 @@ const App = (): React.ReactElement => {
     return false
   }
 
-  const [fallingSpeed, setFallingSpeed] = React.useState(
-    customizationFacade.settings.gameUpdateIntervalMilliseconds.toString()
-  )
-
-  const handleFallingSpeedChange = (newContent: string): boolean => {
-    const value = parseInt(newContent, 10)
+  const handleUpdateIntervalChange = (newContent: string): boolean => {
+    const value = parseInt(`0${newContent}`, 10)
     if (_.isNaN(value)) {
       enqueueSnackbar("Invalid falling speed value.", { variant: "error" })
       return false
     }
     customizationFacade.settings.gameUpdateIntervalMilliseconds = value
+    return true
+  }
+
+  const handleBorderThicknessChange = (newContent: string): boolean => {
+    const value = parseInt(`0${newContent}`, 10)
+    if (_.isNaN(value) || value <= 0) {
+      enqueueSnackbar("Invalid border thickness value.", { variant: "error" })
+      return false
+    }
+    customizationFacade.settings.borderThickness = value
     return true
   }
 
@@ -128,6 +132,18 @@ const App = (): React.ReactElement => {
               help you better position falling blocks.
             </FormHelperText>
           </FormControl>
+          <NumberFormControl
+            id="border-thickness-input"
+            label="Border Thickness"
+            initialContent={customizationFacade.settings.borderThickness.toString()}
+            helperText="Controls thickness of borders around cells in pixels."
+            min={0}
+            step={1}
+            adornments={{
+              endAdornment: <InputAdornment position="end">px</InputAdornment>,
+            }}
+            onChange={handleBorderThicknessChange}
+          />
           <FileFormControl
             id="color-scheme-input"
             readOnly
@@ -164,29 +180,18 @@ const App = (): React.ReactElement => {
             onFileChange={handleGameMapFileChange}
             contentPreprocessor={jsonMinifyPreprocessor}
           />
-          <FormControl>
-            <TextField
-              id="falling-speed-input"
-              value={fallingSpeed}
-              label="Tetrimino Falling Speed"
-              type="number"
-              aria-describedby={`falling-speed-input-helper-text`}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">ms</InputAdornment>
-                ),
-              }}
-              onChange={(event) => {
-                const content = event.target.value
-                if (handleFallingSpeedChange(content)) {
-                  setFallingSpeed(content)
-                }
-              }}
-            />
-            <FormHelperText id={`falling-speed-input-helper-text`}>
-              Controls the speed of falling tetriminos in milliseconds.
-            </FormHelperText>
-          </FormControl>
+          <NumberFormControl
+            id="update-interval-input"
+            label="Update Interval"
+            initialContent={customizationFacade.settings.gameUpdateIntervalMilliseconds.toString()}
+            min={0}
+            step={100}
+            helperText="Controls the interval of two ticks in game in milliseconds."
+            adornments={{
+              endAdornment: <InputAdornment position="end">ms</InputAdornment>,
+            }}
+            onChange={handleUpdateIntervalChange}
+          />
         </Stack>
       </Stack>
     </Container>

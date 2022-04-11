@@ -1,7 +1,8 @@
 import _ from "lodash"
 
 import {
-  GameUpdateIntervalMilliseconds,
+  DefaultBorderThickness,
+  DefaultGameUpdateIntervalMilliseconds,
   SettingsLocalStorageKey,
 } from "../../common"
 import defaultColorScheme from "../../json/DefaultColorScheme.json"
@@ -25,7 +26,8 @@ class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
-  private _gameUpdateIntervalMilliseconds = GameUpdateIntervalMilliseconds
+  private _gameUpdateIntervalMilliseconds =
+    DefaultGameUpdateIntervalMilliseconds
   public get gameUpdateIntervalMilliseconds(): number {
     return this._gameUpdateIntervalMilliseconds
   }
@@ -49,6 +51,15 @@ class Settings implements ILocalStorageSerializable {
   }
   public set colorScheme(v: IColorScheme) {
     this._colorScheme = v
+    this.toLocalStorage()
+  }
+
+  private _borderThickness: number = DefaultBorderThickness
+  public get borderThickness(): number {
+    return this._borderThickness
+  }
+  public set borderThickness(v: number) {
+    this._borderThickness = v
     this.toLocalStorage()
   }
 
