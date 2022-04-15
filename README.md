@@ -1,31 +1,27 @@
 # Periotris.js
 
-> Get familiar with the Periodic Table of Elements in a fun way, directly in your browsers.
+[![Gatsby](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml/badge.svg?branch=develop)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml)
 
-A Progressive Web App-compliant Periotris game built with [React](https://reactjs.org/), [Gatsby](https://www.gatsbyjs.com/) and [Material UI](https://material-ui.com/).
+**Get familiar with the Periodic Table of Elements in a fun way, directly in your browsers.**
 
 ![Periotris.js v2.0.1 PWA screenshot](https://user-images.githubusercontent.com/32665105/152916976-93b9617a-7f82-489c-9ede-92f16a2c45e9.png)
-_Figure: Periotris.js v2.0.1 screenshot_
+_Periotris.js v2.0.1_
 
-#### Build status
+## Play
 
-- `develop`: [![Gatsby](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml/badge.svg?branch=develop)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml)
-- `main`: [![Gatsby](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml/badge.svg?branch=main)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml)
-- `CodeQL` on `develop`: [![CodeQL](https://github.com/CSharperMantle/periotrisjs/actions/workflows/codeql.yml/badge.svg?branch=develop)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/codeql.yml)
-
-## Experience Periotris.js
+### Where to play?
 
 Instances of Periotris.js are hosted on GitHub Pages and Vercel.
 
-- GitHub Pages: [https://csharpermantle.github.io/periotrisjs](https://csharpermantle.github.io/periotrisjs)
-- Vercel: [https://periotrisjs.vercel.app/](https://periotrisjs.vercel.app/).
-- Vercel (develop preview): [https://periotrisjs-git-develop-csharpermantle.vercel.app/](https://periotrisjs-git-develop-csharpermantle.vercel.app/)
+- GitHub Pages: https://csharpermantle.github.io/periotrisjs
+- Vercel: https://periotrisjs.vercel.app/
+- Vercel (develop preview): https://periotrisjs-git-develop-csharpermantle.vercel.app/
 
-The game can also act as a [Progressive Web Application](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps). This enables it to be installed like a native app on browsers supporting PWAs. Known browsers that support this feature include Microsoft Edge and Firefox.
+The game is a [Progressive Web App](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps), providing a native-app-like experience. See your browser's manual for more information.
 
-### In-game controls
+### How to play?
 
-#### Keyboard
+For desktop platforms, keyboard is the recommended way to control the game.
 
 - `W`: Rotate
 - `A`: Move left
@@ -33,7 +29,7 @@ The game can also act as a [Progressive Web Application](https://developer.mozil
 - `S`: Move down
 - `Space`: Instant drop
 
-#### Pointer gesture
+For touching-enabled platforms, use the finger to play.
 
 - `Tap`: Rotate
 - `Swipe left`: Move left
@@ -41,11 +37,57 @@ The game can also act as a [Progressive Web Application](https://developer.mozil
 - `Swipe down`: Move down
 - `Long press`: Instant drop
 
-## Getting started in development
+### What to do next?
+
+Periotris.js provides several ways to customize the game. You can:
+
+- Customize the color theme of the game,
+- Play other maps,
+- Control the speed of the game,
+- Change the game's difficulty,
+- Customize the periodic table,
+
+... and more!
+
+Most of these settings can be edited on the "Settings" page of the game. The settings are saved in the browser's local storage and are **not** uploaded to any server.
+
+Most settings are saved and validated real-time, so when you make a change to the settings, the game will immediately reflect the change.
+
+If you encounter any problems with your file format, please check the structure of your file.
+
+#### Write your own map
+
+Game maps defines the game area that you need to fill. It specifies how large the game area is, which element should cells represent, and which cells are left blank.
+
+A game map is represented in a text file in the format named [JavaScript Object Notation (JSON)](https://developer.mozilla.org/en-US/docs/Glossary/JSON). You will need to write your own map in the structure listed below.
+
+1. The map file (designated as "map") is a JSON file containing an object as its root (designated as "map object").
+2. The map object should contain a `map` property, a `totalAvailableBlocksCount` property and a `playAreaSize` property.
+   - The `map` property is an array of arrays. Each array represents a row of blocks. Each block is represented by an object with these properties: `atomicNumber`, `filledBy` and `position`.
+   - The `totalAvailableBlocksCount` property is an integer representing the total number of blocks that can be filled in the map, that is, the number of blocks where `filledBy` equals `7`.
+   - The `playAreaSize` property is an object with two properties: `width` and `height`.
+
+For an example file, which is also the default map in the game, see [DefaultMap.json](src/json/DefaultMap.json).
+
+For a formal description of the structure of the map in [JSON Schema](https://json-schema.org/), see [Map.json.schema](src/json/schema/Map.json.schema).
+
+#### Write your own color theme
+
+Color themes define a set of rules that cells should be colored according to.
+
+A color theme file is also represented in JSON. You will need to write your own color theme in the structure listed below.
+
+1. The color theme file (designated as "color theme") is a JSON file containing an object as its root (designated as "color theme object").
+2. The color theme object should contain a `rules` property.
+   - The `rules` property is an array of objects. Each object represents a rule. Each rule is represented by an object with these properties: `atomicNumberRange` and `color`.
+
+For an example file, which is also the default color theme in the game, see [DefaultColorScheme.json](src/json/DefaultColorScheme.json).
+
+For a formal description of the structure of the map in JSON Schema, see [ColorScheme.json.schema](src/json/schema/ColorScheme.json.schema).
+
+## Development
 
 ### Clone
-
-Run:
 
 ```sh
 git clone --depth 1 -- https://github.com/CSharperMantle/periotrisjs.git
@@ -59,7 +101,7 @@ You may omit the `--depth=1` flag if you want a complete commit history rather t
 Dependencies that need to be installed manually:
 
 - [Node.js v14.x+](https://nodejs.org/)
-- [yarn v2+](https://yarnpkg.com/)
+- [yarn berry+](https://yarnpkg.com/)
 
 Once you have installed all above, run the following commands:
 
@@ -67,29 +109,26 @@ Once you have installed all above, run the following commands:
 yarn install --immutable
 ```
 
-### Build and serve
+### Host local instances
 
-Run the following command to build and serve a static, release-ready [Gatsby](https://gatsbyjs.com/) site:
+Run the following command to build and serve a publish-ready site (the same as you get from GH Pages and Vercel instances):
 
 ```sh
 yarn run build && yarn run serve
 ```
 
-If you prefer hot-reload, friendly exception messages and other development-friendly features of Gatsby, run the following commands to start a dev server:
+Or you can run the following command to build and serve a development site:
 
 ```sh
 yarn run develop
 ```
 
-After these commands are executed, you should see in the terminal an address to visit.
-The address is usually `http://localhost:8000/` or `http://localhost:9000/` depending on whether your build is for dev or production.
+Follow the instructions printed in the terminal to enjoy your local instance.
 
 ### Test
-
-Run the following to run unit tests:
 
 ```sh
 yarn run test
 ```
 
-Normally every test suite should be "PASSED".
+This command will run all tests and will print the results. Normally all tests should pass.
