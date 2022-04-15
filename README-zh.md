@@ -2,14 +2,12 @@
 
 [English](README.md) | **中文**
 
----
-
-[![Gatsby](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml/badge.svg?branch=develop)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml)
-
 **在游戏中牢牢掌握化学元素周期表！**
 
-![Periotris.js v2.0.1 PWA screenshot](https://user-images.githubusercontent.com/32665105/152916976-93b9617a-7f82-489c-9ede-92f16a2c45e9.png)
+![Periotris.js v2.0.1 PWA 屏幕截图](https://user-images.githubusercontent.com/32665105/152916976-93b9617a-7f82-489c-9ede-92f16a2c45e9.png)
 _Periotris.js v2.0.1_
+
+[![Gatsby](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml/badge.svg?branch=develop)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml)
 
 ## 快速上手
 

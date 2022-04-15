@@ -2,14 +2,12 @@
 
 **English** | [中文](README-zh.md)
 
----
-
-[![Gatsby](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml/badge.svg?branch=develop)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml)
-
 **Get familiar with the Periodic Table of Elements in a fun way, directly in your browsers.**
 
 ![Periotris.js v2.0.1 PWA screenshot](https://user-images.githubusercontent.com/32665105/152916976-93b9617a-7f82-489c-9ede-92f16a2c45e9.png)
 _Periotris.js v2.0.1_
+
+[![Gatsby](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml/badge.svg?branch=develop)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml)
 
 ## Play
 
