@@ -1,5 +1,9 @@
 # Periotris.js
 
+**English** | [中文](README-zh.md)
+
+---
+
 [![Gatsby](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml/badge.svg?branch=develop)](https://github.com/CSharperMantle/periotrisjs/actions/workflows/gatsby.yml)
 
 **Get familiar with the Periodic Table of Elements in a fun way, directly in your browsers.**
@@ -62,10 +66,15 @@ Game maps defines the game area that you need to fill. It specifies how large th
 A game map is represented in a text file in the format named [JavaScript Object Notation (JSON)](https://developer.mozilla.org/en-US/docs/Glossary/JSON). You will need to write your own map in the structure listed below.
 
 1. The map file (designated as "map") is a JSON file containing an object as its root (designated as "map object").
-2. The map object should contain a `map` property, a `totalAvailableBlocksCount` property and a `playAreaSize` property.
-   - The `map` property is an array of arrays. Each array represents a row of blocks. Each block is represented by an object with these properties: `atomicNumber`, `filledBy` and `position`.
-   - The `totalAvailableBlocksCount` property is an integer representing the total number of blocks that can be filled in the map, that is, the number of blocks where `filledBy` equals `7`.
-   - The `playAreaSize` property is an object with two properties: `width` and `height`.
+2. The map object should contain following properties:
+   - `map`: A row-major 2D array containing all blocks. Each block is represented by an object with these properties:
+     - `atomicNumber`: An integer indicating the element the cell represents
+     - `filledBy`: An integer. `7` for a free block, `8` for an unavailable block.
+     - `position`: An object representing the position of the cell.
+   - `totalAvailableBlocksCount`: An integer representing the total number of blocks that can be filled in the map, that is, the number of blocks where `filledBy` equals `7`.
+   - `playAreaSize`: An object It representing the visible size of the map with two properties:
+     - `width`: An integer.
+     - `height`: An integer.
 
 For an example file, which is also the default map in the game, see [DefaultMap.json](src/json/DefaultMap.json).
 
@@ -78,8 +87,10 @@ Color themes define a set of rules that cells should be colored according to.
 A color theme file is also represented in JSON. You will need to write your own color theme in the structure listed below.
 
 1. The color theme file (designated as "color theme") is a JSON file containing an object as its root (designated as "color theme object").
-2. The color theme object should contain a `rules` property.
-   - The `rules` property is an array of objects. Each object represents a rule. Each rule is represented by an object with these properties: `atomicNumberRange` and `color`.
+2. The color theme object should contain the following properties:
+   - `rules`: An array of objects. Each object represents a rule. Each rule is represented by an object with these properties:
+     - `atomicNumberRange`: An object indicating the range of elements the rule applies to from `from` to `to` (both inclusive).
+     - `color`: A valid CSS color.
 
 For an example file, which is also the default color theme in the game, see [DefaultColorScheme.json](src/json/DefaultColorScheme.json).
 
