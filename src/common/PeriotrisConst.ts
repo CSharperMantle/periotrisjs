@@ -1,11 +1,13 @@
-const GameUpdateIntervalMilliseconds = 1000
+const DefaultGameUpdateIntervalMilliseconds = 1000
 const StopwatchUpdateIntervalMilliseconds = 500
 const HistoryLocalStorageKey = "history"
 const SettingsLocalStorageKey = "settings"
+const DefaultBorderThickness = 1
 
 export {
-  GameUpdateIntervalMilliseconds,
+  DefaultGameUpdateIntervalMilliseconds,
   StopwatchUpdateIntervalMilliseconds,
   HistoryLocalStorageKey,
   SettingsLocalStorageKey,
+  DefaultBorderThickness,
 }

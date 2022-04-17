@@ -1,112 +1,94 @@
 {
-  "periodicTable": [
+  "map": [
     [
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 0, "y": 0 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 1, "y": 0 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 2, "y": 0 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 3, "y": 0 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 4, "y": 0 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 5, "y": 0 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 6, "y": 0 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 7, "y": 0 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 8, "y": 0 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 9, "y": 0 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 10, "y": 0 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 11, "y": 0 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 12, "y": 0 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 13, "y": 0 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 14, "y": 0 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 15, "y": 0 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 16, "y": 0 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 17, "y": 0 }
       }
     ],
@@ -114,109 +96,91 @@
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 0, "y": 1 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 1, "y": 1 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 2, "y": 1 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 3, "y": 1 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 4, "y": 1 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 5, "y": 1 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 6, "y": 1 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 7, "y": 1 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 8, "y": 1 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 9, "y": 1 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 10, "y": 1 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 11, "y": 1 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 12, "y": 1 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 13, "y": 1 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 14, "y": 1 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 15, "y": 1 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 16, "y": 1 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 17, "y": 1 }
       }
     ],
@@ -224,109 +188,91 @@
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 0, "y": 2 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 1, "y": 2 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 2, "y": 2 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 3, "y": 2 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 4, "y": 2 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 5, "y": 2 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 6, "y": 2 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 7, "y": 2 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 8, "y": 2 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 9, "y": 2 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 10, "y": 2 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 11, "y": 2 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 12, "y": 2 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 13, "y": 2 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 14, "y": 2 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 15, "y": 2 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 16, "y": 2 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 17, "y": 2 }
       }
     ],
@@ -334,109 +280,91 @@
       {
         "atomicNumber": -1,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 0, "y": 3 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 1, "y": 3 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 2, "y": 3 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 3, "y": 3 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 4, "y": 3 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 5, "y": 3 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 6, "y": 3 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 7, "y": 3 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 8, "y": 3 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 9, "y": 3 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 10, "y": 3 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 11, "y": 3 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 12, "y": 3 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 13, "y": 3 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 14, "y": 3 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 15, "y": 3 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 16, "y": 3 }
       },
       {
         "atomicNumber": -18,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 17, "y": 3 }
       }
     ],
@@ -444,109 +372,91 @@
       {
         "atomicNumber": 1,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 0, "y": 4 }
       },
       {
         "atomicNumber": -2,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 1, "y": 4 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 2, "y": 4 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 3, "y": 4 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 4, "y": 4 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 5, "y": 4 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 6, "y": 4 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 7, "y": 4 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 8, "y": 4 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 9, "y": 4 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 10, "y": 4 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 11, "y": 4 }
       },
       {
         "atomicNumber": -13,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 12, "y": 4 }
       },
       {
         "atomicNumber": -14,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 13, "y": 4 }
       },
       {
         "atomicNumber": -15,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 14, "y": 4 }
       },
       {
         "atomicNumber": -16,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 15, "y": 4 }
       },
       {
         "atomicNumber": -17,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 16, "y": 4 }
       },
       {
         "atomicNumber": 2,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 17, "y": 4 }
       }
     ],
@@ -554,109 +464,91 @@
       {
         "atomicNumber": 3,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 0, "y": 5 }
       },
       {
         "atomicNumber": 4,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 1, "y": 5 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 2, "y": 5 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 3, "y": 5 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 4, "y": 5 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 5, "y": 5 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 6, "y": 5 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 7, "y": 5 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 8, "y": 5 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 9, "y": 5 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 10, "y": 5 }
       },
       {
         "atomicNumber": 0,
         "filledBy": 8,
-        "identifier": 0,
         "position": { "x": 11, "y": 5 }
       },
       {
         "atomicNumber": 5,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 12, "y": 5 }
       },
       {
         "atomicNumber": 6,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 13, "y": 5 }
       },
       {
         "atomicNumber": 7,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 14, "y": 5 }
       },
       {
         "atomicNumber": 8,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 15, "y": 5 }
       },
       {
         "atomicNumber": 9,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 16, "y": 5 }
       },
       {
         "atomicNumber": 10,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 17, "y": 5 }
       }
     ],
@@ -664,109 +556,91 @@
       {
         "atomicNumber": 11,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 0, "y": 6 }
       },
       {
         "atomicNumber": 12,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 1, "y": 6 }
       },
       {
         "atomicNumber": -3,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 2, "y": 6 }
       },
       {
         "atomicNumber": -4,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 3, "y": 6 }
       },
       {
         "atomicNumber": -5,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 4, "y": 6 }
       },
       {
         "atomicNumber": -6,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 5, "y": 6 }
       },
       {
         "atomicNumber": -7,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 6, "y": 6 }
       },
       {
         "atomicNumber": -8,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 7, "y": 6 }
       },
       {
         "atomicNumber": -9,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 8, "y": 6 }
       },
       {
         "atomicNumber": -10,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 9, "y": 6 }
       },
       {
         "atomicNumber": -11,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 10, "y": 6 }
       },
       {
         "atomicNumber": -12,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 11, "y": 6 }
       },
       {
         "atomicNumber": 13,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 12, "y": 6 }
       },
       {
         "atomicNumber": 14,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 13, "y": 6 }
       },
       {
         "atomicNumber": 15,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 14, "y": 6 }
       },
       {
         "atomicNumber": 16,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 15, "y": 6 }
       },
       {
         "atomicNumber": 17,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 16, "y": 6 }
       },
       {
         "atomicNumber": 18,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 17, "y": 6 }
       }
     ],
@@ -774,109 +648,91 @@
       {
         "atomicNumber": 19,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 0, "y": 7 }
       },
       {
         "atomicNumber": 20,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 1, "y": 7 }
       },
       {
         "atomicNumber": 21,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 2, "y": 7 }
       },
       {
         "atomicNumber": 22,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 3, "y": 7 }
       },
       {
         "atomicNumber": 23,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 4, "y": 7 }
       },
       {
         "atomicNumber": 24,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 5, "y": 7 }
       },
       {
         "atomicNumber": 25,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 6, "y": 7 }
       },
       {
         "atomicNumber": 26,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 7, "y": 7 }
       },
       {
         "atomicNumber": 27,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 8, "y": 7 }
       },
       {
         "atomicNumber": 28,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 9, "y": 7 }
       },
       {
         "atomicNumber": 29,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 10, "y": 7 }
       },
       {
         "atomicNumber": 30,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 11, "y": 7 }
       },
       {
         "atomicNumber": 31,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 12, "y": 7 }
       },
       {
         "atomicNumber": 32,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 13, "y": 7 }
       },
       {
         "atomicNumber": 33,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 14, "y": 7 }
       },
       {
         "atomicNumber": 34,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 15, "y": 7 }
       },
       {
         "atomicNumber": 35,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 16, "y": 7 }
       },
       {
         "atomicNumber": 36,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 17, "y": 7 }
       }
     ],
@@ -884,109 +740,91 @@
       {
         "atomicNumber": 37,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 0, "y": 8 }
       },
       {
         "atomicNumber": 38,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 1, "y": 8 }
       },
       {
         "atomicNumber": 39,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 2, "y": 8 }
       },
       {
         "atomicNumber": 40,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 3, "y": 8 }
       },
       {
         "atomicNumber": 41,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 4, "y": 8 }
       },
       {
         "atomicNumber": 42,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 5, "y": 8 }
       },
       {
         "atomicNumber": 43,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 6, "y": 8 }
       },
       {
         "atomicNumber": 44,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 7, "y": 8 }
       },
       {
         "atomicNumber": 45,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 8, "y": 8 }
       },
       {
         "atomicNumber": 46,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 9, "y": 8 }
       },
       {
         "atomicNumber": 47,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 10, "y": 8 }
       },
       {
         "atomicNumber": 48,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 11, "y": 8 }
       },
       {
         "atomicNumber": 49,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 12, "y": 8 }
       },
       {
         "atomicNumber": 50,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 13, "y": 8 }
       },
       {
         "atomicNumber": 51,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 14, "y": 8 }
       },
       {
         "atomicNumber": 52,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 15, "y": 8 }
       },
       {
         "atomicNumber": 53,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 16, "y": 8 }
       },
       {
         "atomicNumber": 54,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 17, "y": 8 }
       }
     ],
@@ -994,109 +832,91 @@
       {
         "atomicNumber": 55,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 0, "y": 9 }
       },
       {
         "atomicNumber": 56,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 1, "y": 9 }
       },
       {
         "atomicNumber": 57,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 2, "y": 9 }
       },
       {
         "atomicNumber": 72,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 3, "y": 9 }
       },
       {
         "atomicNumber": 73,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 4, "y": 9 }
       },
       {
         "atomicNumber": 74,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 5, "y": 9 }
       },
       {
         "atomicNumber": 75,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 6, "y": 9 }
       },
       {
         "atomicNumber": 76,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 7, "y": 9 }
       },
       {
         "atomicNumber": 77,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 8, "y": 9 }
       },
       {
         "atomicNumber": 78,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 9, "y": 9 }
       },
       {
         "atomicNumber": 79,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 10, "y": 9 }
       },
       {
         "atomicNumber": 80,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 11, "y": 9 }
       },
       {
         "atomicNumber": 81,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 12, "y": 9 }
       },
       {
         "atomicNumber": 82,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 13, "y": 9 }
       },
       {
         "atomicNumber": 83,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 14, "y": 9 }
       },
       {
         "atomicNumber": 84,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 15, "y": 9 }
       },
       {
         "atomicNumber": 85,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 16, "y": 9 }
       },
       {
         "atomicNumber": 86,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 17, "y": 9 }
       }
     ],
@@ -1104,109 +924,91 @@
       {
         "atomicNumber": 87,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 0, "y": 10 }
       },
       {
         "atomicNumber": 88,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 1, "y": 10 }
       },
       {
         "atomicNumber": 89,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 2, "y": 10 }
       },
       {
         "atomicNumber": 104,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 3, "y": 10 }
       },
       {
         "atomicNumber": 105,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 4, "y": 10 }
       },
       {
         "atomicNumber": 106,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 5, "y": 10 }
       },
       {
         "atomicNumber": 107,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 6, "y": 10 }
       },
       {
         "atomicNumber": 108,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 7, "y": 10 }
       },
       {
         "atomicNumber": 109,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 8, "y": 10 }
       },
       {
         "atomicNumber": 110,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 9, "y": 10 }
       },
       {
         "atomicNumber": 111,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 10, "y": 10 }
       },
       {
         "atomicNumber": 112,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 11, "y": 10 }
       },
       {
         "atomicNumber": 113,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 12, "y": 10 }
       },
       {
         "atomicNumber": 114,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 13, "y": 10 }
       },
       {
         "atomicNumber": 115,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 14, "y": 10 }
       },
       {
         "atomicNumber": 116,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 15, "y": 10 }
       },
       {
         "atomicNumber": 117,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 16, "y": 10 }
       },
       {
         "atomicNumber": 118,
         "filledBy": 7,
-        "identifier": 0,
         "position": { "x": 17, "y": 10 }
       }
     ]

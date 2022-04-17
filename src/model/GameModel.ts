@@ -273,7 +273,7 @@ class GameModel extends EventEmitter {
     if (
       this._frozenBlocks.some(
         (block) =>
-          customizationFacade.settings.gameMap.periodicTable[block.position.y][
+          customizationFacade.settings.gameMap.map[block.position.y][
             block.position.x
           ].atomicNumber !== block.atomicNumber
       )
