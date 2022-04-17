@@ -19,7 +19,7 @@ import type { IMap } from "../map"
 class Settings implements ILocalStorageSerializable {
   private _showGridLine = true
   public get showGridLine(): boolean {
-    return this._showGridLine
+    return this._showGridLine ?? true
   }
   public set showGridLine(v: boolean) {
     this._showGridLine = v
@@ -29,7 +29,10 @@ class Settings implements ILocalStorageSerializable {
   private _gameUpdateIntervalMilliseconds =
     DefaultGameUpdateIntervalMilliseconds
   public get gameUpdateIntervalMilliseconds(): number {
-    return this._gameUpdateIntervalMilliseconds
+    return (
+      this._gameUpdateIntervalMilliseconds ??
+      DefaultGameUpdateIntervalMilliseconds
+    )
   }
   public set gameUpdateIntervalMilliseconds(v: number) {
     this._gameUpdateIntervalMilliseconds = v
@@ -38,7 +41,7 @@ class Settings implements ILocalStorageSerializable {
 
   private _gameMap: IMap = defaultMap
   public get gameMap(): IMap {
-    return this._gameMap
+    return this._gameMap ?? defaultMap
   }
   public set gameMap(v: IMap) {
     this._gameMap = v
@@ -47,7 +50,7 @@ class Settings implements ILocalStorageSerializable {
 
   private _colorScheme: IColorScheme = defaultColorScheme
   public get colorScheme(): IColorScheme {
-    return this._colorScheme
+    return this._colorScheme ?? defaultColorScheme
   }
   public set colorScheme(v: IColorScheme) {
     this._colorScheme = v
@@ -56,7 +59,7 @@ class Settings implements ILocalStorageSerializable {
 
   private _borderThickness: number = DefaultBorderThickness
   public get borderThickness(): number {
-    return this._borderThickness
+    return this._borderThickness ?? DefaultBorderThickness
   }
   public set borderThickness(v: number) {
     this._borderThickness = v
