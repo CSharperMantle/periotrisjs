@@ -53,7 +53,8 @@ const BlockControl = ({ block }: IBlockControlProps): React.ReactElement => {
   const backgroundColor = block.hasContent
     ? getBackgroundColorByAtomicNumber(block.atomicNumber)
     : "black"
-  const border = block.hasBorder ? "1px solid #393939" : "none"
+  const borderThickness = customizationFacade.settings.borderThickness
+  const border = block.hasBorder ? `${borderThickness}px solid #393939` : "none"
   return (
     <Box
       sx={{
