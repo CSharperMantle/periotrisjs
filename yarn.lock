@@ -3921,6 +3921,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/toposort@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@types/toposort@npm:2.0.3::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Ftoposort%2F-%2Ftoposort-2.0.3.tgz"
+  checksum: 018a372a899fd417d67ed85cb98bd3f15915020b865257b9e795e443bcfa0df79c6c44693ba88cbdd9e54ca872cecb91bf46764ec03c5b63968b2234804d14d2
+  languageName: node
+  linkType: hard
+
 "@types/tough-cookie@npm:*":
   version: 4.0.1
   resolution: "@types/tough-cookie@npm:4.0.1::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Ftough-cookie%2F-%2Ftough-cookie-4.0.1.tgz"
@@ -13261,6 +13268,7 @@ __metadata:
     "@types/react": ^18.0.5
     "@types/react-dom": ^18.0.1
     "@types/react-helmet": ^6.1.5
+    "@types/toposort": ^2.0.3
     "@types/webpack-bundle-analyzer": ^4.4.1
     "@typescript-eslint/eslint-plugin": ^5.19.0
     "@typescript-eslint/parser": ^5.19.0
@@ -13296,6 +13304,7 @@ __metadata:
     react-dom: ^18.0.0
     react-helmet: ^6.1.0
     rimraf: ^3.0.2
+    toposort: ^2.0.2
     ts-jest: ^27.1.4
     typescript: ~4.5.5
     webpack-bundle-analyzer: ^4.5.0
@@ -16000,6 +16009,13 @@ __metadata:
     "@tokenizer/token": ^0.3.0
     ieee754: ^1.2.1
   checksum: 8fe4e84611f6c575439b24003650064a2abe8f7c848cdf84dfa233792e4081226e538d567825954d536eadee3a17d902db62ce652b2b1191b772caf1c7d0e312
+  languageName: node
+  linkType: hard
+
+"toposort@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "toposort@npm:2.0.2::__archiveUrl=https%3A%2F%2Fregistry.npmmirror.com%2Ftoposort%2F-%2Ftoposort-2.0.2.tgz"
+  checksum: d64c74b570391c9432873f48e231b439ee56bc49f7cb9780b505cfdf5cb832f808d0bae072515d93834dd6bceca5bb34448b5b4b408335e4d4716eaf68195dcb
   languageName: node
   linkType: hard
 

@@ -34,6 +34,7 @@
     "tetrimino",
     "tetriminos",
     "topo",
+    "toposort",
     "Unmount",
     "viewmodel",
     "workerloader"

@@ -6,6 +6,7 @@ import {
   StopwatchUpdateIntervalMilliseconds,
 } from "./PeriotrisConst"
 import { Position, positionEquals } from "./Position"
+import { rearrange } from "./rearrange"
 
 import type { ISize } from "./ISize"
 
@@ -17,6 +18,7 @@ export {
   DefaultBorderThickness,
   Position,
   positionEquals,
+  rearrange,
 }
 
 export type { ISize }

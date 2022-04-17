@@ -54,7 +54,8 @@
     "notistack": "^2.0.4",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-helmet": "^6.1.0"
+    "react-helmet": "^6.1.0",
+    "toposort": "^2.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
@@ -69,6 +70,7 @@
     "@types/react": "^18.0.5",
     "@types/react-dom": "^18.0.1",
     "@types/react-helmet": "^6.1.5",
+    "@types/toposort": "^2.0.3",
     "@types/webpack-bundle-analyzer": "^4.4.1",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",

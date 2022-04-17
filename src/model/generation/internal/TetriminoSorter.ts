@@ -1,48 +1,85 @@
 import _ from "lodash"
+import toposort from "toposort"
 
+import { rearrange } from "../../../common"
 import { Tetrimino } from "../../Tetrimino"
-import { createTetriminoDependencyGraph } from "./DependencyBuilder"
-import { TetriminoNode } from "./TetriminoNode"
 
 import type { ISize } from "../../../common"
 
-async function sort(
+function getEdges(
   tetriminos: Tetrimino[],
   playAreaSize: ISize
-): Promise<Tetrimino[]> {
-  const graph = createTetriminoDependencyGraph(tetriminos, playAreaSize)
-
-  const startNodes: TetriminoNode[] = graph.filter((node: TetriminoNode) => {
-    return node.depending.size === 0
-  })
-
-  const result: TetriminoNode[] = []
-  while (startNodes.length !== 0) {
-    const n = _.sample(startNodes)
-    if (_.isNil(n)) {
-      console.warn("sort() null check")
-      continue
-    }
-    _.remove(startNodes, (node: TetriminoNode) => node === n)
-    result.push(n)
-    const dependedBy = [...n.dependedBy]
-    for (let i = 0, len = dependedBy.length; i < len; i++) {
-      const m = dependedBy[i]
-      n.dependedBy.delete(m)
-      m.depending.delete(n)
-      if (m.depending.size === 0) {
-        startNodes.push(m)
-      }
+): [number, number][] {
+  // Create owners map
+  const owners: number[][] = []
+  for (let i = 0; i < playAreaSize.height; i++) {
+    owners[i] = []
+  }
+  // Fill in owners map
+  for (let i = 0; i < tetriminos.length; i++) {
+    const tetrimino = tetriminos[i]
+    for (let j = 0; j < tetrimino.blocks.length; j++) {
+      const block = tetrimino.blocks[j]
+      owners[block.position.y][block.position.x] = i
     }
   }
 
-  if (
-    graph.some((node: TetriminoNode) => {
-      return node.dependedBy.size !== 0 || node.depending.size !== 0
+  const dependencies = tetriminos
+    .map((tetrimino, index) => {
+      const singleTetriminoDeps: [number, number][] = []
+      for (let i = 0; i < tetrimino.blocks.length; i++) {
+        const block = tetrimino.blocks[i]
+        const dependedBlockRow: number = block.position.y + 1
+        const dependedBlockCol: number = block.position.x
+        const result = tryGetOccupiedTetriminoNode2(
+          owners,
+          dependedBlockRow,
+          dependedBlockCol,
+          playAreaSize
+        )
+        if (_.isNil(result) || result === index) {
+          // Ignore self-dependency
+          continue
+        }
+        // Found a result
+        singleTetriminoDeps.push([result, index])
+      }
+      return singleTetriminoDeps
     })
-  )
-    throw new RangeError("tetriminos")
-  return result
+    .flat(1)
+
+  return _.uniq(dependencies)
+}
+
+function tryGetOccupiedTetriminoNode2(
+  map: number[][],
+  row: number,
+  col: number,
+  playAreaSize: ISize
+): number | null {
+  if (
+    row < 0 ||
+    row >= playAreaSize.height ||
+    col < 0 ||
+    col >= playAreaSize.width
+  ) {
+    return null
+  }
+
+  const cell = map[row][col]
+  if (_.isNil(cell)) {
+    return null
+  }
+
+  return cell
+}
+
+function sort(tetriminos: Tetrimino[], playAreaSize: ISize): Tetrimino[] {
+  const edges = getEdges(tetriminos, playAreaSize)
+  const sortedIndices = toposort(edges)
+  const sortedTetriminos = rearrange(tetriminos, sortedIndices)
+
+  return sortedTetriminos
 }
 
 export { sort }

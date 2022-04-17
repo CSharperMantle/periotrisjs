@@ -35,8 +35,10 @@ async function getPlayablePattern(gameMap: IMap): Promise<Tetrimino[]> {
     }
   }
 
-  const pattern = await getPossibleTetriminoPattern(template)
-  const ordered = await sort(pattern, gameMap.playAreaSize)
+  const ordered = sort(
+    await getPossibleTetriminoPattern(template),
+    gameMap.playAreaSize
+  )
 
   const fixedTetriminos = repairBrokenTetriminos(ordered)
 
