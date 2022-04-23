@@ -1,5 +1,3 @@
-// Test cases for rearrange in jest
-
 import { rearrange } from "../rearrange"
 
 describe("rearrange", () => {

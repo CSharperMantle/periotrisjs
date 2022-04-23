@@ -1,7 +1,7 @@
 import { isBrowser } from "is-in-browser"
 import _ from "lodash"
 
-function store<T = unknown>(key: string, value: T): boolean {
+export function store<T = unknown>(key: string, value: T): boolean {
   if (!isBrowser) return false
 
   try {
@@ -13,7 +13,7 @@ function store<T = unknown>(key: string, value: T): boolean {
   return true
 }
 
-function retrieve(key: string): unknown {
+export function retrieve(key: string): unknown {
   if (!isBrowser) return null
 
   const result = window.localStorage.getItem(key)
@@ -23,5 +23,3 @@ function retrieve(key: string): unknown {
     return null
   }
 }
-
-export { store, retrieve }

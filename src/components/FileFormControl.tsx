@@ -65,7 +65,7 @@ interface IFileFormControlProps {
   contentPreprocessor?: (content: string) => string
 }
 
-const FileFormControl = ({
+export const FileFormControl = ({
   id,
   initialFileContent,
   accept,
@@ -119,5 +119,3 @@ const FileFormControl = ({
     </FormControl>
   )
 }
-
-export { FileFormControl }

@@ -5,9 +5,9 @@ import React, { useContext } from "react"
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 
-import { GameViewModelContext } from "../viewmodel"
+import { GameViewModelContext } from "../../viewmodel"
 
-const TimerDisplay = observer((): React.ReactElement => {
+export const TimerDisplay = observer((): React.ReactElement => {
   const viewModel = useContext(GameViewModelContext)
 
   const elapsedTime = viewModel.elapsedTime
@@ -55,5 +55,3 @@ const TimerDisplay = observer((): React.ReactElement => {
     </Box>
   )
 })
-
-export { TimerDisplay }

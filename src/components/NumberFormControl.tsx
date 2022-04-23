@@ -21,7 +21,7 @@ interface INumberFormControlProps {
   contentPreprocessor?: (content: string) => string
 }
 
-const NumberFormControl = (
+export const NumberFormControl = (
   props: INumberFormControlProps
 ): React.ReactElement => {
   const [content, setContent] = React.useState(props.initialContent)
@@ -56,5 +56,3 @@ const NumberFormControl = (
     </FormControl>
   )
 }
-
-export { NumberFormControl }

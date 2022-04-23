@@ -18,7 +18,7 @@ function fastRandom(startInc: number, endExc: number): number {
   return startInc + Math.floor(Math.random() * (endExc - startInc))
 }
 
-async function getPlayablePattern(gameMap: IMap): Promise<Tetrimino[]> {
+export async function getPlayablePattern(gameMap: IMap): Promise<Tetrimino[]> {
   const template: Block[][] = []
 
   for (let i = 0; i < gameMap.playAreaSize.height; i++) {
@@ -225,5 +225,3 @@ function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
     }
   }
 }
-
-export { getPlayablePattern }

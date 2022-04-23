@@ -10,7 +10,7 @@ interface IIconExternalLinkProps {
   href: string
 }
 
-const IconExternalLink = (
+export const IconExternalLink = (
   props: IIconExternalLinkProps
 ): React.ReactElement => {
   return (
@@ -26,5 +26,3 @@ const IconExternalLink = (
     </Tooltip>
   )
 }
-
-export { IconExternalLink }

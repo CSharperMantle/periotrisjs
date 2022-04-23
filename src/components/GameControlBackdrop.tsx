@@ -128,7 +128,7 @@ interface IGameStatusBackdropProps {
   switchPauseGameHandler: () => void
 }
 
-const GameControlBackdrop = observer(
+export const GameControlBackdrop = observer(
   (props: IGameStatusBackdropProps): React.ReactElement => {
     const viewModel = useContext(GameViewModelContext)
 
@@ -184,5 +184,3 @@ const GameControlBackdrop = observer(
     )
   }
 )
-
-export { GameControlBackdrop }

@@ -16,16 +16,16 @@ import ThemeProvider from "@mui/material/styles/ThemeProvider"
 import { theme } from "../../src/ThemeOptions"
 import { MainAppBar } from "./MainAppBar"
 
-interface IPageLocationElement {
+export interface IPageLocationElement {
   name: string
   path: string
 }
 
-interface ICommonLayoutProps {
+export interface ICommonLayoutProps {
   children: React.ReactNode
 }
 
-const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
+export const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
   const data = useStaticQuery(graphql`
     query {
       site {
@@ -75,7 +75,3 @@ const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
     </>
   )
 }
-
-export { CommonLayout }
-
-export type { IPageLocationElement, ICommonLayoutProps }

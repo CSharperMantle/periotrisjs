@@ -1,15 +1,14 @@
 import _ from "lodash"
-import { observer } from "mobx-react"
-import React, { useContext } from "react"
+import React from "react"
 
 import Box from "@mui/material/Box"
 
-import { GameViewModelContext } from "../viewmodel"
+import { customizationFacade } from "../../customization"
+import { useGameSelector } from "../../viewmodel"
 import { BlockControl } from "./BlockControl"
 import { TimerDisplay } from "./TimerDisplay"
-import { customizationFacade } from "../customization"
 
-import type { IBlockDisplay } from "./IBlockDisplay"
+import type { IBlockDisplay } from "../IBlockDisplay"
 
 /**
  * Get hash code string for a display block.
@@ -24,9 +23,7 @@ function getIBlockDisplayHash(blockDisplay: IBlockDisplay): string {
 /**
  * Represents the main play area grid.
  */
-const BlocksGrid = observer((): React.ReactElement => {
-  const viewModel = useContext(GameViewModelContext)
-
+export const BlocksGrid = (): React.ReactElement => {
   const playAreaSize = customizationFacade.settings.gameMap.playAreaSize
   const showGridLine = customizationFacade.settings.showGridLine
 
@@ -45,7 +42,11 @@ const BlocksGrid = observer((): React.ReactElement => {
       }
     }
   }
-  const sprites = viewModel.sprites
+
+  const sprites = useGameSelector((state) => {
+    return state.blocksGrid.sprites
+  })
+
   for (let i = 0, len = sprites.length; i < len; i++) {
     const block = sprites[i]
     paddedBlocks[block.row][block.column] = {
@@ -88,6 +89,4 @@ const BlocksGrid = observer((): React.ReactElement => {
       </Box>
     </Box>
   )
-})
-
-export { BlocksGrid }
+}

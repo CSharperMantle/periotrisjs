@@ -1,19 +1,17 @@
-enum Direction {
+export enum Direction {
   Left,
   Up,
   Right,
   Down,
 }
 
-enum RotationDirection {
+export enum RotationDirection {
   Left,
   Right,
 }
 
-enum MoveDirection {
+export enum MoveDirection {
   Left,
   Right,
   Down,
 }
-
-export { Direction, RotationDirection, MoveDirection }

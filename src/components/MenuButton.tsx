@@ -7,7 +7,7 @@ interface IMenuButtonProps {
   handleOpenMenu: (event: React.MouseEvent<HTMLElement>) => void
 }
 
-const MenuButton = (props: IMenuButtonProps): React.ReactElement => {
+export const MenuButton = (props: IMenuButtonProps): React.ReactElement => {
   return (
     <IconButton
       size="large"
@@ -21,5 +21,3 @@ const MenuButton = (props: IMenuButtonProps): React.ReactElement => {
     </IconButton>
   )
 }
-
-export { MenuButton }

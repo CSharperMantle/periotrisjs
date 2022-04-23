@@ -16,7 +16,7 @@ import type { IMap } from "../map"
 /**
  * Settings for the app.
  */
-class Settings implements ILocalStorageSerializable {
+export class Settings implements ILocalStorageSerializable {
   private _showGridLine = true
   public get showGridLine(): boolean {
     return this._showGridLine ?? true
@@ -99,5 +99,3 @@ class Settings implements ILocalStorageSerializable {
     return new Settings()
   }
 }
-
-export { Settings }

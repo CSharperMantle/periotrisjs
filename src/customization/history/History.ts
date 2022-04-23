@@ -6,7 +6,7 @@ import { retrieve, store } from "../../localstorage"
 
 import type { ILocalStorageSerializable } from "../ILocalStorageSerializable"
 
-class History implements ILocalStorageSerializable {
+export class History implements ILocalStorageSerializable {
   private _fastestRecord: Dayjs | null
   public get fastestRecord(): Dayjs | null {
     return this._fastestRecord
@@ -76,5 +76,3 @@ class History implements ILocalStorageSerializable {
     return new History()
   }
 }
-
-export { History }

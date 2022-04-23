@@ -1,4 +1,4 @@
-enum TetriminoKind {
+export enum TetriminoKind {
   Linear,
 
   Cubic,
@@ -17,5 +17,3 @@ enum TetriminoKind {
 
   UnavailableToFill,
 }
-
-export { TetriminoKind }

@@ -1,11 +1,16 @@
 import dayjs, { Dayjs } from "dayjs"
 import { EventEmitter } from "events"
 import { isBrowser } from "is-in-browser"
-import _ from "lodash"
 import { action, makeObservable, observable } from "mobx"
 import { createContext } from "react"
 
 import { Position, StopwatchUpdateIntervalMilliseconds } from "../common"
+import {
+  addSprite,
+  removeSprite,
+  clearSprites,
+} from "../components/blocksGridSlice"
+import { gameStore } from "./gameStore"
 import { customizationFacade } from "../customization"
 import {
   BlockChangedEventArgs,
@@ -15,7 +20,7 @@ import {
   RotationDirection,
 } from "../model"
 
-import type { IBlockSprite } from "./IDisplayBlock"
+import type { IBlockSprite } from "./IBlockSprite"
 
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
@@ -24,7 +29,6 @@ type TGameViewModelObservablePrivateFields =
 
 const GameViewModelPublicAnnotationsMap = {
   paused: observable,
-  sprites: observable,
 
   onKeyDown: action,
   onTap: action,
@@ -60,7 +64,7 @@ const GameViewModelAnnotationsMap = {
  *
  * @emits `gamestatechanged`
  */
-class GameViewModel extends EventEmitter {
+export class GameViewModel extends EventEmitter {
   public constructor() {
     super()
 
@@ -106,8 +110,6 @@ class GameViewModel extends EventEmitter {
   }
 
   public paused = false
-
-  public readonly sprites: IBlockSprite[] = []
 
   private readonly _model: GameModel = new GameModel()
 
@@ -200,9 +202,8 @@ class GameViewModel extends EventEmitter {
     if ([GameState.InProgress, GameState.Preparing].includes(this._gameState)) {
       return // Not allowed to start game twice
     }
-    for (const element of this._blocksByPosition.values()) {
-      _.remove(this.sprites, (value: IBlockSprite) => _.isEqual(value, element))
-    }
+
+    gameStore.dispatch(clearSprites())
     this._blocksByPosition.clear()
     this._model.prepareGame()
     this.refreshGameStatus()
@@ -256,14 +257,14 @@ class GameViewModel extends EventEmitter {
           column: block.position.x,
         }
         this._blocksByPosition.set(block.position, displayBlock)
-        this.sprites.push(displayBlock)
+        gameStore.dispatch(addSprite(displayBlock))
       }
     } else {
       if (this._blocksByPosition.has(block.position)) {
         const displayBlock = this._blocksByPosition.get(
           block.position
         ) as IBlockSprite
-        this.sprites.splice(this.sprites.indexOf(displayBlock), 1)
+        gameStore.dispatch(removeSprite(displayBlock))
         this._blocksByPosition.delete(block.position)
       }
     }
@@ -290,8 +291,6 @@ class GameViewModel extends EventEmitter {
   }
 }
 
-const GameViewModelContext = createContext<GameViewModel>(
+export const GameViewModelContext = createContext<GameViewModel>(
   undefined as unknown as GameViewModel
 )
-
-export { GameViewModel, GameViewModelContext }

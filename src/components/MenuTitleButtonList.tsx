@@ -12,7 +12,7 @@ interface IMenuTitleButtonListProps {
   handleCloseMenu: (event: React.MouseEvent<HTMLElement>) => void
 }
 
-const MenuTitleButtonList = (
+export const MenuTitleButtonList = (
   props: IMenuTitleButtonListProps
 ): React.ReactElement => {
   return (
@@ -33,5 +33,3 @@ const MenuTitleButtonList = (
     </>
   )
 }
-
-export { MenuTitleButtonList }

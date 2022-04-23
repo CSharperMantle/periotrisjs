@@ -15,9 +15,9 @@ import type { getPositionByFirstBlock } from "./generation/GeneratorHelper"
  *
  * @returns 'false' if no collision found. Otherwise 'true'.
  */
-type TBlockCollisionChecker = (block: Block) => boolean
+export type TBlockCollisionChecker = (block: Block) => boolean
 
-class Tetrimino {
+export class Tetrimino {
   public blocks: Block[]
 
   /**
@@ -130,7 +130,9 @@ class Tetrimino {
  * messages, thanks to the limitations of Structured Clone. This
  * method's purpose is to restore the method mapping of the objects.
  */
-function repairBrokenTetriminos(brokenTetriminos: Tetrimino[]): Tetrimino[] {
+export function repairBrokenTetriminos(
+  brokenTetriminos: Tetrimino[]
+): Tetrimino[] {
   const repairedTetriminos = brokenTetriminos.map(
     (brokenTetrimino) =>
       Object.create(
@@ -140,7 +142,3 @@ function repairBrokenTetriminos(brokenTetriminos: Tetrimino[]): Tetrimino[] {
   )
   return repairedTetriminos
 }
-
-export { Tetrimino, repairBrokenTetriminos }
-
-export type { TBlockCollisionChecker }

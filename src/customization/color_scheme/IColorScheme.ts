@@ -1,10 +1,8 @@
-interface IColorSchemeRule {
+export interface IColorSchemeRule {
   atomicNumberRange: { from: number; to: number }
   color: string
 }
 
-interface IColorScheme {
+export interface IColorScheme {
   rules: IColorSchemeRule[]
 }
-
-export type { IColorScheme, IColorSchemeRule }
