@@ -1,3 +1,4 @@
+import { flushed } from "./flushed"
 import {
   DefaultBorderThickness,
   DefaultGameUpdateIntervalMilliseconds,
@@ -19,6 +20,7 @@ export {
   Position,
   positionEquals,
   rearrange,
+  flushed,
 }
 
 export type { ISize }

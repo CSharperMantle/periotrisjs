@@ -5,6 +5,7 @@ import { Provider as ReduxProvider } from "react-redux"
 
 import Box from "@mui/material/Box"
 
+import { flushed } from "../common"
 import { BlocksGrid, CommonLayout, GameControlBackdrop } from "../components"
 import { gameStore, GameViewModel, GameViewModelContext } from "../viewmodel"
 
@@ -18,16 +19,19 @@ const App = (): React.ReactElement => {
 
   useEffect(() => {
     const throttledKeyDownHandler = _.throttle(
-      viewModel.onKeyDown.bind(viewModel),
+      flushed(viewModel.onKeyDown.bind(viewModel)),
       50
     )
-    const throttledTapHandler = _.throttle(viewModel.onTap.bind(viewModel), 50)
+    const throttledTapHandler = _.throttle(
+      flushed(viewModel.onTap.bind(viewModel)),
+      50
+    )
     const throttledSwipeHandler = _.throttle(
-      viewModel.onSwipe.bind(viewModel),
+      flushed(viewModel.onSwipe.bind(viewModel)),
       50
     )
     const throttledPressUpHandler = _.throttle(
-      viewModel.onPressUp.bind(viewModel),
+      flushed(viewModel.onPressUp.bind(viewModel)),
       50
     )
 
