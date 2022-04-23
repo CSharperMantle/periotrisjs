@@ -5,8 +5,8 @@ import Box from "@mui/material/Box"
 
 import { customizationFacade } from "../../customization"
 import { useGameSelector } from "../../viewmodel"
+import { TimerDisplay } from "../TimerDisplay"
 import { BlockControl } from "./BlockControl"
-import { TimerDisplay } from "./TimerDisplay"
 
 import type { IBlockDisplay } from "../IBlockDisplay"
 

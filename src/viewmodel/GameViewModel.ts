@@ -1,16 +1,20 @@
-import dayjs, { Dayjs } from "dayjs"
+import dayjs from "dayjs"
 import { EventEmitter } from "events"
 import { isBrowser } from "is-in-browser"
-import { action, makeObservable, observable } from "mobx"
 import { createContext } from "react"
 
 import { Position, StopwatchUpdateIntervalMilliseconds } from "../common"
 import {
   addSprite,
-  removeSprite,
   clearSprites,
+  removeSprite,
 } from "../components/blocksGridSlice"
-import { gameStore } from "./gameStore"
+import { setGameState } from "../components/gameControlBackdropSlice"
+import {
+  setElapsedTime,
+  setFastestRecord,
+  setIsNewRecord,
+} from "../components/timerDisplaySlice"
 import { customizationFacade } from "../customization"
 import {
   BlockChangedEventArgs,
@@ -19,45 +23,10 @@ import {
   MoveDirection,
   RotationDirection,
 } from "../model"
+import { gameStore } from "./gameStore"
 
 import type { IBlockSprite } from "./IBlockSprite"
-
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
-
-type TGameViewModelObservablePrivateFields =
-  keyof typeof GameViewModelPrivateAnnotationsMap
-
-const GameViewModelPublicAnnotationsMap = {
-  paused: observable,
-
-  onKeyDown: action,
-  onTap: action,
-  onSwipe: action,
-  onPressUp: action,
-  requestStartGame: action,
-  switchPauseGame: action,
-}
-
-const GameViewModelPrivateAnnotationsMap = {
-  _gameState: observable,
-  _elapsedTime: observable,
-  _fastestRecord: observable,
-  _isNewRecord: observable,
-
-  endGame: action,
-  refreshGameStatus: action,
-  intervalTickEventHandler: action,
-  intervalStopwatchUpdateEventHandler: action,
-  onGameStateChanged: action,
-  modelBlockChangedEventHandler: action,
-  modelGameEndEventHandler: action,
-  modelGameStartEventHandler: action,
-}
-
-const GameViewModelAnnotationsMap = {
-  ...GameViewModelPublicAnnotationsMap,
-  ...GameViewModelPrivateAnnotationsMap,
-}
 
 /**
  * The view model of Periotris.
@@ -67,11 +36,6 @@ const GameViewModelAnnotationsMap = {
 export class GameViewModel extends EventEmitter {
   public constructor() {
     super()
-
-    makeObservable<GameViewModel, TGameViewModelObservablePrivateFields>(
-      this,
-      GameViewModelAnnotationsMap
-    )
 
     this._model.on("blockchanged", (eventArgs) => {
       this.modelBlockChangedEventHandler(eventArgs)
@@ -87,26 +51,6 @@ export class GameViewModel extends EventEmitter {
     })
 
     this.endGame()
-  }
-
-  private _gameState = GameState.NotStarted
-  public get gameState(): GameState {
-    return this._gameState
-  }
-
-  private _elapsedTime: Dayjs = dayjs(0)
-  public get elapsedTime(): Dayjs {
-    return this._elapsedTime
-  }
-
-  private _fastestRecord: Dayjs | null = dayjs(0)
-  public get fastestRecord(): Dayjs | null {
-    return this._fastestRecord
-  }
-
-  private _isNewRecord = false
-  public get isNewRecord(): boolean {
-    return this._isNewRecord
   }
 
   public paused = false
@@ -192,14 +136,18 @@ export class GameViewModel extends EventEmitter {
   }
 
   public switchPauseGame(): void {
-    if (this._gameState !== GameState.InProgress) {
+    if (this._model.gameState !== GameState.InProgress) {
       return // Not allowed to pause/unpause outside of game
     }
     this.paused = !this.paused
   }
 
   public requestStartGame(): void {
-    if ([GameState.InProgress, GameState.Preparing].includes(this._gameState)) {
+    if (
+      [GameState.InProgress, GameState.Preparing].includes(
+        this._model.gameState
+      )
+    ) {
       return // Not allowed to start game twice
     }
 
@@ -220,9 +168,11 @@ export class GameViewModel extends EventEmitter {
   }
 
   private refreshGameStatus(): void {
-    this._gameState = this._model.gameState
-    this._isNewRecord = this._model.isNewHighRecord
-    this._fastestRecord = customizationFacade.history.fastestRecord
+    gameStore.dispatch(setGameState(this._model.gameState))
+    gameStore.dispatch(setIsNewRecord(this._model.isNewHighRecord))
+    gameStore.dispatch(
+      setFastestRecord(customizationFacade.history.fastestRecord ?? dayjs(0))
+    )
   }
 
   private intervalTickEventHandler(): void {
@@ -237,7 +187,7 @@ export class GameViewModel extends EventEmitter {
   }
 
   private intervalStopwatchUpdateEventHandler(): void {
-    this._elapsedTime = dayjs(this._model.elapsedMilliseconds)
+    gameStore.dispatch(setElapsedTime(dayjs(this._model.elapsedMilliseconds)))
   }
 
   private onGameStateChanged(): void {

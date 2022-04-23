@@ -1,5 +1,4 @@
-import { observer } from "mobx-react"
-import React, { useContext } from "react"
+import React from "react"
 
 import Backdrop from "@mui/material/Backdrop"
 import Button from "@mui/material/Button"
@@ -11,7 +10,7 @@ import partyingFace from "../../assets/icon/noto-color-emoji/partying-face.svg"
 import thinkingFace from "../../assets/icon/noto-color-emoji/thinking-face.svg"
 import winkingFace from "../../assets/icon/noto-color-emoji/winking-face.svg"
 import { GameState } from "../model"
-import { GameViewModelContext } from "../viewmodel"
+import { useGameSelector } from "../viewmodel"
 
 interface IContentProps {
   image: { src: string; alt: string }
@@ -128,59 +127,61 @@ interface IGameStatusBackdropProps {
   switchPauseGameHandler: () => void
 }
 
-export const GameControlBackdrop = observer(
-  (props: IGameStatusBackdropProps): React.ReactElement => {
-    const viewModel = useContext(GameViewModelContext)
+export const GameControlBackdrop = (
+  props: IGameStatusBackdropProps
+): React.ReactElement => {
+  const gameState = useGameSelector(
+    (state) => state.gameControlBackdrop.gameState
+  )
 
-    let content: React.ReactElement
-    switch (viewModel.gameState) {
-      case GameState.NotStarted:
-        content = (
-          <GameNotStartedContent startGameHandler={props.startGameHandler} />
-        )
-        break
-      case GameState.Preparing:
-        content = <GamePreparingContent />
-        break
-      case GameState.InProgress:
-        content = <></>
-        break
-      case GameState.Won:
-        content = <GameWonContent startGameHandler={props.startGameHandler} />
-        break
-      case GameState.Lost:
-        content = <GameLostContent startGameHandler={props.startGameHandler} />
-        break
-      default:
-        throw new Error("Unknown game state")
-    }
-
-    return (
-      <Backdrop
-        sx={{
-          position: "absolute",
-          left: 0,
-          top: 0,
-          right: 0,
-          bottom: 0,
-          paddingLeft: 2,
-          paddingRight: 2,
-          zIndex: "modal",
-        }}
-        open={viewModel.gameState !== GameState.InProgress}
-      >
-        <Stack
-          sx={{
-            height: "100%",
-          }}
-          direction="column"
-          alignItems="center"
-          justifyContent="center"
-          spacing={1}
-        >
-          {content}
-        </Stack>
-      </Backdrop>
-    )
+  let content: React.ReactElement
+  switch (gameState) {
+    case GameState.NotStarted:
+      content = (
+        <GameNotStartedContent startGameHandler={props.startGameHandler} />
+      )
+      break
+    case GameState.Preparing:
+      content = <GamePreparingContent />
+      break
+    case GameState.InProgress:
+      content = <></>
+      break
+    case GameState.Won:
+      content = <GameWonContent startGameHandler={props.startGameHandler} />
+      break
+    case GameState.Lost:
+      content = <GameLostContent startGameHandler={props.startGameHandler} />
+      break
+    default:
+      throw new Error("Unknown game state")
   }
-)
+
+  return (
+    <Backdrop
+      sx={{
+        position: "absolute",
+        left: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+        paddingLeft: 2,
+        paddingRight: 2,
+        zIndex: "modal",
+      }}
+      open={gameState !== GameState.InProgress}
+    >
+      <Stack
+        sx={{
+          height: "100%",
+        }}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        spacing={1}
+      >
+        {content}
+      </Stack>
+    </Backdrop>
+  )
+}
