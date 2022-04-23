@@ -1,5 +1,3 @@
-interface ILocalStorageSerializable {
+export interface ILocalStorageSerializable {
   toLocalStorage(): void
 }
-
-export type { ILocalStorageSerializable }

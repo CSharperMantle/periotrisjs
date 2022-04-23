@@ -1,17 +1,16 @@
 import _ from "lodash"
-import { observer } from "mobx-react"
-import React, { useContext } from "react"
+import React from "react"
 
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 
-import { GameViewModelContext } from "../viewmodel"
+import { useGameSelector } from "../viewmodel"
 
-const TimerDisplay = observer((): React.ReactElement => {
-  const viewModel = useContext(GameViewModelContext)
-
-  const elapsedTime = viewModel.elapsedTime
-  const fastestRecord = viewModel.fastestRecord
+export const TimerDisplay = (): React.ReactElement => {
+  const elapsedTime = useGameSelector((state) => state.timerDisplay.elapsedTime)
+  const fastestRecord = useGameSelector(
+    (state) => state.timerDisplay.fastestRecord
+  )
 
   return (
     <Box
@@ -54,6 +53,4 @@ const TimerDisplay = observer((): React.ReactElement => {
       </Typography>
     </Box>
   )
-})
-
-export { TimerDisplay }
+}

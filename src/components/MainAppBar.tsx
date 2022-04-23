@@ -16,7 +16,7 @@ import { MenuButton } from "./MenuButton"
 import { MenuPageLinkList } from "./MenuPageLinkList"
 import { MenuTitleButtonList } from "./MenuTitleButtonList"
 
-const MainAppBar = (): React.ReactElement => {
+export const MainAppBar = (): React.ReactElement => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -109,5 +109,3 @@ const MainAppBar = (): React.ReactElement => {
     </AppBar>
   )
 }
-
-export { MainAppBar }

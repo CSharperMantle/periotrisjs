@@ -23,7 +23,7 @@ import type { IMap } from "../customization"
  * @emits `blockchanged`
  * @emits `gamestatechanged`
  */
-class GameModel extends EventEmitter {
+export class GameModel extends EventEmitter {
   /**
    * Pattern generator thread.
    */
@@ -455,5 +455,3 @@ class GameModel extends EventEmitter {
     }
   }
 }
-
-export { GameModel }

@@ -4,10 +4,10 @@ import React from "react"
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 
-import { customizationFacade } from "../customization"
-import defaultPeriodicTable from "../json/DefaultPeriodicTable.json"
+import { customizationFacade } from "../../customization"
+import defaultPeriodicTable from "../../json/DefaultPeriodicTable.json"
 
-import type { IBlockDisplay } from "./IBlockDisplay"
+import type { IBlockDisplay } from "../IBlockDisplay"
 
 interface IBlockControlText {
   hasContent: boolean
@@ -49,7 +49,9 @@ interface IBlockControlProps {
   block: IBlockDisplay
 }
 
-const BlockControl = ({ block }: IBlockControlProps): React.ReactElement => {
+export const BlockControl = ({
+  block,
+}: IBlockControlProps): React.ReactElement => {
   const backgroundColor = block.hasContent
     ? getBackgroundColorByAtomicNumber(block.atomicNumber)
     : "black"
@@ -83,7 +85,7 @@ const BlockControl = ({ block }: IBlockControlProps): React.ReactElement => {
   )
 }
 
-function getBackgroundColorByAtomicNumber(atomicNumber: number): string {
+export function getBackgroundColorByAtomicNumber(atomicNumber: number): string {
   const colorScheme = customizationFacade.settings.colorScheme
 
   for (let i = 0; i < colorScheme.rules.length; i++) {
@@ -100,5 +102,3 @@ function getBackgroundColorByAtomicNumber(atomicNumber: number): string {
   }
   throw new RangeError("atomicNumber")
 }
-
-export { BlockControl, getBackgroundColorByAtomicNumber }

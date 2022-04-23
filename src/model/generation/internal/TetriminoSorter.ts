@@ -31,7 +31,7 @@ function getEdges(
         const block = tetrimino.blocks[i]
         const dependedBlockRow: number = block.position.y + 1
         const dependedBlockCol: number = block.position.x
-        const result = tryGetOccupiedTetriminoNode2(
+        const result = tryGetOccupiedTetriminoNode(
           owners,
           dependedBlockRow,
           dependedBlockCol,
@@ -51,7 +51,7 @@ function getEdges(
   return _.uniq(dependencies)
 }
 
-function tryGetOccupiedTetriminoNode2(
+function tryGetOccupiedTetriminoNode(
   map: number[][],
   row: number,
   col: number,
@@ -74,12 +74,13 @@ function tryGetOccupiedTetriminoNode2(
   return cell
 }
 
-function sort(tetriminos: Tetrimino[], playAreaSize: ISize): Tetrimino[] {
+export function sort(
+  tetriminos: Tetrimino[],
+  playAreaSize: ISize
+): Tetrimino[] {
   const edges = getEdges(tetriminos, playAreaSize)
   const sortedIndices = toposort(edges)
   const sortedTetriminos = rearrange(tetriminos, sortedIndices)
 
   return sortedTetriminos
 }
-
-export { sort }

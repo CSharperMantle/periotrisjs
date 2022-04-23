@@ -1,6 +1,4 @@
-enum MessageType {
+export enum MessageType {
   RequestGeneration,
   ResponseSuccess,
 }
-
-export { MessageType }

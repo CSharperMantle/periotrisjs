@@ -4,7 +4,7 @@ import { Settings } from "./settings"
 /**
  * A unified facade for all user customization preferences.
  */
-class CustomizationFacade {
+export class CustomizationFacade {
   public readonly history = History.fromLocalStorage()
 
   public readonly settings = Settings.fromLocalStorage()
@@ -15,6 +15,4 @@ class CustomizationFacade {
  *
  * @see {@link CustomizationFacade}
  */
-const customizationFacade = new CustomizationFacade()
-
-export { CustomizationFacade, customizationFacade }
+export const customizationFacade = new CustomizationFacade()

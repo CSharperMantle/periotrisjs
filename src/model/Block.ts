@@ -1,7 +1,7 @@
 import { Position } from "../common"
 import { TetriminoKind } from "./TetriminoKind"
 
-class Block {
+export class Block {
   public constructor(
     public filledBy: TetriminoKind,
     public position: Position,
@@ -9,5 +9,3 @@ class Block {
     public id = 0
   ) {}
 }
-
-export { Block }

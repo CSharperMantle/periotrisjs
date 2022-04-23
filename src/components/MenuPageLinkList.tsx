@@ -12,7 +12,7 @@ interface IMenuPageLinkListProps {
   handleCloseMenu: (event: React.MouseEvent<HTMLElement>) => void
 }
 
-const MenuPageLinkList = (
+export const MenuPageLinkList = (
   props: IMenuPageLinkListProps
 ): React.ReactElement => {
   return (
@@ -35,5 +35,3 @@ const MenuPageLinkList = (
     </>
   )
 }
-
-export { MenuPageLinkList }

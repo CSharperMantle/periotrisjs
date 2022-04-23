@@ -284,7 +284,7 @@ function createBlocksMask(
   }
 }
 
-function getFirstBlockCoordByType(
+export function getFirstBlockCoordByType(
   kind: TetriminoKind,
   facingDirection: Direction
 ): { row: number; col: number } {
@@ -384,7 +384,7 @@ function getFirstBlockCoordByType(
  * @param facingDirection Facing direction of the Tetrimino.
  * @returns The transformed position.
  */
-function getPositionByFirstBlock(
+export function getPositionByFirstBlock(
   position: Position,
   kind: TetriminoKind,
   facingDirection: Direction
@@ -395,7 +395,7 @@ function getPositionByFirstBlock(
   return new Position(position.x - firstBlockCol, position.y - firstBlockRow)
 }
 
-function getInitialPositionByKind(
+export function getInitialPositionByKind(
   kind: TetriminoKind,
   playAreaSize: ISize
 ): Position {
@@ -422,7 +422,7 @@ function getInitialPositionByKind(
   return new Position(col, row)
 }
 
-function createOffsetedBlocks(
+export function createOffsetedBlocks(
   kind: TetriminoKind,
   offset: Position,
   direction: Direction = Direction.Up
@@ -457,7 +457,7 @@ function createOffsetedBlocks(
  * @returns Mapped newBlocks.
  * @throws Error
  */
-function mapAtomicNumberForNewBlocks(
+export function mapAtomicNumberForNewBlocks(
   oldBlocks: Block[],
   newBlocks: Block[]
 ): Block[] {
@@ -478,12 +478,4 @@ function mapAtomicNumberForNewBlocks(
     }
   }
   return result
-}
-
-export {
-  createOffsetedBlocks,
-  getFirstBlockCoordByType,
-  getPositionByFirstBlock,
-  getInitialPositionByKind,
-  mapAtomicNumberForNewBlocks,
 }
