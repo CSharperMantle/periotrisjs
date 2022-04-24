@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography"
 import { customizationFacade } from "../../customization"
 import defaultPeriodicTable from "../../json/DefaultPeriodicTable.json"
 
-import type { IBlockDisplay } from "../IBlockDisplay"
+import type { IBlockDisplay } from "./IBlockDisplay"
 
 interface IBlockControlText {
   hasContent: boolean

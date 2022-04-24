@@ -4,11 +4,11 @@ import React from "react"
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 
-import { useGameSelector } from "../viewmodel"
+import { useAppSelector } from "../viewmodel"
 
 export const TimerDisplay = (): React.ReactElement => {
-  const elapsedTime = useGameSelector((state) => state.timerDisplay.elapsedTime)
-  const fastestRecord = useGameSelector(
+  const elapsedTime = useAppSelector((state) => state.timerDisplay.elapsedTime)
+  const fastestRecord = useAppSelector(
     (state) => state.timerDisplay.fastestRecord
   )
 

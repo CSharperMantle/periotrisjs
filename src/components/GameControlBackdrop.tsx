@@ -10,7 +10,7 @@ import partyingFace from "../../assets/icon/noto-color-emoji/partying-face.svg"
 import thinkingFace from "../../assets/icon/noto-color-emoji/thinking-face.svg"
 import winkingFace from "../../assets/icon/noto-color-emoji/winking-face.svg"
 import { GameState } from "../model"
-import { useGameSelector } from "../viewmodel"
+import { useAppSelector } from "../viewmodel"
 
 interface IContentProps {
   image: { src: string; alt: string }
@@ -130,7 +130,7 @@ interface IGameStatusBackdropProps {
 export const GameControlBackdrop = (
   props: IGameStatusBackdropProps
 ): React.ReactElement => {
-  const gameState = useGameSelector(
+  const gameState = useAppSelector(
     (state) => state.gameControlBackdrop.gameState
   )
 

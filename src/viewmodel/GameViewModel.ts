@@ -1,7 +1,6 @@
 import dayjs from "dayjs"
 import { EventEmitter } from "events"
 import { isBrowser } from "is-in-browser"
-import { createContext } from "react"
 
 import { Position, StopwatchUpdateIntervalMilliseconds } from "../common"
 import {
@@ -23,7 +22,7 @@ import {
   MoveDirection,
   RotationDirection,
 } from "../model"
-import { gameStore } from "./gameStore"
+import { appStore } from "./appStore"
 
 import type { IBlockSprite } from "./IBlockSprite"
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
@@ -151,7 +150,7 @@ export class GameViewModel extends EventEmitter {
       return // Not allowed to start game twice
     }
 
-    gameStore.dispatch(clearSprites())
+    appStore.dispatch(clearSprites())
     this._blocksByPosition.clear()
     this._model.prepareGame()
     this.refreshGameStatus()
@@ -168,9 +167,9 @@ export class GameViewModel extends EventEmitter {
   }
 
   private refreshGameStatus(): void {
-    gameStore.dispatch(setGameState(this._model.gameState))
-    gameStore.dispatch(setIsNewRecord(this._model.isNewHighRecord))
-    gameStore.dispatch(
+    appStore.dispatch(setGameState(this._model.gameState))
+    appStore.dispatch(setIsNewRecord(this._model.isNewHighRecord))
+    appStore.dispatch(
       setFastestRecord(customizationFacade.history.fastestRecord ?? dayjs(0))
     )
   }
@@ -187,7 +186,7 @@ export class GameViewModel extends EventEmitter {
   }
 
   private intervalStopwatchUpdateEventHandler(): void {
-    gameStore.dispatch(setElapsedTime(dayjs(this._model.elapsedMilliseconds)))
+    appStore.dispatch(setElapsedTime(dayjs(this._model.elapsedMilliseconds)))
   }
 
   private onGameStateChanged(): void {
@@ -207,14 +206,14 @@ export class GameViewModel extends EventEmitter {
           column: block.position.x,
         }
         this._blocksByPosition.set(block.position, displayBlock)
-        gameStore.dispatch(addSprite(displayBlock))
+        appStore.dispatch(addSprite(displayBlock))
       }
     } else {
       if (this._blocksByPosition.has(block.position)) {
         const displayBlock = this._blocksByPosition.get(
           block.position
         ) as IBlockSprite
-        gameStore.dispatch(removeSprite(displayBlock))
+        appStore.dispatch(removeSprite(displayBlock))
         this._blocksByPosition.delete(block.position)
       }
     }
@@ -240,7 +239,3 @@ export class GameViewModel extends EventEmitter {
     this.onGameStateChanged()
   }
 }
-
-export const GameViewModelContext = createContext<GameViewModel>(
-  undefined as unknown as GameViewModel
-)

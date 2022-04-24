@@ -10,7 +10,7 @@ import Stack from "@mui/material/Stack"
 import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
 
-import PageLocation from "../json/PageLocation.json"
+import PageLocation from "../../json/PageLocation.json"
 import { IconExternalLink } from "./IconExternalLink"
 import { MenuButton } from "./MenuButton"
 import { MenuPageLinkList } from "./MenuPageLinkList"

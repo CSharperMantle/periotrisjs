@@ -4,11 +4,11 @@ import React from "react"
 import Box from "@mui/material/Box"
 
 import { customizationFacade } from "../../customization"
-import { useGameSelector } from "../../viewmodel"
+import { useAppSelector } from "../../viewmodel"
 import { TimerDisplay } from "../TimerDisplay"
 import { BlockControl } from "./BlockControl"
 
-import type { IBlockDisplay } from "../IBlockDisplay"
+import type { IBlockDisplay } from "./IBlockDisplay"
 
 /**
  * Get hash code string for a display block.
@@ -43,7 +43,7 @@ export const BlocksGrid = (): React.ReactElement => {
     }
   }
 
-  const sprites = useGameSelector((state) => {
+  const sprites = useAppSelector((state) => {
     return state.blocksGrid.sprites
   })
 

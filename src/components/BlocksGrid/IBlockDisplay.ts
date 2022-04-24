@@ -1,4 +1,4 @@
-import type { IBlockSprite } from "../viewmodel"
+import type { IBlockSprite } from "../../viewmodel"
 
 export interface IBlockDisplay extends IBlockSprite {
   hasContent: boolean

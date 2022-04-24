@@ -1,13 +1,12 @@
 import { isBrowser } from "is-in-browser"
 import _ from "lodash"
 import React, { useEffect, useRef } from "react"
-import { Provider as ReduxProvider } from "react-redux"
 
 import Box from "@mui/material/Box"
 
 import { flushed } from "../common"
 import { BlocksGrid, CommonLayout, GameControlBackdrop } from "../components"
-import { gameStore, GameViewModel, GameViewModelContext } from "../viewmodel"
+import { GameViewModel } from "../viewmodel"
 
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
@@ -51,42 +50,38 @@ const App = (): React.ReactElement => {
   }, [])
 
   return (
-    <GameViewModelContext.Provider value={viewModel}>
-      <ReduxProvider store={gameStore}>
-        <Box
-          sx={{
-            /* display-related props */
-            display: "grid",
-            gridTemplateRows: "1fr 90% 1fr",
+    <Box
+      sx={{
+        /* display-related props */
+        display: "grid",
+        gridTemplateRows: "1fr 90% 1fr",
 
-            /* layouts: width, height, margin, padding, etc.*/
-            position: "relative",
-            height: "100%",
-            minHeight: "0px",
-            width: "100%",
-            minWidth: "0px",
-            boxSizing: "border-box",
-            flex: "1 1 auto" /* For CommonLayout.tsx headers */,
+        /* layouts: width, height, margin, padding, etc.*/
+        position: "relative",
+        height: "100%",
+        minHeight: "0px",
+        width: "100%",
+        minWidth: "0px",
+        boxSizing: "border-box",
+        flex: "1 1 auto" /* For CommonLayout.tsx headers */,
 
-            /* element-specific props */
-          }}
-        >
-          <GameControlBackdrop
-            startGameHandler={viewModel.requestStartGame.bind(viewModel)}
-            switchPauseGameHandler={viewModel.switchPauseGame.bind(viewModel)}
-          />
-          <Box
-            ref={rowTwoRef}
-            sx={{
-              gridRow: 2,
-              position: "relative",
-            }}
-          >
-            <BlocksGrid />
-          </Box>
-        </Box>
-      </ReduxProvider>
-    </GameViewModelContext.Provider>
+        /* element-specific props */
+      }}
+    >
+      <GameControlBackdrop
+        startGameHandler={viewModel.requestStartGame.bind(viewModel)}
+        switchPauseGameHandler={viewModel.switchPauseGame.bind(viewModel)}
+      />
+      <Box
+        ref={rowTwoRef}
+        sx={{
+          gridRow: 2,
+          position: "relative",
+        }}
+      >
+        <BlocksGrid />
+      </Box>
+    </Box>
   )
 }
 

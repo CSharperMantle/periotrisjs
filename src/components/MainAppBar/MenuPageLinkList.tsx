@@ -5,7 +5,7 @@ import React from "react"
 import MenuItem from "@mui/material/MenuItem"
 import Typography from "@mui/material/Typography"
 
-import type { IPageLocationElement } from "./CommonLayout"
+import type { IPageLocationElement } from "../CommonLayout"
 
 interface IMenuPageLinkListProps {
   pageLocation: IPageLocationElement[]

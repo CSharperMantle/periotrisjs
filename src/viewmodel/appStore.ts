@@ -4,7 +4,7 @@ import { blocksGridReducer } from "../components/blocksGridSlice"
 import { gameControlBackdropReducer } from "../components/gameControlBackdropSlice"
 import { timerDisplayReducer } from "../components/timerDisplaySlice"
 
-export const gameStore = configureStore({
+export const appStore = configureStore({
   reducer: {
     blocksGrid: blocksGridReducer,
     gameControlBackdrop: gameControlBackdropReducer,
@@ -12,5 +12,5 @@ export const gameStore = configureStore({
   },
 })
 
-export type GameState = ReturnType<typeof gameStore.getState>
-export type GameDispatch = typeof gameStore.dispatch
+export type AppState = ReturnType<typeof appStore.getState>
+export type AppDispatch = typeof appStore.dispatch
