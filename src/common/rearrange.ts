@@ -7,7 +7,7 @@
  *
  * @throws {Error} If the length of the given array and indices are not equal.
  */
-function rearrange<T>(array: T[], indices: number[]): T[] {
+export function rearrange<T>(array: T[], indices: number[]): T[] {
   if (array.length !== indices.length) {
     throw new Error(
       "The length of the array and the length of the indices must be equal."
@@ -20,5 +20,3 @@ function rearrange<T>(array: T[], indices: number[]): T[] {
   }
   return result
 }
-
-export { rearrange }

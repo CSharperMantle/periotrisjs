@@ -5,12 +5,10 @@
  *
  * This object is immutable.
  */
-class Position {
+export class Position {
   constructor(public readonly x: number, public readonly y: number) {}
 }
 
-function positionEquals(p1: Position, p2: Position): boolean {
+export function positionEquals(p1: Position, p2: Position): boolean {
   return p1.x === p2.x && p1.y === p2.y
 }
-
-export { Position, positionEquals }
