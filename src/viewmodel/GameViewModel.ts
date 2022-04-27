@@ -1,4 +1,3 @@
-import dayjs from "dayjs"
 import { EventEmitter } from "events"
 import { isBrowser } from "is-in-browser"
 
@@ -170,7 +169,7 @@ export class GameViewModel extends EventEmitter {
     appStore.dispatch(setGameState(this._model.gameState))
     appStore.dispatch(setIsNewRecord(this._model.isNewHighRecord))
     appStore.dispatch(
-      setFastestRecord(customizationFacade.history.fastestRecord ?? dayjs(0))
+      setFastestRecord(customizationFacade.history.fastestRecord?.unix() ?? 0)
     )
   }
 
@@ -186,7 +185,7 @@ export class GameViewModel extends EventEmitter {
   }
 
   private intervalStopwatchUpdateEventHandler(): void {
-    appStore.dispatch(setElapsedTime(dayjs(this._model.elapsedMilliseconds)))
+    appStore.dispatch(setElapsedTime(this._model.elapsedMilliseconds))
   }
 
   private onGameStateChanged(): void {

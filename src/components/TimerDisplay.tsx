@@ -1,3 +1,4 @@
+import dayjs from "dayjs"
 import _ from "lodash"
 import React from "react"
 
@@ -38,7 +39,9 @@ export const TimerDisplay = (): React.ReactElement => {
           color: "white",
         }}
       >
-        {_.isNil(fastestRecord) ? "--:--" : fastestRecord.format("mm:ss")}
+        {_.isNil(fastestRecord)
+          ? "--:--"
+          : dayjs(fastestRecord).format("mm:ss")}
       </Typography>
       <Typography
         sx={{
@@ -49,7 +52,7 @@ export const TimerDisplay = (): React.ReactElement => {
           color: "yellow",
         }}
       >
-        {elapsedTime.format("mm:ss")}
+        {dayjs(elapsedTime).format("mm:ss")}
       </Typography>
     </Box>
   )

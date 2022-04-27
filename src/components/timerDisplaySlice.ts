@@ -1,18 +1,16 @@
-import dayjs, { Dayjs } from "dayjs"
-
 import { createSlice } from "@reduxjs/toolkit"
 
 import type { PayloadAction } from "@reduxjs/toolkit"
 
 interface ITimerDisplayState {
-  elapsedTime: Dayjs
-  fastestRecord: Dayjs
+  elapsedTime: number
+  fastestRecord: number
   isNewRecord: boolean
 }
 
 const timerDisplayInitialState: ITimerDisplayState = {
-  elapsedTime: dayjs(0),
-  fastestRecord: dayjs(0),
+  elapsedTime: 0,
+  fastestRecord: 0,
   isNewRecord: false,
 }
 
@@ -20,10 +18,10 @@ export const timerDisplaySlice = createSlice({
   name: "timerDisplay",
   initialState: timerDisplayInitialState,
   reducers: {
-    setElapsedTime: (state, action: PayloadAction<Dayjs>) => {
+    setElapsedTime: (state, action: PayloadAction<number>) => {
       state.elapsedTime = action.payload
     },
-    setFastestRecord: (state, action: PayloadAction<Dayjs>) => {
+    setFastestRecord: (state, action: PayloadAction<number>) => {
       state.fastestRecord = action.payload
     },
     setIsNewRecord: (state, action: PayloadAction<boolean>) => {

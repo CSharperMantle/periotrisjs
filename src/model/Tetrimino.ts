@@ -17,6 +17,9 @@ import type { getPositionByFirstBlock } from "./generation/GeneratorHelper"
  */
 export type TBlockCollisionChecker = (block: Block) => boolean
 
+/**
+ * The tetrimino.
+ */
 export class Tetrimino {
   public blocks: Block[]
 
@@ -31,22 +34,17 @@ export class Tetrimino {
     direction: MoveDirection,
     collisionChecker: TBlockCollisionChecker
   ): boolean {
-    let deltaX = 0
-    let deltaY = 0
-    if (direction === MoveDirection.Down) {
-      deltaY = 1
-    } else {
-      deltaX = direction === MoveDirection.Right ? 1 : -1
-    }
+    const deltaY = direction === MoveDirection.Down ? 1 : 0
+    const deltaX =
+      (direction === MoveDirection.Down ? 0 : 1) *
+      (direction === MoveDirection.Right ? 1 : -1)
 
-    const newBlocks = this.blocks.map((b) => {
-      return {
-        filledBy: b.filledBy,
-        position: new Position(b.position.x + deltaX, b.position.y + deltaY),
-        atomicNumber: b.atomicNumber,
-        id: b.id,
-      }
-    })
+    const newBlocks = this.blocks.map((b) => ({
+      filledBy: b.filledBy,
+      position: new Position(b.position.x + deltaX, b.position.y + deltaY),
+      atomicNumber: b.atomicNumber,
+      id: b.id,
+    }))
 
     if (newBlocks.some(collisionChecker)) {
       return false
@@ -63,6 +61,8 @@ export class Tetrimino {
   /**
    * Rotates the Tetrimino instance.
    *
+   * Rotation occurs according to the Super Rotational System.
+   *
    * @param rotationDirection The direction to rotate.
    * @param collisionChecker The BlockCollisionChecker function to use.
    * @returns `true` for a successful rotation, otherwise 'false'.
@@ -71,18 +71,15 @@ export class Tetrimino {
     rotationDirection: RotationDirection,
     collisionChecker: TBlockCollisionChecker
   ): boolean {
+    // Find the final direction
     const count: number = Object.keys(Direction).length / 2
     const delta: number = rotationDirection === RotationDirection.Right ? 1 : -1
-    let direction = this.facingDirection + delta
-    if (direction < 0) {
-      direction += count
-    }
-    if (direction >= count) {
-      direction %= count
-    }
+    const direction = (this.facingDirection + delta + count) % count
+
     const adjustPattern: number[] =
       this.kind === TetriminoKind.Linear ? [0, 1, -1, 2, -2] : [0, 1, -1]
 
+    // Wall kicking
     for (let i = 0, len = adjustPattern.length; i < len; i++) {
       const adjust = adjustPattern[i]
       const newPos: Position = new Position(
@@ -102,6 +99,7 @@ export class Tetrimino {
         return true
       }
     }
+
     return false
   }
 

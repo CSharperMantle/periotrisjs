@@ -50,7 +50,14 @@ export async function getPlayablePattern(gameMap: IMap): Promise<Tetrimino[]> {
 async function getPossibleTetriminoPattern(
   template: Block[][]
 ): Promise<Tetrimino[]> {
-  const workspace = _.cloneDeep(template)
+  const occupationMap: TetriminoKind[][] = []
+  for (let i = 0; i < template.length; i++) {
+    occupationMap[i] = []
+    for (let j = 0; j < template[i].length; j++) {
+      occupationMap[i][j] = template[i][j].filledBy
+    }
+  }
+
   const settledTetriminos: Tetrimino[] = []
   const pendingTetriminoKinds: KindDirectionsPair[][] = []
 
@@ -58,8 +65,8 @@ async function getPossibleTetriminoPattern(
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const hasEmptyBlocks = workspace.some((row) =>
-      row.some((block) => block.filledBy === TetriminoKind.AvailableToFill)
+    const hasEmptyBlocks = occupationMap.some((row) =>
+      row.some((block) => block === TetriminoKind.AvailableToFill)
     )
 
     if (!hasEmptyBlocks) {
@@ -87,12 +94,12 @@ async function getPossibleTetriminoPattern(
 
       for (let i = 0, len = lastTetrimino.blocks.length; i < len; i++) {
         const block = lastTetrimino.blocks[i]
-        workspace[block.position.y][block.position.x].filledBy =
+        occupationMap[block.position.y][block.position.x] =
           TetriminoKind.AvailableToFill
       }
     }
 
-    const firstBlockCoord = getFirstAvailableBlockCoord(workspace)
+    const firstBlockCoord = getFirstAvailableBlockCoord(occupationMap)
 
     let solutionFound = false
     while (currentKindDirectionsPairStack.length > 0) {
@@ -108,16 +115,22 @@ async function getPossibleTetriminoPattern(
           direction
         )
         if (
-          !tetrimino.blocks.some(collisionChecker.bind(undefined, workspace))
+          !tetrimino.blocks.some(
+            collisionChecker.bind(undefined, occupationMap)
+          )
         ) {
           settledTetriminos.push(tetrimino)
           pendingTetriminoKinds.push(currentKindDirectionsPairStack)
           for (let i = 0, len = tetrimino.blocks.length; i < len; i++) {
-            const block = tetrimino.blocks[i]
-            block.atomicNumber =
-              workspace[block.position.y][block.position.x].atomicNumber
-            workspace[block.position.y][block.position.x].filledBy =
-              block.filledBy
+            const oldBlock = tetrimino.blocks[i]
+            const newBlock = {
+              ...oldBlock,
+              atomicNumber:
+                template[oldBlock.position.y][oldBlock.position.x].atomicNumber,
+            }
+            occupationMap[newBlock.position.y][newBlock.position.x] =
+              newBlock.filledBy
+            tetrimino.blocks[i] = newBlock
           }
           solutionFound = true
           break
@@ -143,25 +156,30 @@ function createShuffledKindDirectionsPairs(): KindDirectionsPair[] {
   ])
 }
 
-function collisionChecker(workspace: Block[][], block: Block): boolean {
+function collisionChecker(
+  occupationMap: TetriminoKind[][],
+  block: Block
+): boolean {
   const nRow = block.position.y
   const nCol = block.position.x
   if (
     nCol < 0 ||
-    nCol >= workspace[0].length ||
+    nCol >= occupationMap[0].length ||
     nRow < 0 ||
-    nRow >= workspace.length
+    nRow >= occupationMap.length
   ) {
     return true
   }
-  return workspace[nRow][nCol].filledBy !== TetriminoKind.AvailableToFill
+  return occupationMap[nRow][nCol] !== TetriminoKind.AvailableToFill
 }
 
-function getFirstAvailableBlockCoord(blocks: Block[][]): Position {
-  for (let nRow = blocks.length - 1; nRow >= 0; nRow--) {
-    const col: Block[] = blocks[nRow]
+function getFirstAvailableBlockCoord(
+  occupationMap: TetriminoKind[][]
+): Position {
+  for (let nRow = occupationMap.length - 1; nRow >= 0; nRow--) {
+    const col = occupationMap[nRow]
     for (let nCol = col.length - 1; nCol >= 0; nCol--) {
-      if (col[nCol].filledBy === TetriminoKind.AvailableToFill) {
+      if (col[nCol] === TetriminoKind.AvailableToFill) {
         return new Position(nCol, nRow)
       }
     }
