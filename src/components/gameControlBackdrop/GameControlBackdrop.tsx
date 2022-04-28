@@ -9,8 +9,8 @@ import hourglassNotDone from "../../assets/icon/noto-color-emoji/hourglass-not-d
 import partyingFace from "../../assets/icon/noto-color-emoji/partying-face.svg"
 import thinkingFace from "../../assets/icon/noto-color-emoji/thinking-face.svg"
 import winkingFace from "../../assets/icon/noto-color-emoji/winking-face.svg"
-import { GameState } from "../model"
-import { useAppSelector } from "../viewmodel"
+import { GameState } from "../../model"
+import { useAppSelector } from "../../viewmodel"
 
 interface IContentProps {
   image: { src: string; alt: string }
@@ -131,7 +131,7 @@ export const GameControlBackdrop = (
   props: IGameStatusBackdropProps
 ): React.ReactElement => {
   const gameState = useAppSelector(
-    (state) => state.gameControlBackdrop.gameState
+    (state) => state.game.gameControlBackdrop.gameState
   )
 
   let content: React.ReactElement

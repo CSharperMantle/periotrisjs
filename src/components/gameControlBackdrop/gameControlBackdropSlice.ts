@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-import { GameState } from "../model"
+import { GameState } from "../../model"
 
 import type { PayloadAction } from "@reduxjs/toolkit"
 

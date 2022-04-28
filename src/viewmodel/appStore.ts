@@ -1,14 +1,16 @@
-import { configureStore } from "@reduxjs/toolkit"
+import { configureStore, combineReducers } from "@reduxjs/toolkit"
 
-import { blocksGridReducer } from "../components/blocksGridSlice"
-import { gameControlBackdropReducer } from "../components/gameControlBackdropSlice"
-import { timerDisplayReducer } from "../components/timerDisplaySlice"
+import { blocksGridReducer } from "../components/blocksGrid/blocksGridSlice"
+import { gameControlBackdropReducer } from "../components/gameControlBackdrop/gameControlBackdropSlice"
+import { timerDisplayReducer } from "../components/timerDisplay/timerDisplaySlice"
 
 export const appStore = configureStore({
   reducer: {
-    blocksGrid: blocksGridReducer,
-    gameControlBackdrop: gameControlBackdropReducer,
-    timerDisplay: timerDisplayReducer,
+    game: combineReducers({
+      blocksGrid: blocksGridReducer,
+      gameControlBackdrop: gameControlBackdropReducer,
+      timerDisplay: timerDisplayReducer,
+    }),
   },
 })
 

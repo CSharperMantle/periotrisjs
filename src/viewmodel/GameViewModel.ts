@@ -6,13 +6,13 @@ import {
   addSprite,
   clearSprites,
   removeSprite,
-} from "../components/blocksGridSlice"
-import { setGameState } from "../components/gameControlBackdropSlice"
+} from "../components/blocksGrid/blocksGridSlice"
+import { setGameState } from "../components/gameControlBackdrop/gameControlBackdropSlice"
 import {
   setElapsedTime,
   setFastestRecord,
   setIsNewRecord,
-} from "../components/timerDisplaySlice"
+} from "../components/timerDisplay/timerDisplaySlice"
 import { customizationFacade } from "../customization"
 import {
   BlockChangedEventArgs,

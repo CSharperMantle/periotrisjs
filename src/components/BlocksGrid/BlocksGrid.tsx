@@ -5,7 +5,7 @@ import Box from "@mui/material/Box"
 
 import { customizationFacade } from "../../customization"
 import { useAppSelector } from "../../viewmodel"
-import { TimerDisplay } from "../TimerDisplay"
+import { TimerDisplay } from "../timerDisplay/TimerDisplay"
 import { BlockControl } from "./BlockControl"
 
 import type { IBlockDisplay } from "./IBlockDisplay"
@@ -44,7 +44,7 @@ export const BlocksGrid = (): React.ReactElement => {
   }
 
   const sprites = useAppSelector((state) => {
-    return state.blocksGrid.sprites
+    return state.game.blocksGrid.sprites
   })
 
   for (let i = 0, len = sprites.length; i < len; i++) {

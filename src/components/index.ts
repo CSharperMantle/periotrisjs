@@ -1,7 +1,7 @@
-import { BlocksGrid } from "./BlocksGrid"
+import { BlocksGrid } from "./blocksGrid/BlocksGrid"
 import { CommonLayout } from "./CommonLayout"
 import { FileFormControl } from "./FileFormControl"
-import { GameControlBackdrop } from "./GameControlBackdrop"
+import { GameControlBackdrop } from "./gameControlBackdrop/GameControlBackdrop"
 import { NumberFormControl } from "./NumberFormControl"
 import { PortraitWarningBackdrop } from "./PortraitWarningBackdrop"
 

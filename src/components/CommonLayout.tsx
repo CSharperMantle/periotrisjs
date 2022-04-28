@@ -16,7 +16,7 @@ import ThemeProvider from "@mui/material/styles/ThemeProvider"
 
 import { theme } from "../../src/ThemeOptions"
 import { appStore } from "../viewmodel"
-import { MainAppBar } from "./MainAppBar"
+import { MainAppBar } from "./mainAppBar/MainAppBar"
 
 export interface IPageLocationElement {
   name: string

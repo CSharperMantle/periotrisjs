@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-import { IBlockSprite } from "../viewmodel"
+import { IBlockSprite } from "../../viewmodel"
 
 import type { PayloadAction } from "@reduxjs/toolkit"
 
