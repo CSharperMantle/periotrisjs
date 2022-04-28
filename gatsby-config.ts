@@ -1,10 +1,10 @@
-/* eslint-disable no-undef */
-module.exports = {
+import type { GatsbyConfig } from "gatsby"
+
+const config: GatsbyConfig = {
   plugins: [
     "gatsby-plugin-typescript",
     {
       resolve: "gatsby-plugin-material-ui",
-      options: {},
     },
     "gatsby-plugin-react-helmet",
     {
@@ -37,3 +37,5 @@ module.exports = {
   },
   pathPrefix: "/periotrisjs",
 }
+
+export default config
