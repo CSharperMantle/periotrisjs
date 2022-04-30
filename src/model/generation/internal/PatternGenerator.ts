@@ -36,7 +36,10 @@ export async function getPlayablePattern(gameMap: IMap): Promise<Tetrimino[]> {
   }
 
   const ordered = sort(
-    await getPossibleTetriminoPattern(template),
+    await getPossibleTetriminoPattern(
+      template,
+      gameMap.totalAvailableBlocksCount
+    ),
     gameMap.playAreaSize
   )
 
@@ -48,7 +51,8 @@ export async function getPlayablePattern(gameMap: IMap): Promise<Tetrimino[]> {
 }
 
 async function getPossibleTetriminoPattern(
-  template: Block[][]
+  template: Block[][],
+  totalAvailableBlocksCount: number
 ): Promise<Tetrimino[]> {
   const occupationMap: TetriminoKind[][] = []
   for (let i = 0; i < template.length; i++) {
@@ -60,16 +64,12 @@ async function getPossibleTetriminoPattern(
 
   const settledTetriminos: Tetrimino[] = []
   const pendingTetriminoKinds: KindDirectionsPair[][] = []
-
+  let availableBlocksCount = totalAvailableBlocksCount
   let rewindingRequired = false
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const hasEmptyBlocks = occupationMap.some((row) =>
-      row.some((block) => block === TetriminoKind.AvailableToFill)
-    )
-
-    if (!hasEmptyBlocks) {
+    if (availableBlocksCount <= 0) {
       return settledTetriminos
     }
 
@@ -97,6 +97,7 @@ async function getPossibleTetriminoPattern(
         occupationMap[block.position.y][block.position.x] =
           TetriminoKind.AvailableToFill
       }
+      availableBlocksCount += lastTetrimino.blocks.length
     }
 
     const firstBlockCoord = getFirstAvailableBlockCoord(occupationMap)
@@ -132,6 +133,7 @@ async function getPossibleTetriminoPattern(
               newBlock.filledBy
             tetrimino.blocks[i] = newBlock
           }
+          availableBlocksCount -= tetrimino.blocks.length
           solutionFound = true
           break
         }
