@@ -19,16 +19,15 @@ ctx.onmessage = (eventArgs: MessageEvent<IGeneratorMessage<unknown>>) => {
   }
 }
 
-function handleRequestGeneration(map: IMap): void {
-  getPlayablePattern(map).then((tetriminos) => {
-    const message: IGeneratorMessage<Tetrimino[]> = {
-      type: MessageType.ResponseSuccess,
-      content: tetriminos,
-    }
-    ctx.postMessage(message)
-  })
+async function handleRequestGeneration(map: IMap): Promise<void> {
+  const result = await getPlayablePattern(map)
+  const message: IGeneratorMessage<Tetrimino[]> = {
+    type: MessageType.ResponseSuccess,
+    content: result,
+  }
+  ctx.postMessage(message)
 }
 
-function handleDefault(data: IGeneratorMessage<unknown>): void {
+async function handleDefault(data: IGeneratorMessage<unknown>): Promise<void> {
   console.warn(data.type)
 }

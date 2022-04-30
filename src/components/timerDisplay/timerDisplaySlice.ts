@@ -4,7 +4,7 @@ import type { PayloadAction } from "@reduxjs/toolkit"
 
 interface ITimerDisplayState {
   elapsedTime: number
-  fastestRecord: number
+  fastestRecord: number | null
   isNewRecord: boolean
 }
 
@@ -21,7 +21,7 @@ export const timerDisplaySlice = createSlice({
     setElapsedTime: (state, action: PayloadAction<number>) => {
       state.elapsedTime = action.payload
     },
-    setFastestRecord: (state, action: PayloadAction<number>) => {
+    setFastestRecord: (state, action: PayloadAction<number | null>) => {
       state.fastestRecord = action.payload
     },
     setIsNewRecord: (state, action: PayloadAction<boolean>) => {

@@ -1,4 +1,3 @@
-import dayjs, { Dayjs } from "dayjs"
 import _ from "lodash"
 
 import { HistoryLocalStorageKey } from "../../common"
@@ -7,26 +6,26 @@ import { retrieve, store } from "../../localstorage"
 import type { ILocalStorageSerializable } from "../ILocalStorageSerializable"
 
 export class History implements ILocalStorageSerializable {
-  private _fastestRecord: Dayjs | null
-  public get fastestRecord(): Dayjs | null {
-    return this._fastestRecord
+  private _fastestRecord: number | null | undefined
+  public get fastestRecord(): number | null {
+    return this._fastestRecord ?? null
   }
-  private set fastestRecord(v: Dayjs | null) {
+  private set fastestRecord(v: number | null) {
     this._fastestRecord = v
   }
 
-  private _records: Dayjs[]
-  public get records(): Dayjs[] {
-    return this._records
+  private _records: number[] | undefined
+  public get records(): number[] {
+    return this._records ?? []
   }
-  private set records(v: Dayjs[]) {
+  private set records(v: number[]) {
     this._records = v
   }
 
-  public add(v: Dayjs): boolean {
+  public add(v: number): boolean {
     this.records.push(v)
     let isFastestRecordUpdated = false
-    if (_.isNil(this.fastestRecord) || this.fastestRecord.diff(v) > 0) {
+    if (_.isNil(this.fastestRecord) || v < this.fastestRecord) {
       this.fastestRecord = v
       isFastestRecordUpdated = true
     }
@@ -34,9 +33,6 @@ export class History implements ILocalStorageSerializable {
     return isFastestRecordUpdated
   }
 
-  /**
-   * Note: For testing only. Do not use in user code.
-   */
   private constructor() {
     this._fastestRecord = null
     this._records = []
@@ -51,11 +47,6 @@ export class History implements ILocalStorageSerializable {
       History.prototype,
       Object.getOwnPropertyDescriptors(result)
     ) as History
-    repairedHistory.fastestRecord = dayjs(repairedHistory.fastestRecord)
-    repairedHistory.records = Array.from(
-      repairedHistory.records,
-      (record: Dayjs) => dayjs(record)
-    )
     return repairedHistory
   }
 

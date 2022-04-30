@@ -17,7 +17,7 @@ import type { IMap } from "../map"
  * Settings for the app.
  */
 export class Settings implements ILocalStorageSerializable {
-  private _showGridLine = true
+  private _showGridLine: boolean | undefined
   public get showGridLine(): boolean {
     return this._showGridLine ?? true
   }
@@ -26,8 +26,7 @@ export class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
-  private _gameUpdateIntervalMilliseconds =
-    DefaultGameUpdateIntervalMilliseconds
+  private _gameUpdateIntervalMilliseconds: number | undefined
   public get gameUpdateIntervalMilliseconds(): number {
     return (
       this._gameUpdateIntervalMilliseconds ??
@@ -39,7 +38,7 @@ export class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
-  private _gameMap: IMap = defaultMap
+  private _gameMap: IMap | undefined
   public get gameMap(): IMap {
     return this._gameMap ?? defaultMap
   }
@@ -48,7 +47,7 @@ export class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
-  private _colorScheme: IColorScheme = defaultColorScheme
+  private _colorScheme: IColorScheme | undefined
   public get colorScheme(): IColorScheme {
     return this._colorScheme ?? defaultColorScheme
   }
@@ -57,7 +56,7 @@ export class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
-  private _borderThickness: number = DefaultBorderThickness
+  private _borderThickness: number | undefined
   public get borderThickness(): number {
     return this._borderThickness ?? DefaultBorderThickness
   }

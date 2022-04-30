@@ -1,4 +1,3 @@
-import { EventEmitter } from "events"
 import { isBrowser } from "is-in-browser"
 
 import { Position, StopwatchUpdateIntervalMilliseconds } from "../common"
@@ -28,13 +27,9 @@ const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
 /**
  * The view model of Periotris.
- *
- * @emits `gamestatechanged`
  */
-export class GameViewModel extends EventEmitter {
+export class GameViewModel {
   public constructor() {
-    super()
-
     this._model.on("blockchanged", (eventArgs) => {
       this.modelBlockChangedEventHandler(eventArgs)
     })
@@ -51,22 +46,22 @@ export class GameViewModel extends EventEmitter {
     this.endGame()
   }
 
-  public paused = false
-
   private readonly _model: GameModel = new GameModel()
 
   private readonly _blocksByPosition: Map<Position, IBlockSprite> = new Map()
 
-  private _gameIntervalTimerHandle = -1
+  private _gameIntervalTimerHandle: number | null = null
 
-  private _gameStopwatchUpdateTimerHandle = -1
+  private _gameStopwatchUpdateTimerHandle: number | null = null
+
+  private _paused = false
 
   private _lastPaused = true
 
   public onKeyDown(ev: KeyboardEvent): boolean {
     const key: string = ev.key.toLowerCase()
     ev.preventDefault()
-    if (this.paused) {
+    if (this._paused) {
       if (key !== "escape") {
         // Ignore anything except Esc when paused
         return false
@@ -89,7 +84,7 @@ export class GameViewModel extends EventEmitter {
         this._model.instantDropActiveTetrimino()
         break
       case "escape":
-        this.paused = !this.paused
+        this._paused = !this._paused
         break
       default:
         return false
@@ -98,7 +93,7 @@ export class GameViewModel extends EventEmitter {
   }
 
   public onTap(): boolean {
-    if (this.paused) {
+    if (this._paused) {
       return false
     }
     this._model.rotateActiveTetrimino(RotationDirection.Right)
@@ -106,7 +101,7 @@ export class GameViewModel extends EventEmitter {
   }
 
   public onSwipe(ev: HammerInput): boolean {
-    if (this.paused) {
+    if (this._paused) {
       return false
     }
     switch (ev.direction) {
@@ -126,7 +121,7 @@ export class GameViewModel extends EventEmitter {
   }
 
   public onPressUp(): boolean {
-    if (this.paused) {
+    if (this._paused) {
       return false
     }
     this._model.instantDropActiveTetrimino()
@@ -137,31 +132,27 @@ export class GameViewModel extends EventEmitter {
     if (this._model.gameState !== GameState.InProgress) {
       return // Not allowed to pause/unpause outside of game
     }
-    this.paused = !this.paused
+    this._paused = !this._paused
   }
 
   public requestStartGame(): void {
     if (
-      [GameState.InProgress, GameState.Preparing].includes(
+      [GameState.NotStarted, GameState.Won, GameState.Lost].includes(
         this._model.gameState
       )
     ) {
-      return // Not allowed to start game twice
+      appStore.dispatch(clearSprites())
+      this._blocksByPosition.clear()
+      this._model.prepareGame()
+      this.refreshGameStatus()
     }
-
-    appStore.dispatch(clearSprites())
-    this._blocksByPosition.clear()
-    this._model.prepareGame()
-    this.refreshGameStatus()
   }
 
   private endGame(): void {
-    if (this._gameIntervalTimerHandle !== -1) {
-      clearInterval(this._gameIntervalTimerHandle)
-    }
-    if (this._gameStopwatchUpdateTimerHandle !== -1) {
-      clearInterval(this._gameStopwatchUpdateTimerHandle)
-    }
+    clearInterval(this._gameIntervalTimerHandle ?? undefined)
+    this._gameIntervalTimerHandle = null
+    clearInterval(this._gameStopwatchUpdateTimerHandle ?? undefined)
+    this._gameStopwatchUpdateTimerHandle = null
     this.refreshGameStatus()
   }
 
@@ -169,27 +160,21 @@ export class GameViewModel extends EventEmitter {
     appStore.dispatch(setGameState(this._model.gameState))
     appStore.dispatch(setIsNewRecord(this._model.isNewHighRecord))
     appStore.dispatch(
-      setFastestRecord(customizationFacade.history.fastestRecord?.unix() ?? 0)
+      setFastestRecord(customizationFacade.history.fastestRecord)
     )
   }
 
   private intervalTickEventHandler(): void {
-    if (this._lastPaused !== this.paused) {
-      this.paused = !!this.paused // Force update event
-      this._lastPaused = this.paused
-    }
+    this._lastPaused =
+      this._lastPaused !== this._paused ? this._paused : this._lastPaused
 
-    if (!this.paused) {
+    if (!this._paused) {
       this._model.update()
     }
   }
 
   private intervalStopwatchUpdateEventHandler(): void {
     appStore.dispatch(setElapsedTime(this._model.elapsedMilliseconds))
-  }
-
-  private onGameStateChanged(): void {
-    this.emit("gamestatechanged")
   }
 
   private modelBlockChangedEventHandler(
@@ -224,7 +209,7 @@ export class GameViewModel extends EventEmitter {
 
   private modelGameStartEventHandler(): void {
     this.refreshGameStatus()
-    this.paused = false
+    this._paused = false
     this._gameIntervalTimerHandle = window.setInterval(() => {
       this.intervalTickEventHandler()
     }, customizationFacade.settings.gameUpdateIntervalMilliseconds)
@@ -235,6 +220,5 @@ export class GameViewModel extends EventEmitter {
 
   private modelGameStateChangedEventHandler(): void {
     this.refreshGameStatus()
-    this.onGameStateChanged()
   }
 }
