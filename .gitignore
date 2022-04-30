@@ -131,3 +131,15 @@ temp/
 
 # TypeScript build artifacts
 build/
+
+# Rust
+debug/
+target/
+
+bin/
+pkg/
+**/*.rs.bk
+*.pdb
+
+wasm-pack.log
+

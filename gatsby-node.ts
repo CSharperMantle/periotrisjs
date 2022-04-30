@@ -1,8 +1,15 @@
+import path from "path"
+
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer"
+import WasmPackPlugin from "@wasm-tool/wasm-pack-plugin"
 
 import type { GatsbyNode } from "gatsby"
 
-const commonPlugins: unknown[] = []
+const commonPlugins: unknown[] = [
+  new WasmPackPlugin({
+    crateDirectory: path.resolve(__dirname, "."),
+  }),
+]
 const developOnlyPlugins: unknown[] = []
 const releaseOnlyPlugins: unknown[] = [
   new BundleAnalyzerPlugin({
@@ -23,5 +30,8 @@ export const onCreateWebpackConfig: GatsbyNode["onCreateWebpackConfig"] = ({
         ? developOnlyPlugins
         : releaseOnlyPlugins),
     ],
+    experiments: {
+      asyncWebAssembly: true,
+    },
   })
 }

@@ -24,7 +24,7 @@ const App = (): React.ReactElement => {
   `)
 
   const gamePage = _.filter(PageLocation, (page) => page.name === "Game")[0]
-
+  
   return (
     <Stack
       direction="column"
