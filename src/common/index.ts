@@ -8,6 +8,7 @@ import {
 } from "./PeriotrisConst"
 import { Position, positionEquals } from "./Position"
 import { rearrange } from "./rearrange"
+import { waitForEvent } from "./waitForEvent"
 
 import type { ISize } from "./ISize"
 
@@ -21,6 +22,7 @@ export {
   positionEquals,
   rearrange,
   flushed,
+  waitForEvent,
 }
 
 export type { ISize }
