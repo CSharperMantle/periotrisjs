@@ -4,11 +4,11 @@ import { Position } from "../../../common"
 import { Block } from "../../Block"
 import { Direction, RotationDirection } from "../../Direction"
 import { repairBrokenTetriminos, Tetrimino } from "../../Tetrimino"
-import { TetriminoKind } from "../../TetriminoKind"
 import {
   getInitialPositionByKind,
   getPositionByFirstBlock,
-} from "../GeneratorHelper"
+} from "../../TetriminoHelper"
+import { TetriminoKind } from "../../TetriminoKind"
 import { sort } from "./TetriminoSorter"
 
 import type { ISize } from "../../../common"

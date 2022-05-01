@@ -1,12 +1,12 @@
-import { Position, positionEquals } from "../../../common"
-import { Block } from "../../Block"
-import { Direction } from "../../Direction"
-import { TetriminoKind } from "../../TetriminoKind"
+import { Position, positionEquals } from "../../common"
+import { Block } from "../Block"
+import { Direction } from "../Direction"
 import {
   createOffsetedBlocks,
   getInitialPositionByKind,
   mapAtomicNumberForNewBlocks,
-} from "../GeneratorHelper"
+} from "../TetriminoHelper"
+import { TetriminoKind } from "../TetriminoKind"
 
 const PlayAreaWidth = 18
 

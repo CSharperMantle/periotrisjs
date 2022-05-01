@@ -4,11 +4,11 @@ import { Direction, MoveDirection, RotationDirection } from "./Direction"
 import {
   createOffsetedBlocks,
   mapAtomicNumberForNewBlocks,
-} from "./generation/GeneratorHelper"
+} from "./TetriminoHelper"
 import { TetriminoKind } from "./TetriminoKind"
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { getPositionByFirstBlock } from "./generation/GeneratorHelper"
+import type { getPositionByFirstBlock } from "./TetriminoHelper"
 
 /**
  * The type for block collision checker.

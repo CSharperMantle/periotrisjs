@@ -2,8 +2,8 @@ import _ from "lodash"
 
 import { Position, positionEquals } from "../../common"
 import { Direction, MoveDirection, RotationDirection } from "../Direction"
-import { getPositionByFirstBlock } from "../generation/GeneratorHelper"
 import { repairBrokenTetriminos, Tetrimino } from "../Tetrimino"
+import { getPositionByFirstBlock } from "../TetriminoHelper"
 import { TetriminoKind } from "../TetriminoKind"
 
 function structuredClone<T>(obj: T): T {
