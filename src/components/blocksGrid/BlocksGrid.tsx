@@ -27,12 +27,11 @@ export const BlocksGrid = (): React.ReactElement => {
   const playAreaSize = customizationFacade.settings.gameMap.playAreaSize
   const showGridLine = customizationFacade.settings.showGridLine
 
-  const paddedBlocks: IBlockDisplay[][] = []
-
+  const paddedBlocks: IBlockDisplay[][] = new Array(playAreaSize.height)
   for (let i = 0; i < playAreaSize.height; i++) {
-    paddedBlocks[i] = []
+    const row = new Array(playAreaSize.width)
     for (let j = 0; j < playAreaSize.width; j++) {
-      paddedBlocks[i][j] = {
+      row[j] = {
         hasContent: false,
         hasBorder: showGridLine,
         atomicNumber: 0,
@@ -41,6 +40,7 @@ export const BlocksGrid = (): React.ReactElement => {
         symbolColor: "black",
       }
     }
+    paddedBlocks[i] = row
   }
 
   const sprites = useAppSelector((state) => {

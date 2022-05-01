@@ -183,7 +183,7 @@ const ZTransUpMask: number[][] = [
  *
  * @throws Error
  */
-function createBlocksMask(
+function getBlocksMask(
   kind: TetriminoKind,
   direction: Direction
 ): number[][] {
@@ -427,21 +427,23 @@ export function createOffsetedBlocks(
   offset: Position,
   direction: Direction = Direction.Up
 ): Block[] {
-  const mask = createBlocksMask(kind, direction)
-  const offsetBlocks: Block[] = []
+  const mask = getBlocksMask(kind, direction)
+  // Performance critical with hand-written loops.
+  const offsetBlocks: Block[] = new Array(4)
+  const { ofsetX, offsetY } = offset
+  let count = 0
   for (let nRow = 0, len_i = mask.length; nRow < len_i; nRow++) {
     const row = mask[nRow]
     for (let nCol = 0, len_j = row.length; nCol < len_j; nCol++) {
       const identifier = row[nCol]
       if (identifier !== 0) {
-        offsetBlocks.push(
-          new Block(
-            kind,
-            new Position(nCol + offset.x, nRow + offset.y),
-            0,
-            identifier
-          )
+        offsetBlocks[count] = new Block(
+          kind,
+          new Position(nCol + offsetX, nRow + offsetY),
+          0,
+          identifier
         )
+        count += 1
       }
     }
   }
@@ -450,8 +452,10 @@ export function createOffsetedBlocks(
 
 /**
  * Maps the atomicNumber prop in the oldBlocks to newBlocks by id.
+ * 
  * Note that this function does not change newBlocks but return a new
- * array of mapped blocks.
+ * array of mapped blocks. Blocks in the returned list are NOT clones.
+ * They share the same properties with their equivalences in newBlocks.
  *
  * @param oldBlocks Old blocks to be mapped from.
  * @param newBlocks New blocks to be mapped to.
@@ -468,8 +472,8 @@ export function mapAtomicNumberForNewBlocks(
   const result: Block[] = []
   for (let i = 0, len = oldBlocks.length; i < len; i++) {
     const oldBlock = oldBlocks[i]
-    const correspondingNewBlocks = _.cloneDeep(
-      _.filter(newBlocks, (newBlock: Block) => newBlock.id === oldBlock.id)
+    const correspondingNewBlocks = _.filter(newBlocks,
+      (newBlock: Block) => newBlock.id === oldBlock.id
     )
     for (let j = 0, len = correspondingNewBlocks.length; j < len; j++) {
       result.push({

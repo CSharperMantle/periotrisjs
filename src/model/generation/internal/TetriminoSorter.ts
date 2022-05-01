@@ -11,9 +11,9 @@ function getEdges(
   playAreaSize: ISize
 ): [number, number][] {
   // Create owners map
-  const owners: number[][] = []
+  const owners: number[][] = new Array(playAreaSize.height)
   for (let i = 0; i < playAreaSize.height; i++) {
-    owners[i] = []
+    owners[i] = new Array(playAreaSize.width)
   }
   // Fill in owners map
   for (let i = 0; i < tetriminos.length; i++) {
@@ -26,7 +26,7 @@ function getEdges(
 
   const dependencies = tetriminos
     .map((tetrimino, index) => {
-      const singleTetriminoDeps: [number, number][] = []
+      const singleTetriminoDeps: [number, number][] = new Array(4)
       for (let i = 0; i < tetrimino.blocks.length; i++) {
         const block = tetrimino.blocks[i]
         const dependedBlockRow: number = block.position.y + 1

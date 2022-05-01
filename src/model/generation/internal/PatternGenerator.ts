@@ -19,20 +19,19 @@ function fastRandom(startInc: number, endExc: number): number {
 }
 
 export async function getPlayablePattern(gameMap: IMap): Promise<Tetrimino[]> {
-  const template: Block[][] = []
-
+  const template: Block[][] = new Array(gameMap.playAreaSize.height)
   for (let i = 0; i < gameMap.playAreaSize.height; i++) {
-    template[i] = []
-
+    const row = new Array(gameMap.playAreaSize.width)
     for (let j = 0; j < gameMap.playAreaSize.width; j++) {
       const origElem = gameMap.map[i][j]
-      template[i][j] = new Block(
+      row[j] = new Block(
         origElem.filledBy,
         new Position(origElem.position.x, origElem.position.y),
         origElem.atomicNumber,
         0
       )
     }
+    template[i] = row
   }
 
   const ordered = sort(
@@ -54,12 +53,14 @@ async function getPossibleTetriminoPattern(
   template: Block[][],
   totalAvailableBlocksCount: number
 ): Promise<Tetrimino[]> {
-  const occupationMap: TetriminoKind[][] = []
+  const occupationMap: TetriminoKind[][] = new Array(template.length)
   for (let i = 0; i < template.length; i++) {
-    occupationMap[i] = []
-    for (let j = 0; j < template[i].length; j++) {
-      occupationMap[i][j] = template[i][j].filledBy
+    const templateRow = template[i]
+    const mapRow = new Array(templateRow.length)
+    for (let j = 0; j < templateRow.length; j++) {
+      mapRow[j] = template[i][j].filledBy
     }
+    occupationMap[i] = mapRow
   }
 
   const settledTetriminos: Tetrimino[] = []
@@ -218,13 +219,12 @@ class KindDirectionsPair {
  */
 function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
   // Move to initial position and rotate randomly
-  for (let i = 0, len = tetriminos.length; i < len; i++) {
-    const tetrimino = tetriminos[i]
+  tetriminos.forEach((tetrimino) => {
     const originalPos = tetrimino.position
     const newPos = getInitialPositionByKind(tetrimino.kind, playAreaSize)
     const deltaX = newPos.x - originalPos.x
     const deltaY = newPos.y - originalPos.y
-    const newBlocks: Block[] = Array.from(tetrimino.blocks, (block: Block) => {
+    const newBlocks: Block[] = tetrimino.blocks.map((block: Block) => {
       return new Block(
         block.filledBy,
         new Position(block.position.x + deltaX, block.position.y + deltaY),
@@ -243,5 +243,5 @@ function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
     for (let i = 0; i < rotationCount; i++) {
       tetrimino.tryRotate(RotationDirection.Right, () => false)
     }
-  }
+  })
 }

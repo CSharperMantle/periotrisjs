@@ -199,8 +199,9 @@ export class GameModel extends EventEmitter {
    * @see {@link startPreparedGame}
    */
   public async prepareGame(): Promise<void> {
-    const curriedOnBlockChanged = _.curryRight(this.onBlockChanged)(true)
-    this._frozenBlocks.forEach(curriedOnBlockChanged)
+    this._frozenBlocks.forEach((block) => {
+      this.onBlockChanged(block, true)
+    })
     this._frozenBlocks.length = 0
 
     this.updateActiveTetrimino(true)
@@ -289,7 +290,6 @@ export class GameModel extends EventEmitter {
    */
   public constructor() {
     super()
-
     this.endGame(false)
   }
 
@@ -299,11 +299,10 @@ export class GameModel extends EventEmitter {
    * This method works by removing and re-adding all frozen blocks.
    */
   private updateFrozenBlocks(): void {
-    for (let i = 0, len = this._frozenBlocks.length; i < len; i++) {
-      const block = this._frozenBlocks[i]
+    this._frozenBlocks.forEach((block) => {
       this.onBlockChanged(block, true)
       this.onBlockChanged(block, false)
-    }
+    })
   }
 
   /**
@@ -410,12 +409,8 @@ export class GameModel extends EventEmitter {
    * @param disappeared Whether the tetrimino disappeared.
    */
   private updateActiveTetrimino(disappeared: boolean): void {
-    const len = this._activeTetrimino?.blocks.length ?? 0
-    for (let i = 0; i < len; i++) {
-      // A zero-length block list will not go into the loop.
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const block = this._activeTetrimino!.blocks[i]
+    this._activeTetrimino?.blocks.forEach((block) => {
       this.onBlockChanged(block, disappeared)
-    }
+    })
   }
 }
