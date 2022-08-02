@@ -15,11 +15,10 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import _ from "lodash"
-
 import {
   DefaultBorderThickness,
   DefaultGameUpdateIntervalMilliseconds,
+  isNil,
   SettingsLocalStorageKey,
 } from "../../common"
 import defaultColorScheme from "../../json/DefaultColorScheme.json"
@@ -89,7 +88,7 @@ export class Settings implements ILocalStorageSerializable {
   public static fromLocalStorage(): Settings {
     const result = retrieve(SettingsLocalStorageKey)
 
-    if (_.isNil(result)) return new Settings()
+    if (isNil(result)) return new Settings()
 
     const repairedSettings = Object.create(
       Settings.prototype,

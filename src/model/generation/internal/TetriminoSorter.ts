@@ -15,10 +15,10 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import _ from "lodash"
+import { uniq } from "lodash"
 import toposort from "toposort"
 
-import { rearrange } from "../../../common"
+import { isNil, rearrange } from "../../../common"
 import { Tetrimino } from "../../Tetrimino"
 
 import type { ISize } from "../../../common"
@@ -54,7 +54,7 @@ function getEdges(
           dependedBlockCol,
           playAreaSize
         )
-        if (_.isNil(result) || result === index) {
+        if (isNil(result) || result === index) {
           // Ignore self-dependency
           continue
         }
@@ -65,7 +65,7 @@ function getEdges(
     })
     .flat(1)
 
-  return _.uniq(dependencies)
+  return uniq(dependencies)
 }
 
 function tryGetOccupiedTetriminoNode(
@@ -84,7 +84,7 @@ function tryGetOccupiedTetriminoNode(
   }
 
   const cell = map[row][col]
-  if (_.isNil(cell)) {
+  if (isNil(cell)) {
     return null
   }
 

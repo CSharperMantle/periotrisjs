@@ -16,7 +16,7 @@
  */
 
 import { EventEmitter } from "events"
-import _ from "lodash"
+import { isNil } from "./isNil"
 
 /**
  * Asynchronously waits for an event to be emitted.
@@ -40,7 +40,7 @@ export async function waitForEvent<T>(
             target.addEventListener(event, func, { once: true })
           }
     listenOnce(event, resolve)
-    if (!_.isNil(errorEvent)) {
+    if (!isNil(errorEvent)) {
       listenOnce(errorEvent, reject)
     }
   })

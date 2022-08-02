@@ -17,9 +17,8 @@
 
 import { EventEmitter } from "events"
 import { isBrowser } from "is-in-browser"
-import _ from "lodash"
 
-import { positionEquals, waitForEvent } from "../common"
+import { isNil, positionEquals, waitForEvent } from "../common"
 import { customizationFacade } from "../customization"
 import { Block } from "./Block"
 import { BlockChangedEventArgs } from "./BlockChangedEventArgs"
@@ -151,7 +150,7 @@ export class GameModel extends EventEmitter {
     if (this.gameState !== GameState.InProgress) return
     this.updateActiveTetrimino(true)
     while (
-      !_.isNil(this._activeTetrimino) &&
+      !isNil(this._activeTetrimino) &&
       this._activeTetrimino.tryMove(
         MoveDirection.Down,
         this.checkBlockValidity.bind(this)
@@ -170,7 +169,7 @@ export class GameModel extends EventEmitter {
   public moveActiveTetrimino(direction: MoveDirection): void {
     if (
       this.gameState !== GameState.InProgress ||
-      _.isNil(this._activeTetrimino)
+      isNil(this._activeTetrimino)
     ) {
       return
     }
@@ -226,7 +225,7 @@ export class GameModel extends EventEmitter {
 
     this.gameState = GameState.Preparing
     let tetriminos: Tetrimino[] = []
-    if (!_.isNil(this._patternGeneratorWorker)) {
+    if (!isNil(this._patternGeneratorWorker)) {
       // We have workers.
       this._patternGeneratorWorker.postMessage({
         type: MessageType.RequestGeneration,

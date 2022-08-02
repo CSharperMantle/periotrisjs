@@ -15,7 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import _ from "lodash"
 import React from "react"
 
 import Button from "@mui/material/Button"
@@ -24,6 +23,8 @@ import FormHelperText from "@mui/material/FormHelperText"
 import Grid from "@mui/material/Grid"
 import TextField from "@mui/material/TextField"
 import styled from "@mui/system/styled"
+
+import { isNil } from "../common"
 
 const HiddenInput = styled("input")({
   display: "none",
@@ -116,14 +117,14 @@ export const FileFormControl = ({
             accept={accept}
             caption={buttonCaption}
             onFileChange={async (event) => {
-              let content = !_.isNil(event.target.files)
+              let content = !isNil(event.target.files)
                 ? await event.target.files[0].text()
                 : ""
-              content = !_.isNil(contentPreprocessor)
+              content = !isNil(contentPreprocessor)
                 ? contentPreprocessor(content)
                 : content
               const result = onFileChange(content)
-              if (_.isNil(result) || result) {
+              if (isNil(result) || result) {
                 setFileContent(content)
               }
             }}

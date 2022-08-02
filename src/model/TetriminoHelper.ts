@@ -15,8 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import _ from "lodash"
-
 import { Position } from "../common"
 import { Block } from "./Block"
 import { Direction } from "./Direction"
@@ -486,9 +484,8 @@ export function mapAtomicNumberForNewBlocks(
   const result: Block[] = []
   for (let i = 0, len = oldBlocks.length; i < len; i++) {
     const oldBlock = oldBlocks[i]
-    const correspondingNewBlocks = _.filter(
-      newBlocks,
-      (newBlock: Block) => newBlock.id === oldBlock.id
+    const correspondingNewBlocks = newBlocks.filter(
+      (newBlock) => newBlock.id === oldBlock.id
     )
     for (let j = 0, len = correspondingNewBlocks.length; j < len; j++) {
       result.push({

@@ -15,9 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import _ from "lodash"
-
-import { HistoryLocalStorageKey } from "../../common"
+import { HistoryLocalStorageKey, isNil } from "../../common"
 import { retrieve, store } from "../../localstorage"
 
 import type { ILocalStorageSerializable } from "../ILocalStorageSerializable"
@@ -42,7 +40,7 @@ export class History implements ILocalStorageSerializable {
   public add(v: number): boolean {
     this.records.push(v)
     let isFastestRecordUpdated = false
-    if (_.isNil(this.fastestRecord) || v < this.fastestRecord) {
+    if (isNil(this.fastestRecord) || v < this.fastestRecord) {
       this.fastestRecord = v
       isFastestRecordUpdated = true
     }
@@ -58,7 +56,7 @@ export class History implements ILocalStorageSerializable {
   public static fromLocalStorage(): History {
     const result = retrieve(HistoryLocalStorageKey)
 
-    if (_.isNil(result)) return new History()
+    if (isNil(result)) return new History()
 
     const repairedHistory = Object.create(
       History.prototype,

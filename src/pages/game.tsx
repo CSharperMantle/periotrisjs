@@ -16,7 +16,7 @@
  */
 
 import { isBrowser } from "is-in-browser"
-import _ from "lodash"
+import { throttle } from "lodash"
 import React, { useEffect, useRef } from "react"
 
 import Box from "@mui/material/Box"
@@ -34,19 +34,19 @@ const App = (): React.ReactElement => {
   let hammer: HammerManager
 
   useEffect(() => {
-    const throttledKeyDownHandler = _.throttle(
+    const throttledKeyDownHandler = throttle(
       flushed(viewModel.onKeyDown.bind(viewModel)),
       50
     )
-    const throttledTapHandler = _.throttle(
+    const throttledTapHandler = throttle(
       flushed(viewModel.onTap.bind(viewModel)),
       50
     )
-    const throttledSwipeHandler = _.throttle(
+    const throttledSwipeHandler = throttle(
       flushed(viewModel.onSwipe.bind(viewModel)),
       50
     )
-    const throttledPressUpHandler = _.throttle(
+    const throttledPressUpHandler = throttle(
       flushed(viewModel.onPressUp.bind(viewModel)),
       50
     )

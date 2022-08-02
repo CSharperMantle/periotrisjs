@@ -15,7 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import _ from "lodash"
 import React from "react"
 
 import Box from "@mui/material/Box"
@@ -108,11 +107,8 @@ export function getBackgroundColorByAtomicNumber(atomicNumber: number): string {
   for (let i = 0; i < colorScheme.rules.length; i++) {
     const rule = colorScheme.rules[i]
     if (
-      _.inRange(
-        atomicNumber,
-        rule.atomicNumberRange.from,
-        rule.atomicNumberRange.to + 1
-      )
+      rule.atomicNumberRange.from <= atomicNumber &&
+      atomicNumber <= rule.atomicNumberRange.to
     ) {
       return rule.color
     }

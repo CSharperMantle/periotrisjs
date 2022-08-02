@@ -15,12 +15,13 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import _ from "lodash"
 import React from "react"
 
 import FormControl from "@mui/material/FormControl"
 import FormHelperText from "@mui/material/FormHelperText"
 import TextField from "@mui/material/TextField"
+
+import { isNil } from "../common"
 
 interface INumberFormControlProps {
   id: string
@@ -58,11 +59,11 @@ export const NumberFormControl = (
           max: props.max,
         }}
         onChange={(event) => {
-          const content = !_.isNil(props.contentPreprocessor)
+          const content = !isNil(props.contentPreprocessor)
             ? props.contentPreprocessor(event.target.value)
             : event.target.value
           const result = props.onChange(content)
-          if (_.isNil(result) || result) {
+          if (isNil(result) || result) {
             setContent(content)
           }
         }}

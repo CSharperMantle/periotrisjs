@@ -16,7 +16,6 @@
  */
 
 import { graphql, Link, useStaticQuery } from "gatsby"
-import _ from "lodash"
 import React from "react"
 
 import Button from "@mui/material/Button"
@@ -40,7 +39,7 @@ const App = (): React.ReactElement => {
     }
   `)
 
-  const gamePage = _.filter(PageLocation, (page) => page.name === "Game")[0]
+  const gamePage = PageLocation.filter((page) => page.name === "Game")[0]
 
   return (
     <Stack

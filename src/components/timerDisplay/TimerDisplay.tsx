@@ -16,12 +16,12 @@
  */
 
 import dayjs from "dayjs"
-import _ from "lodash"
 import React from "react"
 
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 
+import { isNil } from "../../common"
 import { useAppSelector } from "../../viewmodel"
 
 export const TimerDisplay = (): React.ReactElement => {
@@ -58,9 +58,7 @@ export const TimerDisplay = (): React.ReactElement => {
           color: "white",
         }}
       >
-        {_.isNil(fastestRecord)
-          ? "--:--"
-          : dayjs(fastestRecord).format("mm:ss")}
+        {isNil(fastestRecord) ? "--:--" : dayjs(fastestRecord).format("mm:ss")}
       </Typography>
       <Typography
         sx={{

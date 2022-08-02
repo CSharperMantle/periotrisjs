@@ -15,29 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { isBrowser } from "is-in-browser"
-
-import { isNil } from "../common"
-
-export function store<T = unknown>(key: string, value: T): boolean {
-  if (!isBrowser) return false
-
-  try {
-    window.localStorage.setItem(key, JSON.stringify(value))
-  } catch (err: unknown) {
-    console.warn(err)
-    return false
-  }
-  return true
-}
-
-export function retrieve(key: string): unknown {
-  if (!isBrowser) return null
-
-  const result = window.localStorage.getItem(key)
-  if (!isNil(result)) {
-    return JSON.parse(result)
-  } else {
-    return null
-  }
+export function isNil(value: unknown): value is undefined | null {
+  return value == null
 }

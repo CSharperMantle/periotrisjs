@@ -17,7 +17,6 @@
 
 import validateColorScheme from "ajv-json-loader!../json/schema/ColorScheme.json.schema"
 import validateMap from "ajv-json-loader!../json/schema/Map.json.schema"
-import _ from "lodash"
 import { useSnackbar } from "notistack"
 import React from "react"
 
@@ -90,7 +89,7 @@ const App = (): React.ReactElement => {
 
   const handleUpdateIntervalChange = (newContent: string): boolean => {
     const value = parseInt(`0${newContent}`, 10)
-    if (_.isNaN(value)) {
+    if (isNaN(value)) {
       enqueueSnackbar("Invalid falling speed value.", { variant: "error" })
       return false
     }
@@ -100,7 +99,7 @@ const App = (): React.ReactElement => {
 
   const handleBorderThicknessChange = (newContent: string): boolean => {
     const value = parseInt(`0${newContent}`, 10)
-    if (_.isNaN(value) || value <= 0) {
+    if (isNaN(value) || value <= 0) {
       enqueueSnackbar("Invalid border thickness value.", { variant: "error" })
       return false
     }

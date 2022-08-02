@@ -26,6 +26,7 @@ import {
 import { Position, positionEquals } from "./Position"
 import { rearrange } from "./rearrange"
 import { waitForEvent } from "./waitForEvent"
+import { isNil } from "./isNil"
 
 import type { ISize } from "./ISize"
 
@@ -40,6 +41,7 @@ export {
   rearrange,
   flushed,
   waitForEvent,
+  isNil,
 }
 
 export type { ISize }

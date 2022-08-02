@@ -15,9 +15,9 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import _ from "lodash"
+import { shuffle } from "lodash"
 
-import { Position } from "../../../common"
+import { isNil, Position } from "../../../common"
 import { Block } from "../../Block"
 import { Direction, RotationDirection } from "../../Direction"
 import { repairBrokenTetriminos, Tetrimino } from "../../Tetrimino"
@@ -100,13 +100,13 @@ async function getPossibleTetriminoPattern(
       }
 
       const poppedKinds = pendingTetriminoKinds.pop()
-      if (_.isNil(poppedKinds)) {
+      if (isNil(poppedKinds)) {
         throw new Error("poppedKinds")
       }
       currentKindDirectionsPairStack = poppedKinds
 
       const lastTetrimino = settledTetriminos.pop()
-      if (_.isNil(lastTetrimino)) {
+      if (isNil(lastTetrimino)) {
         throw new Error("lastTetrimino")
       }
 
@@ -123,7 +123,7 @@ async function getPossibleTetriminoPattern(
     let solutionFound = false
     while (currentKindDirectionsPairStack.length > 0) {
       const currentPair = currentKindDirectionsPairStack.pop()
-      if (_.isNil(currentPair)) {
+      if (isNil(currentPair)) {
         throw new Error("currentPair")
       }
       while (currentPair.directions.length > 0) {
@@ -165,7 +165,7 @@ async function getPossibleTetriminoPattern(
 }
 
 function createShuffledKindDirectionsPairs(): KindDirectionsPair[] {
-  return _.shuffle([
+  return shuffle([
     new KindDirectionsPair(TetriminoKind.Cubic),
     new KindDirectionsPair(TetriminoKind.LShapedCis),
     new KindDirectionsPair(TetriminoKind.LShapedTrans),
