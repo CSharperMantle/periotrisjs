@@ -20,7 +20,7 @@ import { retrieve, store } from "../LocalStorageManager"
 describe("LocalStorageManager", () => {
   it("should retrieve objects in JSON from window.localStorage", () => {
     const getItemSpy = jest
-      .spyOn(window.localStorage.__proto__, "getItem")
+      .spyOn(window.localStorage["__proto__"], "getItem")
       .mockImplementation((key: unknown): string | null => {
         expect(key as string).toBe("__test_item")
 
@@ -37,7 +37,7 @@ describe("LocalStorageManager", () => {
 
   it("should store objects in JSON to window.localStorage", () => {
     const setItemSpy = jest
-      .spyOn(window.localStorage.__proto__, "setItem")
+      .spyOn(window.localStorage["__proto__"], "setItem")
       .mockImplementation((key: unknown, value: unknown): void => {
         expect(key as string).toBe("__test_item")
         expect(JSON.parse(value as string).testProp).toBe(2)
@@ -53,7 +53,7 @@ describe("LocalStorageManager", () => {
 
   it("should handle non-existent keys gracefully when retrieving", () => {
     const getItemSpy = jest
-      .spyOn(window.localStorage.__proto__, "getItem")
+      .spyOn(window.localStorage["__proto__"], "getItem")
       .mockImplementation((): string | null => {
         return null
       })
@@ -68,7 +68,7 @@ describe("LocalStorageManager", () => {
 
   it("should handle quota exceeded errors gracefully when storing", () => {
     const setItemSpy = jest
-      .spyOn(window.localStorage.__proto__, "setItem")
+      .spyOn(window.localStorage["__proto__"], "setItem")
       .mockImplementation((): void => {
         throw new DOMException("Quota exceeded", "QuotaExceededError")
       })

@@ -71,17 +71,17 @@ describe("History", () => {
         expect((object as History).fastestRecord).toEqual(1000)
         return true
       })
-      .mockImplementationOnce((key: string, object: History) => {
+      .mockImplementationOnce((_: string, object: History) => {
         expect((object as History).records).toHaveLength(2)
         expect((object as History).fastestRecord).toEqual(1000)
         return true
       })
-      .mockImplementationOnce((key: string, object: History) => {
+      .mockImplementationOnce((_: string, object: History) => {
         expect((object as History).records).toHaveLength(3)
         expect((object as History).fastestRecord).toEqual(1000)
         return true
       })
-      .mockImplementationOnce((key: string, object: History) => {
+      .mockImplementationOnce((_: string, object: History) => {
         expect((object as History).records).toHaveLength(4)
         expect((object as History).fastestRecord).toEqual(500)
         return true

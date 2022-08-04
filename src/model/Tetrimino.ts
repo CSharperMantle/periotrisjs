@@ -24,9 +24,6 @@ import {
 } from "./TetriminoHelper"
 import { TetriminoKind } from "./TetriminoKind"
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { getPositionByFirstBlock } from "./TetriminoHelper"
-
 /**
  * The type for block collision checker.
  *
@@ -122,8 +119,6 @@ export class Tetrimino {
 
   /**
    * Creates a new tetrimino.
-   *
-   * @see {@link getPositionByFirstBlock}
    *
    * @param kind The kind of tetrimino to create.
    * @param position The position of the tetrimino.
