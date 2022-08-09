@@ -16,16 +16,16 @@
  */
 
 import { Block } from "./Block"
-import { BlockChangedEventArgs } from "./BlockChangedEventArgs"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
-import { GameState } from "./GameState"
+import { BlocksChangedEventArgs } from "./EventArgs"
 import { GameModel } from "./GameModel"
+import { GameState } from "./GameState"
 import { Tetrimino } from "./Tetrimino"
 import { TetriminoKind } from "./TetriminoKind"
 
 export {
   Block,
-  BlockChangedEventArgs,
+  BlocksChangedEventArgs,
   Direction,
   RotationDirection,
   MoveDirection,

@@ -95,9 +95,8 @@ export class Tetrimino {
 
     // Wall kicking
     for (let i = 0, len = adjustPattern.length; i < len; i++) {
-      const adjust = adjustPattern[i]
       const newPos: Position = new Position(
-        this.position.x + adjust,
+        this.position.x + adjustPattern[i],
         this.position.y
       )
       let newBlocks: Block[] = createOffsetedBlocks(

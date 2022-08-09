@@ -21,8 +21,8 @@ import { isBrowser } from "is-in-browser"
 import { isNil, positionEquals, waitForEvent } from "../common"
 import { customizationFacade } from "../customization"
 import { Block } from "./Block"
-import { BlockChangedEventArgs } from "./BlockChangedEventArgs"
 import { MoveDirection, RotationDirection } from "./Direction"
+import { BlocksChangedEventArgs } from "./EventArgs"
 import { GameState } from "./GameState"
 import { getPlayablePattern, MessageType } from "./generation"
 import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
@@ -32,10 +32,10 @@ import type { IGeneratorMessage } from "./generation"
 /**
  * The model of Periotris.
  *
- * @emits `gamestarted`
- * @emits `gameended`
- * @emits `blockchanged`
- * @emits `gamestatechanged`
+ * @emits gamestarted
+ * @emits gameended
+ * @emits blockschanged
+ * @emits gamestatechanged
  */
 export class GameModel extends EventEmitter {
   /**
@@ -215,9 +215,7 @@ export class GameModel extends EventEmitter {
    * @see {@link startPreparedGame}
    */
   public async prepareGame(): Promise<void> {
-    this._frozenBlocks.forEach((block) => {
-      this.onBlockChanged(block, true)
-    })
+    this.onBlocksChanged(this._frozenBlocks, true)
     this._frozenBlocks.length = 0
 
     this.updateActiveTetrimino(true)
@@ -315,10 +313,8 @@ export class GameModel extends EventEmitter {
    * This method works by removing and re-adding all frozen blocks.
    */
   private updateFrozenBlocks(): void {
-    this._frozenBlocks.forEach((block) => {
-      this.onBlockChanged(block, true)
-      this.onBlockChanged(block, false)
-    })
+    this.onBlocksChanged(this._frozenBlocks, true)
+    this.onBlocksChanged(this._frozenBlocks, false)
   }
 
   /**
@@ -340,15 +336,15 @@ export class GameModel extends EventEmitter {
   }
 
   /**
-   * Emit the event blockchanged.
+   * Emit the event blockschanged.
    *
-   * This event informs the subscribers that a block has changed.
+   * This event informs the subscribers that state of some blocks has changed.
    *
-   * @param block The block to update.
+   * @param blocks The blocks to update.
    * @param disappeared Whether the block disappeared.
    */
-  private onBlockChanged(block: Block, disappeared: boolean): void {
-    this.emit("blockchanged", new BlockChangedEventArgs(block, disappeared))
+  private onBlocksChanged(blocks: Block[], disappeared: boolean): void {
+    this.emit("blockschanged", new BlocksChangedEventArgs(blocks, disappeared))
   }
 
   /**
@@ -417,16 +413,15 @@ export class GameModel extends EventEmitter {
   /**
    * Update the active tetrimino.
    *
-   * This method iterates over all the blocks of {@link _activeTetrimino}
-   * and updates them.
+   * This method updates all the blocks of {@link _activeTetrimino}.
    *
    * This method has no effect if {@link _activeTetrimino} is `null`.
    *
    * @param disappeared Whether the tetrimino disappeared.
    */
   private updateActiveTetrimino(disappeared: boolean): void {
-    this._activeTetrimino?.blocks.forEach((block) => {
-      this.onBlockChanged(block, disappeared)
-    })
+    if (!isNil(this._activeTetrimino)) {
+      this.onBlocksChanged(this._activeTetrimino.blocks, disappeared)
+    }
   }
 }

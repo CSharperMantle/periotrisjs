@@ -31,11 +31,13 @@ export const blocksGridSlice = createSlice({
   name: "blocksGrid",
   initialState: blocksGridInitialState,
   reducers: {
-    addSprite: (state, action: PayloadAction<IBlockSprite>) => {
-      state.sprites.push(action.payload)
+    addSprites: (state, action: PayloadAction<IBlockSprite[]>) => {
+      state.sprites = state.sprites.concat(action.payload)
     },
-    removeSprite: (state, action: PayloadAction<IBlockSprite>) => {
-      state.sprites.splice(state.sprites.indexOf(action.payload), 1)
+    removeSprites: (state, action: PayloadAction<IBlockSprite[]>) => {
+      action.payload.forEach((spriteToRemove) => {
+          state.sprites.splice(state.sprites.indexOf(spriteToRemove), 1)
+      })
     },
     clearSprites: (state) => {
       state.sprites = []
@@ -43,5 +45,6 @@ export const blocksGridSlice = createSlice({
   },
 })
 
-export const { addSprite, removeSprite, clearSprites } = blocksGridSlice.actions
+export const { addSprites, removeSprites, clearSprites } =
+  blocksGridSlice.actions
 export const blocksGridReducer = blocksGridSlice.reducer

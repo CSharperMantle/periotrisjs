@@ -19,9 +19,9 @@ import { isBrowser } from "is-in-browser"
 
 import { Position, StopwatchUpdateIntervalMilliseconds } from "../common"
 import {
-  addSprite,
+  addSprites,
   clearSprites,
-  removeSprite,
+  removeSprites,
 } from "../components/blocksGrid/blocksGridSlice"
 import { setGameState } from "../components/gameControlBackdrop/gameControlBackdropSlice"
 import {
@@ -31,7 +31,7 @@ import {
 } from "../components/timerDisplay/timerDisplaySlice"
 import { customizationFacade } from "../customization"
 import {
-  BlockChangedEventArgs,
+  BlocksChangedEventArgs,
   GameModel,
   GameState,
   MoveDirection,
@@ -47,8 +47,8 @@ const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
  */
 export class GameViewModel {
   public constructor() {
-    this._model.on("blockchanged", (eventArgs) => {
-      this.modelBlockChangedEventHandler(eventArgs)
+    this._model.on("blockschanged", (eventArgs) => {
+      this.modelBlocksChangedEventHandler(eventArgs)
     })
     this._model.on("gameended", () => {
       this.modelGameEndEventHandler()
@@ -194,29 +194,33 @@ export class GameViewModel {
     appStore.dispatch(setElapsedTime(this._model.elapsedMilliseconds))
   }
 
-  private modelBlockChangedEventHandler(
-    eventArgs: BlockChangedEventArgs
+  private modelBlocksChangedEventHandler(
+    eventArgs: BlocksChangedEventArgs
   ): void {
-    const block = eventArgs.block
-
+    const blocks = eventArgs.blocks
     if (!eventArgs.disappeared) {
-      if (!this._blocksByPosition.has(eventArgs.block.position)) {
-        const displayBlock: IBlockSprite = {
-          atomicNumber: block.atomicNumber,
-          row: block.position.y,
-          column: block.position.x,
+      const sprites: IBlockSprite[] = []
+      blocks.forEach((block) => {
+        if (!this._blocksByPosition.has(block.position)) {
+          const displayBlock: IBlockSprite = {
+            atomicNumber: block.atomicNumber,
+            row: block.position.y,
+            column: block.position.x,
+          }
+          this._blocksByPosition.set(block.position, displayBlock)
+          sprites.push(displayBlock)
         }
-        this._blocksByPosition.set(block.position, displayBlock)
-        appStore.dispatch(addSprite(displayBlock))
-      }
+      })
+      appStore.dispatch(addSprites(sprites))
     } else {
-      if (this._blocksByPosition.has(block.position)) {
-        const displayBlock = this._blocksByPosition.get(
-          block.position
-        ) as IBlockSprite
-        appStore.dispatch(removeSprite(displayBlock))
-        this._blocksByPosition.delete(block.position)
-      }
+      const sprites = blocks
+        .filter((block) => this._blocksByPosition.has(block.position))
+        .map((block) => {
+          const b = this._blocksByPosition.get(block.position)
+          this._blocksByPosition.delete(block.position)
+          return b
+        }) as IBlockSprite[]
+      appStore.dispatch(removeSprites(sprites))
     }
   }
 

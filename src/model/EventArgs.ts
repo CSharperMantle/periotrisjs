@@ -17,9 +17,9 @@
 
 import { Block } from "./Block"
 
-export class BlockChangedEventArgs {
+export class BlocksChangedEventArgs {
   public constructor(
-    public readonly block: Block,
+    public readonly blocks: Block[],
     public readonly disappeared: boolean
   ) {}
 }
