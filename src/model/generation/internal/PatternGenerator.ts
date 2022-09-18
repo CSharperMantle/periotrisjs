@@ -36,18 +36,18 @@ function fastRandom(startInc: number, endExc: number): number {
 
 export async function getPlayablePattern(gameMap: IMap): Promise<Tetrimino[]> {
   const template: Block[][] = new Array(gameMap.playAreaSize.height)
-  for (let i = 0; i < gameMap.playAreaSize.height; i++) {
+  for (let nRow = 0; nRow < gameMap.playAreaSize.height; nRow++) {
     const row = new Array(gameMap.playAreaSize.width)
-    for (let j = 0; j < gameMap.playAreaSize.width; j++) {
-      const origElem = gameMap.map[i][j]
-      row[j] = new Block(
+    for (let nCol = 0; nCol < gameMap.playAreaSize.width; nCol++) {
+      const origElem = gameMap.map[nRow][nCol]
+      row[nCol] = new Block(
         origElem.filledBy,
-        new Position(origElem.position.x, origElem.position.y),
+        new Position(nCol, nRow),
         origElem.atomicNumber,
         0
       )
     }
-    template[i] = row
+    template[nRow] = row
   }
 
   const ordered = sort(
