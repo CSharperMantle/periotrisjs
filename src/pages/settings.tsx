@@ -17,6 +17,7 @@
 
 import validateColorScheme from "ajv-json-loader!../json/schema/ColorScheme.json.schema"
 import validateMap from "ajv-json-loader!../json/schema/Map.json.schema"
+import _ from "lodash"
 import { useSnackbar } from "notistack"
 import React from "react"
 
@@ -137,7 +138,7 @@ const App = (): React.ReactElement => {
               aria-describedby="assistance-grid-input-helper-text"
               onChange={handleAssistanceGridModeChange}
             >
-              {assistanceGridAppearanceOptions.map((option) => (
+              {_.map(assistanceGridAppearanceOptions, (option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>

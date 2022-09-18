@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { shuffle } from "lodash"
+import _ from "lodash"
 
 import { isNil, Position } from "../../../common"
 import { Block } from "../../Block"
@@ -30,7 +30,6 @@ import { sort } from "./TetriminoSorter"
 
 import type { ISize } from "../../../common"
 import type { IMap } from "../../../customization"
-
 function fastRandom(startInc: number, endExc: number): number {
   return startInc + Math.floor(Math.random() * (endExc - startInc))
 }
@@ -165,7 +164,7 @@ async function getPossibleTetriminoPattern(
 }
 
 function createShuffledKindDirectionsPairs(): KindDirectionsPair[] {
-  return shuffle([
+  return _.shuffle([
     new KindDirectionsPair(TetriminoKind.Cubic),
     new KindDirectionsPair(TetriminoKind.LShapedCis),
     new KindDirectionsPair(TetriminoKind.LShapedTrans),
@@ -241,16 +240,17 @@ function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
     const newPos = getInitialPositionByKind(tetrimino.kind, playAreaSize)
     const deltaX = newPos.x - originalPos.x
     const deltaY = newPos.y - originalPos.y
-    const newBlocks: Block[] = tetrimino.blocks.map((block: Block) => {
-      return new Block(
-        block.filledBy,
-        new Position(block.position.x + deltaX, block.position.y + deltaY),
-        block.atomicNumber,
-        block.id
-      )
-    })
 
-    tetrimino.blocks = newBlocks
+    tetrimino.blocks = _.map(
+      tetrimino.blocks,
+      (block) =>
+        new Block(
+          block.filledBy,
+          new Position(block.position.x + deltaX, block.position.y + deltaY),
+          block.atomicNumber,
+          block.id
+        )
+    )
     tetrimino.position = newPos
 
     const rotationCount = fastRandom(

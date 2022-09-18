@@ -16,6 +16,7 @@
  */
 
 import { Link } from "gatsby"
+import _ from "lodash"
 import React from "react"
 
 import Box from "@mui/material/Box"
@@ -33,7 +34,7 @@ export const MenuTitleButtonList = (
 ): React.ReactElement => {
   return (
     <>
-      {props.pageLocation.map((page) => (
+      {_.map(props.pageLocation, (page) => (
         <Button
           key={page.name}
           onClick={props.handleCloseMenu}

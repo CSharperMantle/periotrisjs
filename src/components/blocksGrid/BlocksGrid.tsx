@@ -15,6 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import _ from "lodash"
 import React from "react"
 
 import Box from "@mui/material/Box"
@@ -73,11 +74,12 @@ export const BlocksGrid = (): React.ReactElement => {
     }
   }
 
-  const blocks = paddedBlocks
-    .flat()
+  const blocks = _(paddedBlocks)
+    .flatten()
     .map((block) => (
       <BlockControl block={block} key={getIBlockDisplayHash(block)} />
     ))
+    .value()
 
   return (
     <Box

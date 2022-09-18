@@ -15,6 +15,8 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import _ from "lodash"
+
 import { Position } from "../common"
 import { Block } from "./Block"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
@@ -53,7 +55,7 @@ export class Tetrimino {
       (direction === MoveDirection.Down ? 0 : 1) *
       (direction === MoveDirection.Right ? 1 : -1)
 
-    const newBlocks = this.blocks.map((b) => ({
+    const newBlocks = _.map(this.blocks, (b) => ({
       filledBy: b.filledBy,
       position: new Position(b.position.x + deltaX, b.position.y + deltaY),
       atomicNumber: b.atomicNumber,
@@ -142,7 +144,8 @@ export class Tetrimino {
 export function repairBrokenTetriminos(
   brokenTetriminos: Tetrimino[]
 ): Tetrimino[] {
-  const repairedTetriminos = brokenTetriminos.map(
+  const repairedTetriminos = _.map(
+    brokenTetriminos,
     (brokenTetrimino) =>
       Object.create(
         Tetrimino.prototype,

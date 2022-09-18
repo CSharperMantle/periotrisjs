@@ -15,6 +15,8 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import _ from "lodash"
+
 import { createSlice } from "@reduxjs/toolkit"
 
 import { IBlockSprite } from "../../viewmodel"
@@ -35,8 +37,8 @@ export const blocksGridSlice = createSlice({
       state.sprites = state.sprites.concat(action.payload)
     },
     removeSprites: (state, action: PayloadAction<IBlockSprite[]>) => {
-      action.payload.forEach((spriteToRemove) => {
-          state.sprites.splice(state.sprites.indexOf(spriteToRemove), 1)
+      _.forEach(action.payload, (spriteToRemove) => {
+        state.sprites.splice(state.sprites.indexOf(spriteToRemove), 1)
       })
     },
     clearSprites: (state) => {

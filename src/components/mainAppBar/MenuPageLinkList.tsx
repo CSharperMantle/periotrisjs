@@ -16,6 +16,7 @@
  */
 
 import { Link } from "gatsby"
+import _ from "lodash"
 import React from "react"
 
 import MenuItem from "@mui/material/MenuItem"
@@ -33,7 +34,7 @@ export const MenuPageLinkList = (
 ): React.ReactElement => {
   return (
     <>
-      {props.pageLocation.map((page) => (
+      {_.map(props.pageLocation, (page) => (
         <MenuItem key={page.name} onClick={props.handleCloseMenu}>
           <Typography
             textAlign="center"

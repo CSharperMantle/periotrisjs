@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { uniq } from "lodash"
+import _ from "lodash"
 import toposort from "toposort"
 
 import { isNil, rearrange } from "../../../common"
@@ -41,7 +41,7 @@ function getEdges(
     }
   }
 
-  const dependencies = tetriminos
+  return _(tetriminos)
     .map((tetrimino, index) => {
       const singleTetriminoDeps: [number, number][] = new Array(4)
       for (let i = 0; i < tetrimino.blocks.length; i++) {
@@ -63,9 +63,9 @@ function getEdges(
       }
       return singleTetriminoDeps
     })
-    .flat(1)
-
-  return uniq(dependencies)
+    .flatten()
+    .uniq()
+    .value()
 }
 
 function tryGetOccupiedTetriminoNode(
