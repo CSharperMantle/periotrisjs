@@ -16,7 +16,7 @@
  */
 
 import { isBrowser } from "is-in-browser"
-import _ from "lodash"
+import { filter, forEach, map } from "lodash"
 
 import { Position, StopwatchUpdateIntervalMilliseconds } from "../common"
 import {
@@ -202,7 +202,7 @@ export class GameViewModel {
     const blocks = eventArgs.blocks
     if (!eventArgs.disappeared) {
       const sprites: IBlockSprite[] = []
-      _.forEach(blocks, (block) => {
+      forEach(blocks, (block) => {
         if (!this._blocksByPosition.has(block.position)) {
           const displayBlock: IBlockSprite = {
             atomicNumber: block.atomicNumber,
@@ -215,14 +215,14 @@ export class GameViewModel {
       })
       appStore.dispatch(addSprites(sprites))
     } else {
-      const sprites = _(blocks)
-        .filter((block) => this._blocksByPosition.has(block.position))
-        .map((block) => {
+      const sprites = map(
+        filter(blocks, (block) => this._blocksByPosition.has(block.position)),
+        (block) => {
           const b = this._blocksByPosition.get(block.position)
           this._blocksByPosition.delete(block.position)
           return b
-        })
-        .value() as IBlockSprite[]
+        }
+      ) as IBlockSprite[]
       appStore.dispatch(removeSprites(sprites))
     }
   }

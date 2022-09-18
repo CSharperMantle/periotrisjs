@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import _ from "lodash"
+import { flatten, map, uniq } from "lodash"
 import toposort from "toposort"
 
 import { isNil, rearrange } from "../../../common"
@@ -41,31 +41,31 @@ function getEdges(
     }
   }
 
-  return _(tetriminos)
-    .map((tetrimino, index) => {
-      const singleTetriminoDeps: [number, number][] = new Array(4)
-      for (let i = 0; i < tetrimino.blocks.length; i++) {
-        const block = tetrimino.blocks[i]
-        const dependedBlockRow: number = block.position.y + 1
-        const dependedBlockCol: number = block.position.x
-        const result = tryGetOccupiedTetriminoNode(
-          owners,
-          dependedBlockRow,
-          dependedBlockCol,
-          playAreaSize
-        )
-        if (isNil(result) || result === index) {
-          // Ignore self-dependency
-          continue
+  return uniq(
+    flatten(
+      map(tetriminos, (tetrimino, index) => {
+        const singleTetriminoDeps: [number, number][] = new Array(4)
+        for (let i = 0; i < tetrimino.blocks.length; i++) {
+          const block = tetrimino.blocks[i]
+          const dependedBlockRow: number = block.position.y + 1
+          const dependedBlockCol: number = block.position.x
+          const result = tryGetOccupiedTetriminoNode(
+            owners,
+            dependedBlockRow,
+            dependedBlockCol,
+            playAreaSize
+          )
+          if (isNil(result) || result === index) {
+            // Ignore self-dependency
+            continue
+          }
+          // Found a result
+          singleTetriminoDeps.push([result, index])
         }
-        // Found a result
-        singleTetriminoDeps.push([result, index])
-      }
-      return singleTetriminoDeps
-    })
-    .flatten()
-    .uniq()
-    .value()
+        return singleTetriminoDeps
+      })
+    )
+  )
 }
 
 function tryGetOccupiedTetriminoNode(

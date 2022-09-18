@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import _ from "lodash"
+import { cloneDeep } from "lodash"
 
 import { Position, positionEquals } from "../../common"
 import { Direction, MoveDirection, RotationDirection } from "../Direction"
@@ -83,8 +83,8 @@ describe("Tetrimino", () => {
       new Position(0, 0),
       Direction.Up
     )
-    const p = _.cloneDeep(t.position)
-    const b = _.cloneDeep(t.blocks)
+    const p = cloneDeep(t.position)
+    const b = cloneDeep(t.blocks)
 
     // Move down.
     expect(t.tryMove(MoveDirection.Down, () => false)).toBe(true)
@@ -145,7 +145,7 @@ describe("Tetrimino", () => {
       ),
       Direction.Up
     )
-    const b = _.cloneDeep(t.blocks)
+    const b = cloneDeep(t.blocks)
 
     // Rotate back and forth
     expect(t.tryRotate(RotationDirection.Right, () => false)).toBe(true)

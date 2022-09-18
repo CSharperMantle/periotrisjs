@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import _ from "lodash"
+import { map, shuffle } from "lodash"
 
 import { isNil, Position } from "../../../common"
 import { Block } from "../../Block"
@@ -164,7 +164,7 @@ async function getPossibleTetriminoPattern(
 }
 
 function createShuffledKindDirectionsPairs(): KindDirectionsPair[] {
-  return _.shuffle([
+  return shuffle([
     new KindDirectionsPair(TetriminoKind.Cubic),
     new KindDirectionsPair(TetriminoKind.LShapedCis),
     new KindDirectionsPair(TetriminoKind.LShapedTrans),
@@ -241,7 +241,7 @@ function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
     const deltaX = newPos.x - originalPos.x
     const deltaY = newPos.y - originalPos.y
 
-    tetrimino.blocks = _.map(
+    tetrimino.blocks = map(
       tetrimino.blocks,
       (block) =>
         new Block(
