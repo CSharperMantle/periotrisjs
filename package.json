@@ -32,7 +32,7 @@
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.5",
-    "@mui/system": "^5.10.5",
+    "@mui/system": "^5.10.8",
     "@reduxjs/toolkit": "^1.8.5",
     "ajv": "^8.11.0",
     "canvas-confetti": "^1.5.1",
