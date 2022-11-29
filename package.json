@@ -30,7 +30,7 @@
     "@emotion/styled": "^11.10.4",
     "@fontsource/fira-code": "^4.5.11",
     "@fontsource/roboto": "^4.5.8",
-    "@mui/icons-material": "^5.10.3",
+    "@mui/icons-material": "^5.10.16",
     "@mui/material": "^5.10.5",
     "@mui/system": "^5.10.5",
     "@reduxjs/toolkit": "^1.8.5",
