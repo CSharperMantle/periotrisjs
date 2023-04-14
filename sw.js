@@ -27,69 +27,20 @@ workbox.core.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-c704f65df2119bdac934.js"
+    "url": "webpack-runtime-7d65ec83deacc0b33466.js"
   },
   {
-    "url": "framework-2d10ae7a6780ef294729.js"
+    "url": "framework-dab33a4d56c08956eb87.js"
   },
   {
-    "url": "styles.e590b94683fdfc799bc6.css"
+    "url": "styles.c96f2566e38a7eddb9ed.css"
   },
   {
-    "url": "8c94476aecfffef8bb188161ebc5955ec9aac41a-2e1454f29c505dec09ba.js"
-  },
-  {
-    "url": "dc6a8720040df98778fe970bf6c000a41750d3ae-a1a1fb14cd230c267cb3.js"
-  },
-  {
-    "url": "app-1e34a852ddd18c63e392.js"
+    "url": "app-10928bfbe6a789b96a21.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "9b51309bcb55bf8d63067f2a9676ef14"
-  },
-  {
-    "url": "page-data/offline-plugin-app-shell-fallback/page-data.json",
-    "revision": "8ddd8a5abf8dc289428b4e4c56406df6"
-  },
-  {
-    "url": "page-data/sq/d/1170113242.json",
-    "revision": "927eea92a333edf8efcf2432f416abe6"
-  },
-  {
-    "url": "page-data/sq/d/3387501435.json",
-    "revision": "ef29b5b05892133471b84ad176ebd7ac"
-  },
-  {
-    "url": "page-data/sq/d/3992131839.json",
-    "revision": "76082772208e7ac9eab1b6150eb379de"
-  },
-  {
-    "url": "page-data/app-data.json",
-    "revision": "6a80ee685b9e1dc31e6d26c3eedaea3b"
-  },
-  {
-    "url": "polyfill-c39707c83a8ab0d866a4.js"
-  },
-  {
-    "url": "page-data/index/page-data.json",
-    "revision": "26f2d8680c06616eeb71e13070b808c3"
-  },
-  {
-    "url": "page-data/404/page-data.json",
-    "revision": "681e90dc65a6bde6413e68b849695c47"
-  },
-  {
-    "url": "page-data/about/page-data.json",
-    "revision": "bbf5e53df19691b2b2b80cf4d93bea40"
-  },
-  {
-    "url": "page-data/game/page-data.json",
-    "revision": "19a919edcbe01b0d165ef414cf273876"
-  },
-  {
-    "url": "page-data/settings/page-data.json",
-    "revision": "1b30964539584542bf9a7b520f341385"
+    "revision": "4484865c054e048e6a1e5708f43aff89"
   },
   {
     "url": "manifest.webmanifest",
@@ -203,7 +154,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/periotrisjs/app-1e34a852ddd18c63e392.js`))) {
+  if (!resources || !(await caches.match(`/periotrisjs/app-10928bfbe6a789b96a21.js`))) {
     return await fetch(event.request)
   }
 
