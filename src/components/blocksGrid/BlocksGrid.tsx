@@ -1,14 +1,31 @@
-import _ from "lodash"
+/*
+ * Copyright (C) 2021-present Rong "Mantle" Bao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
+import { flatten, map } from "lodash"
 import React from "react"
 
 import Box from "@mui/material/Box"
 
 import { customizationFacade } from "../../customization"
-import { useGameSelector } from "../../viewmodel"
-import { TimerDisplay } from "../TimerDisplay"
+import { useAppSelector } from "../../viewmodel"
+import { TimerDisplay } from "../timerDisplay/TimerDisplay"
 import { BlockControl } from "./BlockControl"
 
-import type { IBlockDisplay } from "../IBlockDisplay"
+import type { IBlockDisplay } from "./IBlockDisplay"
 
 /**
  * Get hash code string for a display block.
@@ -27,12 +44,11 @@ export const BlocksGrid = (): React.ReactElement => {
   const playAreaSize = customizationFacade.settings.gameMap.playAreaSize
   const showGridLine = customizationFacade.settings.showGridLine
 
-  const paddedBlocks: IBlockDisplay[][] = []
-
+  const paddedBlocks: IBlockDisplay[][] = new Array(playAreaSize.height)
   for (let i = 0; i < playAreaSize.height; i++) {
-    paddedBlocks[i] = []
+    const row = new Array(playAreaSize.width)
     for (let j = 0; j < playAreaSize.width; j++) {
-      paddedBlocks[i][j] = {
+      row[j] = {
         hasContent: false,
         hasBorder: showGridLine,
         atomicNumber: 0,
@@ -41,10 +57,11 @@ export const BlocksGrid = (): React.ReactElement => {
         symbolColor: "black",
       }
     }
+    paddedBlocks[i] = row
   }
 
-  const sprites = useGameSelector((state) => {
-    return state.blocksGrid.sprites
+  const sprites = useAppSelector((state) => {
+    return state.game.blocksGrid.sprites
   })
 
   for (let i = 0, len = sprites.length; i < len; i++) {
@@ -57,9 +74,9 @@ export const BlocksGrid = (): React.ReactElement => {
     }
   }
 
-  const blocks = _.map(_.flatten(paddedBlocks), (block: IBlockDisplay) => {
-    return <BlockControl block={block} key={getIBlockDisplayHash(block)} />
-  })
+  const blocks = map(flatten(paddedBlocks), (block) => (
+    <BlockControl block={block} key={getIBlockDisplayHash(block)} />
+  ))
 
   return (
     <Box

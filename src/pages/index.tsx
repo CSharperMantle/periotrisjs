@@ -1,5 +1,21 @@
+/*
+ * Copyright (C) 2021-present Rong "Mantle" Bao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
 import { graphql, Link, useStaticQuery } from "gatsby"
-import _ from "lodash"
 import React from "react"
 
 import Button from "@mui/material/Button"
@@ -7,7 +23,7 @@ import Container from "@mui/material/Container"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 
-import { CommonLayout } from "../components"
+import { CommonHead, CommonLayout } from "../components"
 import PageLocation from "../json/PageLocation.json"
 
 const codeStyle = {
@@ -23,7 +39,7 @@ const App = (): React.ReactElement => {
     }
   `)
 
-  const gamePage = _.filter(PageLocation, (page) => page.name === "Game")[0]
+  const gamePage = PageLocation.filter((page) => page.name === "Game")[0]
 
   return (
     <Stack
@@ -74,3 +90,7 @@ const App = (): React.ReactElement => {
 App.Layout = CommonLayout
 
 export default App
+
+export const Head = (): React.ReactElement => {
+  return <CommonHead />
+}

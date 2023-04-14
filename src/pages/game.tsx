@@ -1,13 +1,34 @@
+/*
+ * Copyright (C) 2021-present Rong "Mantle" Bao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
 import { isBrowser } from "is-in-browser"
-import _ from "lodash"
+import { throttle } from "lodash"
 import React, { useEffect, useRef } from "react"
-import { Provider as ReduxProvider } from "react-redux"
 
 import Box from "@mui/material/Box"
 
 import { flushed } from "../common"
-import { BlocksGrid, CommonLayout, GameControlBackdrop } from "../components"
-import { gameStore, GameViewModel, GameViewModelContext } from "../viewmodel"
+import {
+  BlocksGrid,
+  CommonHead,
+  CommonLayout,
+  GameControlBackdrop,
+} from "../components"
+import { GameViewModel } from "../viewmodel"
 
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
@@ -18,19 +39,19 @@ const App = (): React.ReactElement => {
   let hammer: HammerManager
 
   useEffect(() => {
-    const throttledKeyDownHandler = _.throttle(
+    const throttledKeyDownHandler = throttle(
       flushed(viewModel.onKeyDown.bind(viewModel)),
       50
     )
-    const throttledTapHandler = _.throttle(
+    const throttledTapHandler = throttle(
       flushed(viewModel.onTap.bind(viewModel)),
       50
     )
-    const throttledSwipeHandler = _.throttle(
+    const throttledSwipeHandler = throttle(
       flushed(viewModel.onSwipe.bind(viewModel)),
       50
     )
-    const throttledPressUpHandler = _.throttle(
+    const throttledPressUpHandler = throttle(
       flushed(viewModel.onPressUp.bind(viewModel)),
       50
     )
@@ -51,45 +72,45 @@ const App = (): React.ReactElement => {
   }, [])
 
   return (
-    <GameViewModelContext.Provider value={viewModel}>
-      <ReduxProvider store={gameStore}>
-        <Box
-          sx={{
-            /* display-related props */
-            display: "grid",
-            gridTemplateRows: "1fr 90% 1fr",
+    <Box
+      sx={{
+        /* display-related props */
+        display: "grid",
+        gridTemplateRows: "1fr 90% 1fr",
 
-            /* layouts: width, height, margin, padding, etc.*/
-            position: "relative",
-            height: "100%",
-            minHeight: "0px",
-            width: "100%",
-            minWidth: "0px",
-            boxSizing: "border-box",
-            flex: "1 1 auto" /* For CommonLayout.tsx headers */,
+        /* layouts: width, height, margin, padding, etc.*/
+        position: "relative",
+        height: "100%",
+        minHeight: "0px",
+        width: "100%",
+        minWidth: "0px",
+        boxSizing: "border-box",
+        flex: "1 1 auto" /* For CommonLayout.tsx headers */,
 
-            /* element-specific props */
-          }}
-        >
-          <GameControlBackdrop
-            startGameHandler={viewModel.requestStartGame.bind(viewModel)}
-            switchPauseGameHandler={viewModel.switchPauseGame.bind(viewModel)}
-          />
-          <Box
-            ref={rowTwoRef}
-            sx={{
-              gridRow: 2,
-              position: "relative",
-            }}
-          >
-            <BlocksGrid />
-          </Box>
-        </Box>
-      </ReduxProvider>
-    </GameViewModelContext.Provider>
+        /* element-specific props */
+      }}
+    >
+      <GameControlBackdrop
+        startGameHandler={viewModel.requestStartGame.bind(viewModel)}
+        switchPauseGameHandler={viewModel.switchPauseGame.bind(viewModel)}
+      />
+      <Box
+        ref={rowTwoRef}
+        sx={{
+          gridRow: 2,
+          position: "relative",
+        }}
+      >
+        <BlocksGrid />
+      </Box>
+    </Box>
   )
 }
 
 App.Layout = CommonLayout
 
 export default App
+
+export const Head = (): React.ReactElement => {
+  return <CommonHead />
+}

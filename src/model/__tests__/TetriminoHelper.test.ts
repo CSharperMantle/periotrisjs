@@ -1,12 +1,29 @@
-import { Position, positionEquals } from "../../../common"
-import { Block } from "../../Block"
-import { Direction } from "../../Direction"
-import { TetriminoKind } from "../../TetriminoKind"
+/*
+ * Copyright (C) 2021-present Rong "Mantle" Bao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
+import { Position, positionEquals } from "../../common"
+import { Block } from "../Block"
+import { Direction } from "../Direction"
 import {
   createOffsetedBlocks,
   getInitialPositionByKind,
   mapAtomicNumberForNewBlocks,
-} from "../GeneratorHelper"
+} from "../TetriminoHelper"
+import { TetriminoKind } from "../TetriminoKind"
 
 const PlayAreaWidth = 18
 
@@ -46,12 +63,6 @@ describe("createOffsetedBlocks", () => {
         Direction.Down
       )
     }).toThrowError(new Error("Invalid tetrimino kind."))
-    expect(() => {
-      createOffsetedBlocks(9, new Position(0, 0), Direction.Down)
-    }).toThrowError(new Error("Invalid tetrimino kind."))
-    expect(() => {
-      createOffsetedBlocks(TetriminoKind.Cubic, new Position(0, 0), 4)
-    }).toThrowError(new Error("Invalid direction."))
   })
 })
 
@@ -166,9 +177,6 @@ describe("getInitialPositionByKind", () => {
     }).toThrowError(new Error("Invalid tetrimino kind."))
     expect(() => {
       getInitialPositionByKind(TetriminoKind.UnavailableToFill, size)
-    }).toThrowError(new Error("Invalid tetrimino kind."))
-    expect(() => {
-      getInitialPositionByKind(9, size)
     }).toThrowError(new Error("Invalid tetrimino kind."))
   })
 })

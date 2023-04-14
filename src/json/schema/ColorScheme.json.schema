@@ -16,19 +16,32 @@
             "description": "The range of elements to apply the rule to",
             "type": "object",
             "properties": {
-              "from": { "type": "integer" },
-              "to": { "type": "integer" }
+              "from": {
+                "type": "integer"
+              },
+              "to": {
+                "type": "integer"
+              }
             },
-            "required": ["from", "to"]
+            "required": [
+              "from",
+              "to"
+            ]
           },
           "color": {
             "description": "The color of the element",
             "type": "string"
           }
         },
-        "required": ["atomicNumberRange", "color"]
-      }
+        "required": [
+          "atomicNumberRange",
+          "color"
+        ]
+      },
+      "uniqueItems": true
     }
   },
-  "required": ["rules"]
+  "required": [
+    "rules"
+  ]
 }

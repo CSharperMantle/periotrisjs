@@ -1,27 +1,41 @@
-import dayjs from "dayjs"
+/*
+ * Copyright (C) 2021-present Rong "Mantle" Bao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
 import { EventEmitter } from "events"
 import { isBrowser } from "is-in-browser"
-import _ from "lodash"
 
-import { positionEquals } from "../common"
+import { isNil, positionEquals, waitForEvent } from "../common"
 import { customizationFacade } from "../customization"
 import { Block } from "./Block"
-import { BlockChangedEventArgs } from "./BlockChangedEventArgs"
 import { MoveDirection, RotationDirection } from "./Direction"
+import { BlocksChangedEventArgs } from "./EventArgs"
 import { GameState } from "./GameState"
 import { getPlayablePattern, MessageType } from "./generation"
 import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
 
 import type { IGeneratorMessage } from "./generation"
-import type { IMap } from "../customization"
 
 /**
  * The model of Periotris.
  *
- * @emits `gamestarted`
- * @emits `gameended`
- * @emits `blockchanged`
- * @emits `gamestatechanged`
+ * @emits gamestarted
+ * @emits gameended
+ * @emits blockschanged
+ * @emits gamestatechanged
  */
 export class GameModel extends EventEmitter {
   /**
@@ -29,7 +43,10 @@ export class GameModel extends EventEmitter {
    */
   private readonly _patternGeneratorWorker = isBrowser
     ? new Worker(
-        new URL("./generation/PatternGeneratorWorker", import.meta.url)
+        new URL("./generation/PatternGeneratorWorker", import.meta.url),
+        {
+          name: "PatternGeneratorWorker",
+        }
       )
     : null
 
@@ -106,26 +123,23 @@ export class GameModel extends EventEmitter {
    * @param victory Whether the game is won.
    */
   private endGame(victory: boolean): void {
-    if (victory) {
-      this.gameState = GameState.Won
-    } else {
-      if (this.gameState !== GameState.NotStarted) {
+    if (this.gameState !== GameState.NotStarted) {
+      if (victory) {
+        this._isNewHighRecord = customizationFacade.history.add(
+          this.elapsedMilliseconds
+        )
+        this.gameState = GameState.Won
+      } else {
         this.gameState = GameState.Lost
       }
     }
     this._pendingTetriminos.length = 0
-    this.onGameEnded()
     this._endDate = Date.now()
-
-    if (victory) {
-      this._isNewHighRecord = customizationFacade.history.add(
-        dayjs(this.elapsedMilliseconds)
-      )
-    }
+    this.onGameEnded()
   }
 
   /**
-   * Instantly fix the active tetrimino to bottom.
+   * Move the tetrimino down as far as possible.
    *
    * This method has no effect if the game state is not {@link GameState.InProgress}.
    *
@@ -136,7 +150,7 @@ export class GameModel extends EventEmitter {
     if (this.gameState !== GameState.InProgress) return
     this.updateActiveTetrimino(true)
     while (
-      !_.isNil(this._activeTetrimino) &&
+      !isNil(this._activeTetrimino) &&
       this._activeTetrimino.tryMove(
         MoveDirection.Down,
         this.checkBlockValidity.bind(this)
@@ -155,29 +169,20 @@ export class GameModel extends EventEmitter {
   public moveActiveTetrimino(direction: MoveDirection): void {
     if (
       this.gameState !== GameState.InProgress ||
-      _.isNil(this._activeTetrimino)
+      isNil(this._activeTetrimino)
     ) {
       return
     }
 
     this.updateActiveTetrimino(true)
-
-    if (direction === MoveDirection.Down) {
-      if (
-        !this._activeTetrimino.tryMove(
-          direction,
-          this.checkBlockValidity.bind(this)
-        )
-      ) {
-        this.freezeActiveTetrimino()
-        this.updateActiveTetrimino(false)
-        this.spawnNextTetrimino()
-      }
-    } else {
-      this._activeTetrimino.tryMove(
-        direction,
-        this.checkBlockValidity.bind(this)
-      )
+    const isMoveSuccessful = this._activeTetrimino.tryMove(
+      direction,
+      this.checkBlockValidity.bind(this)
+    )
+    if (direction === MoveDirection.Down && !isMoveSuccessful) {
+      this.freezeActiveTetrimino()
+      this.updateActiveTetrimino(false)
+      this.spawnNextTetrimino()
     }
     this.updateActiveTetrimino(false)
   }
@@ -190,15 +195,12 @@ export class GameModel extends EventEmitter {
    * @param direction The direction to rotate the active tetrimino.
    */
   public rotateActiveTetrimino(direction: RotationDirection): void {
-    if (
-      this.gameState !== GameState.InProgress ||
-      _.isNil(this._activeTetrimino)
-    ) {
+    if (this.gameState !== GameState.InProgress) {
       return
     }
 
     this.updateActiveTetrimino(true)
-    this._activeTetrimino.tryRotate(
+    this._activeTetrimino?.tryRotate(
       direction,
       this.checkBlockValidity.bind(this)
     )
@@ -212,37 +214,41 @@ export class GameModel extends EventEmitter {
    *
    * @see {@link startPreparedGame}
    */
-  public prepareGame(): void {
-    for (let i = 0, len = this._frozenBlocks.length; i < len; i++) {
-      const block = this._frozenBlocks[i]
-      this.onBlockChanged(block, true)
-    }
+  public async prepareGame(): Promise<void> {
+    this.onBlocksChanged(this._frozenBlocks, true)
     this._frozenBlocks.length = 0
 
-    if (!_.isNil(this._activeTetrimino)) {
-      this.updateActiveTetrimino(true)
-      this._activeTetrimino = null
-    }
+    this.updateActiveTetrimino(true)
+    this._activeTetrimino = null
 
     this.gameState = GameState.Preparing
-
-    if (!_.isNil(this._patternGeneratorWorker)) {
+    let tetriminos: Tetrimino[] = []
+    if (!isNil(this._patternGeneratorWorker)) {
       // We have workers.
-      const message: IGeneratorMessage<IMap> = {
+      this._patternGeneratorWorker.postMessage({
         type: MessageType.RequestGeneration,
         content: customizationFacade.settings.gameMap,
+      })
+      const data = (
+        await waitForEvent<MessageEvent<IGeneratorMessage<Tetrimino[]>>>(
+          this._patternGeneratorWorker,
+          "message"
+        )
+      ).data
+      if (data.type === MessageType.ResponseSuccess) {
+        tetriminos = repairBrokenTetriminos(data.content)
+      } else {
+        console.warn(data)
       }
-      this._patternGeneratorWorker.postMessage(message)
     } else {
       console.warn(
         "Web workers unavailable. Running pattern generator on UI thread."
       )
-      getPlayablePattern(customizationFacade.settings.gameMap).then(
-        (tetriminos) => {
-          this.startPreparedGame(tetriminos)
-        }
+      tetriminos = await getPlayablePattern(
+        customizationFacade.settings.gameMap
       )
     }
+    this.startPreparedGame(tetriminos)
   }
 
   /**
@@ -270,26 +276,27 @@ export class GameModel extends EventEmitter {
 
     this.moveActiveTetrimino(MoveDirection.Down)
 
+    const map = customizationFacade.settings.gameMap.map
     if (
       this._frozenBlocks.some(
         (block) =>
-          customizationFacade.settings.gameMap.map[block.position.y][
-            block.position.x
-          ].atomicNumber !== block.atomicNumber
+          map[block.position.y][block.position.x].atomicNumber !==
+          block.atomicNumber
       )
     ) {
       // The player made a mistake, so end the game.
       this.endGame(false)
-    } else {
-      if (
-        this._frozenBlocks.length >=
-        customizationFacade.settings.gameMap.totalAvailableBlocksCount
-      ) {
-        // The player won.
-        this.endGame(true)
-      }
-      // Otherwise, the game continues.
+      return
     }
+
+    if (
+      this._frozenBlocks.length >=
+      customizationFacade.settings.gameMap.totalAvailableBlocksCount
+    ) {
+      // The player won.
+      this.endGame(true)
+    }
+    // Otherwise, the game continues.
   }
 
   /**
@@ -297,23 +304,6 @@ export class GameModel extends EventEmitter {
    */
   public constructor() {
     super()
-
-    if (!_.isNil(this._patternGeneratorWorker)) {
-      this._patternGeneratorWorker.addEventListener(
-        "message",
-        (eventArgs: MessageEvent<IGeneratorMessage<Tetrimino[]>>) => {
-          const data = eventArgs.data
-          if (data.type === MessageType.ResponseSuccess) {
-            const content = data.content
-            const fixedTetriminos = repairBrokenTetriminos(content)
-            this.startPreparedGame(fixedTetriminos)
-          } else {
-            console.warn(data)
-          }
-        }
-      )
-    }
-
     this.endGame(false)
   }
 
@@ -323,11 +313,8 @@ export class GameModel extends EventEmitter {
    * This method works by removing and re-adding all frozen blocks.
    */
   private updateFrozenBlocks(): void {
-    for (let i = 0, len = this._frozenBlocks.length; i < len; i++) {
-      const block = this._frozenBlocks[i]
-      this.onBlockChanged(block, true)
-      this.onBlockChanged(block, false)
-    }
+    this.onBlocksChanged(this._frozenBlocks, true)
+    this.onBlocksChanged(this._frozenBlocks, false)
   }
 
   /**
@@ -349,15 +336,15 @@ export class GameModel extends EventEmitter {
   }
 
   /**
-   * Emit the event blockchanged.
+   * Emit the event blockschanged.
    *
-   * This event informs the subscribers that a block has changed.
+   * This event informs the subscribers that state of some blocks has changed.
    *
-   * @param block The block to update.
+   * @param blocks The blocks to update.
    * @param disappeared Whether the block disappeared.
    */
-  private onBlockChanged(block: Block, disappeared: boolean): void {
-    this.emit("blockchanged", new BlockChangedEventArgs(block, disappeared))
+  private onBlocksChanged(blocks: Block[], disappeared: boolean): void {
+    this.emit("blockschanged", new BlocksChangedEventArgs(blocks, disappeared))
   }
 
   /**
@@ -378,22 +365,17 @@ export class GameModel extends EventEmitter {
    * @returns Whether the block is valid.
    */
   private checkBlockValidity(block: Block): boolean {
-    if (
-      block.position.x < 0 ||
-      block.position.x >=
-        customizationFacade.settings.gameMap.playAreaSize.width
-    ) {
+    const width = customizationFacade.settings.gameMap.playAreaSize.width
+    const height = customizationFacade.settings.gameMap.playAreaSize.height
+    if (block.position.x < 0 || block.position.x >= width) {
       return true
     }
-    if (
-      block.position.y >=
-      customizationFacade.settings.gameMap.playAreaSize.height
-    ) {
+    if (block.position.y >= height) {
       return true
     }
-    return this._frozenBlocks.some((frozenBlock: Block): boolean => {
-      return positionEquals(frozenBlock.position, block.position)
-    })
+    return this._frozenBlocks.some((frozenBlock) =>
+      positionEquals(frozenBlock.position, block.position)
+    )
   }
 
   /**
@@ -405,10 +387,7 @@ export class GameModel extends EventEmitter {
    * This method has no effect if {@link _activeTetrimino} is `null`.
    */
   private freezeActiveTetrimino(): void {
-    if (_.isNil(this._activeTetrimino)) {
-      return
-    }
-    this._frozenBlocks.push(...this._activeTetrimino.blocks)
+    this._frozenBlocks.push(...(this._activeTetrimino?.blocks ?? []))
     this.updateFrozenBlocks()
   }
 
@@ -424,12 +403,9 @@ export class GameModel extends EventEmitter {
    */
   private spawnNextTetrimino(): void {
     if (this._pendingTetriminos.length > 0) {
-      const poppedTetrimino = this._pendingTetriminos.pop()
-      if (!_.isNil(poppedTetrimino)) {
-        this._activeTetrimino = poppedTetrimino
-      } else {
-        return
-      }
+      // We are certain that we have something to pop.
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      this._activeTetrimino = this._pendingTetriminos.pop()!
       this.updateActiveTetrimino(false)
     }
   }
@@ -437,21 +413,15 @@ export class GameModel extends EventEmitter {
   /**
    * Update the active tetrimino.
    *
-   * This method iterates over all the blocks of {@link _activeTetrimino}
-   * and updates them.
+   * This method updates all the blocks of {@link _activeTetrimino}.
    *
    * This method has no effect if {@link _activeTetrimino} is `null`.
    *
    * @param disappeared Whether the tetrimino disappeared.
    */
   private updateActiveTetrimino(disappeared: boolean): void {
-    if (_.isNil(this._activeTetrimino)) {
-      return
-    }
-
-    for (let i = 0, len = this._activeTetrimino.blocks.length; i < len; i++) {
-      const block = this._activeTetrimino.blocks[i]
-      this.onBlockChanged(block, disappeared)
+    if (!isNil(this._activeTetrimino)) {
+      this.onBlocksChanged(this._activeTetrimino.blocks, disappeared)
     }
   }
 }

@@ -1,11 +1,26 @@
-import _ from "lodash"
+/*
+ * Copyright (C) 2021-present Rong "Mantle" Bao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
 
-import { Position } from "../../common"
-import { Block } from "../Block"
-import { Direction } from "../Direction"
-import { TetriminoKind } from "../TetriminoKind"
+import { Position } from "../common"
+import { Block } from "./Block"
+import { Direction } from "./Direction"
+import { TetriminoKind } from "./TetriminoKind"
 
-import type { ISize } from "../../common"
+import type { ISize } from "../common"
 
 const CubicDownMask: number[][] = [
   [3, 4],
@@ -183,10 +198,7 @@ const ZTransUpMask: number[][] = [
  *
  * @throws Error
  */
-function createBlocksMask(
-  kind: TetriminoKind,
-  direction: Direction
-): number[][] {
+function getBlocksMask(kind: TetriminoKind, direction: Direction): number[][] {
   switch (kind) {
     case TetriminoKind.Linear:
       switch (direction) {
@@ -427,21 +439,23 @@ export function createOffsetedBlocks(
   offset: Position,
   direction: Direction = Direction.Up
 ): Block[] {
-  const mask = createBlocksMask(kind, direction)
-  const offsetBlocks: Block[] = []
+  const mask = getBlocksMask(kind, direction)
+  // Performance critical with hand-written loops.
+  const offsetBlocks: Block[] = new Array(4)
+  const { x, y } = offset
+  let count = 0
   for (let nRow = 0, len_i = mask.length; nRow < len_i; nRow++) {
     const row = mask[nRow]
     for (let nCol = 0, len_j = row.length; nCol < len_j; nCol++) {
       const identifier = row[nCol]
       if (identifier !== 0) {
-        offsetBlocks.push(
-          new Block(
-            kind,
-            new Position(nCol + offset.x, nRow + offset.y),
-            0,
-            identifier
-          )
+        offsetBlocks[count] = new Block(
+          kind,
+          new Position(nCol + x, nRow + y),
+          0,
+          identifier
         )
+        count += 1
       }
     }
   }
@@ -450,8 +464,11 @@ export function createOffsetedBlocks(
 
 /**
  * Maps the atomicNumber prop in the oldBlocks to newBlocks by id.
+ *
  * Note that this function does not change newBlocks but return a new
- * array of mapped blocks.
+ * array of mapped blocks. Blocks in the returned list are NOT clones.
+ * They share the same properties with their equivalences in newBlocks.
+ *
  * @param oldBlocks Old blocks to be mapped from.
  * @param newBlocks New blocks to be mapped to.
  * @returns Mapped newBlocks.
@@ -467,14 +484,14 @@ export function mapAtomicNumberForNewBlocks(
   const result: Block[] = []
   for (let i = 0, len = oldBlocks.length; i < len; i++) {
     const oldBlock = oldBlocks[i]
-    const correspondingNewBlocks = _.cloneDeep(
-      _.filter(newBlocks, (newBlock: Block) => newBlock.id === oldBlock.id)
+    const correspondingNewBlocks = newBlocks.filter(
+      (newBlock) => newBlock.id === oldBlock.id
     )
     for (let j = 0, len = correspondingNewBlocks.length; j < len; j++) {
-      const newBlock = correspondingNewBlocks[j]
-
-      newBlock.atomicNumber = oldBlock.atomicNumber
-      result.push(newBlock)
+      result.push({
+        ...correspondingNewBlocks[j],
+        atomicNumber: oldBlock.atomicNumber,
+      })
     }
   }
   return result

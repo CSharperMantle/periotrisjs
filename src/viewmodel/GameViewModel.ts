@@ -1,44 +1,56 @@
-import dayjs from "dayjs"
-import { EventEmitter } from "events"
+/*
+ * Copyright (C) 2021-present Rong "Mantle" Bao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
 import { isBrowser } from "is-in-browser"
-import { createContext } from "react"
+import { filter, forEach, map } from "lodash"
 
 import { Position, StopwatchUpdateIntervalMilliseconds } from "../common"
 import {
-  addSprite,
+  addSprites,
   clearSprites,
-  removeSprite,
-} from "../components/blocksGridSlice"
-import { setGameState } from "../components/gameControlBackdropSlice"
+  removeSprites,
+} from "../components/blocksGrid/blocksGridSlice"
+import { setGameState } from "../components/gameControlBackdrop/gameControlBackdropSlice"
 import {
   setElapsedTime,
   setFastestRecord,
   setIsNewRecord,
-} from "../components/timerDisplaySlice"
+} from "../components/timerDisplay/timerDisplaySlice"
 import { customizationFacade } from "../customization"
 import {
-  BlockChangedEventArgs,
+  BlocksChangedEventArgs,
   GameModel,
   GameState,
   MoveDirection,
   RotationDirection,
 } from "../model"
-import { gameStore } from "./gameStore"
+import { appStore } from "./appStore"
 
 import type { IBlockSprite } from "./IBlockSprite"
+
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
 /**
  * The view model of Periotris.
- *
- * @emits `gamestatechanged`
  */
-export class GameViewModel extends EventEmitter {
+export class GameViewModel {
   public constructor() {
-    super()
-
-    this._model.on("blockchanged", (eventArgs) => {
-      this.modelBlockChangedEventHandler(eventArgs)
+    this._model.on("blockschanged", (eventArgs) => {
+      this.modelBlocksChangedEventHandler(eventArgs)
     })
     this._model.on("gameended", () => {
       this.modelGameEndEventHandler()
@@ -53,22 +65,22 @@ export class GameViewModel extends EventEmitter {
     this.endGame()
   }
 
-  public paused = false
-
   private readonly _model: GameModel = new GameModel()
 
   private readonly _blocksByPosition: Map<Position, IBlockSprite> = new Map()
 
-  private _gameIntervalTimerHandle = -1
+  private _gameIntervalTimerHandle: number | null = null
 
-  private _gameStopwatchUpdateTimerHandle = -1
+  private _gameStopwatchUpdateTimerHandle: number | null = null
+
+  private _paused = false
 
   private _lastPaused = true
 
   public onKeyDown(ev: KeyboardEvent): boolean {
     const key: string = ev.key.toLowerCase()
     ev.preventDefault()
-    if (this.paused) {
+    if (this._paused) {
       if (key !== "escape") {
         // Ignore anything except Esc when paused
         return false
@@ -91,7 +103,7 @@ export class GameViewModel extends EventEmitter {
         this._model.instantDropActiveTetrimino()
         break
       case "escape":
-        this.paused = !this.paused
+        this._paused = !this._paused
         break
       default:
         return false
@@ -100,7 +112,7 @@ export class GameViewModel extends EventEmitter {
   }
 
   public onTap(): boolean {
-    if (this.paused) {
+    if (this._paused) {
       return false
     }
     this._model.rotateActiveTetrimino(RotationDirection.Right)
@@ -108,7 +120,7 @@ export class GameViewModel extends EventEmitter {
   }
 
   public onSwipe(ev: HammerInput): boolean {
-    if (this.paused) {
+    if (this._paused) {
       return false
     }
     switch (ev.direction) {
@@ -128,7 +140,7 @@ export class GameViewModel extends EventEmitter {
   }
 
   public onPressUp(): boolean {
-    if (this.paused) {
+    if (this._paused) {
       return false
     }
     this._model.instantDropActiveTetrimino()
@@ -139,84 +151,79 @@ export class GameViewModel extends EventEmitter {
     if (this._model.gameState !== GameState.InProgress) {
       return // Not allowed to pause/unpause outside of game
     }
-    this.paused = !this.paused
+    this._paused = !this._paused
   }
 
   public requestStartGame(): void {
     if (
-      [GameState.InProgress, GameState.Preparing].includes(
+      [GameState.NotStarted, GameState.Won, GameState.Lost].includes(
         this._model.gameState
       )
     ) {
-      return // Not allowed to start game twice
+      appStore.dispatch(clearSprites())
+      this._blocksByPosition.clear()
+      this._model.prepareGame()
+      this.refreshGameStatus()
     }
-
-    gameStore.dispatch(clearSprites())
-    this._blocksByPosition.clear()
-    this._model.prepareGame()
-    this.refreshGameStatus()
   }
 
   private endGame(): void {
-    if (this._gameIntervalTimerHandle !== -1) {
-      clearInterval(this._gameIntervalTimerHandle)
-    }
-    if (this._gameStopwatchUpdateTimerHandle !== -1) {
-      clearInterval(this._gameStopwatchUpdateTimerHandle)
-    }
+    clearInterval(this._gameIntervalTimerHandle ?? undefined)
+    this._gameIntervalTimerHandle = null
+    clearInterval(this._gameStopwatchUpdateTimerHandle ?? undefined)
+    this._gameStopwatchUpdateTimerHandle = null
     this.refreshGameStatus()
   }
 
   private refreshGameStatus(): void {
-    gameStore.dispatch(setGameState(this._model.gameState))
-    gameStore.dispatch(setIsNewRecord(this._model.isNewHighRecord))
-    gameStore.dispatch(
-      setFastestRecord(customizationFacade.history.fastestRecord ?? dayjs(0))
+    appStore.dispatch(setGameState(this._model.gameState))
+    appStore.dispatch(setIsNewRecord(this._model.isNewHighRecord))
+    appStore.dispatch(
+      setFastestRecord(customizationFacade.history.fastestRecord)
     )
   }
 
   private intervalTickEventHandler(): void {
-    if (this._lastPaused !== this.paused) {
-      this.paused = !!this.paused // Force update event
-      this._lastPaused = this.paused
-    }
+    this._lastPaused =
+      this._lastPaused !== this._paused ? this._paused : this._lastPaused
 
-    if (!this.paused) {
+    if (!this._paused) {
       this._model.update()
     }
   }
 
   private intervalStopwatchUpdateEventHandler(): void {
-    gameStore.dispatch(setElapsedTime(dayjs(this._model.elapsedMilliseconds)))
+    appStore.dispatch(setElapsedTime(this._model.elapsedMilliseconds))
   }
 
-  private onGameStateChanged(): void {
-    this.emit("gamestatechanged")
-  }
-
-  private modelBlockChangedEventHandler(
-    eventArgs: BlockChangedEventArgs
+  private modelBlocksChangedEventHandler(
+    eventArgs: BlocksChangedEventArgs
   ): void {
-    const block = eventArgs.block
-
+    const blocks = eventArgs.blocks
     if (!eventArgs.disappeared) {
-      if (!this._blocksByPosition.has(eventArgs.block.position)) {
-        const displayBlock: IBlockSprite = {
-          atomicNumber: block.atomicNumber,
-          row: block.position.y,
-          column: block.position.x,
+      const sprites: IBlockSprite[] = []
+      forEach(blocks, (block) => {
+        if (!this._blocksByPosition.has(block.position)) {
+          const displayBlock: IBlockSprite = {
+            atomicNumber: block.atomicNumber,
+            row: block.position.y,
+            column: block.position.x,
+          }
+          this._blocksByPosition.set(block.position, displayBlock)
+          sprites.push(displayBlock)
         }
-        this._blocksByPosition.set(block.position, displayBlock)
-        gameStore.dispatch(addSprite(displayBlock))
-      }
+      })
+      appStore.dispatch(addSprites(sprites))
     } else {
-      if (this._blocksByPosition.has(block.position)) {
-        const displayBlock = this._blocksByPosition.get(
-          block.position
-        ) as IBlockSprite
-        gameStore.dispatch(removeSprite(displayBlock))
-        this._blocksByPosition.delete(block.position)
-      }
+      const sprites = map(
+        filter(blocks, (block) => this._blocksByPosition.has(block.position)),
+        (block) => {
+          const b = this._blocksByPosition.get(block.position)
+          this._blocksByPosition.delete(block.position)
+          return b
+        }
+      ) as IBlockSprite[]
+      appStore.dispatch(removeSprites(sprites))
     }
   }
 
@@ -226,7 +233,7 @@ export class GameViewModel extends EventEmitter {
 
   private modelGameStartEventHandler(): void {
     this.refreshGameStatus()
-    this.paused = false
+    this._paused = false
     this._gameIntervalTimerHandle = window.setInterval(() => {
       this.intervalTickEventHandler()
     }, customizationFacade.settings.gameUpdateIntervalMilliseconds)
@@ -237,10 +244,5 @@ export class GameViewModel extends EventEmitter {
 
   private modelGameStateChangedEventHandler(): void {
     this.refreshGameStatus()
-    this.onGameStateChanged()
   }
 }
-
-export const GameViewModelContext = createContext<GameViewModel>(
-  undefined as unknown as GameViewModel
-)

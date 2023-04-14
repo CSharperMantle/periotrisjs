@@ -1,12 +1,29 @@
-import "./CommonLayout.css"
+/*
+ * Copyright (C) 2021-present Rong "Mantle" Bao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
 import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
+import "./CommonLayout.css"
 
 import { graphql, useStaticQuery } from "gatsby"
 import { SnackbarProvider } from "notistack"
 import React from "react"
-import Helmet from "react-helmet"
+import { Provider as ReduxProvider } from "react-redux"
 
 import Box from "@mui/material/Box"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -14,7 +31,8 @@ import { StyledEngineProvider } from "@mui/material/styles"
 import ThemeProvider from "@mui/material/styles/ThemeProvider"
 
 import { theme } from "../../src/ThemeOptions"
-import { MainAppBar } from "./MainAppBar"
+import { appStore } from "../viewmodel"
+import { MainAppBar } from "./mainAppBar/MainAppBar"
 
 export interface IPageLocationElement {
   name: string
@@ -26,6 +44,39 @@ export interface ICommonLayoutProps {
 }
 
 export const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
+  return (
+    <>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <ReduxProvider store={appStore}>
+            <SnackbarProvider
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+            >
+              <CssBaseline enableColorScheme />
+              <Box
+                sx={{
+                  display: "flex",
+                  flexFlow: "column nowrap",
+                  minHeight: "100vh",
+                  maxHeight: "100vh",
+                }}
+              >
+                <MainAppBar />
+                {/* Now injecting real children. */}
+                {props.children}
+              </Box>
+            </SnackbarProvider>
+          </ReduxProvider>
+        </ThemeProvider>
+      </StyledEngineProvider>
+    </>
+  )
+}
+
+export const CommonHead = (): React.ReactElement => {
   const data = useStaticQuery(graphql`
     query {
       site {
@@ -41,37 +92,12 @@ export const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
 
   return (
     <>
-      <Helmet title={`${data.site.siteMetadata.title}`}>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width"
-        />
-        <meta name="description" content={`${data.package.description}`} />
-      </Helmet>
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <SnackbarProvider
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center",
-            }}
-          >
-            <CssBaseline enableColorScheme />
-            <Box
-              sx={{
-                display: "flex",
-                flexFlow: "column nowrap",
-                minHeight: "100vh",
-                maxHeight: "100vh",
-              }}
-            >
-              <MainAppBar />
-              {/* Now injecting real children. */}
-              {props.children}
-            </Box>
-          </SnackbarProvider>
-        </ThemeProvider>
-      </StyledEngineProvider>
+      <title>{`${data.site.siteMetadata.title}`}</title>
+      <meta
+        name="viewport"
+        content="minimum-scale=1, initial-scale=1, width=device-width"
+      />
+      <meta name="description" content={`${data.package.description}`} />
     </>
   )
 }

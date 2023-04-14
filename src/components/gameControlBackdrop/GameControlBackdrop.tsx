@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2021-present Rong "Mantle" Bao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
 import React from "react"
 
 import Backdrop from "@mui/material/Backdrop"
@@ -5,12 +22,12 @@ import Button from "@mui/material/Button"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 
-import hourglassNotDone from "../../assets/icon/noto-color-emoji/hourglass-not-done.svg"
-import partyingFace from "../../assets/icon/noto-color-emoji/partying-face.svg"
-import thinkingFace from "../../assets/icon/noto-color-emoji/thinking-face.svg"
-import winkingFace from "../../assets/icon/noto-color-emoji/winking-face.svg"
-import { GameState } from "../model"
-import { useGameSelector } from "../viewmodel"
+import hourglassNotDone from "../../../assets/icon/noto-color-emoji/hourglass-not-done.svg"
+import partyingFace from "../../../assets/icon/noto-color-emoji/partying-face.svg"
+import thinkingFace from "../../../assets/icon/noto-color-emoji/thinking-face.svg"
+import winkingFace from "../../../assets/icon/noto-color-emoji/winking-face.svg"
+import { GameState } from "../../model"
+import { useAppSelector } from "../../viewmodel"
 
 interface IContentProps {
   image: { src: string; alt: string }
@@ -130,8 +147,8 @@ interface IGameStatusBackdropProps {
 export const GameControlBackdrop = (
   props: IGameStatusBackdropProps
 ): React.ReactElement => {
-  const gameState = useGameSelector(
-    (state) => state.gameControlBackdrop.gameState
+  const gameState = useAppSelector(
+    (state) => state.game.gameControlBackdrop.gameState
   )
 
   let content: React.ReactElement

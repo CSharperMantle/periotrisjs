@@ -68,7 +68,6 @@ A game map is represented in a text file in the format named [JavaScript Object 
    - `map`: A row-major 2D array containing all blocks. Each block is represented by an object with these properties:
      - `atomicNumber`: An integer indicating the element the cell represents
      - `filledBy`: An integer. `7` for a free block, `8` for an unavailable block.
-     - `position`: An object representing the position of the cell.
    - `totalAvailableBlocksCount`: An integer representing the total number of blocks that can be filled in the map, that is, the number of blocks where `filledBy` equals `7`.
    - `playAreaSize`: An object It representing the visible size of the map with two properties:
      - `width`: An integer.

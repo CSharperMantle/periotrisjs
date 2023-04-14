@@ -1,4 +1,20 @@
-import _ from "lodash"
+/*
+ * Copyright (C) 2021-present Rong "Mantle" Bao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
 import React from "react"
 
 import Button from "@mui/material/Button"
@@ -7,6 +23,8 @@ import FormHelperText from "@mui/material/FormHelperText"
 import Grid from "@mui/material/Grid"
 import TextField from "@mui/material/TextField"
 import styled from "@mui/system/styled"
+
+import { isNil } from "../common"
 
 const HiddenInput = styled("input")({
   display: "none",
@@ -99,14 +117,14 @@ export const FileFormControl = ({
             accept={accept}
             caption={buttonCaption}
             onFileChange={async (event) => {
-              let content = !_.isNil(event.target.files)
+              let content = !isNil(event.target.files)
                 ? await event.target.files[0].text()
                 : ""
-              content = !_.isNil(contentPreprocessor)
+              content = !isNil(contentPreprocessor)
                 ? contentPreprocessor(content)
                 : content
               const result = onFileChange(content)
-              if (_.isNil(result) || result) {
+              if (isNil(result) || result) {
                 setFileContent(content)
               }
             }}

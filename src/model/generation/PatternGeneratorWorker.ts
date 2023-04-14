@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2021-present Rong "Mantle" Bao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
 import { Tetrimino } from "../Tetrimino"
 import { IGeneratorMessage } from "./IGeneratorMessage"
 import { getPlayablePattern } from "./internal/PatternGenerator"
@@ -19,16 +36,15 @@ ctx.onmessage = (eventArgs: MessageEvent<IGeneratorMessage<unknown>>) => {
   }
 }
 
-function handleRequestGeneration(map: IMap): void {
-  getPlayablePattern(map).then((tetriminos) => {
-    const message: IGeneratorMessage<Tetrimino[]> = {
-      type: MessageType.ResponseSuccess,
-      content: tetriminos,
-    }
-    ctx.postMessage(message)
-  })
+async function handleRequestGeneration(map: IMap): Promise<void> {
+  const result = await getPlayablePattern(map)
+  const message: IGeneratorMessage<Tetrimino[]> = {
+    type: MessageType.ResponseSuccess,
+    content: result,
+  }
+  ctx.postMessage(message)
 }
 
-function handleDefault(data: IGeneratorMessage<unknown>): void {
+async function handleDefault(data: IGeneratorMessage<unknown>): Promise<void> {
   console.warn(data.type)
 }

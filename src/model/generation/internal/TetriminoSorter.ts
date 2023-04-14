@@ -1,7 +1,24 @@
-import _ from "lodash"
+/*
+ * Copyright (C) 2021-present Rong "Mantle" Bao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
+import { flatten, map, uniq } from "lodash"
 import toposort from "toposort"
 
-import { rearrange } from "../../../common"
+import { isNil, rearrange } from "../../../common"
 import { Tetrimino } from "../../Tetrimino"
 
 import type { ISize } from "../../../common"
@@ -11,9 +28,9 @@ function getEdges(
   playAreaSize: ISize
 ): [number, number][] {
   // Create owners map
-  const owners: number[][] = []
+  const owners: number[][] = new Array(playAreaSize.height)
   for (let i = 0; i < playAreaSize.height; i++) {
-    owners[i] = []
+    owners[i] = new Array(playAreaSize.width)
   }
   // Fill in owners map
   for (let i = 0; i < tetriminos.length; i++) {
@@ -24,31 +41,31 @@ function getEdges(
     }
   }
 
-  const dependencies = tetriminos
-    .map((tetrimino, index) => {
-      const singleTetriminoDeps: [number, number][] = []
-      for (let i = 0; i < tetrimino.blocks.length; i++) {
-        const block = tetrimino.blocks[i]
-        const dependedBlockRow: number = block.position.y + 1
-        const dependedBlockCol: number = block.position.x
-        const result = tryGetOccupiedTetriminoNode(
-          owners,
-          dependedBlockRow,
-          dependedBlockCol,
-          playAreaSize
-        )
-        if (_.isNil(result) || result === index) {
-          // Ignore self-dependency
-          continue
+  return uniq(
+    flatten(
+      map(tetriminos, (tetrimino, index) => {
+        const singleTetriminoDeps: [number, number][] = new Array(4)
+        for (let i = 0; i < tetrimino.blocks.length; i++) {
+          const block = tetrimino.blocks[i]
+          const dependedBlockRow: number = block.position.y + 1
+          const dependedBlockCol: number = block.position.x
+          const result = tryGetOccupiedTetriminoNode(
+            owners,
+            dependedBlockRow,
+            dependedBlockCol,
+            playAreaSize
+          )
+          if (isNil(result) || result === index) {
+            // Ignore self-dependency
+            continue
+          }
+          // Found a result
+          singleTetriminoDeps.push([result, index])
         }
-        // Found a result
-        singleTetriminoDeps.push([result, index])
-      }
-      return singleTetriminoDeps
-    })
-    .flat(1)
-
-  return _.uniq(dependencies)
+        return singleTetriminoDeps
+      })
+    )
+  )
 }
 
 function tryGetOccupiedTetriminoNode(
@@ -67,7 +84,7 @@ function tryGetOccupiedTetriminoNode(
   }
 
   const cell = map[row][col]
-  if (_.isNil(cell)) {
+  if (isNil(cell)) {
     return null
   }
 

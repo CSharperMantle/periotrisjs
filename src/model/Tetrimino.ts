@@ -1,14 +1,30 @@
+/*
+ * Copyright (C) 2021-present Rong "Mantle" Bao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
+import { map } from "lodash"
+
 import { Position } from "../common"
 import { Block } from "./Block"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
 import {
   createOffsetedBlocks,
   mapAtomicNumberForNewBlocks,
-} from "./generation/GeneratorHelper"
+} from "./TetriminoHelper"
 import { TetriminoKind } from "./TetriminoKind"
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { getPositionByFirstBlock } from "./generation/GeneratorHelper"
 
 /**
  * The type for block collision checker.
@@ -17,6 +33,9 @@ import type { getPositionByFirstBlock } from "./generation/GeneratorHelper"
  */
 export type TBlockCollisionChecker = (block: Block) => boolean
 
+/**
+ * The tetrimino.
+ */
 export class Tetrimino {
   public blocks: Block[]
 
@@ -31,22 +50,17 @@ export class Tetrimino {
     direction: MoveDirection,
     collisionChecker: TBlockCollisionChecker
   ): boolean {
-    let deltaX = 0
-    let deltaY = 0
-    if (direction === MoveDirection.Down) {
-      deltaY = 1
-    } else {
-      deltaX = direction === MoveDirection.Right ? 1 : -1
-    }
+    const deltaY = direction === MoveDirection.Down ? 1 : 0
+    const deltaX =
+      (direction === MoveDirection.Down ? 0 : 1) *
+      (direction === MoveDirection.Right ? 1 : -1)
 
-    const newBlocks = this.blocks.map((b) => {
-      return {
-        filledBy: b.filledBy,
-        position: new Position(b.position.x + deltaX, b.position.y + deltaY),
-        atomicNumber: b.atomicNumber,
-        id: b.id,
-      }
-    })
+    const newBlocks = map(this.blocks, (b) => ({
+      filledBy: b.filledBy,
+      position: new Position(b.position.x + deltaX, b.position.y + deltaY),
+      atomicNumber: b.atomicNumber,
+      id: b.id,
+    }))
 
     if (newBlocks.some(collisionChecker)) {
       return false
@@ -63,6 +77,8 @@ export class Tetrimino {
   /**
    * Rotates the Tetrimino instance.
    *
+   * Rotation occurs according to the Super Rotational System.
+   *
    * @param rotationDirection The direction to rotate.
    * @param collisionChecker The BlockCollisionChecker function to use.
    * @returns `true` for a successful rotation, otherwise 'false'.
@@ -71,22 +87,18 @@ export class Tetrimino {
     rotationDirection: RotationDirection,
     collisionChecker: TBlockCollisionChecker
   ): boolean {
+    // Find the final direction
     const count: number = Object.keys(Direction).length / 2
     const delta: number = rotationDirection === RotationDirection.Right ? 1 : -1
-    let direction = this.facingDirection + delta
-    if (direction < 0) {
-      direction += count
-    }
-    if (direction >= count) {
-      direction %= count
-    }
+    const direction = (this.facingDirection + delta + count) % count
+
     const adjustPattern: number[] =
       this.kind === TetriminoKind.Linear ? [0, 1, -1, 2, -2] : [0, 1, -1]
 
+    // Wall kicking
     for (let i = 0, len = adjustPattern.length; i < len; i++) {
-      const adjust = adjustPattern[i]
       const newPos: Position = new Position(
-        this.position.x + adjust,
+        this.position.x + adjustPattern[i],
         this.position.y
       )
       let newBlocks: Block[] = createOffsetedBlocks(
@@ -102,13 +114,12 @@ export class Tetrimino {
         return true
       }
     }
+
     return false
   }
 
   /**
    * Creates a new tetrimino.
-   *
-   * @see {@link getPositionByFirstBlock}
    *
    * @param kind The kind of tetrimino to create.
    * @param position The position of the tetrimino.
@@ -133,7 +144,8 @@ export class Tetrimino {
 export function repairBrokenTetriminos(
   brokenTetriminos: Tetrimino[]
 ): Tetrimino[] {
-  const repairedTetriminos = brokenTetriminos.map(
+  const repairedTetriminos = map(
+    brokenTetriminos,
     (brokenTetrimino) =>
       Object.create(
         Tetrimino.prototype,

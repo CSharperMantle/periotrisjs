@@ -3,6 +3,7 @@
     "bindgen",
     "blks",
     "blockchanged",
+    "blockschanged",
     "Borked",
     "Coord",
     "deps",

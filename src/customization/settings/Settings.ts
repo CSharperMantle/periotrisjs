@@ -1,8 +1,24 @@
-import _ from "lodash"
+/*
+ * Copyright (C) 2021-present Rong "Mantle" Bao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
 
 import {
   DefaultBorderThickness,
   DefaultGameUpdateIntervalMilliseconds,
+  isNil,
   SettingsLocalStorageKey,
 } from "../../common"
 import defaultColorScheme from "../../json/DefaultColorScheme.json"
@@ -17,7 +33,7 @@ import type { IMap } from "../map"
  * Settings for the app.
  */
 export class Settings implements ILocalStorageSerializable {
-  private _showGridLine = true
+  private _showGridLine: boolean | undefined
   public get showGridLine(): boolean {
     return this._showGridLine ?? true
   }
@@ -26,8 +42,7 @@ export class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
-  private _gameUpdateIntervalMilliseconds =
-    DefaultGameUpdateIntervalMilliseconds
+  private _gameUpdateIntervalMilliseconds: number | undefined
   public get gameUpdateIntervalMilliseconds(): number {
     return (
       this._gameUpdateIntervalMilliseconds ??
@@ -39,7 +54,7 @@ export class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
-  private _gameMap: IMap = defaultMap
+  private _gameMap: IMap | undefined
   public get gameMap(): IMap {
     return this._gameMap ?? defaultMap
   }
@@ -48,7 +63,7 @@ export class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
-  private _colorScheme: IColorScheme = defaultColorScheme
+  private _colorScheme: IColorScheme | undefined
   public get colorScheme(): IColorScheme {
     return this._colorScheme ?? defaultColorScheme
   }
@@ -57,7 +72,7 @@ export class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
-  private _borderThickness: number = DefaultBorderThickness
+  private _borderThickness: number | undefined
   public get borderThickness(): number {
     return this._borderThickness ?? DefaultBorderThickness
   }
@@ -73,7 +88,7 @@ export class Settings implements ILocalStorageSerializable {
   public static fromLocalStorage(): Settings {
     const result = retrieve(SettingsLocalStorageKey)
 
-    if (_.isNil(result)) return new Settings()
+    if (isNil(result)) return new Settings()
 
     const repairedSettings = Object.create(
       Settings.prototype,

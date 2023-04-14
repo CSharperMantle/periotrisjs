@@ -1,6 +1,23 @@
+/*
+ * Copyright (C) 2021-present Rong "Mantle" Bao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see https://www.gnu.org/licenses/ .
+ */
+
 import validateColorScheme from "ajv-json-loader!../json/schema/ColorScheme.json.schema"
 import validateMap from "ajv-json-loader!../json/schema/Map.json.schema"
-import _ from "lodash"
+import { map } from "lodash"
 import { useSnackbar } from "notistack"
 import React from "react"
 
@@ -13,7 +30,12 @@ import Stack from "@mui/material/Stack"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 
-import { CommonLayout, FileFormControl, NumberFormControl } from "../components"
+import {
+  CommonHead,
+  CommonLayout,
+  FileFormControl,
+  NumberFormControl,
+} from "../components"
 import { customizationFacade } from "../customization"
 
 const assistanceGridAppearanceOptions = [
@@ -73,7 +95,7 @@ const App = (): React.ReactElement => {
 
   const handleUpdateIntervalChange = (newContent: string): boolean => {
     const value = parseInt(`0${newContent}`, 10)
-    if (_.isNaN(value)) {
+    if (isNaN(value)) {
       enqueueSnackbar("Invalid falling speed value.", { variant: "error" })
       return false
     }
@@ -83,7 +105,7 @@ const App = (): React.ReactElement => {
 
   const handleBorderThicknessChange = (newContent: string): boolean => {
     const value = parseInt(`0${newContent}`, 10)
-    if (_.isNaN(value) || value <= 0) {
+    if (isNaN(value) || value <= 0) {
       enqueueSnackbar("Invalid border thickness value.", { variant: "error" })
       return false
     }
@@ -121,7 +143,7 @@ const App = (): React.ReactElement => {
               aria-describedby="assistance-grid-input-helper-text"
               onChange={handleAssistanceGridModeChange}
             >
-              {assistanceGridAppearanceOptions.map((option) => (
+              {map(assistanceGridAppearanceOptions, (option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
@@ -201,3 +223,7 @@ const App = (): React.ReactElement => {
 App.Layout = CommonLayout
 
 export default App
+
+export const Head = (): React.ReactElement => {
+  return <CommonHead />
+}
