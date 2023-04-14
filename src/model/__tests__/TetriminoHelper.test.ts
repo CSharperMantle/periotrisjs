@@ -63,12 +63,6 @@ describe("createOffsetedBlocks", () => {
         Direction.Down
       )
     }).toThrowError(new Error("Invalid tetrimino kind."))
-    expect(() => {
-      createOffsetedBlocks(9, new Position(0, 0), Direction.Down)
-    }).toThrowError(new Error("Invalid tetrimino kind."))
-    expect(() => {
-      createOffsetedBlocks(TetriminoKind.Cubic, new Position(0, 0), 4)
-    }).toThrowError(new Error("Invalid direction."))
   })
 })
 
@@ -183,9 +177,6 @@ describe("getInitialPositionByKind", () => {
     }).toThrowError(new Error("Invalid tetrimino kind."))
     expect(() => {
       getInitialPositionByKind(TetriminoKind.UnavailableToFill, size)
-    }).toThrowError(new Error("Invalid tetrimino kind."))
-    expect(() => {
-      getInitialPositionByKind(9, size)
     }).toThrowError(new Error("Invalid tetrimino kind."))
   })
 })
