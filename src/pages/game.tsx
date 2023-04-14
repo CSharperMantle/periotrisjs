@@ -22,7 +22,12 @@ import React, { useEffect, useRef } from "react"
 import Box from "@mui/material/Box"
 
 import { flushed } from "../common"
-import { BlocksGrid, CommonLayout, GameControlBackdrop } from "../components"
+import {
+  BlocksGrid,
+  CommonHead,
+  CommonLayout,
+  GameControlBackdrop,
+} from "../components"
 import { GameViewModel } from "../viewmodel"
 
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
@@ -105,3 +110,7 @@ const App = (): React.ReactElement => {
 App.Layout = CommonLayout
 
 export default App
+
+export const Head = (): React.ReactElement => {
+  return <CommonHead />
+}

@@ -23,7 +23,7 @@ import Container from "@mui/material/Container"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 
-import { CommonLayout } from "../components"
+import { CommonHead, CommonLayout } from "../components"
 import PageLocation from "../json/PageLocation.json"
 
 const codeStyle = {
@@ -90,3 +90,7 @@ const App = (): React.ReactElement => {
 App.Layout = CommonLayout
 
 export default App
+
+export const Head = (): React.ReactElement => {
+  return <CommonHead />
+}

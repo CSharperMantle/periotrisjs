@@ -15,15 +15,14 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import "./CommonLayout.css"
 import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
+import "./CommonLayout.css"
 
 import { graphql, useStaticQuery } from "gatsby"
 import { SnackbarProvider } from "notistack"
 import React from "react"
-import Helmet from "react-helmet"
 import { Provider as ReduxProvider } from "react-redux"
 
 import Box from "@mui/material/Box"
@@ -45,28 +44,8 @@ export interface ICommonLayoutProps {
 }
 
 export const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
-  const data = useStaticQuery(graphql`
-    query {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-      package {
-        description
-      }
-    }
-  `)
-
   return (
     <>
-      <Helmet title={`${data.site.siteMetadata.title}`}>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width"
-        />
-        <meta name="description" content={`${data.package.description}`} />
-      </Helmet>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <ReduxProvider store={appStore}>
@@ -93,6 +72,32 @@ export const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
           </ReduxProvider>
         </ThemeProvider>
       </StyledEngineProvider>
+    </>
+  )
+}
+
+export const CommonHead = (): React.ReactElement => {
+  const data = useStaticQuery(graphql`
+    query {
+      site {
+        siteMetadata {
+          title
+        }
+      }
+      package {
+        description
+      }
+    }
+  `)
+
+  return (
+    <>
+      <title>{`${data.site.siteMetadata.title}`}</title>
+      <meta
+        name="viewport"
+        content="minimum-scale=1, initial-scale=1, width=device-width"
+      />
+      <meta name="description" content={`${data.package.description}`} />
     </>
   )
 }

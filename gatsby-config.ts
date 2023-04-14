@@ -23,7 +23,6 @@ const config: GatsbyConfig = {
     {
       resolve: "gatsby-plugin-material-ui",
     },
-    "gatsby-plugin-react-helmet",
     {
       resolve: "gatsby-plugin-manifest",
       options: {

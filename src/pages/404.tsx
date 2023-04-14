@@ -19,8 +19,14 @@ import "./404.css"
 
 import React from "react"
 
+import { CommonHead } from "../components"
+
 const ErrorPage = (): React.ReactElement => {
   return <main>Placeholder error page</main>
 }
 
 export default ErrorPage
+
+export const Head = (): React.ReactElement => {
+  return <CommonHead />
+}

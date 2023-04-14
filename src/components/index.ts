@@ -16,7 +16,7 @@
  */
 
 import { BlocksGrid } from "./blocksGrid/BlocksGrid"
-import { CommonLayout } from "./CommonLayout"
+import { CommonLayout, CommonHead } from "./CommonLayout"
 import { FileFormControl } from "./FileFormControl"
 import { GameControlBackdrop } from "./gameControlBackdrop/GameControlBackdrop"
 import { NumberFormControl } from "./NumberFormControl"
@@ -29,6 +29,7 @@ export {
   GameControlBackdrop,
   PortraitWarningBackdrop,
   CommonLayout,
+  CommonHead,
   FileFormControl,
   NumberFormControl,
 }
