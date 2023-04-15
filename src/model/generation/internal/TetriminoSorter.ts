@@ -44,7 +44,7 @@ function getEdges(
   return uniq(
     flatten(
       map(tetriminos, (tetrimino, index) => {
-        const singleTetriminoDeps: [number, number][] = new Array(4)
+        const singleTetriminoDeps: [number, number][] = []
         for (let i = 0; i < tetrimino.blocks.length; i++) {
           const block = tetrimino.blocks[i]
           const dependedBlockRow: number = block.position.y + 1
