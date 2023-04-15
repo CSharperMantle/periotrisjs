@@ -51,7 +51,7 @@ const config: GatsbyConfig = {
       "Learn the Periodic Table of Elements in a fun way, directly in your browsers.",
     url: "https://csharpermantle.github.io/periotrisjs/",
   },
-  pathPrefix: "/periotrisjs",
+  pathPrefix: process.env.BUILD_ADD_PATH_PREFIX ? "/periotrisjs" : undefined,
 }
 
 export default config
