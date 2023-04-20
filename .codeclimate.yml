@@ -3,13 +3,21 @@ version: "2"
 plugins:
   eslint:
     enabled: true
-    channel: "eslint-7"
+    channel: "eslint-8"
     config:
       extensions:
         - .js
         - .jsx
         - .ts
         - .tsx
+  duplication:
+    enabled: true
+    config:
+      languages:
+        javascript:
+          mass_threshold: 45
+        typescript:
+          mass_threshold: 45
 
 exclude_patterns:
   - "**/__tests__/"
@@ -20,11 +28,11 @@ exclude_patterns:
   - ".yarn/"
   - ".github/"
   - ".vscode/"
+  - "assets/"
+  - "public/"
   - "**/*.cjs"
   - ".pnp.*"
   - "jest.config.js"
   - "jest-preprocess.js"
-  - "gatsby-config.js"
-  - "gatsby-node.js"
-  - "gatsby-browser.js"
-  - "gatsby-ssr.js"
+  - "gatsby-*.[jt]s"
+  - "gatsby-*.[jt]sx"
