@@ -463,36 +463,24 @@ export function createOffsetedBlocks(
 }
 
 /**
- * Maps the atomicNumber prop in the oldBlocks to newBlocks by id.
- *
- * Note that this function does not change newBlocks but return a new
- * array of mapped blocks. Blocks in the returned list are NOT clones.
- * They share the same properties with their equivalences in newBlocks.
+ * Maps the atomicNumber prop in the oldBlocks to newBlocks by block ID.
  *
  * @param oldBlocks Old blocks to be mapped from.
  * @param newBlocks New blocks to be mapped to.
  * @returns Mapped newBlocks.
  * @throws Error
  */
-export function mapAtomicNumberForNewBlocks(
+export function mapAtomicNumberInto(
   oldBlocks: Block[],
   newBlocks: Block[]
-): Block[] {
+): void {
   if (oldBlocks.length !== newBlocks.length) {
     throw new Error("oldBlocks.length !== newBlocks.length")
   }
-  const result: Block[] = []
-  for (let i = 0, len = oldBlocks.length; i < len; i++) {
-    const oldBlock = oldBlocks[i]
-    const correspondingNewBlocks = newBlocks.filter(
-      (newBlock) => newBlock.id === oldBlock.id
-    )
-    for (let j = 0, len = correspondingNewBlocks.length; j < len; j++) {
-      result.push({
-        ...correspondingNewBlocks[j],
-        atomicNumber: oldBlock.atomicNumber,
-      })
-    }
-  }
-  return result
+  newBlocks.forEach((newBlock) => {
+    const atomicNumber = oldBlocks.filter(
+      (oldBlock) => newBlock.id === oldBlock.id
+    )[0].atomicNumber
+    newBlock.atomicNumber = atomicNumber
+  })
 }

@@ -106,7 +106,7 @@ export const FileFormControl = ({
             value={fileContent}
             label={label}
             InputProps={{
-              readOnly: readOnly,
+              readOnly: readOnly ?? false,
             }}
             aria-describedby={`${id}-string-helper-text`}
           />

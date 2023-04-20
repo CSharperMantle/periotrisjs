@@ -78,7 +78,7 @@ export class GameViewModel {
   private _lastPaused = true
 
   public onKeyDown(ev: KeyboardEvent): boolean {
-    const key: string = ev.key.toLowerCase()
+    const key = ev.key.toLowerCase()
     ev.preventDefault()
     if (this._paused) {
       if (key !== "escape") {

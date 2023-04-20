@@ -25,7 +25,7 @@ export class Block {
   public constructor(
     public readonly filledBy: TetriminoKind,
     public readonly position: Position,
-    public readonly atomicNumber = 0,
+    public /* readonly */ atomicNumber = 0,
     public readonly id = 0
   ) {}
 }

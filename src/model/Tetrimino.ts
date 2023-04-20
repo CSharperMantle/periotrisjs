@@ -20,10 +20,7 @@ import { map } from "lodash"
 import { Position } from "../common"
 import { Block } from "./Block"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
-import {
-  createOffsetedBlocks,
-  mapAtomicNumberForNewBlocks,
-} from "./TetriminoHelper"
+import { createOffsetedBlocks, mapAtomicNumberInto } from "./TetriminoHelper"
 import { TetriminoKind } from "./TetriminoKind"
 
 /**
@@ -88,26 +85,22 @@ export class Tetrimino {
     collisionChecker: TBlockCollisionChecker
   ): boolean {
     // Find the final direction
-    const count: number = Object.keys(Direction).length / 2
-    const delta: number = rotationDirection === RotationDirection.Right ? 1 : -1
+    const count = Object.keys(Direction).length / 2
+    const delta = rotationDirection === RotationDirection.Right ? 1 : -1
     const direction = (this.facingDirection + delta + count) % count
 
-    const adjustPattern: number[] =
+    const adjustPattern =
       this.kind === TetriminoKind.Linear ? [0, 1, -1, 2, -2] : [0, 1, -1]
 
     // Wall kicking
     for (let i = 0, len = adjustPattern.length; i < len; i++) {
-      const newPos: Position = new Position(
+      const newPos = new Position(
         this.position.x + adjustPattern[i],
         this.position.y
       )
-      let newBlocks: Block[] = createOffsetedBlocks(
-        this.kind,
-        newPos,
-        direction
-      )
+      const newBlocks = createOffsetedBlocks(this.kind, newPos, direction)
       if (!newBlocks.some(collisionChecker)) {
-        newBlocks = mapAtomicNumberForNewBlocks(this.blocks, newBlocks)
+        mapAtomicNumberInto(this.blocks, newBlocks)
         this.facingDirection = direction
         this.position = newPos
         this.blocks = newBlocks

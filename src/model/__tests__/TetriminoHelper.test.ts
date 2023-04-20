@@ -21,7 +21,7 @@ import { Direction } from "../Direction"
 import {
   createOffsetedBlocks,
   getInitialPositionByKind,
-  mapAtomicNumberForNewBlocks,
+  mapAtomicNumberInto,
 } from "../TetriminoHelper"
 import { TetriminoKind } from "../TetriminoKind"
 
@@ -76,32 +76,29 @@ describe("mapAtomicNumberForNewBlocks", () => {
       new Block(TetriminoKind.Cubic, new Position(1, 0), -1, 0),
       new Block(TetriminoKind.Cubic, new Position(2, 0), -1, 1),
     ]
-    const r = mapAtomicNumberForNewBlocks(oldBlocks, newBlocks)
-    r.forEach((block) => {
+    mapAtomicNumberInto(oldBlocks, newBlocks)
+    newBlocks.forEach((block) => {
       const corrOldBlks = oldBlocks.filter((blk) => blk.id === block.id)
-      const corrNewBlks = newBlocks.filter((blk) => blk.id === block.id)
       expect(corrOldBlks).toHaveLength(1)
-      expect(corrNewBlks).toHaveLength(1)
       expect(block.atomicNumber).toBe(corrOldBlks[0].atomicNumber)
-      expect(corrNewBlks[0].atomicNumber).toBe(-1)
     })
   })
 
   it("should handle incorrect arguments gracefully", () => {
     expect(() => {
-      mapAtomicNumberForNewBlocks(
+      mapAtomicNumberInto(
         [],
         [new Block(TetriminoKind.Cubic, new Position(0, 0), 0, 0)]
       )
     }).toThrowError(new Error("oldBlocks.length !== newBlocks.length"))
     expect(() => {
-      mapAtomicNumberForNewBlocks(
+      mapAtomicNumberInto(
         [new Block(TetriminoKind.Cubic, new Position(0, 0), 0, 0)],
         []
       )
     }).toThrowError(new Error("oldBlocks.length !== newBlocks.length"))
     expect(() => {
-      mapAtomicNumberForNewBlocks(
+      mapAtomicNumberInto(
         [new Block(TetriminoKind.Cubic, new Position(0, 0), 0, 0)],
         [
           new Block(TetriminoKind.Cubic, new Position(0, 0), 0, 0),
@@ -110,7 +107,7 @@ describe("mapAtomicNumberForNewBlocks", () => {
       )
     }).toThrowError(new Error("oldBlocks.length !== newBlocks.length"))
     expect(() => {
-      mapAtomicNumberForNewBlocks(
+      mapAtomicNumberInto(
         [
           new Block(TetriminoKind.Cubic, new Position(0, 0), 0, 0),
           new Block(TetriminoKind.Cubic, new Position(0, 0), 0, 0),

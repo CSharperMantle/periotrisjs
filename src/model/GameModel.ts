@@ -257,7 +257,7 @@ export class GameModel extends EventEmitter {
    * @param tetriminos The tetriminos to start the game with.
    */
   private startPreparedGame(tetriminos: Tetrimino[]): void {
-    const generatedTetrimino: Tetrimino[] = tetriminos.reverse()
+    const generatedTetrimino = tetriminos.reverse()
     this._pendingTetriminos.push(...generatedTetrimino)
 
     this.spawnNextTetrimino()
