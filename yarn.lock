@@ -6580,13 +6580,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.11.7":
-  version: 1.11.7
-  resolution: "dayjs@npm:1.11.7"
-  checksum: 5003a7c1dd9ed51385beb658231c3548700b82d3548c0cfbe549d85f2d08e90e972510282b7506941452c58d32136d6362f009c77ca55381a09c704e9f177ebb
-  languageName: node
-  linkType: hard
-
 "debug@npm:2.6.9, debug@npm:^2.6.0":
   version: 2.6.9
   resolution: "debug@npm:2.6.9"
@@ -12874,7 +12867,6 @@ __metadata:
     babel-jest: ^29.5.0
     babel-preset-gatsby: ^3.8.0
     canvas-confetti: ^1.6.0
-    dayjs: ^1.11.7
     eslint: ^8.38.0
     eslint-plugin-react: ^7.32.2
     events: ^3.3.0

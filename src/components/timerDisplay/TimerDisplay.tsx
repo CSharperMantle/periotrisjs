@@ -15,7 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import dayjs from "dayjs"
 import React from "react"
 
 import Box from "@mui/material/Box"
@@ -23,6 +22,15 @@ import Typography from "@mui/material/Typography"
 
 import { isNil } from "../../common"
 import { useAppSelector } from "../../viewmodel"
+
+function msToMinSec(ms: number): string {
+  const allSeconds = Math.round(ms / 1000)
+  const minutes = Math.floor(allSeconds / 60)
+  const minutesStr = minutes < 10 ? `0${minutes}` : `${minutes}`
+  const seconds = allSeconds % 60
+  const secondsStr = seconds < 10 ? `0${seconds}` : `${seconds}`
+  return `${minutesStr}:${secondsStr}`
+}
 
 export const TimerDisplay = (): React.ReactElement => {
   const elapsedTime = useAppSelector(
@@ -58,7 +66,7 @@ export const TimerDisplay = (): React.ReactElement => {
           color: "white",
         }}
       >
-        {isNil(fastestRecord) ? "--:--" : dayjs(fastestRecord).format("mm:ss")}
+        {isNil(fastestRecord) ? "--:--" : msToMinSec(fastestRecord)}
       </Typography>
       <Typography
         sx={{
@@ -69,7 +77,7 @@ export const TimerDisplay = (): React.ReactElement => {
           color: "yellow",
         }}
       >
-        {dayjs(elapsedTime).format("mm:ss")}
+        {msToMinSec(elapsedTime)}
       </Typography>
     </Box>
   )
