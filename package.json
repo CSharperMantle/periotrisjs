@@ -35,7 +35,6 @@
     "@reduxjs/toolkit": "^1.9.3",
     "ajv": "^8.12.0",
     "canvas-confetti": "^1.6.0",
-    "dayjs": "^1.11.7",
     "events": "^3.3.0",
     "gatsby": "^5.8.1",
     "gatsby-plugin-manifest": "^5.8.0",
