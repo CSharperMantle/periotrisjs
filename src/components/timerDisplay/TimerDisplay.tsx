@@ -24,12 +24,12 @@ import { isNil } from "../../common"
 import { useAppSelector } from "../../viewmodel"
 
 function msToMinSec(ms: number): string {
-  const allSeconds = Math.round(ms / 1000)
-  const minutes = Math.floor(allSeconds / 60)
-  const minutesStr = minutes < 10 ? `0${minutes}` : `${minutes}`
-  const seconds = allSeconds % 60
-  const secondsStr = seconds < 10 ? `0${seconds}` : `${seconds}`
-  return `${minutesStr}:${secondsStr}`
+  const sec = Math.round(ms / 1000)
+  const minutes = Math.floor(sec / 60)
+    .toString()
+    .padStart(2)
+  const seconds = (sec % 60).toString().padStart(2)
+  return `${minutes}:${seconds}`
 }
 
 export const TimerDisplay = (): React.ReactElement => {
