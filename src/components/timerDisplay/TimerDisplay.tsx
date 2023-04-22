@@ -20,17 +20,8 @@ import React from "react"
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 
-import { isNil } from "../../common"
+import { formatDuration } from "../../common"
 import { useAppSelector } from "../../viewmodel"
-
-function msToMinSec(ms: number): string {
-  const sec = Math.round(ms / 1000)
-  const minutes = Math.floor(sec / 60)
-    .toString()
-    .padStart(2)
-  const seconds = (sec % 60).toString().padStart(2)
-  return `${minutes}:${seconds}`
-}
 
 export const TimerDisplay = (): React.ReactElement => {
   const elapsedTime = useAppSelector(
@@ -66,7 +57,7 @@ export const TimerDisplay = (): React.ReactElement => {
           color: "white",
         }}
       >
-        {isNil(fastestRecord) ? "--:--" : msToMinSec(fastestRecord)}
+        {formatDuration(fastestRecord)}
       </Typography>
       <Typography
         sx={{
@@ -77,7 +68,7 @@ export const TimerDisplay = (): React.ReactElement => {
           color: "yellow",
         }}
       >
-        {msToMinSec(elapsedTime)}
+        {formatDuration(elapsedTime)}
       </Typography>
     </Box>
   )
