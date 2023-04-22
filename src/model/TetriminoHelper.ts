@@ -15,12 +15,11 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { Position } from "../common"
 import { Block } from "./Block"
 import { Direction } from "./Direction"
 import { TetriminoKind } from "./TetriminoKind"
 
-import type { ISize } from "../common"
+import type { ISize, Position } from "../common"
 
 const CubicDownMask: number[][] = [
   [3, 4],
@@ -404,7 +403,7 @@ export function getPositionByFirstBlock(
   const firstBlockCoord = getFirstBlockCoordByType(kind, facingDirection)
   const firstBlockRow = firstBlockCoord.row
   const firstBlockCol = firstBlockCoord.col
-  return new Position(position.x - firstBlockCol, position.y - firstBlockRow)
+  return [position[0] - firstBlockCol, position[1] - firstBlockRow]
 }
 
 export function getInitialPositionByKind(
@@ -429,9 +428,7 @@ export function getInitialPositionByKind(
     default:
       throw new Error("Invalid tetrimino kind.")
   }
-  const row = 0
-  const col = Math.floor((playAreaSize.width - length) / 2)
-  return new Position(col, row)
+  return [Math.floor((playAreaSize.width - length) / 2), 0]
 }
 
 export function createOffsetedBlocks(
@@ -442,7 +439,7 @@ export function createOffsetedBlocks(
   const mask = getBlocksMask(kind, direction)
   // Performance critical with hand-written loops.
   const offsetBlocks: Block[] = new Array(4)
-  const { x, y } = offset
+  const [x, y] = offset
   let count = 0
   for (let nRow = 0, len_i = mask.length; nRow < len_i; nRow++) {
     const row = mask[nRow]
@@ -451,7 +448,7 @@ export function createOffsetedBlocks(
       if (identifier !== 0) {
         offsetBlocks[count] = new Block(
           kind,
-          new Position(nCol + x, nRow + y),
+          [nCol + x, nRow + y],
           0,
           identifier
         )

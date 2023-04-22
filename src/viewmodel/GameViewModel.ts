@@ -18,7 +18,7 @@
 import { isBrowser } from "is-in-browser"
 import { filter, forEach, map } from "lodash"
 
-import { Position, StopwatchUpdateIntervalMilliseconds } from "../common"
+import { StopwatchUpdateIntervalMilliseconds } from "../common"
 import {
   addSprites,
   clearSprites,
@@ -40,6 +40,7 @@ import {
 } from "../model"
 import { appStore } from "./appStore"
 
+import type { Position } from "../common"
 import type { IBlockSprite } from "./IBlockSprite"
 
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
@@ -206,8 +207,8 @@ export class GameViewModel {
         if (!this._blocksByPosition.has(block.position)) {
           const displayBlock: IBlockSprite = {
             atomicNumber: block.atomicNumber,
-            row: block.position.y,
-            column: block.position.x,
+            row: block.position[1],
+            column: block.position[0],
           }
           this._blocksByPosition.set(block.position, displayBlock)
           sprites.push(displayBlock)

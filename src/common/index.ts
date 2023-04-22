@@ -22,7 +22,6 @@ import {
   SettingsLocalStorageKey,
   StopwatchUpdateIntervalMilliseconds,
 } from "./PeriotrisConst"
-import { Position, positionEquals } from "./Position"
 import { flushed } from "./flushed"
 import { formatDuration } from "./formatDuration"
 import { isNil } from "./isNil"
@@ -30,6 +29,7 @@ import { rearrange } from "./rearrange"
 import { waitForEvent } from "./waitForEvent"
 
 import type { ISize } from "./ISize"
+import type { Position } from "./Position"
 
 export {
   DefaultGameUpdateIntervalMilliseconds,
@@ -37,8 +37,6 @@ export {
   HistoryLocalStorageKey,
   SettingsLocalStorageKey,
   DefaultBorderThickness,
-  Position,
-  positionEquals,
   rearrange,
   flushed,
   waitForEvent,
@@ -46,4 +44,4 @@ export {
   formatDuration,
 }
 
-export type { ISize }
+export type { ISize, Position }

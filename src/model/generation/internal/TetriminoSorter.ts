@@ -37,7 +37,7 @@ function getEdges(
     const tetrimino = tetriminos[i]
     for (let j = 0; j < tetrimino.blocks.length; j++) {
       const block = tetrimino.blocks[j]
-      owners[block.position.y][block.position.x] = i
+      owners[block.position[1]][block.position[0]] = i
     }
   }
 
@@ -47,8 +47,8 @@ function getEdges(
         const singleTetriminoDeps: [number, number][] = []
         for (let i = 0; i < tetrimino.blocks.length; i++) {
           const block = tetrimino.blocks[i]
-          const dependedBlockRow: number = block.position.y + 1
-          const dependedBlockCol: number = block.position.x
+          const dependedBlockRow = block.position[1] + 1
+          const dependedBlockCol = block.position[0]
           const result = tryGetOccupiedTetriminoNode(
             owners,
             dependedBlockRow,

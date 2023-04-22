@@ -17,8 +17,9 @@
 
 import { EventEmitter } from "events"
 import { isBrowser } from "is-in-browser"
+import { isEqual } from "lodash"
 
-import { isNil, positionEquals, waitForEvent } from "../common"
+import { isNil, waitForEvent } from "../common"
 import { customizationFacade } from "../customization"
 import { Block } from "./Block"
 import { MoveDirection, RotationDirection } from "./Direction"
@@ -280,7 +281,7 @@ export class GameModel extends EventEmitter {
     if (
       this._frozenBlocks.some(
         (block) =>
-          map[block.position.y][block.position.x].atomicNumber !==
+          map[block.position[1]][block.position[0]].atomicNumber !==
           block.atomicNumber
       )
     ) {
@@ -367,14 +368,14 @@ export class GameModel extends EventEmitter {
   private checkBlockValidity(block: Block): boolean {
     const width = customizationFacade.settings.gameMap.playAreaSize.width
     const height = customizationFacade.settings.gameMap.playAreaSize.height
-    if (block.position.x < 0 || block.position.x >= width) {
+    if (block.position[0] < 0 || block.position[0] >= width) {
       return true
     }
-    if (block.position.y >= height) {
+    if (block.position[1] >= height) {
       return true
     }
     return this._frozenBlocks.some((frozenBlock) =>
-      positionEquals(frozenBlock.position, block.position)
+      isEqual(frozenBlock.position, block.position)
     )
   }
 

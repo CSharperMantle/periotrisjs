@@ -15,8 +15,9 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { Position } from "../common"
 import { TetriminoKind } from "./TetriminoKind"
+
+import type { Position } from "../common"
 
 /**
  * The block, the most basic unit of the game.

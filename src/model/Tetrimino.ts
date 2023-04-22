@@ -17,11 +17,12 @@
 
 import { map } from "lodash"
 
-import { Position } from "../common"
 import { Block } from "./Block"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
 import { createOffsetedBlocks, mapAtomicNumberInto } from "./TetriminoHelper"
 import { TetriminoKind } from "./TetriminoKind"
+
+import type { Position } from "../common"
 
 /**
  * The type for block collision checker.
@@ -54,7 +55,7 @@ export class Tetrimino {
 
     const newBlocks = map(this.blocks, (b) => ({
       filledBy: b.filledBy,
-      position: new Position(b.position.x + deltaX, b.position.y + deltaY),
+      position: [b.position[0] + deltaX, b.position[1] + deltaY] as const,
       atomicNumber: b.atomicNumber,
       id: b.id,
     }))
@@ -63,10 +64,7 @@ export class Tetrimino {
       return false
     }
 
-    this.position = new Position(
-      this.position.x + deltaX,
-      this.position.y + deltaY
-    )
+    this.position = [this.position[0] + deltaX, this.position[1] + deltaY]
     this.blocks = newBlocks
     return true
   }
@@ -94,10 +92,10 @@ export class Tetrimino {
 
     // Wall kicking
     for (let i = 0, len = adjustPattern.length; i < len; i++) {
-      const newPos = new Position(
-        this.position.x + adjustPattern[i],
-        this.position.y
-      )
+      const newPos = [
+        this.position[0] + adjustPattern[i],
+        this.position[1],
+      ] as const
       const newBlocks = createOffsetedBlocks(this.kind, newPos, direction)
       if (!newBlocks.some(collisionChecker)) {
         mapAtomicNumberInto(this.blocks, newBlocks)
