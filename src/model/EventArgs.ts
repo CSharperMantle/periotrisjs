@@ -17,9 +17,7 @@
 
 import { Block } from "./Block"
 
-export class BlocksChangedEventArgs {
-  public constructor(
-    public readonly blocks: Block[],
-    public readonly disappeared: boolean
-  ) {}
+export type TBlocksChangedEventArgs = {
+  readonly blocks: Block[]
+  readonly disappeared: boolean
 }

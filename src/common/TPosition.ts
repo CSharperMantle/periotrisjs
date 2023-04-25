@@ -16,11 +16,6 @@
  */
 
 /**
- * Represents a size (width and height).
+ * Represents a position with [X, Y].
  */
-interface ISize {
-  width: number
-  height: number
-}
-
-export type { ISize }
+export type TPosition = readonly [number, number]

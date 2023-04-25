@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import type { ISize } from "../../common"
+import type { TSize } from "../../common"
 
 export interface IMapCell {
   readonly atomicNumber: number
@@ -27,5 +27,5 @@ export type TMapRow = IMapCell[]
 export interface IMap {
   readonly map: TMapRow[]
   readonly totalAvailableBlocksCount: number
-  readonly playAreaSize: ISize
+  readonly playAreaSize: TSize
 }

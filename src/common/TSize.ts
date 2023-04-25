@@ -15,4 +15,10 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-export type Position = readonly [number, number]
+/**
+ * Represents a size (width and height).
+ */
+export type TSize = {
+  readonly width: number
+  readonly height: number
+}

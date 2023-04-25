@@ -21,11 +21,11 @@ import toposort from "toposort"
 import { isNil, rearrange } from "../../../common"
 import { Tetrimino } from "../../Tetrimino"
 
-import type { ISize } from "../../../common"
+import type { TSize } from "../../../common"
 
 function getEdges(
   tetriminos: Tetrimino[],
-  playAreaSize: ISize
+  playAreaSize: TSize
 ): [number, number][] {
   // Create owners map
   const owners: number[][] = new Array(playAreaSize.height)
@@ -43,16 +43,14 @@ function getEdges(
 
   return uniq(
     flatten(
-      map(tetriminos, (tetrimino, index) => {
-        const singleTetriminoDeps: [number, number][] = []
-        for (let i = 0; i < tetrimino.blocks.length; i++) {
-          const block = tetrimino.blocks[i]
-          const dependedBlockRow = block.position[1] + 1
-          const dependedBlockCol = block.position[0]
-          const result = tryGetOccupiedTetriminoNode(
+      map(tetriminos, (t, index) => {
+        const deps: [number, number][] = []
+        for (let i = 0; i < t.blocks.length; i++) {
+          const block = t.blocks[i]
+          const result = tryGetOccupant(
             owners,
-            dependedBlockRow,
-            dependedBlockCol,
+            block.position[1] + 1 /* Lower row... */,
+            block.position[0] /* ...and same column */,
             playAreaSize
           )
           if (isNil(result) || result === index) {
@@ -60,19 +58,19 @@ function getEdges(
             continue
           }
           // Found a result
-          singleTetriminoDeps.push([result, index])
+          deps.push([result, index])
         }
-        return singleTetriminoDeps
+        return deps
       })
     )
   )
 }
 
-function tryGetOccupiedTetriminoNode(
+function tryGetOccupant(
   map: number[][],
   row: number,
   col: number,
-  playAreaSize: ISize
+  playAreaSize: TSize
 ): number | null {
   if (
     row < 0 ||
@@ -83,21 +81,14 @@ function tryGetOccupiedTetriminoNode(
     return null
   }
 
-  const cell = map[row][col]
-  if (isNil(cell)) {
-    return null
-  }
-
-  return cell
+  return map[row][col] ?? null
 }
 
 export function sort(
   tetriminos: Tetrimino[],
-  playAreaSize: ISize
+  playAreaSize: TSize
 ): Tetrimino[] {
   const edges = getEdges(tetriminos, playAreaSize)
   const sortedIndices = toposort(edges)
-  const sortedTetriminos = rearrange(tetriminos, sortedIndices)
-
-  return sortedTetriminos
+  return rearrange(tetriminos, sortedIndices)
 }

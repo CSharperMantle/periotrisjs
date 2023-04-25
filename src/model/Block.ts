@@ -17,7 +17,7 @@
 
 import { TetriminoKind } from "./TetriminoKind"
 
-import type { Position } from "../common"
+import type { TPosition } from "../common"
 
 /**
  * The block, the most basic unit of the game.
@@ -25,7 +25,7 @@ import type { Position } from "../common"
 export class Block {
   public constructor(
     public readonly filledBy: TetriminoKind,
-    public readonly position: Position,
+    public readonly position: TPosition,
     public /* readonly */ atomicNumber = 0,
     public readonly id = 0
   ) {}

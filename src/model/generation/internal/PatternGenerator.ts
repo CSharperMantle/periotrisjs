@@ -20,7 +20,7 @@ import { map, shuffle } from "lodash"
 import { isNil } from "../../../common"
 import { Block } from "../../Block"
 import { Direction, RotationDirection } from "../../Direction"
-import { repairBrokenTetriminos, Tetrimino } from "../../Tetrimino"
+import { Tetrimino, repairBrokenTetriminos } from "../../Tetrimino"
 import {
   getInitialPositionByKind,
   getPositionByFirstBlock,
@@ -28,7 +28,7 @@ import {
 import { TetriminoKind } from "../../TetriminoKind"
 import { sort } from "./TetriminoSorter"
 
-import type { ISize, Position } from "../../../common"
+import type { TPosition, TSize } from "../../../common"
 import type { IMap } from "../../../customization"
 
 function fastRandom(startInc: number, endExc: number): number {
@@ -60,9 +60,7 @@ export async function getPlayablePattern(gameMap: IMap): Promise<Tetrimino[]> {
   )
 
   const fixedTetriminos = repairBrokenTetriminos(ordered)
-
   primeTetriminos(fixedTetriminos, gameMap.playAreaSize)
-
   return fixedTetriminos
 }
 
@@ -196,7 +194,7 @@ function collisionChecker(
 
 function getFirstAvailableBlockCoord(
   occupationMap: TetriminoKind[][]
-): Position {
+): TPosition {
   for (let nRow = occupationMap.length - 1; nRow >= 0; nRow--) {
     const col = occupationMap[nRow]
     for (let nCol = col.length - 1; nCol >= 0; nCol--) {
@@ -235,7 +233,7 @@ class KindDirectionsPair {
  * @param tetriminos The tetriminos to prime.
  * @param playAreaSize Size of play area.
  */
-function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
+function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: TSize) {
   // Move to initial position and rotate randomly
   tetriminos.forEach((tetrimino) => {
     const originalPos = tetrimino.position

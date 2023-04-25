@@ -32,7 +32,6 @@ import {
 } from "../components/timerDisplay/timerDisplaySlice"
 import { customizationFacade } from "../customization"
 import {
-  BlocksChangedEventArgs,
   GameModel,
   GameState,
   MoveDirection,
@@ -40,7 +39,8 @@ import {
 } from "../model"
 import { appStore } from "./appStore"
 
-import type { Position } from "../common"
+import type { TPosition } from "../common"
+import type { TBlocksChangedEventArgs } from "../model"
 import type { IBlockSprite } from "./IBlockSprite"
 
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
@@ -68,7 +68,7 @@ export class GameViewModel {
 
   private readonly _model: GameModel = new GameModel()
 
-  private readonly _blocksByPosition: Map<Position, IBlockSprite> = new Map()
+  private readonly _blocksByPosition: Map<TPosition, IBlockSprite> = new Map()
 
   private _gameIntervalTimerHandle: number | null = null
 
@@ -198,7 +198,7 @@ export class GameViewModel {
   }
 
   private modelBlocksChangedEventHandler(
-    eventArgs: BlocksChangedEventArgs
+    eventArgs: TBlocksChangedEventArgs
   ): void {
     const blocks = eventArgs.blocks
     if (!eventArgs.disappeared) {

@@ -19,7 +19,7 @@ import { Block } from "./Block"
 import { Direction } from "./Direction"
 import { TetriminoKind } from "./TetriminoKind"
 
-import type { ISize, Position } from "../common"
+import type { TPosition, TSize } from "../common"
 
 const CubicDownMask: number[][] = [
   [3, 4],
@@ -396,10 +396,10 @@ export function getFirstBlockCoordByType(
  * @returns The transformed position.
  */
 export function getPositionByFirstBlock(
-  position: Position,
+  position: TPosition,
   kind: TetriminoKind,
   facingDirection: Direction
-): Position {
+): TPosition {
   const firstBlockCoord = getFirstBlockCoordByType(kind, facingDirection)
   const firstBlockRow = firstBlockCoord.row
   const firstBlockCol = firstBlockCoord.col
@@ -408,8 +408,8 @@ export function getPositionByFirstBlock(
 
 export function getInitialPositionByKind(
   kind: TetriminoKind,
-  playAreaSize: ISize
-): Position {
+  playAreaSize: TSize
+): TPosition {
   let length: number
   switch (kind) {
     case TetriminoKind.Linear:
@@ -433,7 +433,7 @@ export function getInitialPositionByKind(
 
 export function createOffsetedBlocks(
   kind: TetriminoKind,
-  offset: Position,
+  offset: TPosition,
   direction: Direction = Direction.Up
 ): Block[] {
   const mask = getBlocksMask(kind, direction)

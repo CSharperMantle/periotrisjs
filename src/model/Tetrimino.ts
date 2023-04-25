@@ -22,14 +22,14 @@ import { Direction, MoveDirection, RotationDirection } from "./Direction"
 import { createOffsetedBlocks, mapAtomicNumberInto } from "./TetriminoHelper"
 import { TetriminoKind } from "./TetriminoKind"
 
-import type { Position } from "../common"
+import type { TPosition } from "../common"
 
 /**
  * The type for block collision checker.
  *
  * @returns 'false' if no collision found. Otherwise 'true'.
  */
-export type TBlockCollisionChecker = (block: Block) => boolean
+export type TCollisionChecker = (block: Block) => boolean
 
 /**
  * The tetrimino.
@@ -46,7 +46,7 @@ export class Tetrimino {
    */
   public tryMove(
     direction: MoveDirection,
-    collisionChecker: TBlockCollisionChecker
+    collisionChecker: TCollisionChecker
   ): boolean {
     const deltaY = direction === MoveDirection.Down ? 1 : 0
     const deltaX =
@@ -54,10 +54,8 @@ export class Tetrimino {
       (direction === MoveDirection.Right ? 1 : -1)
 
     const newBlocks = map(this.blocks, (b) => ({
-      filledBy: b.filledBy,
+      ...b,
       position: [b.position[0] + deltaX, b.position[1] + deltaY] as const,
-      atomicNumber: b.atomicNumber,
-      id: b.id,
     }))
 
     if (newBlocks.some(collisionChecker)) {
@@ -80,7 +78,7 @@ export class Tetrimino {
    */
   public tryRotate(
     rotationDirection: RotationDirection,
-    collisionChecker: TBlockCollisionChecker
+    collisionChecker: TCollisionChecker
   ): boolean {
     // Find the final direction
     const count = Object.keys(Direction).length / 2
@@ -118,7 +116,7 @@ export class Tetrimino {
    */
   public constructor(
     public kind: TetriminoKind,
-    public position: Position,
+    public position: TPosition,
     public facingDirection: Direction
   ) {
     this.blocks = createOffsetedBlocks(kind, position, facingDirection)
@@ -135,11 +133,7 @@ export class Tetrimino {
 export function repairBrokenTetriminos(
   brokenTetriminos: Tetrimino[]
 ): Tetrimino[] {
-  const repairedTetriminos = map(brokenTetriminos, (brokenTetrimino) =>
-    Object.create(
-      Tetrimino.prototype,
-      Object.getOwnPropertyDescriptors(brokenTetrimino)
-    )
+  return map(brokenTetriminos, (t) =>
+    Object.create(Tetrimino.prototype, Object.getOwnPropertyDescriptors(t))
   )
-  return repairedTetriminos
 }

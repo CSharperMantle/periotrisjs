@@ -23,7 +23,6 @@ import { isNil, waitForEvent } from "../common"
 import { customizationFacade } from "../customization"
 import { Block } from "./Block"
 import { MoveDirection, RotationDirection } from "./Direction"
-import { BlocksChangedEventArgs } from "./EventArgs"
 import { GameState } from "./GameState"
 import { getPlayablePattern, MessageType } from "./generation"
 import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
@@ -76,7 +75,7 @@ export class GameModel extends EventEmitter {
   public get gameState(): GameState {
     return this._gameState
   }
-  private set gameState(v: GameState) {
+  private set gameState(v) {
     this._gameState = v
     this.onGameStateChanged()
   }
@@ -345,7 +344,7 @@ export class GameModel extends EventEmitter {
    * @param disappeared Whether the block disappeared.
    */
   private onBlocksChanged(blocks: Block[], disappeared: boolean): void {
-    this.emit("blockschanged", new BlocksChangedEventArgs(blocks, disappeared))
+    this.emit("blockschanged", { blocks, disappeared })
   }
 
   /**
