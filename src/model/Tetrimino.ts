@@ -135,13 +135,11 @@ export class Tetrimino {
 export function repairBrokenTetriminos(
   brokenTetriminos: Tetrimino[]
 ): Tetrimino[] {
-  const repairedTetriminos = map(
-    brokenTetriminos,
-    (brokenTetrimino) =>
-      Object.create(
-        Tetrimino.prototype,
-        Object.getOwnPropertyDescriptors(brokenTetrimino)
-      ) as Tetrimino
+  const repairedTetriminos = map(brokenTetriminos, (brokenTetrimino) =>
+    Object.create(
+      Tetrimino.prototype,
+      Object.getOwnPropertyDescriptors(brokenTetrimino)
+    )
   )
   return repairedTetriminos
 }

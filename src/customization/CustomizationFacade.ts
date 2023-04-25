@@ -19,12 +19,17 @@ import { History } from "./history"
 import { Settings } from "./settings"
 
 /**
- * A unified facade for all user customization preferences.
+ * A facade for all user customization preferences.
  */
 export class CustomizationFacade {
   public readonly history = History.fromLocalStorage()
 
   public readonly settings = Settings.fromLocalStorage()
+
+  public clear(): void {
+    this.history.clear()
+    this.settings.clear()
+  }
 }
 
 /**
