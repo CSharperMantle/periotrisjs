@@ -35,8 +35,8 @@ import { appStore } from "../viewmodel"
 import { MainAppBar } from "./mainAppBar/MainAppBar"
 
 export interface IPageLocationElement {
-  name: string
-  path: string
+  readonly name: string
+  readonly path: string
 }
 
 export interface ICommonLayoutProps {

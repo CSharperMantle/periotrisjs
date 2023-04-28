@@ -21,11 +21,11 @@ import toposort from "toposort"
 import { isNil, rearrange } from "../../../common"
 import { Tetrimino } from "../../Tetrimino"
 
-import type { TSize } from "../../../common"
+import type { ISize } from "../../../common"
 
 function getEdges(
   tetriminos: Tetrimino[],
-  playAreaSize: TSize
+  playAreaSize: ISize
 ): [number, number][] {
   // Create owners map
   const owners: number[][] = new Array(playAreaSize.height)
@@ -70,7 +70,7 @@ function tryGetOccupant(
   map: number[][],
   row: number,
   col: number,
-  playAreaSize: TSize
+  playAreaSize: ISize
 ): number | null {
   if (
     row < 0 ||
@@ -86,7 +86,7 @@ function tryGetOccupant(
 
 export function sort(
   tetriminos: Tetrimino[],
-  playAreaSize: TSize
+  playAreaSize: ISize
 ): Tetrimino[] {
   const edges = getEdges(tetriminos, playAreaSize)
   const sortedIndices = toposort(edges)

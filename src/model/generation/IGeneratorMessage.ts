@@ -18,6 +18,6 @@
 import { MessageType } from "./MessageType"
 
 export interface IGeneratorMessage<T> {
-  type: MessageType
-  content: T
+  readonly type: MessageType
+  readonly content: T
 }

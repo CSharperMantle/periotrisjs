@@ -22,7 +22,7 @@ import { GameState } from "./GameState"
 import { Tetrimino } from "./Tetrimino"
 import { TetriminoKind } from "./TetriminoKind"
 
-import type { TBlocksChangedEventArgs } from "./EventArgs"
+import type { IBlocksChangedEventArgs } from "./EventArgs"
 
 export {
   Block,
@@ -35,4 +35,4 @@ export {
   TetriminoKind,
 }
 
-export type { TBlocksChangedEventArgs }
+export type { IBlocksChangedEventArgs }

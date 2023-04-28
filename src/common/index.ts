@@ -28,8 +28,8 @@ import { isNil } from "./isNil"
 import { rearrange } from "./rearrange"
 import { waitForEvent } from "./waitForEvent"
 
+import type { ISize } from "./ISize"
 import type { TPosition } from "./TPosition"
-import type { TSize } from "./TSize"
 
 export {
   DefaultGameUpdateIntervalMilliseconds,
@@ -43,4 +43,4 @@ export {
   isNil,
   formatDuration,
 }
-export type { TSize, TPosition }
+export type { ISize, TPosition }

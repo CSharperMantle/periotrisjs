@@ -18,7 +18,7 @@
 /**
  * Represents a size (width and height).
  */
-export type TSize = {
+export interface ISize {
   readonly width: number
   readonly height: number
 }

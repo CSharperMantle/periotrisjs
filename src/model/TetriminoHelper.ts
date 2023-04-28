@@ -19,7 +19,7 @@ import { Block } from "./Block"
 import { Direction } from "./Direction"
 import { TetriminoKind } from "./TetriminoKind"
 
-import type { TPosition, TSize } from "../common"
+import type { ISize, TPosition } from "../common"
 
 const CubicDownMask: number[][] = [
   [3, 4],
@@ -408,7 +408,7 @@ export function getPositionByFirstBlock(
 
 export function getInitialPositionByKind(
   kind: TetriminoKind,
-  playAreaSize: TSize
+  playAreaSize: ISize
 ): TPosition {
   let length: number
   switch (kind) {

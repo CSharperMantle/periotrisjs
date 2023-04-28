@@ -17,7 +17,7 @@
 
 import { Block } from "./Block"
 
-export type TBlocksChangedEventArgs = {
+export interface IBlocksChangedEventArgs {
   readonly blocks: Block[]
   readonly disappeared: boolean
 }

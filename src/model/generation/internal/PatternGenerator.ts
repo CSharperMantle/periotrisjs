@@ -28,7 +28,7 @@ import {
 import { TetriminoKind } from "../../TetriminoKind"
 import { sort } from "./TetriminoSorter"
 
-import type { TPosition, TSize } from "../../../common"
+import type { TPosition, ISize } from "../../../common"
 import type { IMap } from "../../../customization"
 
 function fastRandom(startInc: number, endExc: number): number {
@@ -233,7 +233,7 @@ class KindDirectionsPair {
  * @param tetriminos The tetriminos to prime.
  * @param playAreaSize Size of play area.
  */
-function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: TSize) {
+function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
   // Move to initial position and rotate randomly
   tetriminos.forEach((tetrimino) => {
     const originalPos = tetrimino.position

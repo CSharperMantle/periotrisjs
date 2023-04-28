@@ -40,7 +40,7 @@ import {
 import { appStore } from "./appStore"
 
 import type { TPosition } from "../common"
-import type { TBlocksChangedEventArgs } from "../model"
+import type { IBlocksChangedEventArgs } from "../model"
 import type { IBlockSprite } from "./IBlockSprite"
 
 const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
@@ -198,7 +198,7 @@ export class GameViewModel {
   }
 
   private modelBlocksChangedEventHandler(
-    eventArgs: TBlocksChangedEventArgs
+    eventArgs: IBlocksChangedEventArgs
   ): void {
     const blocks = eventArgs.blocks
     if (!eventArgs.disappeared) {
