@@ -15,7 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { isBrowser } from "is-in-browser"
 import { filter, forEach, map } from "lodash"
 
 import { StopwatchUpdateIntervalMilliseconds } from "../common"
@@ -42,8 +41,6 @@ import { appStore } from "./appStore"
 import type { TPosition } from "../common"
 import type { IBlocksChangedEventArgs } from "../model"
 import type { IBlockSprite } from "./IBlockSprite"
-
-const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
 /**
  * The view model of Periotris.
@@ -112,39 +109,39 @@ export class GameViewModel {
     return true
   }
 
-  public onTap(): boolean {
+  public onTap(duration: number): boolean {
     if (this._paused) {
       return false
     }
-    this._model.rotateActiveTetrimino(RotationDirection.Right)
+    if (duration > 300 /* TODO: Add parametric threshold! */) {
+      this._model.instantDropActiveTetrimino()
+    } else {
+      this._model.rotateActiveTetrimino(RotationDirection.Right)
+    }
     return true
   }
 
-  public onSwipe(ev: HammerInput): boolean {
+  public onSwipe([swipeX, swipeY]: [number, number]): boolean {
     if (this._paused) {
       return false
     }
-    switch (ev.direction) {
-      case Hammer.DIRECTION_LEFT:
+    switch (swipeX) {
+      case -1:
         this._model.moveActiveTetrimino(MoveDirection.Left)
         break
-      case Hammer.DIRECTION_RIGHT:
+      case 1:
         this._model.moveActiveTetrimino(MoveDirection.Right)
         break
-      case Hammer.DIRECTION_DOWN:
+      default:
+        break
+    }
+    switch (swipeY) {
+      case -1:
         this._model.moveActiveTetrimino(MoveDirection.Down)
         break
       default:
-        return false
+        break
     }
-    return true
-  }
-
-  public onPressUp(): boolean {
-    if (this._paused) {
-      return false
-    }
-    this._model.instantDropActiveTetrimino()
     return true
   }
 
