@@ -25,8 +25,8 @@ import Typography from "@mui/material/Typography"
 import type { IPageLocationElement } from "../CommonLayout"
 
 interface IMenuPageLinkListProps {
-  pageLocation: IPageLocationElement[]
-  handleCloseMenu: (event: React.MouseEvent<HTMLElement>) => void
+  readonly pageLocation: IPageLocationElement[]
+  readonly handleCloseMenu: (event: React.MouseEvent<HTMLElement>) => void
 }
 
 export const MenuPageLinkList = (

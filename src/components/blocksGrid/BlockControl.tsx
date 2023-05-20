@@ -26,8 +26,8 @@ import defaultPeriodicTable from "../../json/DefaultPeriodicTable.json"
 import type { IBlockDisplay } from "./IBlockDisplay"
 
 interface IBlockControlText {
-  hasContent: boolean
-  atomicNumber: number
+  readonly hasContent: boolean
+  readonly atomicNumber: number
 }
 
 const BlockControlText = ({
@@ -62,7 +62,7 @@ const BlockControlText = ({
 }
 
 interface IBlockControlProps {
-  block: IBlockDisplay
+  readonly block: IBlockDisplay
 }
 
 export const BlockControl = ({

@@ -34,11 +34,11 @@ const HiddenInput = styled("input")({
 })
 
 interface IFileUploadButtonProps {
-  id: string
-  accept: string
-  multiple?: boolean
-  tooltipCaption: string
-  onFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  readonly id: string
+  readonly accept: string
+  readonly multiple?: boolean
+  readonly tooltipCaption: string
+  readonly onFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const FileUploadButton = ({
@@ -76,15 +76,15 @@ const FileUploadButton = ({
 }
 
 interface IFileFormControlProps {
-  id: string
-  initialFileContent: string
-  accept: string
-  tooltipCaption: string
-  label: string
-  helperText: string
-  readOnly?: boolean
-  onFileChange: (newContent: string) => boolean | void
-  contentPreprocessor?: (content: string) => string
+  readonly id: string
+  readonly initialFileContent: string
+  readonly accept: string
+  readonly tooltipCaption: string
+  readonly label: string
+  readonly helperText: string
+  readonly readOnly?: boolean
+  readonly onFileChange: (newContent: string) => boolean | void
+  readonly contentPreprocessor?: (content: string) => string
 }
 
 export const FileFormControl = ({

@@ -25,8 +25,8 @@ import Button from "@mui/material/Button"
 import type { IPageLocationElement } from "../CommonLayout"
 
 interface IMenuTitleButtonListProps {
-  pageLocation: IPageLocationElement[]
-  handleCloseMenu: (event: React.MouseEvent<HTMLElement>) => void
+  readonly pageLocation: IPageLocationElement[]
+  readonly handleCloseMenu: (event: React.MouseEvent<HTMLElement>) => void
 }
 
 export const MenuTitleButtonList = (
