@@ -21,9 +21,6 @@ const config: GatsbyConfig = {
   plugins: [
     "gatsby-plugin-typescript",
     {
-      resolve: "gatsby-plugin-material-ui",
-    },
-    {
       resolve: "gatsby-plugin-manifest",
       options: {
         name: "Periotris.js",
