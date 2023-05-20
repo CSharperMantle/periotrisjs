@@ -15,6 +15,8 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import { langs, defaultLang } from "./src/i18n"
+
 import type { GatsbyConfig } from "gatsby"
 
 const config: GatsbyConfig = {
@@ -41,6 +43,28 @@ const config: GatsbyConfig = {
     },
     "gatsby-source-local-git",
     "gatsby-source-package",
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        path: `${__dirname}/src/i18n/locales`,
+        name: "locale",
+      },
+    },
+    {
+      resolve: "gatsby-plugin-react-i18next",
+      options: {
+        languages: langs,
+        defaultLanguage: defaultLang,
+        i18nextOptions: {
+          fallbackLng: defaultLang,
+          supportedLngs: langs,
+          defaultNS: "common",
+          interpolation: {
+            escapeValue: false,
+          },
+        },
+      },
+    },
   ],
   siteMetadata: {
     title: "Periotris.js",

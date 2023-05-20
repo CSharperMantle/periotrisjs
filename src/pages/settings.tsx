@@ -30,12 +30,7 @@ import Stack from "@mui/material/Stack"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 
-import {
-  CommonHead,
-  CommonLayout,
-  FileFormControl,
-  NumberFormControl,
-} from "../components"
+import { CommonHead, FileFormControl, NumberFormControl } from "../components"
 import { customizationFacade } from "../customization"
 
 const assistanceGridAppearanceOptions = [
@@ -220,10 +215,6 @@ const App = (): React.ReactElement => {
   )
 }
 
-App.Layout = CommonLayout
-
 export default App
 
-export const Head = (): React.ReactElement => {
-  return <CommonHead />
-}
+export const Head = CommonHead

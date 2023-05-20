@@ -26,7 +26,7 @@ import Link from "@mui/material/Link"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 
-import { CommonLayout, CommonHead } from "../components"
+import { CommonHead } from "../components"
 
 const codeStyle = {
   fontFamily: '"Fira Code", Consolas, monospace',
@@ -111,13 +111,9 @@ const App = ({
   )
 }
 
-App.Layout = CommonLayout
-
 export default App
 
-export const Head = (): React.ReactElement => {
-  return <CommonHead />
-}
+export const Head = CommonHead
 
 export const query = graphql`
   query AboutPage {

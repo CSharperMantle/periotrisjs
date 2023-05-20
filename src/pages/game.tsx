@@ -23,12 +23,7 @@ import { useDrag } from "@use-gesture/react"
 import Box from "@mui/material/Box"
 
 import { flushed } from "../common"
-import {
-  BlocksGrid,
-  CommonHead,
-  CommonLayout,
-  GameControlBackdrop,
-} from "../components"
+import { BlocksGrid, CommonHead, GameControlBackdrop } from "../components"
 import { GameViewModel } from "../viewmodel"
 
 const App = (): React.ReactElement => {
@@ -105,10 +100,6 @@ const App = (): React.ReactElement => {
   )
 }
 
-App.Layout = CommonLayout
-
 export default App
 
-export const Head = (): React.ReactElement => {
-  return <CommonHead />
-}
+export const Head = CommonHead

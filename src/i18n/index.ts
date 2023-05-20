@@ -15,16 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import React from "react"
+import { langs, defaultLang } from "./lang"
 
-import { CommonHead } from "../components"
-
-const ErrorPage = (): React.ReactElement => {
-  return <main>Placeholder error page</main>
-}
-
-export default ErrorPage
-
-export const Head = (): React.ReactElement => {
-  return <CommonHead />
-}
+export { langs, defaultLang }

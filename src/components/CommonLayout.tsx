@@ -23,7 +23,6 @@ import "./CommonLayout.css"
 import { graphql, useStaticQuery } from "gatsby"
 import { SnackbarProvider } from "notistack"
 import React from "react"
-import { Provider as ReduxProvider } from "react-redux"
 
 import Box from "@mui/material/Box"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -31,7 +30,7 @@ import { StyledEngineProvider } from "@mui/material/styles"
 import ThemeProvider from "@mui/material/styles/ThemeProvider"
 
 import { theme } from "../../src/ThemeOptions"
-import { appStore } from "../viewmodel"
+
 import { MainAppBar } from "./mainAppBar/MainAppBar"
 
 export interface IPageLocationElement {
@@ -40,39 +39,38 @@ export interface IPageLocationElement {
 }
 
 export interface ICommonLayoutProps {
-  children: React.ReactNode
+  readonly children: React.ReactNode
 }
 
-export const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
+export const CommonLayout = ({
+  children,
+}: ICommonLayoutProps): React.ReactElement => {
   return (
-    <>
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <ReduxProvider store={appStore}>
-            <SnackbarProvider
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "center",
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+        >
+          <>
+            <CssBaseline enableColorScheme />
+            <Box
+              sx={{
+                display: "flex",
+                flexFlow: "column nowrap",
+                minHeight: "100vh",
+                maxHeight: "100vh",
               }}
             >
-              <CssBaseline enableColorScheme />
-              <Box
-                sx={{
-                  display: "flex",
-                  flexFlow: "column nowrap",
-                  minHeight: "100vh",
-                  maxHeight: "100vh",
-                }}
-              >
-                <MainAppBar />
-                {/* Now injecting real children. */}
-                {props.children}
-              </Box>
-            </SnackbarProvider>
-          </ReduxProvider>
-        </ThemeProvider>
-      </StyledEngineProvider>
-    </>
+              <MainAppBar />
+              {children}
+            </Box>
+          </>
+        </SnackbarProvider>
+      </ThemeProvider>
+    </StyledEngineProvider>
   )
 }
 

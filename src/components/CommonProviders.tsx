@@ -16,15 +16,16 @@
  */
 
 import React from "react"
+import { Provider as ReduxProvider } from "react-redux"
 
-import { CommonHead } from "../components"
+import { appStore } from "../viewmodel"
 
-const ErrorPage = (): React.ReactElement => {
-  return <main>Placeholder error page</main>
+export interface ICommonProvidersProps {
+  readonly children: React.ReactNode
 }
 
-export default ErrorPage
-
-export const Head = (): React.ReactElement => {
-  return <CommonHead />
+export const CommonProviders = ({
+  children,
+}: ICommonProvidersProps): React.ReactElement => {
+  return <ReduxProvider store={appStore}>{children}</ReduxProvider>
 }

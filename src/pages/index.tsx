@@ -16,6 +16,7 @@
  */
 
 import { graphql, Link, PageProps } from "gatsby"
+import { useTranslation } from "gatsby-plugin-react-i18next"
 import React from "react"
 
 import Button from "@mui/material/Button"
@@ -23,7 +24,7 @@ import Container from "@mui/material/Container"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 
-import { CommonHead, CommonLayout } from "../components"
+import { CommonHead } from "../components"
 import PageLocation from "../json/PageLocation.json"
 
 const codeStyle = {
@@ -34,6 +35,8 @@ const App = ({
   data,
 }: PageProps<Queries.IndexPageQuery>): React.ReactElement => {
   const gamePage = PageLocation.filter((page) => page.name === "Game")[0]
+
+  const { t } = useTranslation()
 
   return (
     <Stack
@@ -53,7 +56,7 @@ const App = ({
       >
         <Typography variant="h2">Periotris.js</Typography>
         <Typography variant="body1" {...codeStyle}>
-          Version {data.package?.version}
+          {t("indexVersion", { version: data.package?.version })}
         </Typography>
       </Stack>
       <Container
@@ -74,25 +77,32 @@ const App = ({
           component={Link}
           to={gamePage.path}
         >
-          Start
+          {t("indexStart")}
         </Button>
       </Container>
     </Stack>
   )
 }
 
-App.Layout = CommonLayout
-
 export default App
 
-export const Head = (): React.ReactElement => {
-  return <CommonHead />
-}
+export const Head = CommonHead
 
 export const query = graphql`
-  query IndexPage {
+  query IndexPage($language: String!) {
     package {
       version
+    }
+    locales: allLocale(
+      filter: { ns: { in: ["index"] }, language: { eq: $language } }
+    ) {
+      edges {
+        node {
+          ns
+          data
+          language
+        }
+      }
     }
   }
 `
