@@ -16,7 +16,7 @@
  */
 
 import { graphql, Link, PageProps } from "gatsby"
-import { useTranslation } from "gatsby-plugin-react-i18next"
+import { useI18next } from "gatsby-plugin-react-i18next"
 import React from "react"
 
 import Button from "@mui/material/Button"
@@ -36,7 +36,7 @@ const App = ({
 }: PageProps<Queries.IndexPageQuery>): React.ReactElement => {
   const gamePage = PageLocation.filter((page) => page.name === "Game")[0]
 
-  const { t } = useTranslation()
+  const { t } = useI18next()
 
   return (
     <Stack
@@ -56,7 +56,7 @@ const App = ({
       >
         <Typography variant="h2">Periotris.js</Typography>
         <Typography variant="body1" {...codeStyle}>
-          {t("indexVersion", { version: data.package?.version })}
+          {t("typ_version", { version: data.package?.version })}
         </Typography>
       </Stack>
       <Container
@@ -77,7 +77,7 @@ const App = ({
           component={Link}
           to={gamePage.path}
         >
-          {t("indexStart")}
+          {t("cap_start")}
         </Button>
       </Container>
     </Stack>

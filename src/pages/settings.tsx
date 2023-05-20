@@ -17,6 +17,9 @@
 
 import validateColorScheme from "ajv-json-loader!../json/schema/ColorScheme.json.schema"
 import validateMap from "ajv-json-loader!../json/schema/Map.json.schema"
+
+import { graphql } from "gatsby"
+import { useI18next } from "gatsby-plugin-react-i18next"
 import { map } from "lodash"
 import { useSnackbar } from "notistack"
 import React from "react"
@@ -33,18 +36,20 @@ import Typography from "@mui/material/Typography"
 import { CommonHead, FileFormControl, NumberFormControl } from "../components"
 import { customizationFacade } from "../customization"
 
-const assistanceGridAppearanceOptions = [
-  {
-    value: "visible",
-    label: "Visible",
-  },
-  {
-    value: "hidden",
-    label: "Hidden",
-  },
-]
-
 const App = (): React.ReactElement => {
+  const { t, changeLanguage, languages, language } = useI18next()
+
+  const assistanceGridAppearanceOptions = [
+    {
+      value: "visible",
+      label: t("lbl_option_assistance_grid_visible"),
+    },
+    {
+      value: "hidden",
+      label: t("lbl_option_assistance_grid_hidden"),
+    },
+  ]
+
   const { enqueueSnackbar } = useSnackbar()
 
   const [assistanceGridMode, setAssistanceGridMode] = React.useState(
@@ -59,6 +64,12 @@ const App = (): React.ReactElement => {
     setAssistanceGridMode(value)
   }
 
+  const handleLangChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    await changeLanguage(event.target.value)
+  }
+
   const jsonMinifyPreprocessor = (json: string): string => {
     return JSON.stringify(JSON.parse(json))
   }
@@ -69,10 +80,7 @@ const App = (): React.ReactElement => {
       customizationFacade.settings.colorScheme = obj
       return true
     }
-    enqueueSnackbar(
-      "Invalid color scheme file. Please check your file format.",
-      { variant: "error" }
-    )
+    enqueueSnackbar(t("msg_color_scheme_invalid"), { variant: "error" })
     return false
   }
 
@@ -82,7 +90,7 @@ const App = (): React.ReactElement => {
       customizationFacade.settings.gameMap = obj
       return true
     }
-    enqueueSnackbar("Invalid game map file. Please check your file format.", {
+    enqueueSnackbar(t("msg_game_map_invalid"), {
       variant: "error",
     })
     return false
@@ -91,7 +99,7 @@ const App = (): React.ReactElement => {
   const handleUpdateIntervalChange = (newContent: string): boolean => {
     const value = parseInt(`0${newContent}`, 10)
     if (isNaN(value)) {
-      enqueueSnackbar("Invalid falling speed value.", { variant: "error" })
+      enqueueSnackbar(t("msg_update_interval_invalid"), { variant: "error" })
       return false
     }
     customizationFacade.settings.gameUpdateIntervalMilliseconds = value
@@ -101,7 +109,7 @@ const App = (): React.ReactElement => {
   const handleBorderThicknessChange = (newContent: string): boolean => {
     const value = parseInt(`0${newContent}`, 10)
     if (isNaN(value) || value <= 0) {
-      enqueueSnackbar("Invalid border thickness value.", { variant: "error" })
+      enqueueSnackbar(t("msg_border_thickness_invalid"), { variant: "error" })
       return false
     }
     customizationFacade.settings.borderThickness = value
@@ -127,14 +135,33 @@ const App = (): React.ReactElement => {
               mb: 2,
             }}
           >
-            Appearance
+            {t("typ_category_appearance")}
           </Typography>
+          <FormControl>
+            <TextField
+              id="lang-input"
+              select
+              value={language}
+              label={t("lbl_lang")}
+              aria-describedby="lang-input-helper-text"
+              onChange={handleLangChange}
+            >
+              {map(languages, (lang) => (
+                <MenuItem key={lang} value={lang}>
+                  {lang}
+                </MenuItem>
+              ))}
+            </TextField>
+            <FormHelperText id="lang-input-helper-text">
+              {t("typ_lang_helper")}
+            </FormHelperText>
+          </FormControl>
           <FormControl>
             <TextField
               id="assistance-grid-input"
               select
               value={assistanceGridMode}
-              label="Assistance Grid"
+              label={t("lbl_assistance_grid")}
               aria-describedby="assistance-grid-input-helper-text"
               onChange={handleAssistanceGridModeChange}
             >
@@ -145,15 +172,14 @@ const App = (): React.ReactElement => {
               ))}
             </TextField>
             <FormHelperText id="assistance-grid-input-helper-text">
-              Controls the assistance grid which outlines each grid square to
-              help you better position falling blocks.
+              {t("typ_assistance_grid_helper")}
             </FormHelperText>
           </FormControl>
           <NumberFormControl
             id="border-thickness-input"
-            label="Border Thickness"
+            label={t("lbl_border_thickness")}
             initialContent={customizationFacade.settings.borderThickness.toString()}
-            helperText="Controls thickness of borders around cells in pixels."
+            helperText={t("typ_border_thickness_helper")}
             min={0}
             step={1}
             adornments={{
@@ -168,9 +194,9 @@ const App = (): React.ReactElement => {
               customizationFacade.settings.colorScheme
             )}
             accept="application/json"
-            label="Color Scheme"
-            helperText="Controls the color scheme of Periotris via JSON."
-            buttonCaption="OPEN"
+            label={t("lbl_color_scheme")}
+            helperText={t("typ_color_scheme_helper")}
+            tooltipCaption={t("cap_open_button")}
             onFileChange={handleColorSchemeFileChange}
             contentPreprocessor={jsonMinifyPreprocessor}
           />
@@ -182,7 +208,7 @@ const App = (): React.ReactElement => {
               mb: 2,
             }}
           >
-            Gameplay
+            {t("typ_category_gameplay")}
           </Typography>
           <FileFormControl
             id="game-map-input"
@@ -191,19 +217,19 @@ const App = (): React.ReactElement => {
               customizationFacade.settings.gameMap
             )}
             accept="application/json"
-            label="Game Map"
-            helperText="Controls the periodic table map to play with in the game via JSON."
-            buttonCaption="OPEN"
+            label={t("lbl_game_map")}
+            helperText={t("typ_game_map_helper")}
+            tooltipCaption={t("cap_open_button")}
             onFileChange={handleGameMapFileChange}
             contentPreprocessor={jsonMinifyPreprocessor}
           />
           <NumberFormControl
             id="update-interval-input"
-            label="Update Interval"
+            label={t("lbl_update_interval")}
             initialContent={customizationFacade.settings.gameUpdateIntervalMilliseconds.toString()}
             min={0}
             step={100}
-            helperText="Controls the interval of two ticks in game in milliseconds."
+            helperText={t("typ_update_interval_helper")}
             adornments={{
               endAdornment: <InputAdornment position="end">ms</InputAdornment>,
             }}
@@ -218,3 +244,19 @@ const App = (): React.ReactElement => {
 export default App
 
 export const Head = CommonHead
+
+export const query = graphql`
+  query SettingsPage($language: String!) {
+    locales: allLocale(
+      filter: { ns: { in: ["settings"] }, language: { eq: $language } }
+    ) {
+      edges {
+        node {
+          ns
+          data
+          language
+        }
+      }
+    }
+  }
+`

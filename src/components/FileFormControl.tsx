@@ -15,13 +15,15 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import React from "react"
+import React, { useRef } from "react"
 
-import Button from "@mui/material/Button"
+import FileOpenIcon from "@mui/icons-material/FileOpen"
 import FormControl from "@mui/material/FormControl"
 import FormHelperText from "@mui/material/FormHelperText"
 import Grid from "@mui/material/Grid"
+import IconButton from "@mui/material/IconButton"
 import TextField from "@mui/material/TextField"
+import Tooltip from "@mui/material/Tooltip"
 import styled from "@mui/system/styled"
 
 import { isNil } from "../common"
@@ -34,7 +36,7 @@ interface IFileUploadButtonProps {
   id: string
   accept: string
   multiple?: boolean
-  caption: string
+  tooltipCaption: string
   onFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
@@ -42,9 +44,11 @@ const FileUploadButton = ({
   id,
   accept,
   multiple,
-  caption,
+  tooltipCaption,
   onFileChange,
 }: IFileUploadButtonProps): React.ReactElement => {
+  const hiddenFileInputRef = useRef<HTMLInputElement>(null)
+
   return (
     <>
       <HiddenInput
@@ -53,20 +57,22 @@ const FileUploadButton = ({
         multiple={multiple}
         id={id}
         onChange={onFileChange}
+        ref={hiddenFileInputRef}
       />
-      <label htmlFor={id}>
-        <Button
-          variant="outlined"
+      <Tooltip title={tooltipCaption}>
+        <IconButton
           sx={{
             width: "100%",
             height: "100%",
-            minWidth: 0,
           }}
-          component="span"
+          color="primary"
+          onClick={() => {
+            hiddenFileInputRef?.current?.click()
+          }}
         >
-          {caption}
-        </Button>
-      </label>
+          <FileOpenIcon />
+        </IconButton>
+      </Tooltip>
     </>
   )
 }
@@ -75,7 +81,7 @@ interface IFileFormControlProps {
   id: string
   initialFileContent: string
   accept: string
-  buttonCaption: string
+  tooltipCaption: string
   label: string
   helperText: string
   readOnly?: boolean
@@ -87,7 +93,7 @@ export const FileFormControl = ({
   id,
   initialFileContent,
   accept,
-  buttonCaption,
+  tooltipCaption,
   label,
   helperText,
   readOnly,
@@ -115,7 +121,7 @@ export const FileFormControl = ({
           <FileUploadButton
             id={`${id}-upload`}
             accept={accept}
-            caption={buttonCaption}
+            tooltipCaption={tooltipCaption}
             onFileChange={async (event) => {
               let content = !isNil(event.target.files)
                 ? await event.target.files[0].text()

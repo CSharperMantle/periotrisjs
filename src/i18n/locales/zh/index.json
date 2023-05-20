@@ -1,4 +1,4 @@
 {
-  "indexStart": "开始",
-  "indexVersion": "版本{{version}}"
+  "cap_start": "开始",
+  "typ_version": "版本{{version}}"
 }

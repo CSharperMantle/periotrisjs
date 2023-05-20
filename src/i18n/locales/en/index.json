@@ -1,4 +1,4 @@
 {
-  "indexStart": "START",
-  "indexVersion": "Version {{version}}"
+  "cap_start": "START",
+  "typ_version": "Version {{version}}"
 }
