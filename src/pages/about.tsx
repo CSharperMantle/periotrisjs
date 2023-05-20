@@ -17,7 +17,7 @@
 
 import "@fontsource/fira-code/400.css"
 
-import { graphql, useStaticQuery } from "gatsby"
+import { graphql, PageProps } from "gatsby"
 import React from "react"
 
 import Container from "@mui/material/Container"
@@ -33,22 +33,9 @@ const codeStyle = {
   color: "darkgray",
 }
 
-const App = (): React.ReactElement => {
-  const data = useStaticQuery(graphql`
-    query {
-      gitCommit(latest: { eq: true }) {
-        hash
-      }
-      gitBranch(current: { eq: true }) {
-        name
-      }
-      package {
-        version
-        license
-      }
-    }
-  `)
-
+const App = ({
+  data,
+}: PageProps<Queries.AboutPageQuery>): React.ReactElement => {
   return (
     <Container
       maxWidth="lg"
@@ -61,13 +48,13 @@ const App = (): React.ReactElement => {
       <Stack spacing={1}>
         <Typography variant="h2">About Periotris.js</Typography>
         <Typography variant="h6" {...codeStyle}>
-          Version {data.package.version}
+          Version {data.package?.version}
         </Typography>
         <Typography variant="h6" {...codeStyle}>
-          Revision {data.gitCommit.hash.slice(0, 8)}@{data.gitBranch.name}
+          Revision {data.gitCommit?.hash?.slice(0, 8)}@{data.gitBranch?.name}
         </Typography>
         <Typography variant="h6" {...codeStyle}>
-          License {data.package.license}
+          License {data.package?.license}
         </Typography>
         <Divider variant="middle" />
         <Typography variant="body1" paragraph>
@@ -131,3 +118,18 @@ export default App
 export const Head = (): React.ReactElement => {
   return <CommonHead />
 }
+
+export const query = graphql`
+  query AboutPage {
+    gitCommit(latest: { eq: true }) {
+      hash
+    }
+    gitBranch(current: { eq: true }) {
+      name
+    }
+    package {
+      version
+      license
+    }
+  }
+`

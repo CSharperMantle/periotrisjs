@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { graphql, Link, useStaticQuery } from "gatsby"
+import { graphql, Link, PageProps } from "gatsby"
 import React from "react"
 
 import Button from "@mui/material/Button"
@@ -30,15 +30,9 @@ const codeStyle = {
   fontFamily: '"Fira Code", Consolas, monospace',
 }
 
-const App = (): React.ReactElement => {
-  const data = useStaticQuery(graphql`
-    query {
-      package {
-        version
-      }
-    }
-  `)
-
+const App = ({
+  data,
+}: PageProps<Queries.IndexPageQuery>): React.ReactElement => {
   const gamePage = PageLocation.filter((page) => page.name === "Game")[0]
 
   return (
@@ -59,7 +53,7 @@ const App = (): React.ReactElement => {
       >
         <Typography variant="h2">Periotris.js</Typography>
         <Typography variant="body1" {...codeStyle}>
-          v{data.package.version}
+          Version {data.package?.version}
         </Typography>
       </Stack>
       <Container
@@ -94,3 +88,11 @@ export default App
 export const Head = (): React.ReactElement => {
   return <CommonHead />
 }
+
+export const query = graphql`
+  query IndexPage {
+    package {
+      version
+    }
+  }
+`

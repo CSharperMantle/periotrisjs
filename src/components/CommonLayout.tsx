@@ -77,8 +77,8 @@ export const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
 }
 
 export const CommonHead = (): React.ReactElement => {
-  const data = useStaticQuery(graphql`
-    query {
+  const data = useStaticQuery<Queries.CommonHeadQuery>(graphql`
+    query CommonHead {
       site {
         siteMetadata {
           title
@@ -92,12 +92,12 @@ export const CommonHead = (): React.ReactElement => {
 
   return (
     <>
-      <title>{`${data.site.siteMetadata.title}`}</title>
+      <title>{`${data.site?.siteMetadata?.title}`}</title>
       <meta
         name="viewport"
         content="minimum-scale=1, initial-scale=1, width=device-width"
       />
-      <meta name="description" content={`${data.package.description}`} />
+      <meta name="description" content={`${data.package?.description}`} />
     </>
   )
 }
