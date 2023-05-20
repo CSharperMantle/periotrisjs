@@ -18,6 +18,7 @@
 import React, { useRef } from "react"
 
 import FileOpenIcon from "@mui/icons-material/FileOpen"
+import Container from "@mui/material/Container"
 import FormControl from "@mui/material/FormControl"
 import FormHelperText from "@mui/material/FormHelperText"
 import Grid from "@mui/material/Grid"
@@ -61,11 +62,8 @@ const FileUploadButton = ({
       />
       <Tooltip title={tooltipCaption}>
         <IconButton
-          sx={{
-            width: "100%",
-            height: "100%",
-          }}
           color="primary"
+          size="large"
           onClick={() => {
             hiddenFileInputRef?.current?.click()
           }}
@@ -102,9 +100,24 @@ export const FileFormControl = ({
 }: IFileFormControlProps): React.ReactElement => {
   const [fileContent, setFileContent] = React.useState(initialFileContent)
 
+  const onFileChangeHandler = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    let content = !isNil(event.target.files)
+      ? await event.target.files[0].text()
+      : ""
+    content = !isNil(contentPreprocessor)
+      ? contentPreprocessor(content)
+      : content
+    const result = onFileChange(content)
+    if (isNil(result) || result) {
+      setFileContent(content)
+    }
+  }
+
   return (
     <FormControl>
-      <Grid container spacing={1}>
+      <Grid container spacing={0} direction="row" alignItems="center">
         <Grid item xs={10}>
           <TextField
             id={`${id}-string`}
@@ -118,23 +131,14 @@ export const FileFormControl = ({
           />
         </Grid>
         <Grid item xs={2}>
-          <FileUploadButton
-            id={`${id}-upload`}
-            accept={accept}
-            tooltipCaption={tooltipCaption}
-            onFileChange={async (event) => {
-              let content = !isNil(event.target.files)
-                ? await event.target.files[0].text()
-                : ""
-              content = !isNil(contentPreprocessor)
-                ? contentPreprocessor(content)
-                : content
-              const result = onFileChange(content)
-              if (isNil(result) || result) {
-                setFileContent(content)
-              }
-            }}
-          />
+          <Container maxWidth="sm">
+            <FileUploadButton
+              id={`${id}-upload`}
+              accept={accept}
+              tooltipCaption={tooltipCaption}
+              onFileChange={onFileChangeHandler}
+            />
+          </Container>
         </Grid>
       </Grid>
       <FormHelperText id={`${id}-string-helper-text`}>
