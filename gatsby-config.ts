@@ -73,7 +73,9 @@ const config: GatsbyConfig = {
     url: "https://csharpermantle.github.io/periotrisjs/",
   },
   pathPrefix: process.env.BUILD_ADD_PATH_PREFIX ? "/periotrisjs" : undefined,
-  graphqlTypegen: true,
+  graphqlTypegen: {
+    generateOnBuild: true,
+  },
 }
 
 export default config
