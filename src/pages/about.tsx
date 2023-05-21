@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import "@fontsource/fira-code/400.css"
+import "@fontsource/fira-code"
 
 import { graphql, PageProps } from "gatsby"
 import React from "react"
@@ -29,7 +29,7 @@ import Typography from "@mui/material/Typography"
 import { CommonHead } from "../components"
 
 const codeStyle = {
-  fontFamily: '"Fira Code", Consolas, monospace',
+  fontFamily: '"Fira Code", monospace',
   color: "darkgray",
 }
 

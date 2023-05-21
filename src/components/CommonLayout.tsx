@@ -15,11 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import "@fontsource/roboto/400.css"
-import "@fontsource/roboto/500.css"
-import "@fontsource/roboto/700.css"
-import "./CommonLayout.css"
-
 import { graphql, useStaticQuery } from "gatsby"
 import { SnackbarProvider } from "notistack"
 import React from "react"

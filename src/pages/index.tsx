@@ -99,8 +99,8 @@ const App = ({
             <IconButton
               size="large"
               aria-label="settings"
-              LinkComponent={Link}
-              href={settingsPage.path}
+              component={Link}
+              to={settingsPage.path}
             >
               <SettingsIcon />
             </IconButton>
@@ -109,8 +109,8 @@ const App = ({
             <IconButton
               size="large"
               aria-label="about"
-              LinkComponent={Link}
-              href={aboutPage.path}
+              component={Link}
+              to={aboutPage.path}
             >
               <InfoIcon />
             </IconButton>
