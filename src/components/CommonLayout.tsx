@@ -31,8 +31,6 @@ import ThemeProvider from "@mui/material/styles/ThemeProvider"
 
 import { theme } from "../../src/ThemeOptions"
 
-import { MainAppBar } from "./mainAppBar/MainAppBar"
-
 export interface IPageLocationElement {
   readonly name: string
   readonly path: string
@@ -64,7 +62,6 @@ export const CommonLayout = ({
                 maxHeight: "100vh",
               }}
             >
-              <MainAppBar />
               {children}
             </Box>
           </>
