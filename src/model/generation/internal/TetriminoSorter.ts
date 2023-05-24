@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { flatten, map, uniq } from "lodash"
+import { uniq } from "lodash"
 import toposort from "toposort"
 
 import { isNil, rearrange } from "../../../common"
@@ -42,8 +42,8 @@ function getEdges(
   }
 
   return uniq(
-    flatten(
-      map(tetriminos, (t, index) => {
+    tetriminos
+      .map((t, index) => {
         const deps: [number, number][] = []
         for (let i = 0; i < t.blocks.length; i++) {
           const block = t.blocks[i]
@@ -62,7 +62,7 @@ function getEdges(
         }
         return deps
       })
-    )
+      .flat()
   )
 }
 

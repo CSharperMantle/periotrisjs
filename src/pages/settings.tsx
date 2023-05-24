@@ -20,7 +20,6 @@ import validateMap from "ajv-json-loader!../json/schema/Map.json.schema"
 
 import { graphql } from "gatsby"
 import { useI18next } from "gatsby-plugin-react-i18next"
-import { map } from "lodash"
 import { useSnackbar } from "notistack"
 import React from "react"
 
@@ -146,7 +145,7 @@ const App = (): React.ReactElement => {
               aria-describedby="lang-input-helper-text"
               onChange={handleLangChange}
             >
-              {map(languages, (lang) => (
+              {languages.map((lang) => (
                 <MenuItem key={lang} value={lang}>
                   {lang}
                 </MenuItem>
@@ -165,7 +164,7 @@ const App = (): React.ReactElement => {
               aria-describedby="assistance-grid-input-helper-text"
               onChange={handleAssistanceGridModeChange}
             >
-              {map(assistanceGridAppearanceOptions, (option) => (
+              {assistanceGridAppearanceOptions.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>

@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { map, shuffle } from "lodash"
+import { shuffle } from "lodash"
 
 import { isNil } from "../../../common"
 import { Block } from "../../Block"
@@ -224,8 +224,7 @@ function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
     const deltaX = newPos[0] - originalPos[0]
     const deltaY = newPos[1] - originalPos[1]
 
-    tetrimino.blocks = map(
-      tetrimino.blocks,
+    tetrimino.blocks = tetrimino.blocks.map(
       (block) =>
         new Block(
           block.filledBy,

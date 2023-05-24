@@ -15,8 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { map } from "lodash"
-
 import { Block } from "./Block"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
 import { createOffsetedBlocks, mapAtomicNumberInto } from "./TetriminoHelper"
@@ -53,7 +51,7 @@ export class Tetrimino {
       (direction === MoveDirection.Down ? 0 : 1) *
       (direction === MoveDirection.Right ? 1 : -1)
 
-    const newBlocks = map(this.blocks, (b) => ({
+    const newBlocks = this.blocks.map((b) => ({
       ...b,
       position: [b.position[0] + deltaX, b.position[1] + deltaY] as const,
     }))
@@ -133,7 +131,7 @@ export class Tetrimino {
 export function repairBrokenTetriminos(
   brokenTetriminos: Tetrimino[]
 ): Tetrimino[] {
-  return map(brokenTetriminos, (t) =>
+  return brokenTetriminos.map((t) =>
     Object.create(Tetrimino.prototype, Object.getOwnPropertyDescriptors(t))
   )
 }

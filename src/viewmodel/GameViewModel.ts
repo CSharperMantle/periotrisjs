@@ -15,8 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { filter, forEach, map } from "lodash"
-
 import { StopwatchUpdateIntervalMilliseconds } from "../common"
 import {
   addSprites,
@@ -200,7 +198,7 @@ export class GameViewModel {
     const blocks = eventArgs.blocks
     if (!eventArgs.disappeared) {
       const sprites: IBlockSprite[] = []
-      forEach(blocks, (block) => {
+      blocks.forEach((block) => {
         if (!this._blocksByPosition.has(block.position)) {
           const displayBlock: IBlockSprite = {
             atomicNumber: block.atomicNumber,
@@ -213,14 +211,13 @@ export class GameViewModel {
       })
       appStore.dispatch(addSprites(sprites))
     } else {
-      const sprites = map(
-        filter(blocks, (block) => this._blocksByPosition.has(block.position)),
-        (block) => {
+      const sprites = blocks
+        .filter((block) => this._blocksByPosition.has(block.position))
+        .map((block) => {
           const b = this._blocksByPosition.get(block.position)
           this._blocksByPosition.delete(block.position)
           return b
-        }
-      ) as IBlockSprite[]
+        }) as IBlockSprite[]
       appStore.dispatch(removeSprites(sprites))
     }
   }
