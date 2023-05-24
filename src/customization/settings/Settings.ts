@@ -94,7 +94,7 @@ export class Settings implements ILocalStorageSerializable {
   }
 
   public static fromLocalStorage(): Settings {
-    const result = retrieve(SettingsLocalStorageKey)
+    const result = retrieve<Settings>(SettingsLocalStorageKey)
 
     if (isNil(result)) return Settings.Default
 
