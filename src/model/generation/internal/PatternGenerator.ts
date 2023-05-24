@@ -66,7 +66,7 @@ export async function getPlayablePattern(gameMap: IMap): Promise<Tetrimino[]> {
 
 async function getPossibleTetriminoPattern(
   template: Block[][],
-  totalAvailableBlocksCount: number
+  totalFreeBlocksCount: number
 ): Promise<Tetrimino[]> {
   const occupationMap: TetriminoKind[][] = new Array(template.length)
   for (let i = 0; i < template.length; i++) {
@@ -80,12 +80,12 @@ async function getPossibleTetriminoPattern(
 
   const settledTetriminos: Tetrimino[] = []
   const pendingTetriminoKinds: KindDirectionsPair[][] = []
-  let availableBlocksCount = totalAvailableBlocksCount
+  let freeBlocksCnt = totalFreeBlocksCount
   let rewindingRequired = false
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    if (availableBlocksCount <= 0) {
+    if (freeBlocksCnt <= 0) {
       return settledTetriminos
     }
 
@@ -110,13 +110,12 @@ async function getPossibleTetriminoPattern(
 
       for (let i = 0, len = lastTetrimino.blocks.length; i < len; i++) {
         const block = lastTetrimino.blocks[i]
-        occupationMap[block.position[1]][block.position[0]] =
-          TetriminoKind.AvailableToFill
+        occupationMap[block.position[1]][block.position[0]] = TetriminoKind.Free
       }
-      availableBlocksCount += lastTetrimino.blocks.length
+      freeBlocksCnt += lastTetrimino.blocks.length
     }
 
-    const firstBlockCoord = getFirstAvailableBlockCoord(occupationMap)
+    const firstBlockCoord = getFirstFreeBlockCoord(occupationMap)
 
     let solutionFound = false
     while (currentKindDirectionsPairStack.length > 0) {
@@ -150,7 +149,7 @@ async function getPossibleTetriminoPattern(
               newBlock.filledBy
             tetrimino.blocks[i] = newBlock
           }
-          availableBlocksCount -= tetrimino.blocks.length
+          freeBlocksCnt -= tetrimino.blocks.length
           solutionFound = true
           break
         }
@@ -189,16 +188,14 @@ function collisionChecker(
   ) {
     return true
   }
-  return occupationMap[nRow][nCol] !== TetriminoKind.AvailableToFill
+  return occupationMap[nRow][nCol] !== TetriminoKind.Free
 }
 
-function getFirstAvailableBlockCoord(
-  occupationMap: TetriminoKind[][]
-): TPosition {
+function getFirstFreeBlockCoord(occupationMap: TetriminoKind[][]): TPosition {
   for (let nRow = occupationMap.length - 1; nRow >= 0; nRow--) {
     const col = occupationMap[nRow]
     for (let nCol = col.length - 1; nCol >= 0; nCol--) {
-      if (col[nCol] === TetriminoKind.AvailableToFill) {
+      if (col[nCol] === TetriminoKind.Free) {
         return [nCol, nRow]
       }
     }
