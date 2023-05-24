@@ -15,6 +15,8 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import "@fontsource-variable/roboto-mono"
+
 import { graphql, Link, PageProps } from "gatsby"
 import { useI18next } from "gatsby-plugin-react-i18next"
 import React from "react"
@@ -35,7 +37,7 @@ import { CommonHead } from "../components"
 import PageLocation from "../json/PageLocation.json"
 
 const codeStyle = {
-  fontFamily: '"Fira Code", Consolas, monospace',
+  fontFamily: ["'Roboto Mono Variable'", "Consolas", "monospace"].join(","),
 }
 
 const App = ({

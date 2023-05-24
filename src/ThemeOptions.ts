@@ -29,6 +29,18 @@ export const themeOptions: ThemeOptions = {
       main: "#f44334",
     },
   },
+  typography: {
+    fontFamily: [
+      "'Roboto Flex Variable'",
+      "Roboto",
+      "-apple-system",
+      "BlinkMacSystemFont",
+      "'Helvetica Neue'",
+      "Helvetica",
+      "Arial",
+      "sans-serif",
+    ].join(","),
+  },
 }
 
 export const theme = createTheme(themeOptions)

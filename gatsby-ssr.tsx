@@ -15,12 +15,8 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import "@fontsource/roboto/300.css"
-import "@fontsource/roboto/400.css"
-import "@fontsource/roboto/500.css"
-import "@fontsource/roboto/700.css"
-
-import "./src/components/CommonLayout.css"
+import "@fontsource-variable/roboto-flex"
+import "./RootLayoutStyles.css"
 
 import React from "react"
 

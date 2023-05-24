@@ -27,8 +27,8 @@
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
-    "@fontsource/fira-code": "^4.5.13",
-    "@fontsource/roboto": "^4.5.8",
+    "@fontsource-variable/roboto-flex": "^5.0.0",
+    "@fontsource-variable/roboto-mono": "^5.0.2",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.2",
     "@mui/system": "^5.13.2",

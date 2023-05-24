@@ -1713,17 +1713,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fontsource/fira-code@npm:^4.5.13":
-  version: 4.5.13
-  resolution: "@fontsource/fira-code@npm:4.5.13"
-  checksum: 1ea871025f40b2af2e0c7edabb9d4b4edc10e61e706bdc90c361eb6b954260d18a884bfbb1bec2d9593ebfd7a54c2c99e6ed186a9a7d172ea6fd3f4c6415d583
+"@fontsource-variable/roboto-flex@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@fontsource-variable/roboto-flex@npm:5.0.0"
+  checksum: 6cf79adcf16a7f58f73d106891759e129fdd9c9d3b1c3f24010aa87187147e071c5c2a93d5e43a6591935b697b9de0064951fcf04028db6f97ab237a7c4d5c86
   languageName: node
   linkType: hard
 
-"@fontsource/roboto@npm:^4.5.8":
-  version: 4.5.8
-  resolution: "@fontsource/roboto@npm:4.5.8"
-  checksum: 460b6de2c9f7a172192c3f5bdd3aa11f78f0b6660dca9dc2b9d8207272b50c55b5a8f2da68e11e7fbaf44c7d3cf4191030eecce9def79fab75d4cc1de39754e2
+"@fontsource-variable/roboto-mono@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "@fontsource-variable/roboto-mono@npm:5.0.2"
+  checksum: 02f68aef3c332e1a349427e169d39ebd9e642ecf07c282a775b65a7a82dd0b8d22f5055cf1615b2ab05b209975bf9eeefaec41e5d37ad2a9db1fbd220cd35af3
   languageName: node
   linkType: hard
 
@@ -12873,8 +12873,8 @@ __metadata:
     "@babel/preset-react": ^7.18.6
     "@emotion/react": ^11.11.0
     "@emotion/styled": ^11.11.0
-    "@fontsource/fira-code": ^4.5.13
-    "@fontsource/roboto": ^4.5.8
+    "@fontsource-variable/roboto-flex": ^5.0.0
+    "@fontsource-variable/roboto-mono": ^5.0.2
     "@mui/icons-material": ^5.11.16
     "@mui/material": ^5.13.2
     "@mui/system": ^5.13.2

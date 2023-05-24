@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import "@fontsource/fira-code"
+import "@fontsource-variable/roboto-mono"
 
 import { graphql, PageProps } from "gatsby"
 import React from "react"
@@ -29,7 +29,7 @@ import Typography from "@mui/material/Typography"
 import { CommonHead } from "../components"
 
 const codeStyle = {
-  fontFamily: '"Fira Code", monospace',
+  fontFamily: ["'Roboto Mono Variable'", "Consolas", "monospace"].join(","),
   color: "darkgray",
 }
 
