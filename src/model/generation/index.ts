@@ -15,9 +15,10 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import type { IGeneratorMessage } from "./IGeneratorMessage"
+import { MessageType } from "./IGeneratorMessage"
 import { getPlayablePattern } from "./internal"
-import { MessageType } from "./MessageType"
+
+import type { IGeneratorMessage } from "./IGeneratorMessage"
 
 export { getPlayablePattern, MessageType }
 export type { IGeneratorMessage }

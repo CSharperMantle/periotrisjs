@@ -235,10 +235,7 @@ function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
     )
     tetrimino.position = newPos
 
-    const rotationCount = fastRandom(
-      0,
-      Math.floor(Object.keys(Direction).length / 2) + 1
-    )
+    const rotationCount = fastRandom(0, Math.floor(Direction.LENGTH / 2) + 1)
     for (let i = 0; i < rotationCount; i++) {
       tetrimino.tryRotate(RotationDirection.Right, () => false)
     }

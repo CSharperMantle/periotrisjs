@@ -15,8 +15,8 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-export enum TetriminoKind {
-  Linear,
+export const enum TetriminoKind {
+  Linear = 0,
   Cubic,
   LShapedCis,
   LShapedTrans,
@@ -25,4 +25,5 @@ export enum TetriminoKind {
   TeeShaped,
   Free,
   Reserved,
+  LENGTH,
 }

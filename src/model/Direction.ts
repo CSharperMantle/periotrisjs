@@ -15,20 +15,23 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-export enum Direction {
-  Left,
+export const enum Direction {
+  Left = 0,
   Up,
   Right,
   Down,
+  LENGTH,
 }
 
-export enum RotationDirection {
-  Left,
+export const enum RotationDirection {
+  Left = 0,
   Right,
+  LENGTH,
 }
 
-export enum MoveDirection {
-  Left,
+export const enum MoveDirection {
+  Left = 0,
   Right,
   Down,
+  LENGTH,
 }

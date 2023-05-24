@@ -24,8 +24,8 @@ import {
 import defaultColorScheme from "../../json/DefaultColorScheme.json"
 import defaultMap from "../../json/DefaultMap.json"
 import { retrieve, store } from "../../localstorage"
-import { IColorScheme } from "../color_scheme"
 
+import type { IColorScheme } from "../color_scheme"
 import type { ILocalStorageSerializable } from "../ILocalStorageSerializable"
 import type { IMap } from "../map"
 
