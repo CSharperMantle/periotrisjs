@@ -16,11 +16,11 @@
  */
 
 import { Tetrimino } from "../Tetrimino"
-import { IGeneratorMessage } from "./IGeneratorMessage"
+import { MessageType } from "./IGeneratorMessage"
 import { getPlayablePattern } from "./internal/PatternGenerator"
-import { MessageType } from "./MessageType"
 
 import type { IMap } from "../../customization"
+import type { IGeneratorMessage } from "./IGeneratorMessage"
 
 const ctx = self as unknown as Worker
 

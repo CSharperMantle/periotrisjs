@@ -47,18 +47,10 @@ describe("createOffsetedBlocks", () => {
 
   it("should handle incorrect arguments gracefully", () => {
     expect(() => {
-      createOffsetedBlocks(
-        TetriminoKind.AvailableToFill,
-        [0, 0],
-        Direction.Down
-      )
+      createOffsetedBlocks(TetriminoKind.Free, [0, 0], Direction.Down)
     }).toThrowError(new Error("Invalid tetrimino kind."))
     expect(() => {
-      createOffsetedBlocks(
-        TetriminoKind.UnavailableToFill,
-        [0, 0],
-        Direction.Down
-      )
+      createOffsetedBlocks(TetriminoKind.Reserved, [0, 0], Direction.Down)
     }).toThrowError(new Error("Invalid tetrimino kind."))
   })
 })
@@ -147,10 +139,10 @@ describe("getInitialPositionByKind", () => {
     const size = { height: NaN, width: PlayAreaWidth }
 
     expect(() => {
-      getInitialPositionByKind(TetriminoKind.AvailableToFill, size)
+      getInitialPositionByKind(TetriminoKind.Free, size)
     }).toThrowError(new Error("Invalid tetrimino kind."))
     expect(() => {
-      getInitialPositionByKind(TetriminoKind.UnavailableToFill, size)
+      getInitialPositionByKind(TetriminoKind.Reserved, size)
     }).toThrowError(new Error("Invalid tetrimino kind."))
   })
 })

@@ -24,19 +24,19 @@ import TextField from "@mui/material/TextField"
 import { isNil } from "../common"
 
 interface INumberFormControlProps {
-  id: string
-  initialContent: string
-  label: string
-  helperText: string
-  adornments: {
-    startAdornment?: React.ReactElement
-    endAdornment?: React.ReactElement
+  readonly id: string
+  readonly initialContent: string
+  readonly label: string
+  readonly helperText: string
+  readonly adornments: {
+    readonly startAdornment?: React.ReactElement
+    readonly endAdornment?: React.ReactElement
   }
-  step?: number
-  min?: number
-  max?: number
-  onChange: (newContent: string) => boolean | void
-  contentPreprocessor?: (content: string) => string
+  readonly step?: number
+  readonly min?: number
+  readonly max?: number
+  readonly onChange: (newContent: string) => boolean | void
+  readonly contentPreprocessor?: (content: string) => string
 }
 
 export const NumberFormControl = (

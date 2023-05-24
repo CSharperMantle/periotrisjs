@@ -24,8 +24,8 @@ import {
 import defaultColorScheme from "../../json/DefaultColorScheme.json"
 import defaultMap from "../../json/DefaultMap.json"
 import { retrieve, store } from "../../localstorage"
-import { IColorScheme } from "../color_scheme"
 
+import type { IColorScheme } from "../color_scheme"
 import type { ILocalStorageSerializable } from "../ILocalStorageSerializable"
 import type { IMap } from "../map"
 
@@ -94,7 +94,7 @@ export class Settings implements ILocalStorageSerializable {
   }
 
   public static fromLocalStorage(): Settings {
-    const result = retrieve(SettingsLocalStorageKey)
+    const result = retrieve<Settings>(SettingsLocalStorageKey)
 
     if (isNil(result)) return Settings.Default
 

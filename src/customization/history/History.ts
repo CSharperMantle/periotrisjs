@@ -58,7 +58,7 @@ export class History implements ILocalStorageSerializable {
   }
 
   public static fromLocalStorage(): History {
-    const result = retrieve(HistoryLocalStorageKey)
+    const result = retrieve<History>(HistoryLocalStorageKey)
 
     if (isNil(result)) return History.Empty
 

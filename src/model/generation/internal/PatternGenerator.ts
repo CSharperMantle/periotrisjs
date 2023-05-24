@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { map, shuffle } from "lodash"
+import { shuffle } from "lodash"
 
 import { isNil } from "../../../common"
 import { Block } from "../../Block"
@@ -66,26 +66,19 @@ export async function getPlayablePattern(gameMap: IMap): Promise<Tetrimino[]> {
 
 async function getPossibleTetriminoPattern(
   template: Block[][],
-  totalAvailableBlocksCount: number
+  freeBlocksCount: number
 ): Promise<Tetrimino[]> {
-  const occupationMap: TetriminoKind[][] = new Array(template.length)
-  for (let i = 0; i < template.length; i++) {
-    const templateRow = template[i]
-    const mapRow = new Array(templateRow.length)
-    for (let j = 0; j < templateRow.length; j++) {
-      mapRow[j] = template[i][j].filledBy
-    }
-    occupationMap[i] = mapRow
-  }
+  const freeBlockMap = template.map((row) =>
+    row.map((block) => block.filledBy === TetriminoKind.Free)
+  )
 
   const settledTetriminos: Tetrimino[] = []
   const pendingTetriminoKinds: KindDirectionsPair[][] = []
-  let availableBlocksCount = totalAvailableBlocksCount
   let rewindingRequired = false
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    if (availableBlocksCount <= 0) {
+    if (freeBlocksCount <= 0) {
       return settledTetriminos
     }
 
@@ -108,15 +101,13 @@ async function getPossibleTetriminoPattern(
         throw new Error("lastTetrimino")
       }
 
-      for (let i = 0, len = lastTetrimino.blocks.length; i < len; i++) {
-        const block = lastTetrimino.blocks[i]
-        occupationMap[block.position[1]][block.position[0]] =
-          TetriminoKind.AvailableToFill
-      }
-      availableBlocksCount += lastTetrimino.blocks.length
+      lastTetrimino.blocks.forEach((block) => {
+        freeBlockMap[block.position[1]][block.position[0]] = true
+      })
+      freeBlocksCount += lastTetrimino.blocks.length
     }
 
-    const firstBlockCoord = getFirstAvailableBlockCoord(occupationMap)
+    const firstBlockCoord = getFirstFreeBlockCoord(freeBlockMap)
 
     let solutionFound = false
     while (currentKindDirectionsPairStack.length > 0) {
@@ -132,9 +123,7 @@ async function getPossibleTetriminoPattern(
           direction
         )
         if (
-          !tetrimino.blocks.some(
-            collisionChecker.bind(undefined, occupationMap)
-          )
+          !tetrimino.blocks.some(collisionChecker.bind(undefined, freeBlockMap))
         ) {
           settledTetriminos.push(tetrimino)
           pendingTetriminoKinds.push(currentKindDirectionsPairStack)
@@ -146,11 +135,10 @@ async function getPossibleTetriminoPattern(
                 template[oldBlock.position[1]][oldBlock.position[0]]
                   .atomicNumber,
             }
-            occupationMap[newBlock.position[1]][newBlock.position[0]] =
-              newBlock.filledBy
+            freeBlockMap[newBlock.position[1]][newBlock.position[0]] = false
             tetrimino.blocks[i] = newBlock
           }
-          availableBlocksCount -= tetrimino.blocks.length
+          freeBlocksCount -= tetrimino.blocks.length
           solutionFound = true
           break
         }
@@ -175,30 +163,25 @@ function createShuffledKindDirectionsPairs(): KindDirectionsPair[] {
   ])
 }
 
-function collisionChecker(
-  occupationMap: TetriminoKind[][],
-  block: Block
-): boolean {
+function collisionChecker(freeBlockMap: boolean[][], block: Block): boolean {
   const nRow = block.position[1]
   const nCol = block.position[0]
   if (
     nCol < 0 ||
-    nCol >= occupationMap[0].length ||
+    nCol >= freeBlockMap[0].length ||
     nRow < 0 ||
-    nRow >= occupationMap.length
+    nRow >= freeBlockMap.length
   ) {
     return true
   }
-  return occupationMap[nRow][nCol] !== TetriminoKind.AvailableToFill
+  return !freeBlockMap[nRow][nCol]
 }
 
-function getFirstAvailableBlockCoord(
-  occupationMap: TetriminoKind[][]
-): TPosition {
-  for (let nRow = occupationMap.length - 1; nRow >= 0; nRow--) {
-    const col = occupationMap[nRow]
+function getFirstFreeBlockCoord(freeBlockMap: boolean[][]): TPosition {
+  for (let nRow = freeBlockMap.length - 1; nRow >= 0; nRow--) {
+    const col = freeBlockMap[nRow]
     for (let nCol = col.length - 1; nCol >= 0; nCol--) {
-      if (col[nCol] === TetriminoKind.AvailableToFill) {
+      if (col[nCol]) {
         return [nCol, nRow]
       }
     }
@@ -241,8 +224,7 @@ function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
     const deltaX = newPos[0] - originalPos[0]
     const deltaY = newPos[1] - originalPos[1]
 
-    tetrimino.blocks = map(
-      tetrimino.blocks,
+    tetrimino.blocks = tetrimino.blocks.map(
       (block) =>
         new Block(
           block.filledBy,
@@ -253,10 +235,7 @@ function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
     )
     tetrimino.position = newPos
 
-    const rotationCount = fastRandom(
-      0,
-      Math.floor(Object.keys(Direction).length / 2) + 1
-    )
+    const rotationCount = fastRandom(0, Math.floor(Direction.LENGTH / 2) + 1)
     for (let i = 0; i < rotationCount; i++) {
       tetrimino.tryRotate(RotationDirection.Right, () => false)
     }

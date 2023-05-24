@@ -1,0 +1,23 @@
+{
+  "cap_open_button": "打开文件...",
+  "msg_color_scheme_invalid": "选择的主题文件无效。请检查格式。",
+  "msg_game_map_invalid": "选择的布局文件无效。请检查格式。",
+  "msg_update_interval_invalid": "该更新间隔数值无效。",
+  "msg_border_thickness_invalid": "该辅助格线粗细数值无效。",
+  "typ_category_appearance": "外观",
+  "lbl_lang": "语言",
+  "typ_lang_helper": "控制当前的显示语言。",
+  "lbl_assistance_grid": "辅助格线显示",
+  "lbl_option_assistance_grid_visible": "可见",
+  "lbl_option_assistance_grid_hidden": "隐藏",
+  "typ_assistance_grid_helper": "选择是否在游戏区域背景上显示辅助格线，以简化玩法。",
+  "lbl_border_thickness": "辅助格线粗细",
+  "typ_border_thickness_helper": "控制辅助格线的粗细。",
+  "typ_category_gameplay": "玩法",
+  "lbl_color_scheme": "色彩主题",
+  "typ_color_scheme_helper": "控制游戏的色彩主题。主题文件使用 JSON 格式。",
+  "lbl_game_map": "地图布局",
+  "typ_game_map_helper": "控制游戏的周期表布局。布局文件使用 JSON 格式。",
+  "lbl_update_interval": "刷新时间间隔",
+  "typ_update_interval_helper": "控制两个游戏刻之间的时间长度。"
+}

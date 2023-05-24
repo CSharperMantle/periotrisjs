@@ -15,7 +15,9 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { createTheme, Theme, ThemeOptions } from "@mui/material/styles"
+import { createTheme } from "@mui/material/styles"
+
+import type { ThemeOptions } from "@mui/material/styles"
 
 export const themeOptions: ThemeOptions = {
   palette: {
@@ -29,4 +31,4 @@ export const themeOptions: ThemeOptions = {
   },
 }
 
-export const theme: Theme = createTheme(themeOptions)
+export const theme = createTheme(themeOptions)

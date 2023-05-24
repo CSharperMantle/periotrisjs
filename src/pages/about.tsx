@@ -15,9 +15,9 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import "@fontsource/fira-code/400.css"
+import "@fontsource/fira-code"
 
-import { graphql, useStaticQuery } from "gatsby"
+import { graphql, PageProps } from "gatsby"
 import React from "react"
 
 import Container from "@mui/material/Container"
@@ -26,29 +26,16 @@ import Link from "@mui/material/Link"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 
-import { CommonLayout, CommonHead } from "../components"
+import { CommonHead } from "../components"
 
 const codeStyle = {
-  fontFamily: '"Fira Code", Consolas, monospace',
+  fontFamily: '"Fira Code", monospace',
   color: "darkgray",
 }
 
-const App = (): React.ReactElement => {
-  const data = useStaticQuery(graphql`
-    query {
-      gitCommit(latest: { eq: true }) {
-        hash
-      }
-      gitBranch(current: { eq: true }) {
-        name
-      }
-      package {
-        version
-        license
-      }
-    }
-  `)
-
+const App = ({
+  data,
+}: PageProps<Queries.AboutPageQuery>): React.ReactElement => {
   return (
     <Container
       maxWidth="lg"
@@ -61,13 +48,13 @@ const App = (): React.ReactElement => {
       <Stack spacing={1}>
         <Typography variant="h2">About Periotris.js</Typography>
         <Typography variant="h6" {...codeStyle}>
-          Version {data.package.version}
+          Version {data.package?.version}
         </Typography>
         <Typography variant="h6" {...codeStyle}>
-          Revision {data.gitCommit.hash.slice(0, 8)}@{data.gitBranch.name}
+          Revision {data.gitCommit?.hash?.slice(0, 8)}@{data.gitBranch?.name}
         </Typography>
         <Typography variant="h6" {...codeStyle}>
-          License {data.package.license}
+          License {data.package?.license}
         </Typography>
         <Divider variant="middle" />
         <Typography variant="body1" paragraph>
@@ -124,10 +111,21 @@ const App = (): React.ReactElement => {
   )
 }
 
-App.Layout = CommonLayout
-
 export default App
 
-export const Head = (): React.ReactElement => {
-  return <CommonHead />
-}
+export const Head = CommonHead
+
+export const query = graphql`
+  query AboutPage {
+    gitCommit(latest: { eq: true }) {
+      hash
+    }
+    gitBranch(current: { eq: true }) {
+      name
+    }
+    package {
+      version
+      license
+    }
+  }
+`

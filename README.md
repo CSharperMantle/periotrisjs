@@ -108,8 +108,8 @@ You may omit the `--depth=1` flag if you want a complete commit history rather t
 
 Dependencies that need to be installed manually:
 
-- [Node.js v14.x+](https://nodejs.org/)
-- [yarn berry+](https://yarnpkg.com/)
+- [Node.js 18.x](https://nodejs.org/)
+- [yarn 3+](https://yarnpkg.com/)
 
 Once you have installed all above, run the following commands:
 

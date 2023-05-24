@@ -15,31 +15,11 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import React from "react"
+import { join } from "path"
+import { readdirSync, lstatSync } from "fs"
 
-import IconButton from "@mui/material/IconButton"
-import Tooltip from "@mui/material/Tooltip"
+export const defaultLang = "en"
 
-interface IIconExternalLinkProps {
-  icon: JSX.Element
-  ariaLabel: string
-  tooltipTitle: string
-  href: string
-}
-
-export const IconExternalLink = (
-  props: IIconExternalLinkProps
-): React.ReactElement => {
-  return (
-    <Tooltip title={`${props.tooltipTitle}`}>
-      <IconButton
-        aria-label={`${props.ariaLabel}`}
-        href={`${props.href}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {props.icon}
-      </IconButton>
-    </Tooltip>
-  )
-}
+export const langs = readdirSync(join(__dirname, "locales")).filter((f) =>
+  lstatSync(join(__dirname, "locales", f)).isDirectory()
+)

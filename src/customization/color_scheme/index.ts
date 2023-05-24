@@ -15,6 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { IColorScheme, IColorSchemeRule } from "./IColorScheme"
+import type { IColorScheme, IColorSchemeRule } from "./IColorScheme"
 
 export type { IColorScheme, IColorSchemeRule }

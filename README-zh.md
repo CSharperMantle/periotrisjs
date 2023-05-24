@@ -100,8 +100,8 @@ cd periotrisjs
 
 需要手动安装的依赖：
 
-- [Node.js v14.x+](https://nodejs.org/)
-- [yarn berry+](https://yarnpkg.com/)
+- [Node.js 18.x](https://nodejs.org/)
+- [yarn 3+](https://yarnpkg.com/)
 
 之后，运行：
 

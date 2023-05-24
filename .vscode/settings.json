@@ -37,6 +37,7 @@
     "tetriminos",
     "topo",
     "toposort",
+    "typegen",
     "Unmount",
     "viewmodel",
     "workerloader"

@@ -30,13 +30,13 @@ import { GameState } from "../../model"
 import { useAppSelector } from "../../viewmodel"
 
 interface IContentProps {
-  image: { src: string; alt: string }
-  title: string
-  description?: string
-  button?: {
-    caption: string
-    color: "primary" | "secondary"
-    onClick?: () => void
+  readonly image: { readonly src: string; readonly alt: string }
+  readonly title: string
+  readonly description?: string
+  readonly button?: {
+    readonly caption: string
+    readonly color: "primary" | "secondary"
+    readonly onClick?: () => void
   }
 }
 
@@ -71,7 +71,7 @@ const Content = ({
 }
 
 interface IGameNotStartedContentProps {
-  startGameHandler: () => void
+  readonly startGameHandler: () => void
 }
 
 const GameNotStartedContent = (
@@ -102,7 +102,7 @@ const GamePreparingContent = (): React.ReactElement => {
 }
 
 interface IGameLostContentProps {
-  startGameHandler: () => void
+  readonly startGameHandler: () => void
 }
 
 const GameLostContent = (props: IGameLostContentProps): React.ReactElement => {
@@ -121,7 +121,7 @@ const GameLostContent = (props: IGameLostContentProps): React.ReactElement => {
 }
 
 interface IGameWonContentProps {
-  startGameHandler: () => void
+  readonly startGameHandler: () => void
 }
 
 const GameWonContent = (props: IGameWonContentProps): React.ReactElement => {
@@ -140,8 +140,8 @@ const GameWonContent = (props: IGameWonContentProps): React.ReactElement => {
 }
 
 interface IGameStatusBackdropProps {
-  startGameHandler: () => void
-  switchPauseGameHandler: () => void
+  readonly startGameHandler: () => void
+  readonly switchPauseGameHandler: () => void
 }
 
 export const GameControlBackdrop = (

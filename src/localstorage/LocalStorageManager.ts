@@ -25,18 +25,17 @@ export function store<T = unknown>(key: string, value: T): boolean {
   try {
     window.localStorage.setItem(key, JSON.stringify(value))
   } catch (err: unknown) {
-    console.warn(err)
     return false
   }
   return true
 }
 
-export function retrieve(key: string): unknown {
+export function retrieve<T = unknown>(key: string): T | null {
   if (!isBrowser) return null
 
   const result = window.localStorage.getItem(key)
   if (!isNil(result)) {
-    return JSON.parse(result)
+    return JSON.parse(result) as T
   } else {
     return null
   }

@@ -14,3 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
+
+import React from "react"
+import { Provider as ReduxProvider } from "react-redux"
+
+import { appStore } from "../viewmodel"
+
+export interface ICommonProvidersProps {
+  readonly children: React.ReactNode
+}
+
+export const CommonProviders = ({
+  children,
+}: ICommonProvidersProps): React.ReactElement => {
+  return <ReduxProvider store={appStore}>{children}</ReduxProvider>
+}
