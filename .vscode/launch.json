@@ -7,8 +7,29 @@
     {
       "name": "Launch Edge 8000",
       "request": "launch",
-      "type": "pwa-msedge",
+      "type": "msedge",
       "url": "http://localhost:8000",
+      "webRoot": "${workspaceFolder}/public/"
+    },
+    {
+      "name": "Launch Firefox 8000",
+      "request": "launch",
+      "type": "firefox",
+      "url": "http://localhost:8000",
+      "webRoot": "${workspaceFolder}/public/"
+    },
+    {
+      "name": "Launch Edge 9000",
+      "request": "launch",
+      "type": "msedge",
+      "url": "http://localhost:9000",
+      "webRoot": "${workspaceFolder}/public/"
+    },
+    {
+      "name": "Launch Firefox 9000",
+      "request": "launch",
+      "type": "firefox",
+      "url": "http://localhost:9000",
       "webRoot": "${workspaceFolder}/public/"
     }
   ]
