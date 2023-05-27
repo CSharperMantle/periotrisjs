@@ -55,7 +55,10 @@ function spliceLast<T>(array: T[]): T {
 
 export class NoSolutionError extends Error {}
 
-export async function getPlayablePattern(gameMap: IMap): Promise<Tetrimino[]> {
+export async function getPlayablePattern(
+  gameMap: IMap,
+  progressCallback?: (content: TPosition) => void
+): Promise<Tetrimino[]> {
   const template = gameMap.map
   const atomicNumberMap = template.map((row) =>
     row.map((block) => block.atomicNumber)
@@ -68,7 +71,8 @@ export async function getPlayablePattern(gameMap: IMap): Promise<Tetrimino[]> {
     await getPossibleTetriminoPattern(
       freeBlockMap,
       atomicNumberMap,
-      gameMap.totalAvailableBlocksCount
+      gameMap.totalAvailableBlocksCount,
+      progressCallback
     ),
     gameMap.playAreaSize
   )
@@ -97,7 +101,8 @@ const PossiblePropPairPermutation = [
 async function getPossibleTetriminoPattern(
   freeBlockMap: boolean[][],
   atomicNumberMap: number[][],
-  freeBlocksCount: number
+  freeBlocksCount: number,
+  progressCallback?: (content: TPosition) => void
 ): Promise<Tetrimino[]> {
   const settledTetriminos: Tetrimino[] = []
   const pairsRewindStack: TPropPair[][] = []
@@ -144,6 +149,7 @@ async function getPossibleTetriminoPattern(
         pairsRewindStack.push(currentPairs)
         tetrimino.blocks.forEach((b) => {
           freeBlockMap[b.position[1]][b.position[0]] = false
+          progressCallback?.(b.position)
         })
         freeBlocksCount -= tetrimino.blocks.length
         rewindingRequired = false

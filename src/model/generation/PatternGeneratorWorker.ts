@@ -16,45 +16,35 @@
  */
 
 import { MessageType } from "./IGeneratorMessage"
-import {
-  NoSolutionError,
-  getPlayablePattern,
-} from "./internal/PatternGenerator"
+import { getPlayablePattern } from "./internal/PatternGenerator"
 
 import type { IMap } from "../../customization"
 import type { IGeneratorMessage } from "./IGeneratorMessage"
 
 const ctx = self as unknown as Worker
 
-ctx.onmessage = (eventArgs: MessageEvent<IGeneratorMessage<unknown>>) => {
-  const data = eventArgs.data
+ctx.onmessage = async (ev: MessageEvent<IGeneratorMessage<unknown>>) => {
+  const data = ev.data
   switch (data.type) {
     case MessageType.RequestGeneration:
-      handleRequestGeneration(data.content as IMap)
+      await handleRequestGeneration(data.content as IMap)
       break
     default:
-      handleDefault(data)
       break
   }
 }
 
-function handleRequestGeneration(map: IMap): void {
-  getPlayablePattern(map).then(
-    (result) => {
-      ctx.postMessage({
-        type: MessageType.ResponseSuccess,
-        content: result,
-      })
-    },
-    (err) => {
-      ctx.postMessage({
-        type: MessageType.ResponseFailed,
-        content: err as NoSolutionError,
-      })
-    }
-  )
-}
-
-function handleDefault(data: IGeneratorMessage<unknown>): void {
-  console.warn(data.type)
+async function handleRequestGeneration(map: IMap): Promise<void> {
+  try {
+    const result = await getPlayablePattern(map)
+    ctx.postMessage({
+      type: MessageType.ResponseSuccess,
+      content: result,
+    })
+  } catch (err) {
+    ctx.postMessage({
+      type: MessageType.ResponseFailed,
+      content: err,
+    })
+  }
 }

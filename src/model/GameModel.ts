@@ -42,25 +42,24 @@ async function generatePattern(): Promise<Tetrimino[]> {
         }
       )
   )
+  const workerPromises = workers.map((w) =>
+    waitForEvent<MessageEvent<IGeneratorMessage<unknown>>>(
+      w,
+      "message",
+      "error"
+    )
+  )
   workers.forEach((w) => {
     w.postMessage({
       type: MessageType.RequestGeneration,
       content: customizationFacade.settings.gameMap,
     })
   })
-  const workerPromises = workers.map((w) =>
-    waitForEvent<MessageEvent<IGeneratorMessage<unknown>>>(w, "message")
-  )
   const result = (await Promise.race(workerPromises)).data
   workers.forEach((w) => {
     w.terminate()
   })
-  switch (result.type) {
-    case MessageType.ResponseSuccess:
-      return result.content as Tetrimino[]
-    default:
-      throw result.content
-  }
+  return result.content as Tetrimino[]
 }
 
 /**

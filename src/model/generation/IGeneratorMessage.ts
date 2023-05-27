@@ -19,6 +19,7 @@ export const enum MessageType {
   RequestGeneration,
   ResponseSuccess,
   ResponseFailed,
+  ResponseProgress,
 }
 
 export interface IGeneratorMessage<T> {
