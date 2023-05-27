@@ -17,7 +17,7 @@
 
 import { EventEmitter } from "events"
 import { isBrowser } from "is-in-browser"
-import { isEqual } from "lodash"
+import { isEqual, range } from "lodash"
 
 import { isNil, waitForEvent } from "../common"
 import { customizationFacade } from "../customization"
@@ -29,6 +29,40 @@ import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
 
 import type { IGeneratorMessage } from "./generation"
 
+async function generatePattern(): Promise<Tetrimino[]> {
+  if (!isBrowser) {
+    return await getPlayablePattern(customizationFacade.settings.gameMap)
+  }
+  const workers = range(0, navigator.hardwareConcurrency).map(
+    (i) =>
+      new Worker(
+        new URL("./generation/PatternGeneratorWorker", import.meta.url),
+        {
+          name: `PatternGeneratorWorker-${i}`,
+        }
+      )
+  )
+  workers.forEach((w) => {
+    w.postMessage({
+      type: MessageType.RequestGeneration,
+      content: customizationFacade.settings.gameMap,
+    })
+  })
+  const workerPromises = workers.map((w) =>
+    waitForEvent<MessageEvent<IGeneratorMessage<unknown>>>(w, "message")
+  )
+  const result = (await Promise.race(workerPromises)).data
+  workers.forEach((w) => {
+    w.terminate()
+  })
+  switch (result.type) {
+    case MessageType.ResponseSuccess:
+      return result.content as Tetrimino[]
+    default:
+      throw result.content
+  }
+}
+
 /**
  * The model of Periotris.
  *
@@ -38,18 +72,6 @@ import type { IGeneratorMessage } from "./generation"
  * @emits gamestatechanged
  */
 export class GameModel extends EventEmitter {
-  /**
-   * Pattern generator thread.
-   */
-  private readonly _patternGeneratorWorker = isBrowser
-    ? new Worker(
-        new URL("./generation/PatternGeneratorWorker", import.meta.url),
-        {
-          name: "PatternGeneratorWorker",
-        }
-      )
-    : null
-
   /**
    * "Frozen" blocks, that is, blocks that are fallen and not movable.
    */
@@ -222,32 +244,7 @@ export class GameModel extends EventEmitter {
     this._activeTetrimino = null
 
     this.gameState = GameState.Preparing
-    let tetriminos: Tetrimino[] = []
-    if (!isNil(this._patternGeneratorWorker)) {
-      // We have workers.
-      this._patternGeneratorWorker.postMessage({
-        type: MessageType.RequestGeneration,
-        content: customizationFacade.settings.gameMap,
-      })
-      const data = (
-        await waitForEvent<MessageEvent<IGeneratorMessage<Tetrimino[]>>>(
-          this._patternGeneratorWorker,
-          "message"
-        )
-      ).data
-      if (data.type === MessageType.ResponseSuccess) {
-        tetriminos = repairBrokenTetriminos(data.content)
-      } else {
-        console.warn(data)
-      }
-    } else {
-      console.warn(
-        "Web workers unavailable. Running pattern generator on UI thread."
-      )
-      tetriminos = await getPlayablePattern(
-        customizationFacade.settings.gameMap
-      )
-    }
+    const tetriminos = repairBrokenTetriminos(await generatePattern())
     this.startPreparedGame(tetriminos)
   }
 

@@ -15,9 +15,11 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { Tetrimino } from "../Tetrimino"
 import { MessageType } from "./IGeneratorMessage"
-import { getPlayablePattern } from "./internal/PatternGenerator"
+import {
+  NoSolutionError,
+  getPlayablePattern,
+} from "./internal/PatternGenerator"
 
 import type { IMap } from "../../customization"
 import type { IGeneratorMessage } from "./IGeneratorMessage"
@@ -36,15 +38,23 @@ ctx.onmessage = (eventArgs: MessageEvent<IGeneratorMessage<unknown>>) => {
   }
 }
 
-async function handleRequestGeneration(map: IMap): Promise<void> {
-  const result = await getPlayablePattern(map)
-  const message: IGeneratorMessage<Tetrimino[]> = {
-    type: MessageType.ResponseSuccess,
-    content: result,
-  }
-  ctx.postMessage(message)
+function handleRequestGeneration(map: IMap): void {
+  getPlayablePattern(map).then(
+    (result) => {
+      ctx.postMessage({
+        type: MessageType.ResponseSuccess,
+        content: result,
+      })
+    },
+    (err) => {
+      ctx.postMessage({
+        type: MessageType.ResponseFailed,
+        content: err as NoSolutionError,
+      })
+    }
+  )
 }
 
-async function handleDefault(data: IGeneratorMessage<unknown>): Promise<void> {
+function handleDefault(data: IGeneratorMessage<unknown>): void {
   console.warn(data.type)
 }
