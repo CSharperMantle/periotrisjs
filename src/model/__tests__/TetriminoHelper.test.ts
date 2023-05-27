@@ -48,10 +48,10 @@ describe("createOffsetedBlocks", () => {
   it("should handle incorrect arguments gracefully", () => {
     expect(() => {
       createOffsetedBlocks(TetriminoKind.Free, [0, 0], Direction.Down)
-    }).toThrowError(new Error("Invalid tetrimino kind."))
+    }).toThrowError(new RangeError("getBlocksMask: invalid kind 7"))
     expect(() => {
       createOffsetedBlocks(TetriminoKind.Reserved, [0, 0], Direction.Down)
-    }).toThrowError(new Error("Invalid tetrimino kind."))
+    }).toThrowError(new RangeError("getBlocksMask: invalid kind 8"))
   })
 })
 
@@ -76,10 +76,10 @@ describe("mapAtomicNumberForNewBlocks", () => {
   it("should handle incorrect arguments gracefully", () => {
     expect(() => {
       mapAtomicNumberInto([], [new Block(TetriminoKind.Cubic, [0, 0], 0, 0)])
-    }).toThrowError(new Error("oldBlocks.length !== newBlocks.length"))
+    }).toThrowError(new Error("mapAtomicNumberInto: length mismatch 0!==1"))
     expect(() => {
       mapAtomicNumberInto([new Block(TetriminoKind.Cubic, [0, 0], 0, 0)], [])
-    }).toThrowError(new Error("oldBlocks.length !== newBlocks.length"))
+    }).toThrowError(new Error("mapAtomicNumberInto: length mismatch 1!==0"))
     expect(() => {
       mapAtomicNumberInto(
         [new Block(TetriminoKind.Cubic, [0, 0], 0, 0)],
@@ -88,7 +88,7 @@ describe("mapAtomicNumberForNewBlocks", () => {
           new Block(TetriminoKind.Cubic, [0, 0], 0, 0),
         ]
       )
-    }).toThrowError(new Error("oldBlocks.length !== newBlocks.length"))
+    }).toThrowError(new Error("mapAtomicNumberInto: length mismatch 1!==2"))
     expect(() => {
       mapAtomicNumberInto(
         [
@@ -97,7 +97,7 @@ describe("mapAtomicNumberForNewBlocks", () => {
         ],
         [new Block(TetriminoKind.Cubic, [0, 0], 0, 0)]
       )
-    }).toThrowError(new Error("oldBlocks.length !== newBlocks.length"))
+    }).toThrowError(new Error("mapAtomicNumberInto: length mismatch 2!==1"))
   })
 })
 
@@ -140,9 +140,9 @@ describe("getInitialPositionByKind", () => {
 
     expect(() => {
       getInitialPositionByKind(TetriminoKind.Free, size)
-    }).toThrowError(new Error("Invalid tetrimino kind."))
+    }).toThrowError(new RangeError("getInitialPositionByKind: invalid kind 7"))
     expect(() => {
       getInitialPositionByKind(TetriminoKind.Reserved, size)
-    }).toThrowError(new Error("Invalid tetrimino kind."))
+    }).toThrowError(new RangeError("getInitialPositionByKind: invalid kind 8"))
   })
 })

@@ -485,7 +485,7 @@ export function mapAtomicNumberInto(
 ): void {
   if (oldBlocks.length !== newBlocks.length) {
     throw new Error(
-      `mapAtomicNumberInto: length mismatch ${oldBlocks.length} !== ${newBlocks.length}`
+      `mapAtomicNumberInto: length mismatch ${oldBlocks.length}!==${newBlocks.length}`
     )
   }
   newBlocks.forEach((newBlock) => {
