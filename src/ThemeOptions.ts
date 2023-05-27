@@ -23,10 +23,14 @@ export const themeOptions: ThemeOptions = {
   palette: {
     mode: "dark",
     primary: {
-      main: "#7a84e8",
+      light: "#cacbff",
+      main: "#5a67ff",
+      dark: "#323fef",
     },
     secondary: {
-      main: "#f44334",
+      light: "#fbb9df",
+      main: "#ff009d",
+      dark: "#f10082",
     },
   },
   typography: {

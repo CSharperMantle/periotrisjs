@@ -62,7 +62,6 @@ const FileUploadButton = ({
       />
       <Tooltip title={tooltipCaption}>
         <IconButton
-          color="primary"
           size="large"
           onClick={() => {
             hiddenFileInputRef?.current?.click()
