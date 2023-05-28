@@ -140,9 +140,9 @@ describe("getInitialPosition", () => {
 
     expect(() => {
       getInitialPosition(TetriminoKind.Free, size)
-    }).toThrowError(new RangeError("getInitialPositionByKind: invalid kind 7"))
+    }).toThrowError(new RangeError("getInitialPosition: invalid kind 7"))
     expect(() => {
       getInitialPosition(TetriminoKind.Reserved, size)
-    }).toThrowError(new RangeError("getInitialPositionByKind: invalid kind 8"))
+    }).toThrowError(new RangeError("getInitialPosition: invalid kind 8"))
   })
 })
