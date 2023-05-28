@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { shuffle } from "lodash"
+import { range, shuffle } from "lodash"
 
 import { isNil } from "../../../common"
 import { Block } from "../../Block"
@@ -35,14 +35,6 @@ type TPropPair = readonly [TetriminoKind, Direction]
 
 function fastRandom(startInc: number, endExc: number): number {
   return startInc + Math.floor(Math.random() * (endExc - startInc))
-}
-
-function spliceRandom<T>(array: T[]): T {
-  if (array.length <= 0) {
-    throw new Error("spliceLast: array is empty")
-  }
-  const index = fastRandom(0, array.length)
-  return array.splice(index, 1)[0]
 }
 
 function spliceLast<T>(array: T[]): T {
@@ -84,7 +76,7 @@ export async function getPlayablePattern(
   return fixedTetriminos
 }
 
-const PossiblePropPairPermutation = [
+const AllPropPairPermutation = [
   TetriminoKind.LShapedCis,
   TetriminoKind.LShapedTrans,
   TetriminoKind.Linear,
@@ -107,7 +99,7 @@ async function getPossibleTetriminoPattern(
   progressCallback?: TProgressCallback
 ): Promise<Tetrimino[]> {
   const settledTetriminos: Tetrimino[] = []
-  const pairsRewindStack: TPropPair[][] = []
+  const pairIndicesStack: number[][] = []
   let rewindingRequired = false
 
   // eslint-disable-next-line no-constant-condition
@@ -116,14 +108,14 @@ async function getPossibleTetriminoPattern(
       // All blocks settled, exiting
       break
     }
-    let currentPairs: TPropPair[]
+    let currentIndices: number[]
     if (!rewindingRequired) {
-      currentPairs = shuffle([...PossiblePropPairPermutation])
+      currentIndices = shuffle(range(0, AllPropPairPermutation.length))
     } else {
       if (settledTetriminos.length === 0) {
         throw new NoSolutionError()
       }
-      currentPairs = spliceLast(pairsRewindStack)
+      currentIndices = spliceLast(pairIndicesStack)
 
       const lastTetrimino = spliceLast(settledTetriminos)
       lastTetrimino.blocks.forEach((b) => {
@@ -134,8 +126,9 @@ async function getPossibleTetriminoPattern(
 
     const firstBlockCoord = getFirstFreeBlockCoord(freeBlockMap)
     rewindingRequired = true
-    while (currentPairs.length > 0) {
-      const [kind, direction] = spliceRandom(currentPairs)
+    while (currentIndices.length > 0) {
+      const [kind, direction] =
+        AllPropPairPermutation[spliceLast(currentIndices)]
       const tetrimino = new Tetrimino(
         kind,
         getPositionByFirstBlock(firstBlockCoord, kind, direction),
@@ -147,7 +140,7 @@ async function getPossibleTetriminoPattern(
         // We have found a seemingly possible choice for this target,
         // thus saving our states now.
         settledTetriminos.push(tetrimino)
-        pairsRewindStack.push(currentPairs)
+        pairIndicesStack.push(currentIndices)
         tetrimino.blocks.forEach((b) => {
           freeBlockMap[b.position[1]][b.position[0]] = false
         })
