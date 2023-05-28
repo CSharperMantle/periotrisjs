@@ -17,7 +17,7 @@
 
 import { formatDuration } from "../formatDuration"
 
-describe("formatMilliseconds", () => {
+describe("formatDuration", () => {
   it("should correctly format well-formed durations", () => {
     const data = [
       {
@@ -38,8 +38,8 @@ describe("formatMilliseconds", () => {
       },
     ]
     for (let i = 0; i < data.length; i++) {
-      const datum = data[i]
-      expect(formatDuration(datum.input)).toEqual(datum.expected)
+      const { input, expected } = data[i]
+      expect(formatDuration(input)).toEqual(expected)
     }
   })
 

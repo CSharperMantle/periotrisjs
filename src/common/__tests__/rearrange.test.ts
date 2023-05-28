@@ -38,9 +38,7 @@ describe("rearrange", () => {
   })
 
   it("should handle empty array and indices", () => {
-    const array: unknown[] = []
-    const indices: number[] = []
-    const result = rearrange(array, indices)
+    const result = rearrange([], [])
     expect(result).toEqual([])
   })
 

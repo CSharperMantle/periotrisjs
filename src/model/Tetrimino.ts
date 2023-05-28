@@ -17,7 +17,7 @@
 
 import { Block } from "./Block"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
-import { createOffsetedBlocks, mapAtomicNumberInto } from "./TetriminoHelper"
+import { createOffsetBlocks, mapAtomicNumberInto } from "./TetriminoHelper"
 import { TetriminoKind } from "./TetriminoKind"
 
 import type { TPosition } from "../common"
@@ -93,7 +93,7 @@ export class Tetrimino {
         this.position[0] + adjustPattern[i],
         this.position[1],
       ] as const
-      const newBlocks = createOffsetedBlocks(this.kind, newPos, direction)
+      const newBlocks = createOffsetBlocks(this.kind, newPos, direction)
       if (!newBlocks.some(collisionChecker)) {
         mapAtomicNumberInto(this.blocks, newBlocks)
         this.facingDirection = direction
@@ -118,7 +118,7 @@ export class Tetrimino {
     public position: TPosition,
     public facingDirection: Direction
   ) {
-    this.blocks = createOffsetedBlocks(kind, position, facingDirection)
+    this.blocks = createOffsetBlocks(kind, position, facingDirection)
   }
 }
 

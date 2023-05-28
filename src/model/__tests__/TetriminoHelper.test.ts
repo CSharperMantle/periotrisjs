@@ -20,17 +20,17 @@ import { isEqual } from "lodash"
 import { Block } from "../Block"
 import { Direction } from "../Direction"
 import {
-  createOffsetedBlocks,
-  getInitialPositionByKind,
+  createOffsetBlocks,
+  getInitialPosition,
   mapAtomicNumberInto,
 } from "../TetriminoHelper"
 import { TetriminoKind } from "../TetriminoKind"
 
 const PlayAreaWidth = 18
 
-describe("createOffsetedBlocks", () => {
+describe("createOffsetBlocks", () => {
   it("should have correct behavior", () => {
-    const blks = createOffsetedBlocks(TetriminoKind.Cubic, [0, 0], Direction.Up)
+    const blks = createOffsetBlocks(TetriminoKind.Cubic, [0, 0], Direction.Up)
 
     const expectedPos = [
       [0, 0],
@@ -47,15 +47,15 @@ describe("createOffsetedBlocks", () => {
 
   it("should handle incorrect arguments gracefully", () => {
     expect(() => {
-      createOffsetedBlocks(TetriminoKind.Free, [0, 0], Direction.Down)
+      createOffsetBlocks(TetriminoKind.Free, [0, 0], Direction.Down)
     }).toThrowError(new RangeError("getBlocksMask: invalid kind 7"))
     expect(() => {
-      createOffsetedBlocks(TetriminoKind.Reserved, [0, 0], Direction.Down)
+      createOffsetBlocks(TetriminoKind.Reserved, [0, 0], Direction.Down)
     }).toThrowError(new RangeError("getBlocksMask: invalid kind 8"))
   })
 })
 
-describe("mapAtomicNumberForNewBlocks", () => {
+describe("mapAtomicNumberInto", () => {
   it("should have correct behavior", () => {
     const oldBlocks = [
       new Block(TetriminoKind.Cubic, [0, 0], 0, 0),
@@ -101,35 +101,35 @@ describe("mapAtomicNumberForNewBlocks", () => {
   })
 })
 
-describe("getInitialPositionByKind", () => {
+describe("getInitialPosition", () => {
   it("should have correct behavior", () => {
     const size = { height: NaN, width: PlayAreaWidth }
 
-    expect(getInitialPositionByKind(TetriminoKind.Cubic, size)).toEqual([
+    expect(getInitialPosition(TetriminoKind.Cubic, size)).toEqual([
       Math.floor((PlayAreaWidth - 2) / 2),
       0,
     ])
-    expect(getInitialPositionByKind(TetriminoKind.Linear, size)).toEqual([
+    expect(getInitialPosition(TetriminoKind.Linear, size)).toEqual([
       Math.floor((PlayAreaWidth - 4) / 2),
       0,
     ])
-    expect(getInitialPositionByKind(TetriminoKind.TeeShaped, size)).toEqual([
+    expect(getInitialPosition(TetriminoKind.TeeShaped, size)).toEqual([
       Math.floor((PlayAreaWidth - 3) / 2),
       0,
     ])
-    expect(getInitialPositionByKind(TetriminoKind.LShapedCis, size)).toEqual([
+    expect(getInitialPosition(TetriminoKind.LShapedCis, size)).toEqual([
       Math.floor((PlayAreaWidth - 3) / 2),
       0,
     ])
-    expect(getInitialPositionByKind(TetriminoKind.LShapedTrans, size)).toEqual([
+    expect(getInitialPosition(TetriminoKind.LShapedTrans, size)).toEqual([
       Math.floor((PlayAreaWidth - 3) / 2),
       0,
     ])
-    expect(getInitialPositionByKind(TetriminoKind.ZigZagCis, size)).toEqual([
+    expect(getInitialPosition(TetriminoKind.ZigZagCis, size)).toEqual([
       Math.floor((PlayAreaWidth - 3) / 2),
       0,
     ])
-    expect(getInitialPositionByKind(TetriminoKind.ZigZagTrans, size)).toEqual([
+    expect(getInitialPosition(TetriminoKind.ZigZagTrans, size)).toEqual([
       Math.floor((PlayAreaWidth - 3) / 2),
       0,
     ])
@@ -139,10 +139,10 @@ describe("getInitialPositionByKind", () => {
     const size = { height: NaN, width: PlayAreaWidth }
 
     expect(() => {
-      getInitialPositionByKind(TetriminoKind.Free, size)
+      getInitialPosition(TetriminoKind.Free, size)
     }).toThrowError(new RangeError("getInitialPositionByKind: invalid kind 7"))
     expect(() => {
-      getInitialPositionByKind(TetriminoKind.Reserved, size)
+      getInitialPosition(TetriminoKind.Reserved, size)
     }).toThrowError(new RangeError("getInitialPositionByKind: invalid kind 8"))
   })
 })

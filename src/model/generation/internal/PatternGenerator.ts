@@ -22,7 +22,7 @@ import { Block } from "../../Block"
 import { Direction, RotationDirection } from "../../Direction"
 import { Tetrimino, repairBrokenTetriminos } from "../../Tetrimino"
 import {
-  getInitialPositionByKind,
+  getInitialPosition,
   getPositionByFirstBlock,
 } from "../../TetriminoHelper"
 import { TetriminoKind } from "../../TetriminoKind"
@@ -53,11 +53,13 @@ function spliceLast<T>(array: T[]): T {
   return elem
 }
 
+export type TProgressCallback = (progress: number) => void
+
 export class NoSolutionError extends Error {}
 
 export async function getPlayablePattern(
   gameMap: IMap,
-  progressCallback?: (content: TPosition) => void
+  progressCallback?: TProgressCallback
 ): Promise<Tetrimino[]> {
   const template = gameMap.map
   const atomicNumberMap = template.map((row) =>
@@ -102,7 +104,7 @@ async function getPossibleTetriminoPattern(
   freeBlockMap: boolean[][],
   atomicNumberMap: number[][],
   freeBlocksCount: number,
-  progressCallback?: (content: TPosition) => void
+  progressCallback?: TProgressCallback
 ): Promise<Tetrimino[]> {
   const settledTetriminos: Tetrimino[] = []
   const pairsRewindStack: TPropPair[][] = []
@@ -133,8 +135,7 @@ async function getPossibleTetriminoPattern(
     const firstBlockCoord = getFirstFreeBlockCoord(freeBlockMap)
     rewindingRequired = true
     while (currentPairs.length > 0) {
-      const pair = spliceRandom(currentPairs)
-      const [kind, direction] = pair
+      const [kind, direction] = spliceRandom(currentPairs)
       const tetrimino = new Tetrimino(
         kind,
         getPositionByFirstBlock(firstBlockCoord, kind, direction),
@@ -149,9 +150,9 @@ async function getPossibleTetriminoPattern(
         pairsRewindStack.push(currentPairs)
         tetrimino.blocks.forEach((b) => {
           freeBlockMap[b.position[1]][b.position[0]] = false
-          progressCallback?.(b.position)
         })
         freeBlocksCount -= tetrimino.blocks.length
+        progressCallback?.(freeBlocksCount)
         rewindingRequired = false
         break
       }
@@ -208,7 +209,7 @@ function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
   // Move to initial position and rotate randomly
   tetriminos.forEach((tetrimino) => {
     const originalPos = tetrimino.position
-    const newPos = getInitialPositionByKind(tetrimino.kind, playAreaSize)
+    const newPos = getInitialPosition(tetrimino.kind, playAreaSize)
     const deltaX = newPos[0] - originalPos[0]
     const deltaY = newPos[1] - originalPos[1]
 

@@ -102,12 +102,8 @@ export const FileFormControl = ({
   const onFileChangeHandler = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    let content = !isNil(event.target.files)
-      ? await event.target.files[0].text()
-      : ""
-    content = !isNil(contentPreprocessor)
-      ? contentPreprocessor(content)
-      : content
+    let content = (await event.target.files?.[0].text()) ?? ""
+    content = contentPreprocessor?.(content) ?? content
     const result = onFileChange(content)
     if (isNil(result) || result) {
       setFileContent(content)

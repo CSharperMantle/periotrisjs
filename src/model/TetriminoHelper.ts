@@ -418,7 +418,7 @@ export function getPositionByFirstBlock(
   return [position[0] - firstBlockCol, position[1] - firstBlockRow]
 }
 
-export function getInitialPositionByKind(
+export function getInitialPosition(
   kind: TetriminoKind,
   playAreaSize: ISize
 ): TPosition {
@@ -438,12 +438,12 @@ export function getInitialPositionByKind(
       length = 3
       break
     default:
-      throw new RangeError(`getInitialPositionByKind: invalid kind ${kind}`)
+      throw new RangeError(`getInitialPosition: invalid kind ${kind}`)
   }
   return [Math.floor((playAreaSize.width - length) / 2), 0]
 }
 
-export function createOffsetedBlocks(
+export function createOffsetBlocks(
   kind: TetriminoKind,
   offset: TPosition,
   direction: Direction = Direction.Up
