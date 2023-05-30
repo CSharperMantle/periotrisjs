@@ -15,8 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import "@fontsource-variable/roboto-mono"
-
 import { graphql, PageProps } from "gatsby"
 import React from "react"
 
@@ -27,11 +25,6 @@ import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 
 import { CommonHead } from "../components"
-
-const codeStyle = {
-  fontFamily: ["'Roboto Mono Variable'", "Consolas", "monospace"].join(","),
-  color: "darkgray",
-}
 
 const App = ({
   data,
@@ -47,14 +40,14 @@ const App = ({
     >
       <Stack spacing={1}>
         <Typography variant="h2">About Periotris.js</Typography>
-        <Typography variant="h6" {...codeStyle}>
-          Version {data.package?.version}
+        <Typography variant="body1" paragraph>
+          Version: {data.package?.version}
         </Typography>
-        <Typography variant="h6" {...codeStyle}>
-          Revision {data.gitCommit?.hash?.slice(0, 8)}@{data.gitBranch?.name}
+        <Typography variant="body1" paragraph>
+          Revision: {data.gitCommit?.hash?.slice(0, 8)}@{data.gitBranch?.name}
         </Typography>
-        <Typography variant="h6" {...codeStyle}>
-          License {data.package?.license}
+        <Typography variant="body1" paragraph>
+          License: {data.package?.license}
         </Typography>
         <Divider variant="middle" />
         <Typography variant="body1" paragraph>

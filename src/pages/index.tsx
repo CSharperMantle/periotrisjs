@@ -15,8 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import "@fontsource-variable/roboto-mono"
-
 import { graphql, Link, PageProps } from "gatsby"
 import { useI18next } from "gatsby-plugin-react-i18next"
 import React from "react"
@@ -35,10 +33,6 @@ import Typography from "@mui/material/Typography"
 
 import { CommonHead } from "../components"
 import PageLocation from "../json/PageLocation.json"
-
-const codeStyle = {
-  fontFamily: ["'Roboto Mono Variable'", "Consolas", "monospace"].join(","),
-}
 
 const App = ({
   data,
@@ -72,7 +66,7 @@ const App = ({
           mt={3}
         >
           <Typography variant="h2">Periotris.js</Typography>
-          <Typography variant="body1" {...codeStyle}>
+          <Typography variant="body1">
             {t("typ_version", { version: data.package?.version })}
           </Typography>
         </Stack>

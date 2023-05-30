@@ -58,8 +58,8 @@ const App = (): React.ReactElement => {
       filterTaps: true,
       swipe: {
         /* TODO: Add these to customization settings! */
-        distance: [30, 30],
-        duration: 1500,
+        distance: [15, 15],
+        duration: 500,
       },
     }
   )
@@ -78,7 +78,7 @@ const App = (): React.ReactElement => {
         width: "100%",
         minWidth: "0px",
         boxSizing: "border-box",
-        flex: "1 1 auto" /* For CommonLayout.tsx headers */,
+        flex: "1 1 auto" /* For common layout */,
 
         /* element-specific props */
       }}
