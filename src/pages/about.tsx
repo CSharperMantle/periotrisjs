@@ -94,8 +94,8 @@ const App = ({
         <Typography variant="body1" paragraph>
           You should have received a copy of the GNU General Public License
           along with this program. If not, see{" "}
-          <Link href="https://github.com/CSharperMantle/periotrisjs/blob/main/LICENSE">
-            LICENSE
+          <Link href="https://www.gnu.org/licenses/">
+            {"https://www.gnu.org/licenses/"}
           </Link>
           .
         </Typography>

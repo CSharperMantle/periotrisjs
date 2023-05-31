@@ -117,7 +117,7 @@ const App = ({
               aria-label="sponsor"
               href="https://afdian.net/@CSharperMantle"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener"
             >
               <FavoriteIcon />
             </IconButton>
@@ -128,7 +128,7 @@ const App = ({
               aria-label="github"
               href="https://github.com/CSharperMantle/periotrisjs"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener"
             >
               <GitHubIcon />
             </IconButton>
