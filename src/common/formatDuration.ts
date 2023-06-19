@@ -15,17 +15,22 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-/**
- * Represents a coordination in the game field.
- *
- * The top-left corner is the O point.
- *
- * This object is immutable.
- */
-export class Position {
-  constructor(public readonly x: number, public readonly y: number) {}
-}
+import { isNil } from "./isNil"
 
-export function positionEquals(p1: Position, p2: Position): boolean {
-  return p1.x === p2.x && p1.y === p2.y
+/**
+ * Format the given duration in milliseconds into m...m:ss.
+ *
+ * When provided duration is nil or negative, "--:--" is returned.
+ */
+export function formatDuration(ms: number | null | undefined): string {
+  if (isNil(ms) || isNaN(ms) || ms < 0) {
+    return "--:--"
+  }
+
+  const sec = Math.round(ms / 1000)
+  const minutes = Math.floor(sec / 60)
+    .toString()
+    .padStart(2, "0")
+  const seconds = (sec % 60).toString().padStart(2, "0")
+  return `${minutes}:${seconds}`
 }

@@ -24,8 +24,8 @@ import {
 import defaultColorScheme from "../../json/DefaultColorScheme.json"
 import defaultMap from "../../json/DefaultMap.json"
 import { retrieve, store } from "../../localstorage"
-import { IColorScheme } from "../color_scheme"
 
+import type { IColorScheme } from "../color_scheme"
 import type { ILocalStorageSerializable } from "../ILocalStorageSerializable"
 import type { IMap } from "../map"
 
@@ -37,7 +37,7 @@ export class Settings implements ILocalStorageSerializable {
   public get showGridLine(): boolean {
     return this._showGridLine ?? true
   }
-  public set showGridLine(v: boolean) {
+  public set showGridLine(v) {
     this._showGridLine = v
     this.toLocalStorage()
   }
@@ -58,7 +58,7 @@ export class Settings implements ILocalStorageSerializable {
   public get gameMap(): IMap {
     return this._gameMap ?? defaultMap
   }
-  public set gameMap(v: IMap) {
+  public set gameMap(v) {
     this._gameMap = v
     this.toLocalStorage()
   }
@@ -67,7 +67,7 @@ export class Settings implements ILocalStorageSerializable {
   public get colorScheme(): IColorScheme {
     return this._colorScheme ?? defaultColorScheme
   }
-  public set colorScheme(v: IColorScheme) {
+  public set colorScheme(v) {
     this._colorScheme = v
     this.toLocalStorage()
   }
@@ -76,25 +76,32 @@ export class Settings implements ILocalStorageSerializable {
   public get borderThickness(): number {
     return this._borderThickness ?? DefaultBorderThickness
   }
-  public set borderThickness(v: number) {
+  public set borderThickness(v) {
     this._borderThickness = v
     this.toLocalStorage()
   }
 
+  public clear(): void {
+    this._showGridLine = undefined
+    this._gameUpdateIntervalMilliseconds = undefined
+    this._gameMap = undefined
+    this._colorScheme = undefined
+    this._borderThickness = undefined
+  }
+
   private constructor() {
-    // Do nothing.
+    this.clear()
   }
 
   public static fromLocalStorage(): Settings {
-    const result = retrieve(SettingsLocalStorageKey)
+    const result = retrieve<Settings>(SettingsLocalStorageKey)
 
-    if (isNil(result)) return new Settings()
+    if (isNil(result)) return Settings.Default
 
-    const repairedSettings = Object.create(
+    return Object.create(
       Settings.prototype,
       Object.getOwnPropertyDescriptors(result)
-    ) as Settings
-    return repairedSettings
+    )
   }
 
   /**

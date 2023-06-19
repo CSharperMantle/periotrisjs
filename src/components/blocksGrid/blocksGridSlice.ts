@@ -19,12 +19,12 @@ import { forEach } from "lodash"
 
 import { createSlice } from "@reduxjs/toolkit"
 
-import { IBlockSprite } from "../../viewmodel"
-
 import type { PayloadAction } from "@reduxjs/toolkit"
 
+import type { IBlockSprite } from "../../viewmodel"
+
 interface IBlocksGridState {
-  sprites: IBlockSprite[]
+  readonly sprites: IBlockSprite[]
 }
 
 const blocksGridInitialState: IBlocksGridState = { sprites: [] }

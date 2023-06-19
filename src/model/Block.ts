@@ -15,8 +15,9 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { Position } from "../common"
 import { TetriminoKind } from "./TetriminoKind"
+
+import type { TPosition } from "../common"
 
 /**
  * The block, the most basic unit of the game.
@@ -24,8 +25,8 @@ import { TetriminoKind } from "./TetriminoKind"
 export class Block {
   public constructor(
     public readonly filledBy: TetriminoKind,
-    public readonly position: Position,
-    public readonly atomicNumber = 0,
+    public readonly position: TPosition,
+    public /* readonly */ atomicNumber = 0,
     public readonly id = 0
   ) {}
 }

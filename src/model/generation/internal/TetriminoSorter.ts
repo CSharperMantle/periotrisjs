@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { flatten, map, uniq } from "lodash"
+import { uniq } from "lodash"
 import toposort from "toposort"
 
 import { isNil, rearrange } from "../../../common"
@@ -37,22 +37,20 @@ function getEdges(
     const tetrimino = tetriminos[i]
     for (let j = 0; j < tetrimino.blocks.length; j++) {
       const block = tetrimino.blocks[j]
-      owners[block.position.y][block.position.x] = i
+      owners[block.position[1]][block.position[0]] = i
     }
   }
 
   return uniq(
-    flatten(
-      map(tetriminos, (tetrimino, index) => {
-        const singleTetriminoDeps: [number, number][] = new Array(4)
-        for (let i = 0; i < tetrimino.blocks.length; i++) {
-          const block = tetrimino.blocks[i]
-          const dependedBlockRow: number = block.position.y + 1
-          const dependedBlockCol: number = block.position.x
-          const result = tryGetOccupiedTetriminoNode(
+    tetriminos
+      .map((t, index) => {
+        const deps: [number, number][] = []
+        for (let i = 0; i < t.blocks.length; i++) {
+          const block = t.blocks[i]
+          const result = tryGetOccupant(
             owners,
-            dependedBlockRow,
-            dependedBlockCol,
+            block.position[1] + 1 /* Lower row... */,
+            block.position[0] /* ...and same column */,
             playAreaSize
           )
           if (isNil(result) || result === index) {
@@ -60,15 +58,15 @@ function getEdges(
             continue
           }
           // Found a result
-          singleTetriminoDeps.push([result, index])
+          deps.push([result, index])
         }
-        return singleTetriminoDeps
+        return deps
       })
-    )
+      .flat()
   )
 }
 
-function tryGetOccupiedTetriminoNode(
+function tryGetOccupant(
   map: number[][],
   row: number,
   col: number,
@@ -83,12 +81,7 @@ function tryGetOccupiedTetriminoNode(
     return null
   }
 
-  const cell = map[row][col]
-  if (isNil(cell)) {
-    return null
-  }
-
-  return cell
+  return map[row][col] ?? null
 }
 
 export function sort(
@@ -97,7 +90,5 @@ export function sort(
 ): Tetrimino[] {
   const edges = getEdges(tetriminos, playAreaSize)
   const sortedIndices = toposort(edges)
-  const sortedTetriminos = rearrange(tetriminos, sortedIndices)
-
-  return sortedTetriminos
+  return rearrange(tetriminos, sortedIndices)
 }

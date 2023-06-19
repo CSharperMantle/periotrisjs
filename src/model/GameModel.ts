@@ -17,17 +17,50 @@
 
 import { EventEmitter } from "events"
 import { isBrowser } from "is-in-browser"
+import { isEqual, range } from "lodash"
 
-import { isNil, positionEquals, waitForEvent } from "../common"
+import { isNil, waitForEvent } from "../common"
 import { customizationFacade } from "../customization"
 import { Block } from "./Block"
 import { MoveDirection, RotationDirection } from "./Direction"
-import { BlocksChangedEventArgs } from "./EventArgs"
 import { GameState } from "./GameState"
 import { getPlayablePattern, MessageType } from "./generation"
 import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
 
 import type { IGeneratorMessage } from "./generation"
+
+async function generatePattern(): Promise<Tetrimino[]> {
+  if (!isBrowser) {
+    return await getPlayablePattern(customizationFacade.settings.gameMap)
+  }
+  const workers = range(0, navigator.hardwareConcurrency).map(
+    (i) =>
+      new Worker(
+        new URL("./generation/PatternGeneratorWorker", import.meta.url),
+        {
+          name: `PatternGeneratorWorker-${i}`,
+        }
+      )
+  )
+  const workerPromises = workers.map((w) =>
+    waitForEvent<MessageEvent<IGeneratorMessage<unknown>>>(
+      w,
+      "message",
+      "error"
+    )
+  )
+  workers.forEach((w) => {
+    w.postMessage({
+      type: MessageType.RequestGeneration,
+      content: customizationFacade.settings.gameMap,
+    })
+  })
+  const result = (await Promise.race(workerPromises)).data
+  workers.forEach((w) => {
+    w.terminate()
+  })
+  return result.content as Tetrimino[]
+}
 
 /**
  * The model of Periotris.
@@ -38,18 +71,6 @@ import type { IGeneratorMessage } from "./generation"
  * @emits gamestatechanged
  */
 export class GameModel extends EventEmitter {
-  /**
-   * Pattern generator thread.
-   */
-  private readonly _patternGeneratorWorker = isBrowser
-    ? new Worker(
-        new URL("./generation/PatternGeneratorWorker", import.meta.url),
-        {
-          name: "PatternGeneratorWorker",
-        }
-      )
-    : null
-
   /**
    * "Frozen" blocks, that is, blocks that are fallen and not movable.
    */
@@ -75,7 +96,7 @@ export class GameModel extends EventEmitter {
   public get gameState(): GameState {
     return this._gameState
   }
-  private set gameState(v: GameState) {
+  private set gameState(v) {
     this._gameState = v
     this.onGameStateChanged()
   }
@@ -222,32 +243,7 @@ export class GameModel extends EventEmitter {
     this._activeTetrimino = null
 
     this.gameState = GameState.Preparing
-    let tetriminos: Tetrimino[] = []
-    if (!isNil(this._patternGeneratorWorker)) {
-      // We have workers.
-      this._patternGeneratorWorker.postMessage({
-        type: MessageType.RequestGeneration,
-        content: customizationFacade.settings.gameMap,
-      })
-      const data = (
-        await waitForEvent<MessageEvent<IGeneratorMessage<Tetrimino[]>>>(
-          this._patternGeneratorWorker,
-          "message"
-        )
-      ).data
-      if (data.type === MessageType.ResponseSuccess) {
-        tetriminos = repairBrokenTetriminos(data.content)
-      } else {
-        console.warn(data)
-      }
-    } else {
-      console.warn(
-        "Web workers unavailable. Running pattern generator on UI thread."
-      )
-      tetriminos = await getPlayablePattern(
-        customizationFacade.settings.gameMap
-      )
-    }
+    const tetriminos = repairBrokenTetriminos(await generatePattern())
     this.startPreparedGame(tetriminos)
   }
 
@@ -257,7 +253,7 @@ export class GameModel extends EventEmitter {
    * @param tetriminos The tetriminos to start the game with.
    */
   private startPreparedGame(tetriminos: Tetrimino[]): void {
-    const generatedTetrimino: Tetrimino[] = tetriminos.reverse()
+    const generatedTetrimino = tetriminos.reverse()
     this._pendingTetriminos.push(...generatedTetrimino)
 
     this.spawnNextTetrimino()
@@ -280,7 +276,7 @@ export class GameModel extends EventEmitter {
     if (
       this._frozenBlocks.some(
         (block) =>
-          map[block.position.y][block.position.x].atomicNumber !==
+          map[block.position[1]][block.position[0]].atomicNumber !==
           block.atomicNumber
       )
     ) {
@@ -344,7 +340,7 @@ export class GameModel extends EventEmitter {
    * @param disappeared Whether the block disappeared.
    */
   private onBlocksChanged(blocks: Block[], disappeared: boolean): void {
-    this.emit("blockschanged", new BlocksChangedEventArgs(blocks, disappeared))
+    this.emit("blockschanged", { blocks, disappeared })
   }
 
   /**
@@ -367,14 +363,14 @@ export class GameModel extends EventEmitter {
   private checkBlockValidity(block: Block): boolean {
     const width = customizationFacade.settings.gameMap.playAreaSize.width
     const height = customizationFacade.settings.gameMap.playAreaSize.height
-    if (block.position.x < 0 || block.position.x >= width) {
+    if (block.position[0] < 0 || block.position[0] >= width) {
       return true
     }
-    if (block.position.y >= height) {
+    if (block.position[1] >= height) {
       return true
     }
     return this._frozenBlocks.some((frozenBlock) =>
-      positionEquals(frozenBlock.position, block.position)
+      isEqual(frozenBlock.position, block.position)
     )
   }
 

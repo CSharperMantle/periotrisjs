@@ -15,36 +15,36 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { Tetrimino } from "../Tetrimino"
-import { IGeneratorMessage } from "./IGeneratorMessage"
+import { MessageType } from "./IGeneratorMessage"
 import { getPlayablePattern } from "./internal/PatternGenerator"
-import { MessageType } from "./MessageType"
 
 import type { IMap } from "../../customization"
+import type { IGeneratorMessage } from "./IGeneratorMessage"
 
 const ctx = self as unknown as Worker
 
-ctx.onmessage = (eventArgs: MessageEvent<IGeneratorMessage<unknown>>) => {
-  const data = eventArgs.data
+ctx.onmessage = async (ev: MessageEvent<IGeneratorMessage<unknown>>) => {
+  const data = ev.data
   switch (data.type) {
     case MessageType.RequestGeneration:
-      handleRequestGeneration(data.content as IMap)
+      await handleRequestGeneration(data.content as IMap)
       break
     default:
-      handleDefault(data)
       break
   }
 }
 
 async function handleRequestGeneration(map: IMap): Promise<void> {
-  const result = await getPlayablePattern(map)
-  const message: IGeneratorMessage<Tetrimino[]> = {
-    type: MessageType.ResponseSuccess,
-    content: result,
+  try {
+    const result = await getPlayablePattern(map)
+    ctx.postMessage({
+      type: MessageType.ResponseSuccess,
+      content: result,
+    })
+  } catch (err) {
+    ctx.postMessage({
+      type: MessageType.ResponseFailed,
+      content: err,
+    })
   }
-  ctx.postMessage(message)
-}
-
-async function handleDefault(data: IGeneratorMessage<unknown>): Promise<void> {
-  console.warn(data.type)
 }

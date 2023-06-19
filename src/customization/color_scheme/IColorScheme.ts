@@ -16,10 +16,10 @@
  */
 
 export interface IColorSchemeRule {
-  atomicNumberRange: { from: number; to: number }
-  color: string
+  readonly atomicNumberRange: { readonly from: number; readonly to: number }
+  readonly color: string
 }
 
 export interface IColorScheme {
-  rules: IColorSchemeRule[]
+  readonly rules: IColorSchemeRule[]
 }

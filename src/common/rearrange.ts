@@ -27,7 +27,7 @@
 export function rearrange<T>(array: T[], indices: number[]): T[] {
   if (array.length !== indices.length) {
     throw new Error(
-      "The length of the array and the length of the indices must be equal."
+      `rearrange: array length ${array.length} !== indices length ${indices.length}`
     )
   }
 

@@ -18,9 +18,7 @@
 /**
  * Represents a size (width and height).
  */
-interface ISize {
-  width: number
-  height: number
+export interface ISize {
+  readonly width: number
+  readonly height: number
 }
-
-export type { ISize }

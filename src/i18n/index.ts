@@ -15,6 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { MainAppBar } from "./MainAppBar"
+import { langs, defaultLang } from "./lang"
 
-export { MainAppBar }
+export { langs, defaultLang }

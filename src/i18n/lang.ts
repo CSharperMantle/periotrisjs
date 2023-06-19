@@ -14,3 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
+
+import { join } from "path"
+import { readdirSync, lstatSync } from "fs"
+
+export const defaultLang = "en"
+
+export const langs = readdirSync(join(__dirname, "locales")).filter((f) =>
+  lstatSync(join(__dirname, "locales", f)).isDirectory()
+)

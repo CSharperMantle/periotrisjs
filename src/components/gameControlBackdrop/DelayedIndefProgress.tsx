@@ -15,38 +15,28 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { Link } from "gatsby"
-import { map } from "lodash"
 import React from "react"
 
 import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
+import CircularProgress from "@mui/material/CircularProgress"
+import Fade from "@mui/material/Fade"
 
-import type { IPageLocationElement } from "../CommonLayout"
-
-interface IMenuTitleButtonListProps {
-  pageLocation: IPageLocationElement[]
-  handleCloseMenu: (event: React.MouseEvent<HTMLElement>) => void
+interface IDelayedIndefProgressProps {
+  readonly delayMs: number
 }
 
-export const MenuTitleButtonList = (
-  props: IMenuTitleButtonListProps
-): React.ReactElement => {
+export const DelayedIndefProgress = (props: IDelayedIndefProgressProps) => {
   return (
-    <>
-      {map(props.pageLocation, (page) => (
-        <Button
-          key={page.name}
-          onClick={props.handleCloseMenu}
-          sx={{ my: 2, color: "white", display: "block" }}
-          component={Link}
-          to={page.path}
-        >
-          <Box textAlign="center" margin="0 auto">
-            {page.name}
-          </Box>
-        </Button>
-      ))}
-    </>
+    <Box>
+      <Fade
+        in
+        style={{
+          transitionDelay: `${props.delayMs}ms`,
+        }}
+        unmountOnExit
+      >
+        <CircularProgress size={50} variant="indeterminate" />
+      </Fade>
+    </Box>
   )
 }

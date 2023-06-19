@@ -15,9 +15,14 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { MessageType } from "./MessageType"
+export const enum MessageType {
+  RequestGeneration,
+  ResponseSuccess,
+  ResponseFailed,
+  ResponseProgress,
+}
 
 export interface IGeneratorMessage<T> {
-  type: MessageType
-  content: T
+  readonly type: MessageType
+  readonly content: T
 }

@@ -15,7 +15,17 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-export enum MessageType {
-  RequestGeneration,
-  ResponseSuccess,
+import React from "react"
+import { Provider as ReduxProvider } from "react-redux"
+
+import { appStore } from "../viewmodel"
+
+export interface ICommonProvidersProps {
+  readonly children: React.ReactNode
+}
+
+export const CommonProviders = ({
+  children,
+}: ICommonProvidersProps): React.ReactElement => {
+  return <ReduxProvider store={appStore}>{children}</ReduxProvider>
 }

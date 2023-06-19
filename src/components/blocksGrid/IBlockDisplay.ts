@@ -18,7 +18,7 @@
 import type { IBlockSprite } from "../../viewmodel"
 
 export interface IBlockDisplay extends IBlockSprite {
-  hasContent: boolean
-  hasBorder: boolean
-  symbolColor: string
+  readonly hasContent: boolean
+  readonly hasBorder: boolean
+  readonly symbolColor: string
 }

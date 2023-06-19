@@ -15,23 +15,19 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { map } from "lodash"
-
-import { Position } from "../common"
 import { Block } from "./Block"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
-import {
-  createOffsetedBlocks,
-  mapAtomicNumberForNewBlocks,
-} from "./TetriminoHelper"
+import { createOffsetBlocks, mapAtomicNumberInto } from "./TetriminoHelper"
 import { TetriminoKind } from "./TetriminoKind"
+
+import type { TPosition } from "../common"
 
 /**
  * The type for block collision checker.
  *
  * @returns 'false' if no collision found. Otherwise 'true'.
  */
-export type TBlockCollisionChecker = (block: Block) => boolean
+export type TCollisionChecker = (block: Block) => boolean
 
 /**
  * The tetrimino.
@@ -48,28 +44,23 @@ export class Tetrimino {
    */
   public tryMove(
     direction: MoveDirection,
-    collisionChecker: TBlockCollisionChecker
+    collisionChecker: TCollisionChecker
   ): boolean {
     const deltaY = direction === MoveDirection.Down ? 1 : 0
     const deltaX =
       (direction === MoveDirection.Down ? 0 : 1) *
       (direction === MoveDirection.Right ? 1 : -1)
 
-    const newBlocks = map(this.blocks, (b) => ({
-      filledBy: b.filledBy,
-      position: new Position(b.position.x + deltaX, b.position.y + deltaY),
-      atomicNumber: b.atomicNumber,
-      id: b.id,
+    const newBlocks = this.blocks.map((b) => ({
+      ...b,
+      position: [b.position[0] + deltaX, b.position[1] + deltaY] as const,
     }))
 
     if (newBlocks.some(collisionChecker)) {
       return false
     }
 
-    this.position = new Position(
-      this.position.x + deltaX,
-      this.position.y + deltaY
-    )
+    this.position = [this.position[0] + deltaX, this.position[1] + deltaY]
     this.blocks = newBlocks
     return true
   }
@@ -85,29 +76,26 @@ export class Tetrimino {
    */
   public tryRotate(
     rotationDirection: RotationDirection,
-    collisionChecker: TBlockCollisionChecker
+    collisionChecker: TCollisionChecker
   ): boolean {
     // Find the final direction
-    const count: number = Object.keys(Direction).length / 2
-    const delta: number = rotationDirection === RotationDirection.Right ? 1 : -1
+    const count = Direction.LENGTH / 2
+
+    const delta = rotationDirection === RotationDirection.Right ? 1 : -1
     const direction = (this.facingDirection + delta + count) % count
 
-    const adjustPattern: number[] =
+    const adjustPattern =
       this.kind === TetriminoKind.Linear ? [0, 1, -1, 2, -2] : [0, 1, -1]
 
     // Wall kicking
     for (let i = 0, len = adjustPattern.length; i < len; i++) {
-      const newPos: Position = new Position(
-        this.position.x + adjustPattern[i],
-        this.position.y
-      )
-      let newBlocks: Block[] = createOffsetedBlocks(
-        this.kind,
-        newPos,
-        direction
-      )
+      const newPos = [
+        this.position[0] + adjustPattern[i],
+        this.position[1],
+      ] as const
+      const newBlocks = createOffsetBlocks(this.kind, newPos, direction)
       if (!newBlocks.some(collisionChecker)) {
-        newBlocks = mapAtomicNumberForNewBlocks(this.blocks, newBlocks)
+        mapAtomicNumberInto(this.blocks, newBlocks)
         this.facingDirection = direction
         this.position = newPos
         this.blocks = newBlocks
@@ -127,10 +115,10 @@ export class Tetrimino {
    */
   public constructor(
     public kind: TetriminoKind,
-    public position: Position,
+    public position: TPosition,
     public facingDirection: Direction
   ) {
-    this.blocks = createOffsetedBlocks(kind, position, facingDirection)
+    this.blocks = createOffsetBlocks(kind, position, facingDirection)
   }
 }
 
@@ -144,13 +132,7 @@ export class Tetrimino {
 export function repairBrokenTetriminos(
   brokenTetriminos: Tetrimino[]
 ): Tetrimino[] {
-  const repairedTetriminos = map(
-    brokenTetriminos,
-    (brokenTetrimino) =>
-      Object.create(
-        Tetrimino.prototype,
-        Object.getOwnPropertyDescriptors(brokenTetrimino)
-      ) as Tetrimino
+  return brokenTetriminos.map((t) =>
+    Object.create(Tetrimino.prototype, Object.getOwnPropertyDescriptors(t))
   )
-  return repairedTetriminos
 }

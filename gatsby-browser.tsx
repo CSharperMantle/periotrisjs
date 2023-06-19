@@ -15,7 +15,12 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import "@fontsource-variable/roboto-flex"
+import "./RootLayoutStyles.css"
+
 import React from "react"
+
+import { CommonLayout, CommonProviders } from "./src/components"
 
 import type { GatsbyBrowser } from "gatsby"
 
@@ -23,8 +28,11 @@ export const wrapPageElement: GatsbyBrowser["wrapPageElement"] = ({
   element,
   props,
 }) => {
-  type TLayoutElement = typeof element.type & { Layout: React.ElementType }
+  return <CommonLayout {...props}>{element}</CommonLayout>
+}
 
-  const Layout = (element.type as TLayoutElement).Layout ?? React.Fragment
-  return <Layout {...props}>{element}</Layout>
+export const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({
+  element,
+}) => {
+  return <CommonProviders>{element}</CommonProviders>
 }

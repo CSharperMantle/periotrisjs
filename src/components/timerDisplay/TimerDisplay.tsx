@@ -15,13 +15,12 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import dayjs from "dayjs"
 import React from "react"
 
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 
-import { isNil } from "../../common"
+import { formatDuration } from "../../common"
 import { useAppSelector } from "../../viewmodel"
 
 export const TimerDisplay = (): React.ReactElement => {
@@ -58,7 +57,7 @@ export const TimerDisplay = (): React.ReactElement => {
           color: "white",
         }}
       >
-        {isNil(fastestRecord) ? "--:--" : dayjs(fastestRecord).format("mm:ss")}
+        {formatDuration(fastestRecord)}
       </Typography>
       <Typography
         sx={{
@@ -69,7 +68,7 @@ export const TimerDisplay = (): React.ReactElement => {
           color: "yellow",
         }}
       >
-        {dayjs(elapsedTime).format("mm:ss")}
+        {formatDuration(elapsedTime)}
       </Typography>
     </Box>
   )

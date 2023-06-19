@@ -22,131 +22,102 @@ import Button from "@mui/material/Button"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 
-import hourglassNotDone from "../../../assets/icon/noto-color-emoji/hourglass-not-done.svg"
-import partyingFace from "../../../assets/icon/noto-color-emoji/partying-face.svg"
-import thinkingFace from "../../../assets/icon/noto-color-emoji/thinking-face.svg"
-import winkingFace from "../../../assets/icon/noto-color-emoji/winking-face.svg"
 import { GameState } from "../../model"
 import { useAppSelector } from "../../viewmodel"
+import { DelayedIndefProgress } from "./DelayedIndefProgress"
 
-interface IContentProps {
-  image: { src: string; alt: string }
-  title: string
-  description?: string
-  button?: {
-    caption: string
-    color: "primary" | "secondary"
-    onClick?: () => void
-  }
+interface IGameNotStartedContentProps {
+  readonly startGameHandler: () => void
 }
 
-const Content = ({
-  image,
-  title,
-  description,
-  button,
-}: IContentProps): React.ReactElement => {
+const GameNotStartedContent = (props: IGameNotStartedContentProps) => {
   return (
     <>
-      <img src={image.src} alt={image.alt} width="128" height="128" />
-      <Typography align="center" variant="h6">
-        {title}
+      <Typography align="center" maxWidth="md" variant="h6">
+        Welcome! Your task: complete the Periodic Table.
       </Typography>
-      {description && (
-        <Typography align="center" variant="body1">
-          {description}
-        </Typography>
-      )}
-      {button && (
-        <Button
-          variant="contained"
-          color={button.color}
-          onClick={button.onClick}
-        >
-          {button.caption}
-        </Button>
-      )}
+      <Typography align="center" maxWidth="md" variant="body1">
+        A/D/S/Swipe: move by one. W/Tap: rotate. Space/Long press: drop.
+      </Typography>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={props.startGameHandler}
+      >
+        I&apos;M READY
+      </Button>
     </>
   )
 }
 
-interface IGameNotStartedContentProps {
-  startGameHandler: () => void
-}
-
-const GameNotStartedContent = (
-  props: IGameNotStartedContentProps
-): React.ReactElement => {
+const GamePreparingContent = () => {
   return (
-    <Content
-      image={{ src: winkingFace, alt: "Winking face" }}
-      title="Welcome! Your task: complete the Periodic Table."
-      description="A/D/S/Swipe: move by one. W/Tap: rotate. Space/Long press: drop."
-      button={{
-        caption: "I'm ready",
-        color: "primary",
-        onClick: props.startGameHandler,
-      }}
-    />
-  )
-}
-
-const GamePreparingContent = (): React.ReactElement => {
-  return (
-    <Content
-      image={{ src: hourglassNotDone, alt: "Hourglass with sand running" }}
-      title="Good luck!"
-      description="The game will start in a few seconds."
-    />
+    <>
+      <Typography align="center" maxWidth="md" variant="h6">
+        Good luck!
+      </Typography>
+      <Typography align="center" maxWidth="md" variant="body1">
+        Generating new map for you. The game will start in a few seconds.
+      </Typography>
+      <DelayedIndefProgress delayMs={800} />
+    </>
   )
 }
 
 interface IGameLostContentProps {
-  startGameHandler: () => void
+  readonly startGameHandler: () => void
 }
 
-const GameLostContent = (props: IGameLostContentProps): React.ReactElement => {
+const GameLostContent = (props: IGameLostContentProps) => {
   return (
-    <Content
-      image={{ src: thinkingFace, alt: "Thinking face" }}
-      title="Oops..."
-      description="This does not seem to be right. Ready to give it another shot?"
-      button={{
-        caption: "Try again",
-        color: "secondary",
-        onClick: props.startGameHandler,
-      }}
-    />
+    <>
+      <Typography align="center" maxWidth="md" variant="h6">
+        Oops...
+      </Typography>
+      <Typography align="center" maxWidth="md" variant="body1">
+        This does not seem to be right. Ready to give it another shot?
+      </Typography>
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={props.startGameHandler}
+      >
+        TRY AGAIN
+      </Button>
+    </>
   )
 }
 
 interface IGameWonContentProps {
-  startGameHandler: () => void
+  readonly startGameHandler: () => void
 }
 
-const GameWonContent = (props: IGameWonContentProps): React.ReactElement => {
+const GameWonContent = (props: IGameWonContentProps) => {
   return (
-    <Content
-      image={{ src: partyingFace, alt: "Partying face" }}
-      title="Congrats."
-      description="You won the game! Don't hesitate to brag about it."
-      button={{
-        caption: "Restart",
-        color: "secondary",
-        onClick: props.startGameHandler,
-      }}
-    />
+    <>
+      <Typography align="center" maxWidth="md" variant="h6">
+        Congrats!
+      </Typography>
+      <Typography align="center" maxWidth="md" variant="body1">
+        You finished the game! Don&apos;t hesitate to brag about it.
+      </Typography>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={props.startGameHandler}
+      >
+        START NEW
+      </Button>
+    </>
   )
 }
 
 interface IGameStatusBackdropProps {
-  startGameHandler: () => void
-  switchPauseGameHandler: () => void
+  readonly startGameHandler: () => void
+  readonly switchPauseGameHandler: () => void
 }
 
-export const GameControlBackdrop = (
-  props: IGameStatusBackdropProps
-): React.ReactElement => {
+export const GameControlBackdrop = (props: IGameStatusBackdropProps) => {
   const gameState = useAppSelector(
     (state) => state.game.gameControlBackdrop.gameState
   )
@@ -195,7 +166,7 @@ export const GameControlBackdrop = (
         direction="column"
         alignItems="center"
         justifyContent="center"
-        spacing={1}
+        spacing={2}
       >
         {content}
       </Stack>

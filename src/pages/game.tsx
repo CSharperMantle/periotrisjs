@@ -15,61 +15,54 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { isBrowser } from "is-in-browser"
 import { throttle } from "lodash"
-import React, { useEffect, useRef } from "react"
+import React, { useEffect } from "react"
+
+import { useDrag } from "@use-gesture/react"
 
 import Box from "@mui/material/Box"
 
 import { flushed } from "../common"
-import {
-  BlocksGrid,
-  CommonHead,
-  CommonLayout,
-  GameControlBackdrop,
-} from "../components"
+import { BlocksGrid, CommonHead, GameControlBackdrop } from "../components"
 import { GameViewModel } from "../viewmodel"
-
-const Hammer: HammerStatic = isBrowser ? require("hammerjs") : null
 
 const App = (): React.ReactElement => {
   const viewModel = new GameViewModel()
 
-  const rowTwoRef = useRef<HTMLElement>()
-  let hammer: HammerManager
+  const onKeyDownThrottled = throttle(
+    flushed(viewModel.onKeyDown.bind(viewModel)),
+    50
+  )
+  const onTapThrottled = throttle(flushed(viewModel.onTap.bind(viewModel)), 50)
+  const onSwipeThrottled = throttle(
+    flushed(viewModel.onSwipe.bind(viewModel)),
+    50
+  )
 
   useEffect(() => {
-    const throttledKeyDownHandler = throttle(
-      flushed(viewModel.onKeyDown.bind(viewModel)),
-      50
-    )
-    const throttledTapHandler = throttle(
-      flushed(viewModel.onTap.bind(viewModel)),
-      50
-    )
-    const throttledSwipeHandler = throttle(
-      flushed(viewModel.onSwipe.bind(viewModel)),
-      50
-    )
-    const throttledPressUpHandler = throttle(
-      flushed(viewModel.onPressUp.bind(viewModel)),
-      50
-    )
-
-    window.addEventListener("keydown", throttledKeyDownHandler)
-
-    hammer = new Hammer(rowTwoRef.current as HTMLElement)
-    hammer.on("tap", throttledTapHandler)
-    hammer.on("swipe", throttledSwipeHandler)
-    hammer.on("pressup", throttledPressUpHandler)
-
+    window.addEventListener("keydown", onKeyDownThrottled)
     return () => {
-      window.removeEventListener("keydown", throttledKeyDownHandler)
-      hammer.off("tap", throttledTapHandler)
-      hammer.off("swipe", throttledSwipeHandler)
-      hammer.off("pressup", throttledPressUpHandler)
+      window.removeEventListener("keydown", onKeyDownThrottled)
     }
   }, [])
+
+  const gestureBind = useDrag(
+    ({ swipe, tap, elapsedTime }) => {
+      if (tap) {
+        onTapThrottled(elapsedTime)
+      } else {
+        onSwipeThrottled(swipe)
+      }
+    },
+    {
+      filterTaps: true,
+      swipe: {
+        /* TODO: Add these to customization settings! */
+        distance: [15, 15],
+        duration: 500,
+      },
+    }
+  )
 
   return (
     <Box
@@ -85,7 +78,7 @@ const App = (): React.ReactElement => {
         width: "100%",
         minWidth: "0px",
         boxSizing: "border-box",
-        flex: "1 1 auto" /* For CommonLayout.tsx headers */,
+        flex: "1 1 auto" /* For common layout */,
 
         /* element-specific props */
       }}
@@ -95,11 +88,11 @@ const App = (): React.ReactElement => {
         switchPauseGameHandler={viewModel.switchPauseGame.bind(viewModel)}
       />
       <Box
-        ref={rowTwoRef}
         sx={{
           gridRow: 2,
           position: "relative",
         }}
+        {...gestureBind()}
       >
         <BlocksGrid />
       </Box>
@@ -107,10 +100,6 @@ const App = (): React.ReactElement => {
   )
 }
 
-App.Layout = CommonLayout
-
 export default App
 
-export const Head = (): React.ReactElement => {
-  return <CommonHead />
-}
+export const Head = CommonHead

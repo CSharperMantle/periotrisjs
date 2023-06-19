@@ -15,7 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { flushed } from "./flushed"
 import {
   DefaultBorderThickness,
   DefaultGameUpdateIntervalMilliseconds,
@@ -23,12 +22,14 @@ import {
   SettingsLocalStorageKey,
   StopwatchUpdateIntervalMilliseconds,
 } from "./PeriotrisConst"
-import { Position, positionEquals } from "./Position"
+import { flushed } from "./flushed"
+import { formatDuration } from "./formatDuration"
+import { isNil } from "./isNil"
 import { rearrange } from "./rearrange"
 import { waitForEvent } from "./waitForEvent"
-import { isNil } from "./isNil"
 
 import type { ISize } from "./ISize"
+import type { TPosition } from "./TPosition"
 
 export {
   DefaultGameUpdateIntervalMilliseconds,
@@ -36,12 +37,10 @@ export {
   HistoryLocalStorageKey,
   SettingsLocalStorageKey,
   DefaultBorderThickness,
-  Position,
-  positionEquals,
   rearrange,
   flushed,
   waitForEvent,
   isNil,
+  formatDuration,
 }
-
-export type { ISize }
+export type { ISize, TPosition }

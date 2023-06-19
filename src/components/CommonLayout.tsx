@@ -15,15 +15,9 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import "@fontsource/roboto/400.css"
-import "@fontsource/roboto/500.css"
-import "@fontsource/roboto/700.css"
-import "./CommonLayout.css"
-
 import { graphql, useStaticQuery } from "gatsby"
 import { SnackbarProvider } from "notistack"
 import React from "react"
-import { Provider as ReduxProvider } from "react-redux"
 
 import Box from "@mui/material/Box"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -31,54 +25,50 @@ import { StyledEngineProvider } from "@mui/material/styles"
 import ThemeProvider from "@mui/material/styles/ThemeProvider"
 
 import { theme } from "../../src/ThemeOptions"
-import { appStore } from "../viewmodel"
-import { MainAppBar } from "./mainAppBar/MainAppBar"
 
 export interface IPageLocationElement {
-  name: string
-  path: string
+  readonly name: string
+  readonly path: string
 }
 
 export interface ICommonLayoutProps {
-  children: React.ReactNode
+  readonly children: React.ReactNode
 }
 
-export const CommonLayout = (props: ICommonLayoutProps): React.ReactElement => {
+export const CommonLayout = ({
+  children,
+}: ICommonLayoutProps): React.ReactElement => {
   return (
-    <>
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <ReduxProvider store={appStore}>
-            <SnackbarProvider
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "center",
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+        >
+          <>
+            <CssBaseline enableColorScheme />
+            <Box
+              sx={{
+                display: "flex",
+                flexFlow: "column nowrap",
+                minHeight: "100vh",
+                maxHeight: "100vh",
               }}
             >
-              <CssBaseline enableColorScheme />
-              <Box
-                sx={{
-                  display: "flex",
-                  flexFlow: "column nowrap",
-                  minHeight: "100vh",
-                  maxHeight: "100vh",
-                }}
-              >
-                <MainAppBar />
-                {/* Now injecting real children. */}
-                {props.children}
-              </Box>
-            </SnackbarProvider>
-          </ReduxProvider>
-        </ThemeProvider>
-      </StyledEngineProvider>
-    </>
+              {children}
+            </Box>
+          </>
+        </SnackbarProvider>
+      </ThemeProvider>
+    </StyledEngineProvider>
   )
 }
 
 export const CommonHead = (): React.ReactElement => {
-  const data = useStaticQuery(graphql`
-    query {
+  const data = useStaticQuery<Queries.CommonHeadQuery>(graphql`
+    query CommonHead {
       site {
         siteMetadata {
           title
@@ -92,12 +82,12 @@ export const CommonHead = (): React.ReactElement => {
 
   return (
     <>
-      <title>{`${data.site.siteMetadata.title}`}</title>
+      <title>{data.site?.siteMetadata?.title ?? ""}</title>
       <meta
         name="viewport"
         content="minimum-scale=1, initial-scale=1, width=device-width"
       />
-      <meta name="description" content={`${data.package.description}`} />
+      <meta name="description" content={data.package?.description ?? ""} />
     </>
   )
 }

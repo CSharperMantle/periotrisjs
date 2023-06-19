@@ -15,9 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import "@fontsource/fira-code/400.css"
-
-import { graphql, useStaticQuery } from "gatsby"
+import { graphql, PageProps } from "gatsby"
 import React from "react"
 
 import Container from "@mui/material/Container"
@@ -26,29 +24,11 @@ import Link from "@mui/material/Link"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 
-import { CommonLayout, CommonHead } from "../components"
+import { CommonHead } from "../components"
 
-const codeStyle = {
-  fontFamily: '"Fira Code", Consolas, monospace',
-  color: "darkgray",
-}
-
-const App = (): React.ReactElement => {
-  const data = useStaticQuery(graphql`
-    query {
-      gitCommit(latest: { eq: true }) {
-        hash
-      }
-      gitBranch(current: { eq: true }) {
-        name
-      }
-      package {
-        version
-        license
-      }
-    }
-  `)
-
+const App = ({
+  data,
+}: PageProps<Queries.AboutPageQuery>): React.ReactElement => {
   return (
     <Container
       maxWidth="lg"
@@ -60,14 +40,14 @@ const App = (): React.ReactElement => {
     >
       <Stack spacing={1}>
         <Typography variant="h2">About Periotris.js</Typography>
-        <Typography variant="h6" {...codeStyle}>
-          Version {data.package.version}
+        <Typography variant="body1" paragraph>
+          Version: {data.package?.version}
         </Typography>
-        <Typography variant="h6" {...codeStyle}>
-          Revision {data.gitCommit.hash.slice(0, 8)}@{data.gitBranch.name}
+        <Typography variant="body1" paragraph>
+          Revision: {data.gitCommit?.hash?.slice(0, 8)}@{data.gitBranch?.name}
         </Typography>
-        <Typography variant="h6" {...codeStyle}>
-          License {data.package.license}
+        <Typography variant="body1" paragraph>
+          License: {data.package?.license}
         </Typography>
         <Divider variant="middle" />
         <Typography variant="body1" paragraph>
@@ -114,8 +94,8 @@ const App = (): React.ReactElement => {
         <Typography variant="body1" paragraph>
           You should have received a copy of the GNU General Public License
           along with this program. If not, see{" "}
-          <Link href="https://github.com/CSharperMantle/periotrisjs/blob/main/LICENSE">
-            LICENSE
+          <Link href="https://www.gnu.org/licenses/">
+            {"https://www.gnu.org/licenses/"}
           </Link>
           .
         </Typography>
@@ -124,10 +104,21 @@ const App = (): React.ReactElement => {
   )
 }
 
-App.Layout = CommonLayout
-
 export default App
 
-export const Head = (): React.ReactElement => {
-  return <CommonHead />
-}
+export const Head = CommonHead
+
+export const query = graphql`
+  query AboutPage {
+    gitCommit(latest: { eq: true }) {
+      hash
+    }
+    gitBranch(current: { eq: true }) {
+      name
+    }
+    package {
+      version
+      license
+    }
+  }
+`

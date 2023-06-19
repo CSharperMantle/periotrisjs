@@ -15,12 +15,11 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { Position } from "../common"
 import { Block } from "./Block"
 import { Direction } from "./Direction"
 import { TetriminoKind } from "./TetriminoKind"
 
-import type { ISize } from "../common"
+import type { ISize, TPosition } from "../common"
 
 const CubicDownMask: number[][] = [
   [3, 4],
@@ -211,7 +210,7 @@ function getBlocksMask(kind: TetriminoKind, direction: Direction): number[][] {
         case Direction.Down:
           return LinearDownMask
         default:
-          throw new Error("Invalid direction.")
+          throw new RangeError(`getBlocksMask: invalid direction ${direction}`)
       }
     case TetriminoKind.Cubic:
       switch (direction) {
@@ -224,7 +223,7 @@ function getBlocksMask(kind: TetriminoKind, direction: Direction): number[][] {
         case Direction.Left:
           return CubicLeftMask
         default:
-          throw new Error("Invalid direction.")
+          throw new RangeError(`getBlocksMask: invalid direction ${direction}`)
       }
     case TetriminoKind.LShapedCis:
       switch (direction) {
@@ -237,7 +236,7 @@ function getBlocksMask(kind: TetriminoKind, direction: Direction): number[][] {
         case Direction.Left:
           return LCisLeftMask
         default:
-          throw new Error("Invalid direction.")
+          throw new RangeError(`getBlocksMask: invalid direction ${direction}`)
       }
     case TetriminoKind.LShapedTrans:
       switch (direction) {
@@ -250,7 +249,7 @@ function getBlocksMask(kind: TetriminoKind, direction: Direction): number[][] {
         case Direction.Left:
           return LTransLeftMask
         default:
-          throw new Error("Invalid direction.")
+          throw new RangeError(`getBlocksMask: invalid direction ${direction}`)
       }
     case TetriminoKind.ZigZagCis:
       switch (direction) {
@@ -263,7 +262,7 @@ function getBlocksMask(kind: TetriminoKind, direction: Direction): number[][] {
         case Direction.Left:
           return ZCisLeftMask
         default:
-          throw new Error("Invalid direction.")
+          throw new RangeError(`getBlocksMask: invalid direction ${direction}`)
       }
     case TetriminoKind.ZigZagTrans:
       switch (direction) {
@@ -276,7 +275,7 @@ function getBlocksMask(kind: TetriminoKind, direction: Direction): number[][] {
         case Direction.Left:
           return ZTransLeftMask
         default:
-          throw new Error("Invalid direction.")
+          throw new RangeError(`getBlocksMask: invalid direction ${direction}`)
       }
     case TetriminoKind.TeeShaped:
       switch (direction) {
@@ -289,20 +288,20 @@ function getBlocksMask(kind: TetriminoKind, direction: Direction): number[][] {
         case Direction.Left:
           return TeeLeftMask
         default:
-          throw new Error("Invalid direction.")
+          throw new RangeError(`getBlocksMask: invalid direction ${direction}`)
       }
     default:
-      throw new Error("Invalid tetrimino kind.")
+      throw new RangeError(`getBlocksMask: invalid kind ${kind}`)
   }
 }
 
 export function getFirstBlockCoordByType(
   kind: TetriminoKind,
-  facingDirection: Direction
+  direction: Direction
 ): { row: number; col: number } {
   switch (kind) {
     case TetriminoKind.Linear:
-      switch (facingDirection) {
+      switch (direction) {
         case Direction.Left:
           return { row: 2, col: 3 }
         case Direction.Up:
@@ -312,12 +311,14 @@ export function getFirstBlockCoordByType(
         case Direction.Down:
           return { row: 3, col: 2 }
         default:
-          throw new Error("Invalid facing direction.")
+          throw new RangeError(
+            `getFirstBlockCoordByType: invalid direction ${direction}`
+          )
       }
     case TetriminoKind.Cubic:
       return { row: 1, col: 1 }
     case TetriminoKind.LShapedCis:
-      switch (facingDirection) {
+      switch (direction) {
         case Direction.Left:
           return { row: 1, col: 2 }
         case Direction.Up:
@@ -327,10 +328,12 @@ export function getFirstBlockCoordByType(
         case Direction.Down:
           return { row: 2, col: 1 }
         default:
-          throw new Error("Invalid facing direction.")
+          throw new RangeError(
+            `getFirstBlockCoordByType: invalid direction ${direction}`
+          )
       }
     case TetriminoKind.LShapedTrans:
-      switch (facingDirection) {
+      switch (direction) {
         case Direction.Left:
           return { row: 2, col: 2 }
         case Direction.Up:
@@ -340,10 +343,12 @@ export function getFirstBlockCoordByType(
         case Direction.Down:
           return { row: 2, col: 1 }
         default:
-          throw new Error("Invalid facing direction.")
+          throw new RangeError(
+            `getFirstBlockCoordByType: invalid direction ${direction}`
+          )
       }
     case TetriminoKind.ZigZagCis:
-      switch (facingDirection) {
+      switch (direction) {
         case Direction.Left:
           return { row: 2, col: 0 }
         case Direction.Up:
@@ -353,10 +358,12 @@ export function getFirstBlockCoordByType(
         case Direction.Down:
           return { row: 2, col: 2 }
         default:
-          throw new Error("Invalid facing direction.")
+          throw new RangeError(
+            `getFirstBlockCoordByType: invalid direction ${direction}`
+          )
       }
     case TetriminoKind.ZigZagTrans:
-      switch (facingDirection) {
+      switch (direction) {
         case Direction.Left:
           return { row: 2, col: 1 }
         case Direction.Up:
@@ -366,10 +373,12 @@ export function getFirstBlockCoordByType(
         case Direction.Down:
           return { row: 2, col: 1 }
         default:
-          throw new Error("Invalid facing direction.")
+          throw new RangeError(
+            `getFirstBlockCoordByType: invalid direction ${direction}`
+          )
       }
     case TetriminoKind.TeeShaped:
-      switch (facingDirection) {
+      switch (direction) {
         case Direction.Left:
           return { row: 2, col: 1 }
         case Direction.Up:
@@ -379,10 +388,12 @@ export function getFirstBlockCoordByType(
         case Direction.Down:
           return { row: 2, col: 1 }
         default:
-          throw new Error("Invalid facing direction.")
+          throw new RangeError(
+            `getFirstBlockCoordByType: invalid direction ${direction}`
+          )
       }
     default:
-      throw new Error("Invalid tetrimino kind.")
+      throw new RangeError(`getFirstBlockCoordByType: invalid kind ${kind}`)
   }
 }
 
@@ -397,20 +408,20 @@ export function getFirstBlockCoordByType(
  * @returns The transformed position.
  */
 export function getPositionByFirstBlock(
-  position: Position,
+  position: TPosition,
   kind: TetriminoKind,
   facingDirection: Direction
-): Position {
+): TPosition {
   const firstBlockCoord = getFirstBlockCoordByType(kind, facingDirection)
   const firstBlockRow = firstBlockCoord.row
   const firstBlockCol = firstBlockCoord.col
-  return new Position(position.x - firstBlockCol, position.y - firstBlockRow)
+  return [position[0] - firstBlockCol, position[1] - firstBlockRow]
 }
 
-export function getInitialPositionByKind(
+export function getInitialPosition(
   kind: TetriminoKind,
   playAreaSize: ISize
-): Position {
+): TPosition {
   let length: number
   switch (kind) {
     case TetriminoKind.Linear:
@@ -427,22 +438,20 @@ export function getInitialPositionByKind(
       length = 3
       break
     default:
-      throw new Error("Invalid tetrimino kind.")
+      throw new RangeError(`getInitialPosition: invalid kind ${kind}`)
   }
-  const row = 0
-  const col = Math.floor((playAreaSize.width - length) / 2)
-  return new Position(col, row)
+  return [Math.floor((playAreaSize.width - length) / 2), 0]
 }
 
-export function createOffsetedBlocks(
+export function createOffsetBlocks(
   kind: TetriminoKind,
-  offset: Position,
+  offset: TPosition,
   direction: Direction = Direction.Up
 ): Block[] {
   const mask = getBlocksMask(kind, direction)
   // Performance critical with hand-written loops.
   const offsetBlocks: Block[] = new Array(4)
-  const { x, y } = offset
+  const [x, y] = offset
   let count = 0
   for (let nRow = 0, len_i = mask.length; nRow < len_i; nRow++) {
     const row = mask[nRow]
@@ -451,7 +460,7 @@ export function createOffsetedBlocks(
       if (identifier !== 0) {
         offsetBlocks[count] = new Block(
           kind,
-          new Position(nCol + x, nRow + y),
+          [nCol + x, nRow + y],
           0,
           identifier
         )
@@ -463,36 +472,26 @@ export function createOffsetedBlocks(
 }
 
 /**
- * Maps the atomicNumber prop in the oldBlocks to newBlocks by id.
- *
- * Note that this function does not change newBlocks but return a new
- * array of mapped blocks. Blocks in the returned list are NOT clones.
- * They share the same properties with their equivalences in newBlocks.
+ * Maps the atomicNumber prop in the oldBlocks to newBlocks by block ID.
  *
  * @param oldBlocks Old blocks to be mapped from.
  * @param newBlocks New blocks to be mapped to.
  * @returns Mapped newBlocks.
  * @throws Error
  */
-export function mapAtomicNumberForNewBlocks(
+export function mapAtomicNumberInto(
   oldBlocks: Block[],
   newBlocks: Block[]
-): Block[] {
+): void {
   if (oldBlocks.length !== newBlocks.length) {
-    throw new Error("oldBlocks.length !== newBlocks.length")
-  }
-  const result: Block[] = []
-  for (let i = 0, len = oldBlocks.length; i < len; i++) {
-    const oldBlock = oldBlocks[i]
-    const correspondingNewBlocks = newBlocks.filter(
-      (newBlock) => newBlock.id === oldBlock.id
+    throw new Error(
+      `mapAtomicNumberInto: length mismatch ${oldBlocks.length}!==${newBlocks.length}`
     )
-    for (let j = 0, len = correspondingNewBlocks.length; j < len; j++) {
-      result.push({
-        ...correspondingNewBlocks[j],
-        atomicNumber: oldBlock.atomicNumber,
-      })
-    }
   }
-  return result
+  newBlocks.forEach((newBlock) => {
+    const atomicNumber = oldBlocks.filter(
+      (oldBlock) => newBlock.id === oldBlock.id
+    )[0].atomicNumber
+    newBlock.atomicNumber = atomicNumber
+  })
 }

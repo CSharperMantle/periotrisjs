@@ -16,7 +16,7 @@
  */
 
 export interface IBlockSprite {
-  atomicNumber: number
-  column: number
-  row: number
+  readonly atomicNumber: number
+  readonly column: number
+  readonly row: number
 }

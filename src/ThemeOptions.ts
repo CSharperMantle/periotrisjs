@@ -15,18 +15,36 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { createTheme, Theme, ThemeOptions } from "@mui/material/styles"
+import { createTheme } from "@mui/material/styles"
+
+import type { ThemeOptions } from "@mui/material/styles"
 
 export const themeOptions: ThemeOptions = {
   palette: {
     mode: "dark",
     primary: {
-      main: "#7a84e8",
+      light: "#cacbff",
+      main: "#5a67ff",
+      dark: "#323fef",
     },
     secondary: {
-      main: "#f44334",
+      light: "#fbb9df",
+      main: "#ff009d",
+      dark: "#f10082",
     },
+  },
+  typography: {
+    fontFamily: [
+      "'Roboto Flex Variable'",
+      "Roboto",
+      "-apple-system",
+      "BlinkMacSystemFont",
+      "'Helvetica Neue'",
+      "Helvetica",
+      "Arial",
+      "sans-serif",
+    ].join(","),
   },
 }
 
-export const theme: Theme = createTheme(themeOptions)
+export const theme = createTheme(themeOptions)

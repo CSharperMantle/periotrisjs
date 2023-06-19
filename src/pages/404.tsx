@@ -15,8 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import "./404.css"
-
 import React from "react"
 
 import { CommonHead } from "../components"

@@ -131,3 +131,6 @@ temp/
 
 # TypeScript build artifacts
 build/
+
+# Generated Gatsby GraphQL types
+gatsby-types.d.ts

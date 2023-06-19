@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-export enum GameState {
+export const enum GameState {
   NotStarted,
   Preparing,
   InProgress,

@@ -25,7 +25,7 @@ export class History implements ILocalStorageSerializable {
   public get fastestRecord(): number | null {
     return this._fastestRecord ?? null
   }
-  private set fastestRecord(v: number | null) {
+  private set fastestRecord(v) {
     this._fastestRecord = v
   }
 
@@ -33,7 +33,7 @@ export class History implements ILocalStorageSerializable {
   public get records(): number[] {
     return this._records ?? []
   }
-  private set records(v: number[]) {
+  private set records(v) {
     this._records = v
   }
 
@@ -48,21 +48,24 @@ export class History implements ILocalStorageSerializable {
     return isFastestRecordUpdated
   }
 
-  private constructor() {
+  public clear(): void {
     this._fastestRecord = null
     this._records = []
   }
 
+  private constructor() {
+    this.clear()
+  }
+
   public static fromLocalStorage(): History {
-    const result = retrieve(HistoryLocalStorageKey)
+    const result = retrieve<History>(HistoryLocalStorageKey)
 
-    if (isNil(result)) return new History()
+    if (isNil(result)) return History.Empty
 
-    const repairedHistory = Object.create(
+    return Object.create(
       History.prototype,
       Object.getOwnPropertyDescriptors(result)
-    ) as History
-    return repairedHistory
+    )
   }
 
   /**
