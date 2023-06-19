@@ -26,11 +26,6 @@ import ThemeProvider from "@mui/material/styles/ThemeProvider"
 
 import { theme } from "../../src/ThemeOptions"
 
-export interface IPageLocationElement {
-  readonly name: string
-  readonly path: string
-}
-
 export interface ICommonLayoutProps {
   readonly children: React.ReactNode
 }

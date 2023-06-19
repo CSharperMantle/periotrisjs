@@ -16,7 +16,7 @@
  */
 
 import { defaultLang, langs } from "./src/i18n"
-import { PageID } from "./src/pages/PageID"
+import { PageID } from "./src/PageID"
 
 import type { GatsbyConfig } from "gatsby"
 

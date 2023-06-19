@@ -33,7 +33,7 @@ import Tooltip from "@mui/material/Tooltip"
 import Typography from "@mui/material/Typography"
 
 import { CommonHead } from "../components"
-import { PageID } from "./PageID"
+import { PageID } from "../PageID"
 
 const App = ({
   data,
