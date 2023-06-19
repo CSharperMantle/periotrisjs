@@ -48,13 +48,16 @@ export class History implements ILocalStorageSerializable {
     return isFastestRecordUpdated
   }
 
-  public clear(): void {
+  public clear(flush = true): void {
     this._fastestRecord = null
     this._records = []
+    if (flush) {
+      this.toLocalStorage()
+    }
   }
 
   private constructor() {
-    this.clear()
+    this.clear(false)
   }
 
   public static fromLocalStorage(): History {

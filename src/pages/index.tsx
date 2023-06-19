@@ -17,6 +17,7 @@
 
 import { graphql, Link, PageProps } from "gatsby"
 import { useI18next } from "gatsby-plugin-react-i18next"
+import { filter, head } from "lodash"
 import React from "react"
 
 import FavoriteIcon from "@mui/icons-material/Favorite"
@@ -32,16 +33,18 @@ import Tooltip from "@mui/material/Tooltip"
 import Typography from "@mui/material/Typography"
 
 import { CommonHead } from "../components"
-import PageLocation from "../json/PageLocation.json"
+import { PageID } from "./PageID"
 
 const App = ({
   data,
 }: PageProps<Queries.IndexPageQuery>): React.ReactElement => {
-  const gamePage = PageLocation.filter((page) => page.name === "Game")[0]
-  const settingsPage = PageLocation.filter(
-    (page) => page.name === "Settings"
-  )[0]
-  const aboutPage = PageLocation.filter((page) => page.name === "About")[0]
+  const routes = data.site?.siteMetadata?.navRoutes
+  const gamePagePath =
+    head(filter(routes, (r) => r?.id === PageID.PAGE_GAME))?.path ?? "#"
+  const settingsPagePath =
+    head(filter(routes, (r) => r?.id === PageID.PAGE_SETTINGS))?.path ?? "#"
+  const aboutPagePath =
+    head(filter(routes, (r) => r?.id === PageID.PAGE_ABOUT))?.path ?? "#"
 
   const { t } = useI18next()
 
@@ -78,7 +81,7 @@ const App = ({
             size="large"
             fullWidth
             component={Link}
-            to={gamePage.path}
+            to={gamePagePath}
           >
             {t("cap_start")}
           </Button>
@@ -96,7 +99,7 @@ const App = ({
               size="large"
               aria-label="settings"
               component={Link}
-              to={settingsPage.path}
+              to={settingsPagePath}
             >
               <SettingsIcon />
             </IconButton>
@@ -106,7 +109,7 @@ const App = ({
               size="large"
               aria-label="about"
               component={Link}
-              to={aboutPage.path}
+              to={aboutPagePath}
             >
               <InfoIcon />
             </IconButton>
@@ -145,6 +148,14 @@ export const Head = CommonHead
 
 export const query = graphql`
   query IndexPage($language: String!) {
+    site {
+      siteMetadata {
+        navRoutes {
+          id
+          path
+        }
+      }
+    }
     package {
       version
     }

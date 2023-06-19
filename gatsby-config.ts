@@ -15,7 +15,8 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { langs, defaultLang } from "./src/i18n"
+import { defaultLang, langs } from "./src/i18n"
+import { PageID } from "./src/pages/PageID"
 
 import type { GatsbyConfig } from "gatsby"
 
@@ -71,6 +72,24 @@ const config: GatsbyConfig = {
     description:
       "Learn the Periodic Table of Elements in a fun way, directly in your browsers.",
     url: "https://csharpermantle.github.io/periotrisjs/",
+    navRoutes: [
+      {
+        id: PageID.PAGE_HOME,
+        path: "/",
+      },
+      {
+        id: PageID.PAGE_GAME,
+        path: "/game",
+      },
+      {
+        id: PageID.PAGE_SETTINGS,
+        path: "/settings",
+      },
+      {
+        id: PageID.PAGE_ABOUT,
+        path: "/about",
+      },
+    ],
   },
   pathPrefix: process.env.BUILD_ADD_PATH_PREFIX ? "/periotrisjs" : undefined,
   graphqlTypegen: {

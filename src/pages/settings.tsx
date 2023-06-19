@@ -119,7 +119,6 @@ const App = (): React.ReactElement => {
 
   const handleClearAllClick = (): void => {
     customizationFacade.clear()
-    customizationFacade.flush()
     enqueueSnackbar(t("msg_clear_all"), { variant: "success" })
   }
 

@@ -15,6 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import { head } from "lodash"
 import React, { useRef } from "react"
 
 import FileOpenIcon from "@mui/icons-material/FileOpen"
@@ -102,7 +103,7 @@ export const FileFormControl = ({
   const onFileChangeHandler = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    let content = (await event.target.files?.[0].text()) ?? ""
+    let content = (await head(event.target.files)?.text()) ?? ""
     content = contentPreprocessor?.(content) ?? content
     const result = onFileChange(content)
     if (isNil(result) || result) {

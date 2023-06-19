@@ -15,6 +15,8 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import { filter, head } from "lodash"
+
 import { Block } from "./Block"
 import { Direction } from "./Direction"
 import { TetriminoKind } from "./TetriminoKind"
@@ -488,10 +490,8 @@ export function mapAtomicNumberInto(
       `mapAtomicNumberInto: length mismatch ${oldBlocks.length}!==${newBlocks.length}`
     )
   }
-  newBlocks.forEach((newBlock) => {
-    const atomicNumber = oldBlocks.filter(
-      (oldBlock) => newBlock.id === oldBlock.id
-    )[0].atomicNumber
-    newBlock.atomicNumber = atomicNumber
+  newBlocks.forEach((n) => {
+    const o = head(filter(oldBlocks, (b) => n.id === b.id))
+    n.atomicNumber = o?.atomicNumber ?? 0
   })
 }

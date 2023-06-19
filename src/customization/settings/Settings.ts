@@ -81,16 +81,19 @@ export class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
-  public clear(): void {
+  public clear(flush = true): void {
     this._showGridLine = undefined
     this._gameUpdateIntervalMilliseconds = undefined
     this._gameMap = undefined
     this._colorScheme = undefined
     this._borderThickness = undefined
+    if (flush) {
+      this.toLocalStorage()
+    }
   }
 
   private constructor() {
-    this.clear()
+    this.clear(false)
   }
 
   public static fromLocalStorage(): Settings {
