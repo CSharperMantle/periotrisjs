@@ -98,7 +98,7 @@ const App = (): React.ReactElement => {
   }
 
   const handleUpdateIntervalChange = (newContent: string): boolean => {
-    const value = parseInt(`0${newContent}`, 10)
+    const value = parseInt(newContent, 10)
     if (isNaN(value)) {
       enqueueSnackbar(t("msg_update_interval_invalid"), { variant: "error" })
       return false
@@ -108,12 +108,22 @@ const App = (): React.ReactElement => {
   }
 
   const handleBorderThicknessChange = (newContent: string): boolean => {
-    const value = parseInt(`0${newContent}`, 10)
+    const value = parseInt(newContent, 10)
     if (isNaN(value) || value <= 0) {
       enqueueSnackbar(t("msg_border_thickness_invalid"), { variant: "error" })
       return false
     }
     customizationFacade.settings.borderThickness = value
+    return true
+  }
+
+  const handleConcurrencyChange = (newContent: string): boolean => {
+    const value = parseInt(newContent, 10)
+    if (isNaN(value)) {
+      enqueueSnackbar(t("msg_concurrency_invalid"), { variant: "error" })
+      return false
+    }
+    customizationFacade.settings.concurrency = value
     return true
   }
 
@@ -261,6 +271,15 @@ const App = (): React.ReactElement => {
           >
             {t("typ_category_misc")}
           </Typography>
+          <NumberFormControl
+            id="concurrency-input"
+            label={t("lbl_concurrency")}
+            initialContent={customizationFacade.settings.concurrency.toString()}
+            helperText={t("typ_concurrency_helper")}
+            min={0}
+            step={1}
+            onChange={handleConcurrencyChange}
+          />
           <FormControl>
             <Button
               id="export-settings-button"

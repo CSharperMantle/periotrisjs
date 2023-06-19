@@ -33,7 +33,11 @@ async function generatePattern(): Promise<Tetrimino[]> {
   if (!isBrowser) {
     return await getPlayablePattern(customizationFacade.settings.gameMap)
   }
-  const workers = range(0, navigator.hardwareConcurrency).map(
+  const maxWorkersCount =
+    customizationFacade.settings.concurrency === 0
+      ? navigator.hardwareConcurrency
+      : Math.max(1, customizationFacade.settings.concurrency)
+  const workers = range(0, maxWorkersCount).map(
     (i) =>
       new Worker(
         new URL("./generation/PatternGeneratorWorker", import.meta.url),

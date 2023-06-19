@@ -28,7 +28,7 @@ interface INumberFormControlProps {
   readonly initialContent: string
   readonly label: string
   readonly helperText: string
-  readonly adornments: {
+  readonly adornments?: {
     readonly startAdornment?: React.ReactElement
     readonly endAdornment?: React.ReactElement
   }

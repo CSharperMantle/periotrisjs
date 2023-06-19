@@ -21,6 +21,7 @@ import {
   isNil,
   SettingsLocalStorageKey,
 } from "../../common"
+import { DefaultConcurrency } from "../../common/PeriotrisConst"
 import defaultColorScheme from "../../json/DefaultColorScheme.json"
 import defaultMap from "../../json/DefaultMap.json"
 import { retrieve, store } from "../../localstorage"
@@ -81,12 +82,22 @@ export class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
+  private _concurrency: number | undefined
+  public get concurrency(): number {
+    return this._concurrency ?? DefaultConcurrency
+  }
+  public set concurrency(v) {
+    this._concurrency = v
+    this.toLocalStorage()
+  }
+
   public clear(flush = true): void {
     this._showGridLine = undefined
     this._gameUpdateIntervalMilliseconds = undefined
     this._gameMap = undefined
     this._colorScheme = undefined
     this._borderThickness = undefined
+    this._concurrency = undefined
     if (flush) {
       this.toLocalStorage()
     }
