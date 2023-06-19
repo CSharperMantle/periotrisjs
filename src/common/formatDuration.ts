@@ -23,7 +23,7 @@ import { isNil } from "./isNil"
  * When provided duration is nil or negative, "--:--" is returned.
  */
 export function formatDuration(ms: number | null | undefined): string {
-  if (isNil(ms) || ms < 0) {
+  if (isNil(ms) || isNaN(ms) || ms < 0) {
     return "--:--"
   }
 

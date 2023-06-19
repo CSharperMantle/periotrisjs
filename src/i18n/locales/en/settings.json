@@ -4,6 +4,8 @@
   "msg_game_map_invalid": "Invalid game map file. Please check your file format.",
   "msg_update_interval_invalid": "Invalid tick interval value.",
   "msg_border_thickness_invalid": "Invalid border thickness value.",
+  "msg_clear_all": "All user data purged. Refresh the app to take effect.",
+  "msg_export_settings_succ": "Settings exported. Check downloads for file.",
   "typ_category_appearance": "Appearance",
   "lbl_lang": "Language",
   "typ_lang_helper": "Controls current display language.",
@@ -19,5 +21,10 @@
   "lbl_game_map": "Game map layout",
   "typ_game_map_helper": "Controls the in-game periodic table layout in JSON.",
   "lbl_update_interval": "Update interval",
-  "typ_update_interval_helper": "Controls the interval between two game ticks."
+  "typ_update_interval_helper": "Controls the interval between two game ticks.",
+  "typ_category_misc": "Misc",
+  "lbl_export_settings": "EXPORT SETTINGS...",
+  "typ_export_settings_helper": "Save settings to a local file in JSON.",
+  "lbl_clear_all": "CLEAR ALL DATA",
+  "typ_clear_all_helper": "Delete all saved settings and progress, then reset the app."
 }

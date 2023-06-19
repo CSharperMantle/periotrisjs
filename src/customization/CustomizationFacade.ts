@@ -30,6 +30,11 @@ export class CustomizationFacade {
     this.history.clear()
     this.settings.clear()
   }
+
+  public flush(): void {
+    this.history.toLocalStorage()
+    this.settings.toLocalStorage()
+  }
 }
 
 /**

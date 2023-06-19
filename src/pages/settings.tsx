@@ -22,7 +22,9 @@ import { graphql } from "gatsby"
 import { useI18next } from "gatsby-plugin-react-i18next"
 import { useSnackbar } from "notistack"
 import React from "react"
+import FileSaver from "file-saver"
 
+import Button from "@mui/material/Button"
 import Container from "@mui/material/Container"
 import FormControl from "@mui/material/FormControl"
 import FormHelperText from "@mui/material/FormHelperText"
@@ -113,6 +115,22 @@ const App = (): React.ReactElement => {
     }
     customizationFacade.settings.borderThickness = value
     return true
+  }
+
+  const handleClearAllClick = (): void => {
+    customizationFacade.clear()
+    customizationFacade.flush()
+    enqueueSnackbar(t("msg_clear_all"), { variant: "success" })
+  }
+
+  const handleExportSettingsClick = (): void => {
+    FileSaver.saveAs(
+      new Blob([JSON.stringify(customizationFacade.settings)], {
+        type: "application/json;charset=utf-8",
+      }),
+      "settings.json"
+    )
+    enqueueSnackbar(t("msg_export_settings_succ"), { variant: "success" })
   }
 
   return (
@@ -234,6 +252,43 @@ const App = (): React.ReactElement => {
             }}
             onChange={handleUpdateIntervalChange}
           />
+        </Stack>
+        <Stack direction="column" spacing={3}>
+          <Typography
+            variant="h5"
+            sx={{
+              mb: 2,
+            }}
+          >
+            {t("typ_category_misc")}
+          </Typography>
+          <FormControl>
+            <Button
+              id="export-settings-button"
+              variant="outlined"
+              onClick={handleExportSettingsClick}
+              aria-describedby="export-settings-button-helper-text"
+            >
+              {t("lbl_export_settings")}
+            </Button>
+            <FormHelperText id="export-settings-button-helper-text">
+              {t("typ_export_settings_helper")}
+            </FormHelperText>
+          </FormControl>
+          <FormControl>
+            <Button
+              id="clear-all-button"
+              variant="outlined"
+              color="error"
+              onClick={handleClearAllClick}
+              aria-describedby="clear-all-button-helper-text"
+            >
+              {t("lbl_clear_all")}
+            </Button>
+            <FormHelperText id="clear-all-button-helper-text">
+              {t("typ_clear_all_helper")}
+            </FormHelperText>
+          </FormControl>
         </Stack>
       </Stack>
     </Container>
