@@ -21,3 +21,6 @@ export const HistoryLocalStorageKey = "history"
 export const SettingsLocalStorageKey = "settings"
 export const DefaultBorderThickness = 1
 export const DefaultConcurrency = 0
+export const DefaultSwipeThreshold = 500
+export const DefaultSwipeDeltaX = 15
+export const DefaultSwipeDeltaY = 15

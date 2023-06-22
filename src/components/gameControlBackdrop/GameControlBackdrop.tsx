@@ -142,7 +142,7 @@ export const GameControlBackdrop = (props: IGameStatusBackdropProps) => {
       content = <GameLostContent startGameHandler={props.startGameHandler} />
       break
     default:
-      throw new Error("Unknown game state")
+      throw new Error("GameControlBackdrop: unknown game state")
   }
 
   return (

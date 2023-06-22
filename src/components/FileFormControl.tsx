@@ -28,8 +28,6 @@ import TextField from "@mui/material/TextField"
 import Tooltip from "@mui/material/Tooltip"
 import styled from "@mui/system/styled"
 
-import { isNil } from "../common"
-
 const HiddenInput = styled("input")({
   display: "none",
 })
@@ -87,58 +85,45 @@ interface IFileFormControlProps {
   readonly contentPreprocessor?: (content: string) => string
 }
 
-export const FileFormControl = ({
-  id,
-  initialFileContent,
-  accept,
-  tooltipCaption,
-  label,
-  helperText,
-  readOnly,
-  onFileChange,
-  contentPreprocessor,
-}: IFileFormControlProps): React.ReactElement => {
-  const [fileContent, setFileContent] = React.useState(initialFileContent)
-
-  const onFileChangeHandler = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    let content = (await head(event.target.files)?.text()) ?? ""
-    content = contentPreprocessor?.(content) ?? content
-    const result = onFileChange(content)
-    if (isNil(result) || result) {
-      setFileContent(content)
-    }
-  }
+export const FileFormControl = (
+  props: IFileFormControlProps
+): React.ReactElement => {
+  const [fileContent, setFileContent] = React.useState(props.initialFileContent)
 
   return (
     <FormControl>
       <Grid container spacing={0} direction="row" alignItems="center">
         <Grid item xs={10}>
           <TextField
-            id={`${id}-string`}
+            id={`${props.id}-string`}
             fullWidth
             value={fileContent}
-            label={label}
+            label={props.label}
             InputProps={{
-              readOnly: readOnly ?? false,
+              readOnly: props.readOnly ?? false,
             }}
-            aria-describedby={`${id}-string-helper-text`}
+            aria-describedby={`${props.id}-string-helper-text`}
           />
         </Grid>
         <Grid item xs={2}>
           <Container maxWidth="sm">
             <FileUploadButton
-              id={`${id}-upload`}
-              accept={accept}
-              tooltipCaption={tooltipCaption}
-              onFileChange={onFileChangeHandler}
+              id={`${props.id}-upload`}
+              accept={props.accept}
+              tooltipCaption={props.tooltipCaption}
+              onFileChange={async (event) => {
+                let content = (await head(event.target.files)?.text()) ?? ""
+                content = props.contentPreprocessor?.(content) ?? content
+                if (props.onFileChange(content)) {
+                  setFileContent(content)
+                }
+              }}
             />
           </Container>
         </Grid>
       </Grid>
-      <FormHelperText id={`${id}-string-helper-text`}>
-        {helperText}
+      <FormHelperText id={`${props.id}-string-helper-text`}>
+        {props.helperText}
       </FormHelperText>
     </FormControl>
   )

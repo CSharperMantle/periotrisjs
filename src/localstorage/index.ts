@@ -15,6 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { retrieve, store } from "./LocalStorageManager"
+import { remove, retrieve, store } from "./LocalStorageManager"
 
-export { store, retrieve }
+export { remove, store, retrieve }

@@ -25,6 +25,7 @@ import Box from "@mui/material/Box"
 import { flushed } from "../common"
 import { BlocksGrid, CommonHead, GameControlBackdrop } from "../components"
 import { GameViewModel } from "../viewmodel"
+import { customizationFacade } from "../customization"
 
 const App = (): React.ReactElement => {
   const viewModel = new GameViewModel()
@@ -57,9 +58,11 @@ const App = (): React.ReactElement => {
     {
       filterTaps: true,
       swipe: {
-        /* TODO: Add these to customization settings! */
-        distance: [15, 15],
-        duration: 500,
+        distance: [
+          customizationFacade.settings.swipeDeltaX,
+          customizationFacade.settings.swipeDeltaY,
+        ],
+        duration: customizationFacade.settings.swipeThreshold,
       },
     }
   )

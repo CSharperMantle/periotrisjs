@@ -17,7 +17,11 @@
 
 import {
   DefaultBorderThickness,
+  DefaultConcurrency,
   DefaultGameUpdateIntervalMilliseconds,
+  DefaultSwipeDeltaX,
+  DefaultSwipeDeltaY,
+  DefaultSwipeThreshold,
   HistoryLocalStorageKey,
   SettingsLocalStorageKey,
   StopwatchUpdateIntervalMilliseconds,
@@ -37,6 +41,10 @@ export {
   HistoryLocalStorageKey,
   SettingsLocalStorageKey,
   DefaultBorderThickness,
+  DefaultSwipeThreshold,
+  DefaultConcurrency,
+  DefaultSwipeDeltaX,
+  DefaultSwipeDeltaY,
   rearrange,
   flushed,
   waitForEvent,

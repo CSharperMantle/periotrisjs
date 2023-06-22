@@ -15,16 +15,20 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import defaultColorScheme from "../../json/DefaultColorScheme.json"
+import defaultMap from "../../json/DefaultMap.json"
+
 import {
   DefaultBorderThickness,
+  DefaultConcurrency,
   DefaultGameUpdateIntervalMilliseconds,
+  DefaultSwipeDeltaX,
+  DefaultSwipeDeltaY,
+  DefaultSwipeThreshold,
   isNil,
   SettingsLocalStorageKey,
 } from "../../common"
-import { DefaultConcurrency } from "../../common/PeriotrisConst"
-import defaultColorScheme from "../../json/DefaultColorScheme.json"
-import defaultMap from "../../json/DefaultMap.json"
-import { retrieve, store } from "../../localstorage"
+import { remove, retrieve, store } from "../../localstorage"
 
 import type { IColorScheme } from "../color_scheme"
 import type { ILocalStorageSerializable } from "../ILocalStorageSerializable"
@@ -91,21 +95,43 @@ export class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
-  public clear(flush = true): void {
-    this._showGridLine = undefined
-    this._gameUpdateIntervalMilliseconds = undefined
-    this._gameMap = undefined
-    this._colorScheme = undefined
-    this._borderThickness = undefined
-    this._concurrency = undefined
-    if (flush) {
-      this.toLocalStorage()
-    }
+  private _swipeThreshold: number | undefined
+  public get swipeThreshold(): number {
+    return this._swipeThreshold ?? DefaultSwipeThreshold
+  }
+  public set swipeThreshold(v) {
+    this._swipeThreshold = v
+    this.toLocalStorage()
   }
 
-  private constructor() {
-    this.clear(false)
+  private _swipeDeltaX: number | undefined
+  public get swipeDeltaX(): number {
+    return this._swipeDeltaX ?? DefaultSwipeDeltaX
   }
+  public set swipeDeltaX(v) {
+    this._swipeDeltaX = v
+    this.toLocalStorage()
+  }
+
+  private _swipeDeltaY: number | undefined
+  public get swipeDeltaY(): number {
+    return this._swipeDeltaY ?? DefaultSwipeDeltaY
+  }
+  public set swipeDeltaY(v) {
+    this._swipeDeltaY = v
+    this.toLocalStorage()
+  }
+
+  public clear(): void {
+    Object.defineProperties(
+      this,
+      Object.getOwnPropertyDescriptors(Settings.Default)
+    )
+    remove(SettingsLocalStorageKey)
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private constructor() {}
 
   public static fromLocalStorage(): Settings {
     const result = retrieve<Settings>(SettingsLocalStorageKey)

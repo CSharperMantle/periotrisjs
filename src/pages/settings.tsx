@@ -18,11 +18,11 @@
 import validateColorScheme from "ajv-json-loader!../json/schema/ColorScheme.json.schema"
 import validateMap from "ajv-json-loader!../json/schema/Map.json.schema"
 
+import FileSaver from "file-saver"
 import { graphql } from "gatsby"
 import { useI18next } from "gatsby-plugin-react-i18next"
 import { useSnackbar } from "notistack"
 import React from "react"
-import FileSaver from "file-saver"
 
 import Button from "@mui/material/Button"
 import Container from "@mui/material/Container"
@@ -36,6 +36,11 @@ import Typography from "@mui/material/Typography"
 
 import { CommonHead, FileFormControl, NumberFormControl } from "../components"
 import { customizationFacade } from "../customization"
+
+const tryParseInt = (s: string): readonly [boolean, number] => {
+  const v = parseInt(s, 10)
+  return [!isNaN(v), v]
+}
 
 const App = (): React.ReactElement => {
   const { t, changeLanguage, languages, language } = useI18next()
@@ -57,89 +62,8 @@ const App = (): React.ReactElement => {
     customizationFacade.settings.showGridLine ? "visible" : "hidden"
   )
 
-  const handleAssistanceGridModeChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value
-    customizationFacade.settings.showGridLine = value === "visible"
-    setAssistanceGridMode(value)
-  }
-
-  const handleLangChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    await changeLanguage(event.target.value)
-  }
-
   const jsonMinifyPreprocessor = (json: string): string => {
     return JSON.stringify(JSON.parse(json))
-  }
-
-  const handleColorSchemeFileChange = (newContent: string): boolean => {
-    const obj = JSON.parse(newContent)
-    if (validateColorScheme(obj)) {
-      customizationFacade.settings.colorScheme = obj
-      return true
-    }
-    enqueueSnackbar(t("msg_color_scheme_invalid"), { variant: "error" })
-    return false
-  }
-
-  const handleGameMapFileChange = (newContent: string): boolean => {
-    const obj = JSON.parse(newContent)
-    if (validateMap(obj)) {
-      customizationFacade.settings.gameMap = obj
-      return true
-    }
-    enqueueSnackbar(t("msg_game_map_invalid"), {
-      variant: "error",
-    })
-    return false
-  }
-
-  const handleUpdateIntervalChange = (newContent: string): boolean => {
-    const value = parseInt(newContent, 10)
-    if (isNaN(value)) {
-      enqueueSnackbar(t("msg_update_interval_invalid"), { variant: "error" })
-      return false
-    }
-    customizationFacade.settings.gameUpdateIntervalMilliseconds = value
-    return true
-  }
-
-  const handleBorderThicknessChange = (newContent: string): boolean => {
-    const value = parseInt(newContent, 10)
-    if (isNaN(value) || value <= 0) {
-      enqueueSnackbar(t("msg_border_thickness_invalid"), { variant: "error" })
-      return false
-    }
-    customizationFacade.settings.borderThickness = value
-    return true
-  }
-
-  const handleConcurrencyChange = (newContent: string): boolean => {
-    const value = parseInt(newContent, 10)
-    if (isNaN(value)) {
-      enqueueSnackbar(t("msg_concurrency_invalid"), { variant: "error" })
-      return false
-    }
-    customizationFacade.settings.concurrency = value
-    return true
-  }
-
-  const handleClearAllClick = (): void => {
-    customizationFacade.clear()
-    enqueueSnackbar(t("msg_clear_all"), { variant: "success" })
-  }
-
-  const handleExportSettingsClick = (): void => {
-    FileSaver.saveAs(
-      new Blob([JSON.stringify(customizationFacade.settings)], {
-        type: "application/json;charset=utf-8",
-      }),
-      "settings.json"
-    )
-    enqueueSnackbar(t("msg_export_settings_succ"), { variant: "success" })
   }
 
   return (
@@ -170,7 +94,9 @@ const App = (): React.ReactElement => {
               value={language}
               label={t("lbl_lang")}
               aria-describedby="lang-input-helper-text"
-              onChange={handleLangChange}
+              onChange={async (ev) => {
+                await changeLanguage(ev.target.value)
+              }}
             >
               {languages.map((lang) => (
                 <MenuItem key={lang} value={lang}>
@@ -189,7 +115,11 @@ const App = (): React.ReactElement => {
               value={assistanceGridMode}
               label={t("lbl_assistance_grid")}
               aria-describedby="assistance-grid-input-helper-text"
-              onChange={handleAssistanceGridModeChange}
+              onChange={(ev) => {
+                const v = ev.target.value
+                customizationFacade.settings.showGridLine = v === "visible"
+                setAssistanceGridMode(v)
+              }}
             >
               {assistanceGridAppearanceOptions.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
@@ -211,7 +141,18 @@ const App = (): React.ReactElement => {
             adornments={{
               endAdornment: <InputAdornment position="end">px</InputAdornment>,
             }}
-            onChange={handleBorderThicknessChange}
+            onChange={(newContent) => {
+              const [isValid, value] = tryParseInt(newContent)
+              if (isValid) {
+                customizationFacade.settings.borderThickness = value
+                return true
+              } else {
+                enqueueSnackbar(t("msg_int_expected"), {
+                  variant: "error",
+                })
+                return false
+              }
+            }}
           />
           <FileFormControl
             id="color-scheme-input"
@@ -223,7 +164,18 @@ const App = (): React.ReactElement => {
             label={t("lbl_color_scheme")}
             helperText={t("typ_color_scheme_helper")}
             tooltipCaption={t("cap_open_button")}
-            onFileChange={handleColorSchemeFileChange}
+            onFileChange={(newContent) => {
+              const obj = JSON.parse(newContent)
+              if (validateColorScheme(obj)) {
+                customizationFacade.settings.colorScheme = obj
+                return true
+              } else {
+                enqueueSnackbar(t("msg_color_scheme_invalid"), {
+                  variant: "error",
+                })
+                return false
+              }
+            }}
             contentPreprocessor={jsonMinifyPreprocessor}
           />
         </Stack>
@@ -246,7 +198,18 @@ const App = (): React.ReactElement => {
             label={t("lbl_game_map")}
             helperText={t("typ_game_map_helper")}
             tooltipCaption={t("cap_open_button")}
-            onFileChange={handleGameMapFileChange}
+            onFileChange={(newContent) => {
+              const obj = JSON.parse(newContent)
+              if (validateMap(obj)) {
+                customizationFacade.settings.gameMap = obj
+                return true
+              } else {
+                enqueueSnackbar(t("msg_game_map_invalid"), {
+                  variant: "error",
+                })
+                return false
+              }
+            }}
             contentPreprocessor={jsonMinifyPreprocessor}
           />
           <NumberFormControl
@@ -259,7 +222,88 @@ const App = (): React.ReactElement => {
             adornments={{
               endAdornment: <InputAdornment position="end">ms</InputAdornment>,
             }}
-            onChange={handleUpdateIntervalChange}
+            onChange={(newContent) => {
+              const [isValid, value] = tryParseInt(newContent)
+              if (isValid) {
+                customizationFacade.settings.gameUpdateIntervalMilliseconds =
+                  value
+                return true
+              } else {
+                enqueueSnackbar(t("msg_int_expected"), {
+                  variant: "error",
+                })
+                return false
+              }
+            }}
+          />
+          <NumberFormControl
+            id="swipe-threshold-input"
+            label={t("lbl_swipe_threshold")}
+            initialContent={customizationFacade.settings.swipeThreshold.toString()}
+            min={0}
+            step={5}
+            helperText={t("typ_swipe_threshold_helper")}
+            adornments={{
+              endAdornment: <InputAdornment position="end">ms</InputAdornment>,
+            }}
+            onChange={(newContent) => {
+              const [isValid, value] = tryParseInt(newContent)
+              if (isValid) {
+                customizationFacade.settings.swipeThreshold = value
+                return true
+              } else {
+                enqueueSnackbar(t("msg_int_expected"), {
+                  variant: "error",
+                })
+                return false
+              }
+            }}
+          />
+          <NumberFormControl
+            id="swipe-delta-x-input"
+            label={t("lbl_swipe_delta_x")}
+            initialContent={customizationFacade.settings.swipeDeltaX.toString()}
+            min={0}
+            step={1}
+            helperText={t("typ_swipe_delta_x_helper")}
+            adornments={{
+              endAdornment: <InputAdornment position="end">px</InputAdornment>,
+            }}
+            onChange={(newContent) => {
+              const [isValid, value] = tryParseInt(newContent)
+              if (isValid) {
+                customizationFacade.settings.swipeDeltaX = value
+                return true
+              } else {
+                enqueueSnackbar(t("msg_int_expected"), {
+                  variant: "error",
+                })
+                return false
+              }
+            }}
+          />
+          <NumberFormControl
+            id="swipe-delta-y-input"
+            label={t("lbl_swipe_delta_y")}
+            initialContent={customizationFacade.settings.swipeDeltaY.toString()}
+            min={0}
+            step={1}
+            helperText={t("typ_swipe_delta_y_helper")}
+            adornments={{
+              endAdornment: <InputAdornment position="end">px</InputAdornment>,
+            }}
+            onChange={(newContent) => {
+              const [isValid, value] = tryParseInt(newContent)
+              if (isValid) {
+                customizationFacade.settings.swipeDeltaY = value
+                return true
+              } else {
+                enqueueSnackbar(t("msg_int_expected"), {
+                  variant: "error",
+                })
+                return false
+              }
+            }}
           />
         </Stack>
         <Stack direction="column" spacing={3}>
@@ -278,13 +322,34 @@ const App = (): React.ReactElement => {
             helperText={t("typ_concurrency_helper")}
             min={0}
             step={1}
-            onChange={handleConcurrencyChange}
+            onChange={(newContent) => {
+              const [isValid, value] = tryParseInt(newContent)
+              if (isValid) {
+                customizationFacade.settings.concurrency = value
+                return true
+              } else {
+                enqueueSnackbar(t("msg_int_expected"), {
+                  variant: "error",
+                })
+                return false
+              }
+            }}
           />
           <FormControl>
             <Button
               id="export-settings-button"
               variant="outlined"
-              onClick={handleExportSettingsClick}
+              onClick={() => {
+                FileSaver.saveAs(
+                  new Blob([JSON.stringify(customizationFacade.settings)], {
+                    type: "application/json;charset=utf-8",
+                  }),
+                  "settings.json"
+                )
+                enqueueSnackbar(t("msg_export_settings_succ"), {
+                  variant: "success",
+                })
+              }}
               aria-describedby="export-settings-button-helper-text"
             >
               {t("lbl_export_settings")}
@@ -298,7 +363,10 @@ const App = (): React.ReactElement => {
               id="clear-all-button"
               variant="outlined"
               color="error"
-              onClick={handleClearAllClick}
+              onClick={() => {
+                customizationFacade.clear()
+                enqueueSnackbar(t("msg_clear_all"), { variant: "success" })
+              }}
               aria-describedby="clear-all-button-helper-text"
             >
               {t("lbl_clear_all")}

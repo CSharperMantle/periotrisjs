@@ -16,7 +16,7 @@
  */
 
 import { HistoryLocalStorageKey, isNil } from "../../common"
-import { retrieve, store } from "../../localstorage"
+import { remove, retrieve, store } from "../../localstorage"
 
 import type { ILocalStorageSerializable } from "../ILocalStorageSerializable"
 
@@ -48,17 +48,16 @@ export class History implements ILocalStorageSerializable {
     return isFastestRecordUpdated
   }
 
-  public clear(flush = true): void {
-    this._fastestRecord = null
-    this._records = []
-    if (flush) {
-      this.toLocalStorage()
-    }
+  public clear(): void {
+    Object.defineProperties(
+      this,
+      Object.getOwnPropertyDescriptors(History.Empty)
+    )
+    remove(HistoryLocalStorageKey)
   }
 
-  private constructor() {
-    this.clear(false)
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private constructor() {}
 
   public static fromLocalStorage(): History {
     const result = retrieve<History>(HistoryLocalStorageKey)

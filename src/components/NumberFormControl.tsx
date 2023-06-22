@@ -58,12 +58,12 @@ export const NumberFormControl = (
           min: props.min,
           max: props.max,
         }}
-        onChange={(event) => {
-          const content = !isNil(props.contentPreprocessor)
-            ? props.contentPreprocessor(event.target.value)
-            : event.target.value
-          const result = props.onChange(content)
-          if (isNil(result) || result) {
+        onChange={async (event) => {
+          const content = isNil(props.contentPreprocessor)
+            ? event.target.value
+            : props.contentPreprocessor(event.target.value)
+
+          if (props.onChange(content)) {
             setContent(content)
           }
         }}

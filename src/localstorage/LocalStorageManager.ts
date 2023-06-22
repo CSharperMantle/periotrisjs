@@ -40,3 +40,9 @@ export function retrieve<T = unknown>(key: string): T | null {
     return null
   }
 }
+
+export function remove(key: string): void {
+  if (!isBrowser) return
+
+  window.localStorage.removeItem(key)
+}
