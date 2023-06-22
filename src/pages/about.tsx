@@ -26,9 +26,7 @@ import Typography from "@mui/material/Typography"
 
 import { CommonHead } from "../components"
 
-const App = ({
-  data,
-}: PageProps<Queries.AboutPageQuery>): React.ReactElement => {
+const App = ({ data }: PageProps<Queries.AboutPageQuery>) => {
   return (
     <Container
       maxWidth="lg"

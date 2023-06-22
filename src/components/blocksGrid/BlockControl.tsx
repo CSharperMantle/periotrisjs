@@ -30,10 +30,7 @@ interface IBlockControlText {
   readonly atomicNumber: number
 }
 
-const BlockControlText = ({
-  hasContent,
-  atomicNumber,
-}: IBlockControlText): React.ReactElement => {
+const BlockControlText = ({ hasContent, atomicNumber }: IBlockControlText) => {
   if (hasContent) {
     // This is a block with textual content.
     return (
@@ -65,9 +62,7 @@ interface IBlockControlProps {
   readonly block: IBlockDisplay
 }
 
-export const BlockControl = ({
-  block,
-}: IBlockControlProps): React.ReactElement => {
+export const BlockControl = ({ block }: IBlockControlProps) => {
   const backgroundColor = block.hasContent
     ? getBackgroundColorByAtomicNumber(block.atomicNumber)
     : "black"

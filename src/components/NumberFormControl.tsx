@@ -39,9 +39,7 @@ interface INumberFormControlProps {
   readonly contentPreprocessor?: (content: string) => string
 }
 
-export const NumberFormControl = (
-  props: INumberFormControlProps
-): React.ReactElement => {
+export const NumberFormControl = (props: INumberFormControlProps) => {
   const [content, setContent] = React.useState(props.initialContent)
 
   return (
@@ -58,7 +56,7 @@ export const NumberFormControl = (
           min: props.min,
           max: props.max,
         }}
-        onChange={async (event) => {
+        onChange={(event) => {
           const content = isNil(props.contentPreprocessor)
             ? event.target.value
             : props.contentPreprocessor(event.target.value)

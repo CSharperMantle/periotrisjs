@@ -42,7 +42,7 @@ const tryParseInt = (s: string): readonly [boolean, number] => {
   return [!isNaN(v), v]
 }
 
-const App = (): React.ReactElement => {
+const App = () => {
   const { t, changeLanguage, languages, language } = useI18next()
 
   const assistanceGridAppearanceOptions = [

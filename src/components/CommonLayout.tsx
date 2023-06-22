@@ -30,9 +30,7 @@ export interface ICommonLayoutProps {
   readonly children: React.ReactNode
 }
 
-export const CommonLayout = ({
-  children,
-}: ICommonLayoutProps): React.ReactElement => {
+export const CommonLayout = ({ children }: ICommonLayoutProps) => {
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>

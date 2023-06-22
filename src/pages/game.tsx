@@ -27,7 +27,7 @@ import { BlocksGrid, CommonHead, GameControlBackdrop } from "../components"
 import { GameViewModel } from "../viewmodel"
 import { customizationFacade } from "../customization"
 
-const App = (): React.ReactElement => {
+const App = () => {
   const viewModel = new GameViewModel()
 
   const onKeyDownThrottled = throttle(

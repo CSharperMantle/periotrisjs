@@ -35,9 +35,7 @@ import Typography from "@mui/material/Typography"
 import { CommonHead } from "../components"
 import { PageID } from "../PageID"
 
-const App = ({
-  data,
-}: PageProps<Queries.IndexPageQuery>): React.ReactElement => {
+const App = ({ data }: PageProps<Queries.IndexPageQuery>) => {
   const routes = data.site?.siteMetadata?.navRoutes
   const gamePagePath =
     head(filter(routes, (r) => r?.id === PageID.PAGE_GAME))?.path ?? "#"

@@ -46,7 +46,7 @@ const FileUploadButton = ({
   multiple,
   tooltipCaption,
   onFileChange,
-}: IFileUploadButtonProps): React.ReactElement => {
+}: IFileUploadButtonProps) => {
   const hiddenFileInputRef = useRef<HTMLInputElement>(null)
 
   return (
@@ -85,9 +85,7 @@ interface IFileFormControlProps {
   readonly contentPreprocessor?: (content: string) => string
 }
 
-export const FileFormControl = (
-  props: IFileFormControlProps
-): React.ReactElement => {
+export const FileFormControl = (props: IFileFormControlProps) => {
   const [fileContent, setFileContent] = React.useState(props.initialFileContent)
 
   return (

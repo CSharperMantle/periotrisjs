@@ -24,8 +24,6 @@ export interface ICommonProvidersProps {
   readonly children: React.ReactNode
 }
 
-export const CommonProviders = ({
-  children,
-}: ICommonProvidersProps): React.ReactElement => {
+export const CommonProviders = ({ children }: ICommonProvidersProps) => {
   return <ReduxProvider store={appStore}>{children}</ReduxProvider>
 }
