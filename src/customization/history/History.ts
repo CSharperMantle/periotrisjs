@@ -21,7 +21,7 @@ import { remove, retrieve, store } from "../../localstorage"
 import type { ILocalStorageSerializable } from "../ILocalStorageSerializable"
 
 export class History implements ILocalStorageSerializable {
-  private _fastestRecord: number | null | undefined
+  private _fastestRecord: number | null | undefined = undefined
   public get fastestRecord(): number | null {
     return this._fastestRecord ?? null
   }
@@ -31,7 +31,7 @@ export class History implements ILocalStorageSerializable {
 
   private _records: number[] | undefined
   public get records(): number[] {
-    return this._records ?? []
+    return this._records ?? (this._records = []) // Initialize this._records if empty
   }
   private set records(v) {
     this._records = v
