@@ -19,6 +19,7 @@ import {
   DefaultBorderThickness,
   DefaultConcurrency,
   DefaultGameUpdateIntervalMilliseconds,
+  DefaultShowGridLines,
   DefaultSwipeDeltaX,
   DefaultSwipeDeltaY,
   DefaultSwipeThreshold,
@@ -36,6 +37,7 @@ import type { ISize } from "./ISize"
 import type { TPosition } from "./TPosition"
 
 export {
+  DefaultShowGridLines,
   DefaultGameUpdateIntervalMilliseconds,
   StopwatchUpdateIntervalMilliseconds,
   HistoryLocalStorageKey,

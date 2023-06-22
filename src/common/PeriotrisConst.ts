@@ -15,6 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+export const DefaultShowGridLines = true
 export const DefaultGameUpdateIntervalMilliseconds = 1000
 export const StopwatchUpdateIntervalMilliseconds = 500
 export const HistoryLocalStorageKey = "history"

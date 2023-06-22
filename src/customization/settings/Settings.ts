@@ -22,6 +22,7 @@ import {
   DefaultBorderThickness,
   DefaultConcurrency,
   DefaultGameUpdateIntervalMilliseconds,
+  DefaultShowGridLines,
   DefaultSwipeDeltaX,
   DefaultSwipeDeltaY,
   DefaultSwipeThreshold,
@@ -40,7 +41,7 @@ import type { IMap } from "../map"
 export class Settings implements ILocalStorageSerializable {
   private _showGridLine: boolean | undefined
   public get showGridLine(): boolean {
-    return this._showGridLine ?? true
+    return this._showGridLine ?? DefaultShowGridLines
   }
   public set showGridLine(v) {
     this._showGridLine = v
