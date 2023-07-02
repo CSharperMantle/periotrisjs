@@ -12,7 +12,7 @@
         "description": "A rule of the color scheme",
         "type": "object",
         "properties": {
-          "atomicNumberRange": {
+          "range": {
             "description": "The range of elements to apply the rule to",
             "type": "object",
             "properties": {
@@ -34,7 +34,7 @@
           }
         },
         "required": [
-          "atomicNumberRange",
+          "range",
           "color"
         ]
       },

@@ -101,10 +101,7 @@ export function getBackgroundColorByAtomicNumber(atomicNumber: number): string {
 
   for (let i = 0; i < colorScheme.rules.length; i++) {
     const rule = colorScheme.rules[i]
-    if (
-      rule.atomicNumberRange.from <= atomicNumber &&
-      atomicNumber <= rule.atomicNumberRange.to
-    ) {
+    if (rule.range.from <= atomicNumber && atomicNumber <= rule.range.to) {
       return rule.color
     }
   }

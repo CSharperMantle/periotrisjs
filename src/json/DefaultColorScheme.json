@@ -1,126 +1,126 @@
 {
   "rules": [
     {
-      "atomicNumberRange": {
+      "range": {
         "from": -18,
         "to": 0
       },
       "color": "gray"
     },
     {
-      "atomicNumberRange": {
+      "range": {
         "from": 1,
         "to": 1
       },
       "color": "white"
     },
     {
-      "atomicNumberRange": {
+      "range": {
         "from": 57,
         "to": 57
       },
       "color": "lightgreen"
     },
     {
-      "atomicNumberRange": {
+      "range": {
         "from": 89,
         "to": 89
       },
       "color": "lightgreen"
     },
     {
-      "atomicNumberRange": {
+      "range": {
         "from": 2,
         "to": 2
       },
       "color": "yellow"
     },
     {
-      "atomicNumberRange": {
+      "range": {
         "from": 5,
         "to": 10
       },
       "color": "yellow"
     },
     {
-      "atomicNumberRange": {
+      "range": {
         "from": 13,
         "to": 18
       },
       "color": "yellow"
     },
     {
-      "atomicNumberRange": {
+      "range": {
         "from": 31,
         "to": 36
       },
       "color": "yellow"
     },
     {
-      "atomicNumberRange": {
+      "range": {
         "from": 49,
         "to": 54
       },
       "color": "yellow"
     },
     {
-      "atomicNumberRange": {
+      "range": {
         "from": 81,
         "to": 86
       },
       "color": "yellow"
     },
     {
-      "atomicNumberRange": {
+      "range": {
         "from": 113,
         "to": 118
       },
       "color": "yellow"
     },
     {
-      "atomicNumberRange": {
+      "range": {
         "from": 3,
         "to": 4
       },
       "color": "magenta"
     },
     {
-      "atomicNumberRange": {
+      "range": {
         "from": 11,
         "to": 12
       },
       "color": "magenta"
     },
     {
-      "atomicNumberRange": {
+      "range": {
         "from": 19,
         "to": 20
       },
       "color": "magenta"
     },
     {
-      "atomicNumberRange": {
+      "range": {
         "from": 37,
         "to": 38
       },
       "color": "magenta"
     },
     {
-      "atomicNumberRange": {
+      "range": {
         "from": 55,
         "to": 56
       },
       "color": "magenta"
     },
     {
-      "atomicNumberRange": {
+      "range": {
         "from": 87,
         "to": 88
       },
       "color": "magenta"
     },
     {
-      "atomicNumberRange": {
+      "range": {
         "from": -19,
         "to": 119
       },

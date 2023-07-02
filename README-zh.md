@@ -80,7 +80,7 @@ Periotris.js 支持多种自定义方式，如：
 1. 颜色主题文件是一个 JSON 文件，以一个对象作为根元素。
 2. 颜色主题对象应包含以下属性：
    - `rules`：一个一维数组。每个元素表示一条颜色渲染规则。每个元素为一个对象，包含以下属性：
-     - `atomicNumberRange`：一个对象，表示该规则所适用的元素范围，从`from`到`to`，且包含两个端点。
+     - `range`：一个对象，表示该规则所适用的元素范围，从`from`到`to`，且包含两个端点。
      - `color`：字符串，表示该规则渲染的颜色。应为一个合法的 CSS 颜色。
 
 参阅[DefaultColorScheme.json](src/json/DefaultColorScheme.json)以获得样例。

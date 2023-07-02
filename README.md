@@ -86,7 +86,7 @@ A color theme file is also represented in JSON. You will need to write your own 
 1. The color theme file (designated as "color theme") is a JSON file containing an object as its root (designated as "color theme object").
 2. The color theme object should contain the following properties:
    - `rules`: An array of objects. Each object represents a rule. Each rule is represented by an object with these properties:
-     - `atomicNumberRange`: An object indicating the range of elements the rule applies to from `from` to `to` (both inclusive).
+     - `range`: An object indicating the range of elements the rule applies to from `from` to `to` (both inclusive).
      - `color`: A valid CSS color.
 
 For an example file, which is also the default color theme in the game, see [DefaultColorScheme.json](src/json/DefaultColorScheme.json).
