@@ -1,820 +1,820 @@
 {
+  "id": "http://csharpermantle.github.io/periotris/default/DefaultMap.json/0",
   "map": [
     [
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       }
     ],
     [
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       }
     ],
     [
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       }
     ],
     [
       {
         "atomicNumber": -1,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": -18,
-        "filledBy": 7
+        "filled": false
       }
     ],
     [
       {
         "atomicNumber": 1,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": -2,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": -13,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": -14,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": -15,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": -16,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": -17,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 2,
-        "filledBy": 7
+        "filled": false
       }
     ],
     [
       {
         "atomicNumber": 3,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 4,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 0,
-        "filledBy": 8
+        "filled": true
       },
       {
         "atomicNumber": 5,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 6,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 7,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 8,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 9,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 10,
-        "filledBy": 7
+        "filled": false
       }
     ],
     [
       {
         "atomicNumber": 11,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 12,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": -3,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": -4,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": -5,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": -6,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": -7,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": -8,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": -9,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": -10,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": -11,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": -12,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 13,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 14,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 15,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 16,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 17,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 18,
-        "filledBy": 7
+        "filled": false
       }
     ],
     [
       {
         "atomicNumber": 19,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 20,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 21,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 22,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 23,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 24,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 25,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 26,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 27,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 28,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 29,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 30,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 31,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 32,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 33,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 34,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 35,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 36,
-        "filledBy": 7
+        "filled": false
       }
     ],
     [
       {
         "atomicNumber": 37,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 38,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 39,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 40,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 41,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 42,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 43,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 44,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 45,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 46,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 47,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 48,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 49,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 50,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 51,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 52,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 53,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 54,
-        "filledBy": 7
+        "filled": false
       }
     ],
     [
       {
         "atomicNumber": 55,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 56,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 57,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 72,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 73,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 74,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 75,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 76,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 77,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 78,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 79,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 80,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 81,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 82,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 83,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 84,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 85,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 86,
-        "filledBy": 7
+        "filled": false
       }
     ],
     [
       {
         "atomicNumber": 87,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 88,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 89,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 104,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 105,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 106,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 107,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 108,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 109,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 110,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 111,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 112,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 113,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 114,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 115,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 116,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 117,
-        "filledBy": 7
+        "filled": false
       },
       {
         "atomicNumber": 118,
-        "filledBy": 7
+        "filled": false
       }
     ]
   ],
-  "totalAvailableBlocksCount": 108,
   "playAreaSize": { "width": 18, "height": 11 }
 }

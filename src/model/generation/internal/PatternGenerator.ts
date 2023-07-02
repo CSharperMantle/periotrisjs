@@ -29,7 +29,7 @@ import { TetriminoKind } from "../../TetriminoKind"
 import { sort } from "./TetriminoSorter"
 
 import type { TPosition, ISize } from "../../../common"
-import type { IMap } from "../../../customization"
+import { IMap, countFreeBlocks } from "../../../customization"
 
 type TPropPair = readonly [TetriminoKind, Direction]
 
@@ -57,15 +57,13 @@ export async function getPlayablePattern(
   const atomicNumberMap = template.map((row) =>
     row.map((block) => block.atomicNumber)
   )
-  const freeBlockMap = template.map((row) =>
-    row.map((block) => block.filledBy === TetriminoKind.Free)
-  )
+  const freeBlockMap = template.map((row) => row.map((block) => !block.filled))
 
   const ordered = sort(
     await getPossibleTetriminoPattern(
       freeBlockMap,
       atomicNumberMap,
-      gameMap.totalAvailableBlocksCount,
+      countFreeBlocks(gameMap),
       progressCallback
     ),
     gameMap.playAreaSize

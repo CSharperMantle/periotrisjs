@@ -5,6 +5,10 @@
   "description": "A color scheme used in Periotris game",
   "type": "object",
   "properties": {
+    "id": {
+      "description": "The unique identifier of this color scheme",
+      "type": "string"
+    },
     "rules": {
       "description": "Rules of the color scheme",
       "type": "array",
@@ -42,6 +46,7 @@
     }
   },
   "required": [
+    "id",
     "rules"
   ]
 }

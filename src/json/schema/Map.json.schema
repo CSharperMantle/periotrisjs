@@ -5,6 +5,10 @@
   "description": "A map used in Periotris game",
   "type": "object",
   "properties": {
+    "id": {
+      "description": "The unique identifier of this map",
+      "type": "string"
+    },
     "map": {
       "description": "The rows of the map",
       "type": "array",
@@ -19,26 +23,19 @@
               "description": "The atomic number of the element placed in the cell, negative if it represents a header",
               "type": "integer"
             },
-            "filledBy": {
-              "description": "Whether the cell represents an element or a space, 7 for an element and 8 for a space",
-              "type": "integer",
-              "minimum": 7,
-              "maximum": 8
+            "filled": {
+              "description": "Whether the cell is filled or empty",
+              "type": "boolean"
             }
           },
           "required": [
             "atomicNumber",
-            "filledBy"
+            "filled"
           ]
         },
         "uniqueItems": true
       },
       "uniqueItems": true
-    },
-    "totalAvailableBlocksCount": {
-      "description": "The total number of blocks available (b.filledBy === 7) in the map",
-      "type": "integer",
-      "minimum": 0
     },
     "playAreaSize": {
       "description": "The size of the map",
@@ -62,8 +59,8 @@
     }
   },
   "required": [
+    "id",
     "map",
-    "totalAvailableBlocksCount",
     "playAreaSize"
   ]
 }

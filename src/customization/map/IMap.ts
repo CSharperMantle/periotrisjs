@@ -15,17 +15,28 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import { memoize } from "lodash"
+
 import type { ISize } from "../../common"
 
 export interface IMapCell {
   readonly atomicNumber: number
-  readonly filledBy: number
+  readonly filled: boolean
 }
 
 export type TMapRow = IMapCell[]
 
 export interface IMap {
+  readonly id: string
   readonly map: TMapRow[]
-  readonly totalAvailableBlocksCount: number
   readonly playAreaSize: ISize
 }
+
+export const countFreeBlocks = memoize(
+  (map: IMap): number =>
+    map.map
+      .flat()
+      .map((c) => !c.filled)
+      .reduce((acc, current) => (current ? acc + 1 : acc), 0),
+  (map) => map.id
+)

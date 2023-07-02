@@ -20,7 +20,7 @@ import { isBrowser } from "is-in-browser"
 import { isEqual, range } from "lodash"
 
 import { isNil, waitForEvent } from "../common"
-import { customizationFacade } from "../customization"
+import { countFreeBlocks, customizationFacade } from "../customization"
 import { Block } from "./Block"
 import { MoveDirection, RotationDirection } from "./Direction"
 import { GameState } from "./GameState"
@@ -291,7 +291,7 @@ export class GameModel extends EventEmitter {
 
     if (
       this._frozenBlocks.length >=
-      customizationFacade.settings.gameMap.totalAvailableBlocksCount
+      countFreeBlocks(customizationFacade.settings.gameMap)
     ) {
       // The player won.
       this.endGame(true)
