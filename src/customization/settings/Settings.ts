@@ -22,6 +22,7 @@ import {
   DefaultBorderThickness,
   DefaultConcurrency,
   DefaultGameUpdateIntervalMilliseconds,
+  DefaultPressThreshold,
   DefaultShowGridLines,
   DefaultSwipeDeltaX,
   DefaultSwipeDeltaY,
@@ -120,6 +121,15 @@ export class Settings implements ILocalStorageSerializable {
   }
   public set swipeDeltaY(v) {
     this._swipeDeltaY = v
+    this.toLocalStorage()
+  }
+
+  private _pressThreshold: number | undefined
+  public get pressThreshold(): number {
+    return this._pressThreshold ?? DefaultPressThreshold
+  }
+  public set pressThreshold(v) {
+    this._pressThreshold = v
     this.toLocalStorage()
   }
 

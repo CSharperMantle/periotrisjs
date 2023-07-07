@@ -111,7 +111,7 @@ export class GameViewModel {
     if (this._paused) {
       return false
     }
-    if (duration > 300 /* TODO: Add parametric threshold! */) {
+    if (duration > customizationFacade.settings.pressThreshold) {
       this._model.instantDropActiveTetrimino()
     } else {
       this._model.rotateActiveTetrimino(RotationDirection.Right)

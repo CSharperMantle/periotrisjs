@@ -21,17 +21,20 @@
   "typ_game_map_helper": "Controls the in-game periodic table layout in JSON.",
   "lbl_update_interval": "Update interval",
   "typ_update_interval_helper": "Controls the interval between two game ticks.",
+  "typ_category_control": "Control",
   "lbl_swipe_threshold": "Swipe duration threshold",
   "typ_swipe_threshold_helper": "Controls the minimal duration above which a dragging is considered a swipe.",
   "lbl_swipe_delta_x": "Swipe horizontal offset threshold",
   "typ_swipe_delta_x_helper": "Controls the minimal horizontal offset above which a dragging is considered a swipe.",
   "lbl_swipe_delta_y": "Swipe vertical offset threshold",
   "typ_swipe_delta_y_helper": "Controls the minimal vertical offset above which a dragging is considered a swipe.",
-  "typ_category_misc": "Misc",
+  "lbl_press_threshold": "Press duration threshold",
+  "typ_press_threshold_helper": "Controls the minimal duration above which a tapping is considered a long press.",
+  "typ_category_misc": "Other",
   "lbl_concurrency": "Concurrency",
   "typ_concurrency_helper": "Controls the maximum number of Web Workers allowed to spawn. Set to '0' to decide based on hardware. A higher value often means quicker game preparation, but a value too large may render the app unresponsive.",
   "lbl_export_settings": "EXPORT SETTINGS...",
   "typ_export_settings_helper": "Save settings to a local file in JSON.",
   "lbl_clear_all": "CLEAR ALL DATA",
-  "typ_clear_all_helper": "Delete all saved settings and progress, then reset the app."
+  "typ_clear_all_helper": "Delete all saved settings and progress, then reset the app to default."
 }

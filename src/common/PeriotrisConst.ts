@@ -25,3 +25,4 @@ export const DefaultConcurrency = 0
 export const DefaultSwipeThreshold = 500
 export const DefaultSwipeDeltaX = 15
 export const DefaultSwipeDeltaY = 15
+export const DefaultPressThreshold = 300

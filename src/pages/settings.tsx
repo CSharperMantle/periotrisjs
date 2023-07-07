@@ -236,6 +236,16 @@ const App = () => {
               }
             }}
           />
+        </Stack>
+        <Stack direction="column" spacing={3}>
+          <Typography
+            variant="h5"
+            sx={{
+              mb: 2,
+            }}
+          >
+            {t("typ_category_control")}
+          </Typography>
           <NumberFormControl
             id="swipe-threshold-input"
             label={t("lbl_swipe_threshold")}
@@ -296,6 +306,29 @@ const App = () => {
               const [isValid, value] = tryParseInt(newContent)
               if (isValid) {
                 customizationFacade.settings.swipeDeltaY = value
+                return true
+              } else {
+                enqueueSnackbar(t("msg_int_expected"), {
+                  variant: "error",
+                })
+                return false
+              }
+            }}
+          />
+          <NumberFormControl
+            id="press-threshold-input"
+            label={t("lbl_press_threshold")}
+            initialContent={customizationFacade.settings.pressThreshold.toString()}
+            min={0}
+            step={1}
+            helperText={t("typ_press_threshold_helper")}
+            adornments={{
+              endAdornment: <InputAdornment position="end">ms</InputAdornment>,
+            }}
+            onChange={(newContent) => {
+              const [isValid, value] = tryParseInt(newContent)
+              if (isValid) {
+                customizationFacade.settings.pressThreshold = value
                 return true
               } else {
                 enqueueSnackbar(t("msg_int_expected"), {
