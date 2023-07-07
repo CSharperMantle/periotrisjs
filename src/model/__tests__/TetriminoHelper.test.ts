@@ -17,7 +17,6 @@
 
 import { isEqual } from "lodash"
 
-import { Block } from "../Block"
 import { Direction } from "../Direction"
 import {
   createOffsetBlocks,
@@ -58,12 +57,32 @@ describe("createOffsetBlocks", () => {
 describe("mapAtomicNumberInto", () => {
   it("should have correct behavior", () => {
     const oldBlocks = [
-      new Block(TetriminoKind.Cubic, [0, 0], 0, 0),
-      new Block(TetriminoKind.Cubic, [1, 0], 1, 1),
+      {
+        filledBy: TetriminoKind.Cubic,
+        position: [0, 0] as const,
+        atomicNumber: 0,
+        id: 0,
+      },
+      {
+        filledBy: TetriminoKind.Cubic,
+        position: [1, 0] as const,
+        atomicNumber: 1,
+        id: 1,
+      },
     ]
     const newBlocks = [
-      new Block(TetriminoKind.Cubic, [1, 0], -1, 0),
-      new Block(TetriminoKind.Cubic, [2, 0], -1, 1),
+      {
+        filledBy: TetriminoKind.Cubic,
+        position: [1, 0] as const,
+        atomicNumber: null,
+        id: 0,
+      },
+      {
+        filledBy: TetriminoKind.Cubic,
+        position: [2, 0] as const,
+        atomicNumber: null,
+        id: 1,
+      },
     ]
     mapAtomicNumberInto(oldBlocks, newBlocks)
     newBlocks.forEach((block) => {
@@ -75,27 +94,81 @@ describe("mapAtomicNumberInto", () => {
 
   it("should handle incorrect arguments gracefully", () => {
     expect(() => {
-      mapAtomicNumberInto([], [new Block(TetriminoKind.Cubic, [0, 0], 0, 0)])
+      mapAtomicNumberInto(
+        [],
+        [
+          {
+            filledBy: TetriminoKind.Cubic,
+            position: [0, 0] as const,
+            atomicNumber: 0,
+            id: 0,
+          },
+        ]
+      )
     }).toThrowError(new Error("mapAtomicNumberInto: length mismatch 0!==1"))
     expect(() => {
-      mapAtomicNumberInto([new Block(TetriminoKind.Cubic, [0, 0], 0, 0)], [])
+      mapAtomicNumberInto(
+        [
+          {
+            filledBy: TetriminoKind.Cubic,
+            position: [0, 0] as const,
+            atomicNumber: 0,
+            id: 0,
+          },
+        ],
+        []
+      )
     }).toThrowError(new Error("mapAtomicNumberInto: length mismatch 1!==0"))
     expect(() => {
       mapAtomicNumberInto(
-        [new Block(TetriminoKind.Cubic, [0, 0], 0, 0)],
         [
-          new Block(TetriminoKind.Cubic, [0, 0], 0, 0),
-          new Block(TetriminoKind.Cubic, [0, 0], 0, 0),
+          {
+            filledBy: TetriminoKind.Cubic,
+            position: [0, 0] as const,
+            atomicNumber: 0,
+            id: 0,
+          },
+        ],
+        [
+          {
+            filledBy: TetriminoKind.Cubic,
+            position: [0, 0] as const,
+            atomicNumber: 0,
+            id: 0,
+          },
+          {
+            filledBy: TetriminoKind.Cubic,
+            position: [0, 0] as const,
+            atomicNumber: 0,
+            id: 0,
+          },
         ]
       )
     }).toThrowError(new Error("mapAtomicNumberInto: length mismatch 1!==2"))
     expect(() => {
       mapAtomicNumberInto(
         [
-          new Block(TetriminoKind.Cubic, [0, 0], 0, 0),
-          new Block(TetriminoKind.Cubic, [0, 0], 0, 0),
+          {
+            filledBy: TetriminoKind.Cubic,
+            position: [0, 0] as const,
+            atomicNumber: 0,
+            id: 0,
+          },
+          {
+            filledBy: TetriminoKind.Cubic,
+            position: [0, 0] as const,
+            atomicNumber: 0,
+            id: 0,
+          },
         ],
-        [new Block(TetriminoKind.Cubic, [0, 0], 0, 0)]
+        [
+          {
+            filledBy: TetriminoKind.Cubic,
+            position: [0, 0] as const,
+            atomicNumber: 0,
+            id: 0,
+          },
+        ]
       )
     }).toThrowError(new Error("mapAtomicNumberInto: length mismatch 2!==1"))
   })

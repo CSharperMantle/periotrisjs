@@ -21,13 +21,13 @@ import { isEqual, range } from "lodash"
 
 import { isNil, waitForEvent } from "../common"
 import { countFreeBlocks, customizationFacade } from "../customization"
-import { Block } from "./Block"
 import { MoveDirection, RotationDirection } from "./Direction"
 import { GameState } from "./GameState"
 import { getPlayablePattern, MessageType } from "./generation"
 import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
 
 import type { IGeneratorMessage } from "./generation"
+import type { IBlock } from "./IBlock"
 
 async function generatePattern(): Promise<Tetrimino[]> {
   if (!isBrowser) {
@@ -78,7 +78,7 @@ export class GameModel extends EventEmitter {
   /**
    * "Frozen" blocks, that is, blocks that are fallen and not movable.
    */
-  private readonly _frozenBlocks: Block[] = []
+  private readonly _frozenBlocks: IBlock[] = []
 
   /**
    * Tetriminos yet to be spawned.
@@ -343,7 +343,7 @@ export class GameModel extends EventEmitter {
    * @param blocks The blocks to update.
    * @param disappeared Whether the block disappeared.
    */
-  private onBlocksChanged(blocks: Block[], disappeared: boolean): void {
+  private onBlocksChanged(blocks: IBlock[], disappeared: boolean): void {
     this.emit("blockschanged", { blocks, disappeared })
   }
 
@@ -364,7 +364,7 @@ export class GameModel extends EventEmitter {
    * @param block The block to check.
    * @returns Whether the block is valid.
    */
-  private checkBlockValidity(block: Block): boolean {
+  private checkBlockValidity(block: IBlock): boolean {
     const width = customizationFacade.settings.gameMap.playAreaSize.width
     const height = customizationFacade.settings.gameMap.playAreaSize.height
     if (block.position[0] < 0 || block.position[0] >= width) {

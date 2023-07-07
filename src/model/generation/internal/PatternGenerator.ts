@@ -18,7 +18,7 @@
 import { range, shuffle } from "lodash"
 
 import { isNil } from "../../../common"
-import { Block } from "../../Block"
+import { countFreeBlocks } from "../../../customization"
 import { Direction, RotationDirection } from "../../Direction"
 import { Tetrimino, repairBrokenTetriminos } from "../../Tetrimino"
 import {
@@ -28,8 +28,9 @@ import {
 import { TetriminoKind } from "../../TetriminoKind"
 import { sort } from "./TetriminoSorter"
 
-import type { TPosition, ISize } from "../../../common"
-import { IMap, countFreeBlocks } from "../../../customization"
+import type { ISize, TPosition } from "../../../common"
+import type { IMap } from "../../../customization"
+import type { IBlock } from "../../IBlock"
 
 type TPropPair = readonly [TetriminoKind, Direction]
 
@@ -163,7 +164,7 @@ async function getPossibleTetriminoPattern(
   return settledTetriminos
 }
 
-function collisionChecker(freeBlockMap: boolean[][], block: Block): boolean {
+function collisionChecker(freeBlockMap: boolean[][], block: IBlock): boolean {
   const nRow = block.position[1]
   const nCol = block.position[0]
   if (
@@ -204,15 +205,12 @@ function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
     const deltaX = newPos[0] - originalPos[0]
     const deltaY = newPos[1] - originalPos[1]
 
-    tetrimino.blocks = tetrimino.blocks.map(
-      (block) =>
-        new Block(
-          block.filledBy,
-          [block.position[0] + deltaX, block.position[1] + deltaY],
-          block.atomicNumber,
-          block.id
-        )
-    )
+    tetrimino.blocks = tetrimino.blocks.map((block) => ({
+      filledBy: block.filledBy,
+      position: [block.position[0] + deltaX, block.position[1] + deltaY],
+      atomicNumber: block.atomicNumber,
+      id: block.id,
+    }))
     tetrimino.position = newPos
 
     const rotationCount = fastRandom(0, Math.floor(Direction.LENGTH / 2) + 1)

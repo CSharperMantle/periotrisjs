@@ -201,7 +201,7 @@ export class GameViewModel {
       blocks.forEach((block) => {
         if (!this._blocksByPosition.has(block.position)) {
           const displayBlock: IBlockSprite = {
-            atomicNumber: block.atomicNumber,
+            atomicNumber: block.atomicNumber ?? 0,
             row: block.position[1],
             column: block.position[0],
           }

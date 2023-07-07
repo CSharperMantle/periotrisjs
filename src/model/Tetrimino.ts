@@ -15,25 +15,25 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { Block } from "./Block"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
 import { createOffsetBlocks, mapAtomicNumberInto } from "./TetriminoHelper"
 import { TetriminoKind } from "./TetriminoKind"
 
 import type { TPosition } from "../common"
+import type { IBlock } from "./IBlock"
 
 /**
  * The type for block collision checker.
  *
  * @returns 'false' if no collision found. Otherwise 'true'.
  */
-export type TCollisionChecker = (block: Block) => boolean
+export type TCollisionChecker = (block: IBlock) => boolean
 
 /**
  * The tetrimino.
  */
 export class Tetrimino {
-  public blocks: Block[]
+  public blocks: IBlock[]
 
   /**
    * Moves the Tetrimino instance.

@@ -22,11 +22,9 @@ import type { TPosition } from "../common"
 /**
  * The block, the most basic unit of the game.
  */
-export class Block {
-  public constructor(
-    public readonly filledBy: TetriminoKind,
-    public readonly position: TPosition,
-    public /* readonly */ atomicNumber = 0,
-    public readonly id = 0
-  ) {}
+export interface IBlock {
+  readonly filledBy: TetriminoKind
+  readonly position: TPosition
+  atomicNumber: number | null
+  readonly id: number
 }

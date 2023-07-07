@@ -15,7 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { Block } from "./Block"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
 import { GameModel } from "./GameModel"
 import { GameState } from "./GameState"
@@ -23,9 +22,9 @@ import { Tetrimino } from "./Tetrimino"
 import { TetriminoKind } from "./TetriminoKind"
 
 import type { IBlocksChangedEventArgs } from "./EventArgs"
+import type { IBlock } from "./IBlock"
 
 export {
-  Block,
   Direction,
   RotationDirection,
   MoveDirection,
@@ -34,5 +33,4 @@ export {
   Tetrimino,
   TetriminoKind,
 }
-
-export type { IBlocksChangedEventArgs }
+export type { IBlock, IBlocksChangedEventArgs }
