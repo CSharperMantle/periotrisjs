@@ -37,8 +37,8 @@
   "typ_category_misc": "Other",
   "lbl_concurrency": "Concurrency",
   "typ_concurrency_helper": "Controls the maximum number of Web Workers allowed to spawn. Set to '0' to decide based on hardware. A higher value often means quicker game preparation, but a value too large may render the app unresponsive.",
-  "lbl_export_settings": "EXPORT SETTINGS...",
-  "typ_export_settings_helper": "Save settings to a local file in JSON.",
+  "lbl_export_settings": "EXPORT CONFIGURATION",
+  "typ_export_settings_helper": "Save app configuration to a JSON file.",
   "lbl_clear_all": "CLEAR ALL DATA",
   "typ_clear_all_helper": "Delete all saved settings and progress, then reset the app to default."
 }

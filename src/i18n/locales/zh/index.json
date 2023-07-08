@@ -1,8 +1,8 @@
 {
-  "cap_start": "开始游戏",
+  "cap_start": "开始",
   "typ_version": "版本 {{version}}",
   "cap_settings": "设置",
   "cap_about": "关于",
-  "cap_sponsor": "赞助作者",
-  "cap_github": "转到 GitHub 仓库"
+  "cap_sponsor": "赞助（应用外）",
+  "cap_github": "转到 GitHub 仓库（应用外）"
 }

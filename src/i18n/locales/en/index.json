@@ -1,8 +1,8 @@
 {
-  "cap_start": "START GAME",
+  "cap_start": "START",
   "typ_version": "Version {{version}}",
   "cap_settings": "Settings",
   "cap_about": "About",
-  "cap_sponsor": "Sponsor the author",
-  "cap_github": "Open on GitHub"
+  "cap_sponsor": "Sponsor (external)",
+  "cap_github": "Open on GitHub (external)"
 }

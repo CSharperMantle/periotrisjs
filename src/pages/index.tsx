@@ -54,6 +54,7 @@ const App = ({ data }: PageProps<Queries.IndexPageQuery>) => {
       sx={{
         flex: "1 1 auto",
       }}
+      maxWidth="xs"
     >
       <Grid item xs={5}>
         <Stack
@@ -71,15 +72,17 @@ const App = ({ data }: PageProps<Queries.IndexPageQuery>) => {
       </Grid>
       <Grid item xs={4}>
         <Container maxWidth="xs">
-          <Button
-            variant="contained"
-            size="large"
-            fullWidth
-            component={Link}
-            to={gamePagePath}
-          >
-            {t("cap_start")}
-          </Button>
+          <Stack direction="column" justifyItems="center" spacing={3}>
+            <Button
+              variant="contained"
+              size="large"
+              fullWidth
+              component={Link}
+              to={gamePagePath}
+            >
+              {t("cap_start")}
+            </Button>
+          </Stack>
         </Container>
       </Grid>
       <Grid item xs={3}>
@@ -151,9 +154,11 @@ export const query = graphql`
         }
       }
     }
+
     package {
       version
     }
+
     locales: allLocale(
       filter: { ns: { in: ["index"] }, language: { eq: $language } }
     ) {

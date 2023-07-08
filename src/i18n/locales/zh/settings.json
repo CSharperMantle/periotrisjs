@@ -39,8 +39,8 @@
   "typ_category_misc": "其他",
   "lbl_concurrency": "并行性",
   "typ_concurrency_helper": "控制游戏最多可使用的 Web Worker 数量。设为“ 0 ”以根据硬件配置自动选择。更高的数值通常意味着游戏准备能够更快速地进行，但该值过高可能导致应用无响应。",
-  "lbl_export_settings": "导出设置...",
-  "typ_export_settings_helper": "使用 JSON 格式将应用设置保存至本地。",
+  "lbl_export_settings": "导出设置信息",
+  "typ_export_settings_helper": "将应用设置保存为 JSON 文件。",
   "lbl_clear_all": "清除所有数据",
   "typ_clear_all_helper": "删除所有已保存的设置与进度，然后将应用还原至默认状态。"
 }
