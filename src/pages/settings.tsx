@@ -19,11 +19,13 @@ import validateColorScheme from "ajv-json-loader!../json/schema/ColorScheme.json
 import validateMap from "ajv-json-loader!../json/schema/Map.json.schema"
 
 import FileSaver from "file-saver"
-import { graphql } from "gatsby"
+import { Link, PageProps, graphql } from "gatsby"
 import { useI18next } from "gatsby-plugin-react-i18next"
 import { useSnackbar } from "notistack"
 import React from "react"
 
+import HomeIcon from "@mui/icons-material/Home"
+import PlayArrowIcon from "@mui/icons-material/PlayArrow"
 import Button from "@mui/material/Button"
 import Container from "@mui/material/Container"
 import FormControl from "@mui/material/FormControl"
@@ -34,6 +36,9 @@ import Stack from "@mui/material/Stack"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 
+import { IconButton, Tooltip } from "@mui/material"
+import { PageID } from "../PageID"
+import { queryPath } from "../common"
 import { CommonHead, FileFormControl, NumberFormControl } from "../components"
 import { customizationFacade } from "../customization"
 
@@ -42,8 +47,12 @@ const tryParseInt = (s: string): readonly [boolean, number] => {
   return [!isNaN(v), v]
 }
 
-const App = () => {
+const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
   const { t, changeLanguage, languages, language } = useI18next()
+
+  const routes = data.site?.siteMetadata?.navRoutes
+  const homePagePath = queryPath(routes, PageID.PAGE_HOME)
+  const gamePagePath = queryPath(routes, PageID.PAGE_GAME)
 
   const assistanceGridAppearanceOptions = [
     {
@@ -78,6 +87,34 @@ const App = () => {
       }}
     >
       <Stack direction="column" spacing={5}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Tooltip title={t("cap_home")}>
+            <IconButton
+              size="large"
+              aria-label="home"
+              component={Link}
+              to={homePagePath}
+            >
+              <HomeIcon />
+            </IconButton>
+          </Tooltip>
+          <Typography variant="h4">{t("typ_h_settings")}</Typography>
+          <Tooltip title={t("cap_game")}>
+            <IconButton
+              size="large"
+              aria-label="game"
+              component={Link}
+              to={gamePagePath}
+            >
+              <PlayArrowIcon />
+            </IconButton>
+          </Tooltip>
+        </Stack>
+        <Typography variant="body1">{t("typ_helper_save")}</Typography>
         <Stack direction="column" spacing={3}>
           <Typography
             variant="h5"
@@ -420,6 +457,14 @@ export const Head = CommonHead
 
 export const query = graphql`
   query SettingsPage($language: String!) {
+    site {
+      siteMetadata {
+        navRoutes {
+          id
+          path
+        }
+      }
+    }
     locales: allLocale(
       filter: { ns: { in: ["settings"] }, language: { eq: $language } }
     ) {

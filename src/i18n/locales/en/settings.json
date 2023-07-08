@@ -1,4 +1,8 @@
 {
+  "typ_h_settings": "Settings",
+  "cap_home": "Home",
+  "cap_game": "Start game",
+  "typ_helper_save": "All changes made on this page will be saved immediately to local storage.",
   "cap_open_button": "Open file...",
   "msg_color_scheme_invalid": "Invalid color scheme file. Please check your file format.",
   "msg_game_map_invalid": "Invalid game map file. Please check your file format.",

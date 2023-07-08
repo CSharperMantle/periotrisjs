@@ -17,7 +17,6 @@
 
 import { graphql, Link, PageProps } from "gatsby"
 import { useI18next } from "gatsby-plugin-react-i18next"
-import { filter, head } from "lodash"
 import React from "react"
 
 import FavoriteIcon from "@mui/icons-material/Favorite"
@@ -32,17 +31,15 @@ import Stack from "@mui/material/Stack"
 import Tooltip from "@mui/material/Tooltip"
 import Typography from "@mui/material/Typography"
 
+import { queryPath } from "../common"
 import { CommonHead } from "../components"
 import { PageID } from "../PageID"
 
 const App = ({ data }: PageProps<Queries.IndexPageQuery>) => {
   const routes = data.site?.siteMetadata?.navRoutes
-  const gamePagePath =
-    head(filter(routes, (r) => r?.id === PageID.PAGE_GAME))?.path ?? "#"
-  const settingsPagePath =
-    head(filter(routes, (r) => r?.id === PageID.PAGE_SETTINGS))?.path ?? "#"
-  const aboutPagePath =
-    head(filter(routes, (r) => r?.id === PageID.PAGE_ABOUT))?.path ?? "#"
+  const gamePagePath = queryPath(routes, PageID.PAGE_GAME)
+  const settingsPagePath = queryPath(routes, PageID.PAGE_SETTINGS)
+  const aboutPagePath = queryPath(routes, PageID.PAGE_ABOUT)
 
   const { t } = useI18next()
 

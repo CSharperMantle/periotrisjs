@@ -31,6 +31,7 @@ import {
 import { flushed } from "./flushed"
 import { formatDuration } from "./formatDuration"
 import { isNil } from "./isNil"
+import { queryPath } from "./queryPath"
 import { rearrange } from "./rearrange"
 import { waitForEvent } from "./waitForEvent"
 
@@ -54,5 +55,6 @@ export {
   waitForEvent,
   isNil,
   formatDuration,
+  queryPath,
 }
 export type { ISize, TPosition }

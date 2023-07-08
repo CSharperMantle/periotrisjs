@@ -1,4 +1,8 @@
 {
+  "typ_h_settings": "设置",
+  "cap_home": "主页",
+  "cap_game": "开始游戏",
+  "typ_helper_save": "本页面上的更改会实时保存至本地存储。",
   "cap_open_button": "打开文件...",
   "msg_color_scheme_invalid": "选择的主题文件无效。请检查格式。",
   "msg_game_map_invalid": "选择的布局文件无效。请检查格式。",
