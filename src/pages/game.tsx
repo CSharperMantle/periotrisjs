@@ -29,7 +29,6 @@ import { customizationFacade } from "../customization"
 
 const App = () => {
   const viewModel = new GameViewModel()
-  viewModel.init()
 
   const onKeyDownThrottled = throttle(
     flushed(viewModel.onKeyDown.bind(viewModel)),
@@ -43,8 +42,10 @@ const App = () => {
 
   useEffect(() => {
     window.addEventListener("keydown", onKeyDownThrottled)
+    viewModel.init()
     return () => {
       window.removeEventListener("keydown", onKeyDownThrottled)
+      viewModel.reset()
     }
   }, [])
 

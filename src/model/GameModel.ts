@@ -167,6 +167,10 @@ export class GameModel extends EventEmitter {
     this.onGameEnded()
   }
 
+  public reset(): void {
+    this.endGame(false)
+  }
+
   /**
    * Move the tetrimino down as far as possible.
    *
@@ -305,14 +309,6 @@ export class GameModel extends EventEmitter {
       this.endGame(true)
     }
     // Otherwise, the game continues.
-  }
-
-  /**
-   * Create a new instance of {@link GameModel}.
-   */
-  public constructor() {
-    super()
-    this.endGame(false)
   }
 
   /**

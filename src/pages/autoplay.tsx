@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import React from "react"
+import React, { useEffect } from "react"
 
 import Box from "@mui/material/Box"
 
@@ -24,7 +24,13 @@ import { AutoplayGameViewModel } from "../viewmodel"
 
 const App = () => {
   const viewModel = new AutoplayGameViewModel()
-  viewModel.init()
+
+  useEffect(() => {
+    viewModel.init()
+    return () => {
+      viewModel.reset()
+    }
+  }, [])
 
   return (
     <Box

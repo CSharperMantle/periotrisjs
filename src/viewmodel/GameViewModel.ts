@@ -127,6 +127,8 @@ export class GameViewModel {
   }
 
   public init(): void {
+    this._model.reset()
+
     this._model.on("blockschanged", (eventArgs) => {
       this.modelBlocksChangedEventHandler(eventArgs)
     })
@@ -140,7 +142,7 @@ export class GameViewModel {
       this.modelGameStateChangedEventHandler()
     })
 
-    this.endGame()
+    this.reset()
   }
 
   public switchPauseGame(): void {
@@ -163,7 +165,7 @@ export class GameViewModel {
     }
   }
 
-  protected endGame(): void {
+  public reset(): void {
     clearInterval(this._gameIntervalTimerHandle ?? undefined)
     this._gameIntervalTimerHandle = null
     clearInterval(this._gameStopwatchUpdateTimerHandle ?? undefined)
@@ -223,7 +225,7 @@ export class GameViewModel {
   }
 
   protected modelGameEndEventHandler(): void {
-    this.endGame()
+    this.reset()
   }
 
   protected modelGameStartEventHandler(): void {
