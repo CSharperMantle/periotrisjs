@@ -15,18 +15,4 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { AutoplayGameViewModel } from "./AutoplayGameViewModel"
-import { GameViewModel } from "./GameViewModel"
-import { useAppDispatch, useAppSelector } from "./appHooks"
-import { appStore } from "./appStore"
-
-import type { IBlockSprite } from "./IBlockSprite"
-
-export {
-  AutoplayGameViewModel,
-  GameViewModel,
-  useAppDispatch,
-  useAppSelector,
-  appStore,
-}
-export type { IBlockSprite }
+export class AutoplaySentinel {}

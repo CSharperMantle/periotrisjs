@@ -15,58 +15,16 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { throttle } from "lodash"
-import React, { useEffect } from "react"
-
-import { useDrag } from "@use-gesture/react"
+import React from "react"
 
 import Box from "@mui/material/Box"
 
-import { flushed } from "../common"
 import { BlocksGrid, CommonHead, GameControlBackdrop } from "../components"
-import { GameViewModel } from "../viewmodel"
-import { customizationFacade } from "../customization"
+import { AutoplayGameViewModel } from "../viewmodel"
 
 const App = () => {
-  const viewModel = new GameViewModel()
+  const viewModel = new AutoplayGameViewModel()
   viewModel.init()
-
-  const onKeyDownThrottled = throttle(
-    flushed(viewModel.onKeyDown.bind(viewModel)),
-    50
-  )
-  const onTapThrottled = throttle(flushed(viewModel.onTap.bind(viewModel)), 50)
-  const onSwipeThrottled = throttle(
-    flushed(viewModel.onSwipe.bind(viewModel)),
-    50
-  )
-
-  useEffect(() => {
-    window.addEventListener("keydown", onKeyDownThrottled)
-    return () => {
-      window.removeEventListener("keydown", onKeyDownThrottled)
-    }
-  }, [])
-
-  const gestureBind = useDrag(
-    ({ swipe, tap, elapsedTime }) => {
-      if (tap) {
-        onTapThrottled(elapsedTime)
-      } else {
-        onSwipeThrottled(swipe)
-      }
-    },
-    {
-      filterTaps: true,
-      swipe: {
-        distance: [
-          customizationFacade.settings.swipeDeltaX,
-          customizationFacade.settings.swipeDeltaY,
-        ],
-        duration: customizationFacade.settings.swipeThreshold,
-      },
-    }
-  )
 
   return (
     <Box
@@ -96,7 +54,6 @@ const App = () => {
           gridRow: 2,
           position: "relative",
         }}
-        {...gestureBind()}
       >
         <BlocksGrid />
       </Box>

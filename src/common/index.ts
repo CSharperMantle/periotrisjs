@@ -15,6 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import { AutoplaySentinel } from "./AutoplaySentinel"
 import {
   DefaultBorderThickness,
   DefaultConcurrency,
@@ -39,6 +40,7 @@ import type { ISize } from "./ISize"
 import type { TPosition } from "./TPosition"
 
 export {
+  AutoplaySentinel,
   DefaultShowGridLines,
   DefaultGameUpdateIntervalMilliseconds,
   StopwatchUpdateIntervalMilliseconds,

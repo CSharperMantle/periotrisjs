@@ -50,7 +50,7 @@ export type TProgressCallback = (progress: number) => void
 
 export class NoSolutionError extends Error {}
 
-export async function getPlayablePattern(
+export async function createTiledTetriminos(
   gameMap: IMap,
   progressCallback?: TProgressCallback
 ): Promise<Tetrimino[]> {
@@ -70,9 +70,7 @@ export async function getPlayablePattern(
     gameMap.playAreaSize
   )
 
-  const fixedTetriminos = repairBrokenTetriminos(ordered)
-  primeTetriminos(fixedTetriminos, gameMap.playAreaSize)
-  return fixedTetriminos
+  return repairBrokenTetriminos(ordered)
 }
 
 const AllPropPairPermutation = [
@@ -196,13 +194,18 @@ function getFirstFreeBlockCoord(freeBlockMap: boolean[][]): TPosition {
  *
  * @param tetriminos The tetriminos to prime.
  * @param playAreaSize Size of play area.
+ * @param trivial Whether to prime tetriminos "trivially", that is, adjust Y only.
  */
-function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
+export function primeTetriminos(
+  tetriminos: Tetrimino[],
+  playAreaSize: ISize,
+  trivial = false
+) {
   // Move to initial position and rotate randomly
   tetriminos.forEach((tetrimino) => {
     const originalPos = tetrimino.position
     const newPos = getInitialPosition(tetrimino.kind, playAreaSize)
-    const deltaX = newPos[0] - originalPos[0]
+    const deltaX = trivial ? 0 : newPos[0] - originalPos[0]
     const deltaY = newPos[1] - originalPos[1]
 
     tetrimino.blocks = tetrimino.blocks.map((block) => ({
@@ -213,8 +216,10 @@ function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
     }))
     tetrimino.position = newPos
 
-    const rotationCount = fastRandom(0, Math.floor(Direction.LENGTH / 2) + 1)
-    for (let i = 0; i < rotationCount; i++) {
+    const rotCount = trivial
+      ? 0
+      : fastRandom(0, Math.floor(Direction.LENGTH / 2) + 1)
+    for (let i = 0; i < rotCount; i++) {
       tetrimino.tryRotate(RotationDirection.Right, () => false)
     }
   })

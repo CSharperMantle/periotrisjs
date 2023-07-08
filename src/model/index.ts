@@ -15,6 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import { AutoplayGameModel } from "./AutoplayGameModel"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
 import { GameModel } from "./GameModel"
 import { GameState } from "./GameState"
@@ -25,6 +26,7 @@ import type { IBlocksChangedEventArgs } from "./EventArgs"
 import type { IBlock } from "./IBlock"
 
 export {
+  AutoplayGameModel,
   Direction,
   RotationDirection,
   MoveDirection,

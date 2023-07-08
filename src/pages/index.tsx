@@ -38,6 +38,7 @@ import { PageID } from "../PageID"
 const App = ({ data }: PageProps<Queries.IndexPageQuery>) => {
   const routes = data.site?.siteMetadata?.navRoutes
   const gamePagePath = queryPath(routes, PageID.PAGE_GAME)
+  const autoplayPagePath = queryPath(routes, PageID.PAGE_AUTOPLAY)
   const settingsPagePath = queryPath(routes, PageID.PAGE_SETTINGS)
   const aboutPagePath = queryPath(routes, PageID.PAGE_ABOUT)
 
@@ -81,6 +82,15 @@ const App = ({ data }: PageProps<Queries.IndexPageQuery>) => {
               to={gamePagePath}
             >
               {t("cap_start")}
+            </Button>
+            <Button
+              variant="outlined"
+              size="large"
+              fullWidth
+              component={Link}
+              to={autoplayPagePath}
+            >
+              {t("cap_autoplay")}
             </Button>
           </Stack>
         </Container>

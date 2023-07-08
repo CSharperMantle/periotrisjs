@@ -15,14 +15,22 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import { AutoplaySentinel } from "./AutoplaySentinel"
 import { isNil } from "./isNil"
 
 /**
  * Format the given duration in milliseconds into m...m:ss.
  *
- * When provided duration is nil or negative, "--:--" is returned.
+ * When provided duration is nil or negative, "--:--" is returned. When
+ * provided duration is a special autoplay sentinel value, the string "AUTOPLAY" is returned.
  */
-export function formatDuration(ms: number | null | undefined): string {
+export function formatDuration(
+  ms: number | AutoplaySentinel | null | undefined
+): string {
+  if (ms instanceof AutoplaySentinel) {
+    return "AUTOPLAY"
+  }
+
   if (isNil(ms) || isNaN(ms) || ms < 0) {
     return "--:--"
   }

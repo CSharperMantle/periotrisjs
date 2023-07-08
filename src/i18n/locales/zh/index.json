@@ -1,6 +1,7 @@
 {
-  "cap_start": "开始",
   "typ_version": "版本 {{version}}",
+  "cap_start": "开始",
+  "cap_autoplay": "自动演示",
   "cap_settings": "设置",
   "cap_about": "关于",
   "cap_sponsor": "赞助（应用外）",

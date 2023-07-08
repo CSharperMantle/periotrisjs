@@ -44,34 +44,17 @@ import type { IBlockSprite } from "./IBlockSprite"
  * The view model of Periotris.
  */
 export class GameViewModel {
-  public constructor() {
-    this._model.on("blockschanged", (eventArgs) => {
-      this.modelBlocksChangedEventHandler(eventArgs)
-    })
-    this._model.on("gameended", () => {
-      this.modelGameEndEventHandler()
-    })
-    this._model.on("gamestarted", () => {
-      this.modelGameStartEventHandler()
-    })
-    this._model.on("gamestatechanged", () => {
-      this.modelGameStateChangedEventHandler()
-    })
+  protected _model: GameModel = new GameModel()
 
-    this.endGame()
-  }
+  protected readonly _blocksByPosition: Map<TPosition, IBlockSprite> = new Map()
 
-  private readonly _model: GameModel = new GameModel()
+  protected _gameIntervalTimerHandle: number | null = null
 
-  private readonly _blocksByPosition: Map<TPosition, IBlockSprite> = new Map()
+  protected _gameStopwatchUpdateTimerHandle: number | null = null
 
-  private _gameIntervalTimerHandle: number | null = null
+  protected _paused = false
 
-  private _gameStopwatchUpdateTimerHandle: number | null = null
-
-  private _paused = false
-
-  private _lastPaused = true
+  protected _lastPaused = true
 
   public onKeyDown(ev: KeyboardEvent): boolean {
     const key = ev.key.toLowerCase()
@@ -143,6 +126,23 @@ export class GameViewModel {
     return true
   }
 
+  public init(): void {
+    this._model.on("blockschanged", (eventArgs) => {
+      this.modelBlocksChangedEventHandler(eventArgs)
+    })
+    this._model.on("gameended", () => {
+      this.modelGameEndEventHandler()
+    })
+    this._model.on("gamestarted", () => {
+      this.modelGameStartEventHandler()
+    })
+    this._model.on("gamestatechanged", () => {
+      this.modelGameStateChangedEventHandler()
+    })
+
+    this.endGame()
+  }
+
   public switchPauseGame(): void {
     if (this._model.gameState !== GameState.InProgress) {
       return // Not allowed to pause/unpause outside of game
@@ -163,7 +163,7 @@ export class GameViewModel {
     }
   }
 
-  private endGame(): void {
+  protected endGame(): void {
     clearInterval(this._gameIntervalTimerHandle ?? undefined)
     this._gameIntervalTimerHandle = null
     clearInterval(this._gameStopwatchUpdateTimerHandle ?? undefined)
@@ -171,7 +171,7 @@ export class GameViewModel {
     this.refreshGameStatus()
   }
 
-  private refreshGameStatus(): void {
+  protected refreshGameStatus(): void {
     appStore.dispatch(setGameState(this._model.gameState))
     appStore.dispatch(setIsNewRecord(this._model.isNewHighRecord))
     appStore.dispatch(
@@ -179,7 +179,7 @@ export class GameViewModel {
     )
   }
 
-  private intervalTickEventHandler(): void {
+  protected intervalTickEventHandler(): void {
     this._lastPaused =
       this._lastPaused !== this._paused ? this._paused : this._lastPaused
 
@@ -188,11 +188,11 @@ export class GameViewModel {
     }
   }
 
-  private intervalStopwatchUpdateEventHandler(): void {
+  protected intervalStopwatchUpdateEventHandler(): void {
     appStore.dispatch(setElapsedTime(this._model.elapsedMilliseconds))
   }
 
-  private modelBlocksChangedEventHandler(
+  protected modelBlocksChangedEventHandler(
     eventArgs: IBlocksChangedEventArgs
   ): void {
     const blocks = eventArgs.blocks
@@ -222,11 +222,11 @@ export class GameViewModel {
     }
   }
 
-  private modelGameEndEventHandler(): void {
+  protected modelGameEndEventHandler(): void {
     this.endGame()
   }
 
-  private modelGameStartEventHandler(): void {
+  protected modelGameStartEventHandler(): void {
     this.refreshGameStatus()
     this._paused = false
     this._gameIntervalTimerHandle = window.setInterval(() => {
@@ -237,7 +237,7 @@ export class GameViewModel {
     }, StopwatchUpdateIntervalMilliseconds)
   }
 
-  private modelGameStateChangedEventHandler(): void {
+  protected modelGameStateChangedEventHandler(): void {
     this.refreshGameStatus()
   }
 }

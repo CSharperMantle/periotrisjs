@@ -15,6 +15,6 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { getPlayablePattern } from "./PatternGenerator"
+import { createTiledTetriminos, primeTetriminos } from "./PatternGenerator"
 
-export { getPlayablePattern }
+export { createTiledTetriminos, primeTetriminos }
