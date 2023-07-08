@@ -158,8 +158,7 @@ export class GameViewModel {
         this._model.gameState
       )
     ) {
-      appStore.dispatch(clearSprites())
-      this._blocksByPosition.clear()
+      this.clearSprites()
       this._model.prepareGame()
       this.refreshGameStatus()
     }
@@ -170,6 +169,7 @@ export class GameViewModel {
     this._gameIntervalTimerHandle = null
     clearInterval(this._gameStopwatchUpdateTimerHandle ?? undefined)
     this._gameStopwatchUpdateTimerHandle = null
+    this.clearSprites()
     this.refreshGameStatus()
   }
 
@@ -179,6 +179,11 @@ export class GameViewModel {
     appStore.dispatch(
       setFastestRecord(customizationFacade.history.fastestRecord)
     )
+  }
+
+  protected clearSprites(): void {
+    appStore.dispatch(clearSprites())
+    this._blocksByPosition.clear()
   }
 
   protected intervalTickEventHandler(): void {
