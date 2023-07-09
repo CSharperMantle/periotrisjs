@@ -45,7 +45,7 @@ const App = () => {
     viewModel.init()
     return () => {
       window.removeEventListener("keydown", onKeyDownThrottled)
-      viewModel.reset()
+      viewModel.reset(true)
     }
   }, [])
 

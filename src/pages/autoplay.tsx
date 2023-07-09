@@ -28,7 +28,7 @@ const App = () => {
   useEffect(() => {
     viewModel.init()
     return () => {
-      viewModel.reset()
+      viewModel.reset(true)
     }
   }, [])
 

@@ -164,12 +164,14 @@ export class GameViewModel {
     }
   }
 
-  public reset(): void {
+  public reset(clearSprites = true): void {
     clearInterval(this._gameIntervalTimerHandle ?? undefined)
     this._gameIntervalTimerHandle = null
     clearInterval(this._gameStopwatchUpdateTimerHandle ?? undefined)
     this._gameStopwatchUpdateTimerHandle = null
-    this.clearSprites()
+    if (clearSprites) {
+      this.clearSprites()
+    }
     this.refreshGameStatus()
   }
 
@@ -230,7 +232,7 @@ export class GameViewModel {
   }
 
   protected modelGameEndEventHandler(): void {
-    this.reset()
+    this.reset(false)
   }
 
   protected modelGameStartEventHandler(): void {
