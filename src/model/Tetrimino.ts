@@ -79,10 +79,8 @@ export class Tetrimino {
     collisionChecker: TCollisionChecker
   ): boolean {
     // Find the final direction
-    const count = Direction.LENGTH / 2
-
     const delta = rotationDirection === RotationDirection.Right ? 1 : -1
-    const direction = (this.facingDirection + delta + count) % count
+    const direction = (this.facingDirection + delta) % Direction.LENGTH
 
     const adjustPattern =
       this.kind === TetriminoKind.Linear ? [0, 1, -1, 2, -2] : [0, 1, -1]
