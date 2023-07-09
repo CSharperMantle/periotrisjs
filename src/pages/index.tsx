@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { graphql, Link, PageProps } from "gatsby"
+import { graphql, Link as GatsbyLink, PageProps } from "gatsby"
 import { useI18next } from "gatsby-plugin-react-i18next"
 import React from "react"
 
@@ -78,7 +78,7 @@ const App = ({ data }: PageProps<Queries.IndexPageQuery>) => {
               variant="contained"
               size="large"
               fullWidth
-              component={Link}
+              component={GatsbyLink}
               to={gamePagePath}
             >
               {t("cap_start")}
@@ -87,7 +87,7 @@ const App = ({ data }: PageProps<Queries.IndexPageQuery>) => {
               variant="outlined"
               size="large"
               fullWidth
-              component={Link}
+              component={GatsbyLink}
               to={autoplayPagePath}
             >
               {t("cap_autoplay")}
@@ -106,7 +106,7 @@ const App = ({ data }: PageProps<Queries.IndexPageQuery>) => {
             <IconButton
               size="large"
               aria-label="settings"
-              component={Link}
+              component={GatsbyLink}
               to={settingsPagePath}
             >
               <SettingsIcon />
@@ -116,7 +116,7 @@ const App = ({ data }: PageProps<Queries.IndexPageQuery>) => {
             <IconButton
               size="large"
               aria-label="about"
-              component={Link}
+              component={GatsbyLink}
               to={aboutPagePath}
             >
               <InfoIcon />

@@ -18,19 +18,21 @@
 import { graphql, useStaticQuery } from "gatsby"
 import { SnackbarProvider } from "notistack"
 import React from "react"
+import { Provider as ReduxProvider } from "react-redux"
 
 import Box from "@mui/material/Box"
 import CssBaseline from "@mui/material/CssBaseline"
 import { StyledEngineProvider } from "@mui/material/styles"
 import ThemeProvider from "@mui/material/styles/ThemeProvider"
 
-import { theme } from "../../src/ThemeOptions"
+import { theme } from "../ThemeOptions"
+import { appStore } from "../viewmodel"
 
-export interface ICommonLayoutProps {
+export interface ICommonPageLayoutProps {
   readonly children: React.ReactNode
 }
 
-export const CommonLayout = ({ children }: ICommonLayoutProps) => {
+export const CommonPageLayout = ({ children }: ICommonPageLayoutProps) => {
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
@@ -57,6 +59,14 @@ export const CommonLayout = ({ children }: ICommonLayoutProps) => {
       </ThemeProvider>
     </StyledEngineProvider>
   )
+}
+
+export interface ICommonRootLayoutProps {
+  readonly children: React.ReactNode
+}
+
+export const CommonRootLayout = ({ children }: ICommonRootLayoutProps) => {
+  return <ReduxProvider store={appStore}>{children}</ReduxProvider>
 }
 
 export const CommonHead = (): React.ReactElement => {

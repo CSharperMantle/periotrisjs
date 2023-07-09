@@ -103,7 +103,11 @@ const App = ({ data }: PageProps<Queries.AboutPageQuery>) => {
         </Typography>
         <Typography variant="body1" paragraph>
           {t("typ_p_intro_4_1")}
-          <MuiLink href="https://github.com/CSharperMantle">
+          <MuiLink
+            href="https://github.com/CSharperMantle"
+            target="_blank"
+            rel="noopener"
+          >
             CSharperMantle
           </MuiLink>
           {t("typ_p_intro_4_2")}
@@ -121,7 +125,11 @@ const App = ({ data }: PageProps<Queries.AboutPageQuery>) => {
         </Typography>
         <Typography variant="body1" paragraph>
           {t("typ_p_license_4_1")}
-          <MuiLink href="https://www.gnu.org/licenses/">
+          <MuiLink
+            href="https://www.gnu.org/licenses/"
+            target="_blank"
+            rel="noopener"
+          >
             {"https://www.gnu.org/licenses/"}
           </MuiLink>
           {t("typ_p_license_4_2")}

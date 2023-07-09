@@ -16,23 +16,22 @@
  */
 
 import { BlocksGrid } from "./blocksGrid/BlocksGrid"
-import { CommonHead, CommonLayout } from "./CommonLayout"
-import { CommonProviders } from "./CommonProviders"
+import { CommonHead, CommonPageLayout, CommonRootLayout } from "./CommonLayout"
 import { FileFormControl } from "./FileFormControl"
 import { GameControlBackdrop } from "./gameControlBackdrop/GameControlBackdrop"
 import { NumberFormControl } from "./NumberFormControl"
 import { PortraitWarningBackdrop } from "./PortraitWarningBackdrop"
 
-import type { ICommonLayoutProps } from "./CommonLayout"
+import type { ICommonPageLayoutProps } from "./CommonLayout"
 
 export {
   BlocksGrid,
   GameControlBackdrop,
   PortraitWarningBackdrop,
-  CommonLayout,
+  CommonPageLayout,
   CommonHead,
-  CommonProviders,
+  CommonRootLayout,
   FileFormControl,
   NumberFormControl,
 }
-export type { ICommonLayoutProps }
+export type { ICommonPageLayoutProps }
