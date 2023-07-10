@@ -17,9 +17,10 @@
 
 import { AutoplaySentinel } from "./AutoplaySentinel"
 import {
-  DefaultBorderThickness,
+  DefaultColorEnabled,
   DefaultConcurrency,
   DefaultGameUpdateIntervalMilliseconds,
+  DefaultGridLineThickness,
   DefaultPressThreshold,
   DefaultShowGridLines,
   DefaultSwipeDeltaX,
@@ -41,22 +42,23 @@ import type { TPosition } from "./TPosition"
 
 export {
   AutoplaySentinel,
-  DefaultShowGridLines,
-  DefaultGameUpdateIntervalMilliseconds,
-  StopwatchUpdateIntervalMilliseconds,
-  HistoryLocalStorageKey,
-  SettingsLocalStorageKey,
-  DefaultBorderThickness,
-  DefaultSwipeThreshold,
+  DefaultColorEnabled,
   DefaultConcurrency,
+  DefaultGameUpdateIntervalMilliseconds,
+  DefaultGridLineThickness,
+  DefaultPressThreshold,
+  DefaultShowGridLines,
   DefaultSwipeDeltaX,
   DefaultSwipeDeltaY,
-  DefaultPressThreshold,
-  rearrange,
+  DefaultSwipeThreshold,
+  HistoryLocalStorageKey,
+  SettingsLocalStorageKey,
+  StopwatchUpdateIntervalMilliseconds,
   flushed,
-  waitForEvent,
-  isNil,
   formatDuration,
+  isNil,
   queryPath,
+  rearrange,
+  waitForEvent,
 }
 export type { ISize, TPosition }

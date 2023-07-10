@@ -15,14 +15,19 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import { PageProps, graphql } from "gatsby"
 import React, { useEffect } from "react"
 
 import Box from "@mui/material/Box"
 
+import { PageID } from "../PageID"
+import { queryPath } from "../common"
 import { BlocksGrid, CommonHead, GameControlBackdrop } from "../components"
 import { AutoplayGameViewModel } from "../viewmodel"
 
-const App = () => {
+const App = ({ data }: PageProps<Queries.GamePageQuery>) => {
+  const routes = data.site?.siteMetadata?.navRoutes
+  const homePagePath = queryPath(routes, PageID.PAGE_HOME)
   const viewModel = new AutoplayGameViewModel()
 
   useEffect(() => {
@@ -52,6 +57,7 @@ const App = () => {
       }}
     >
       <GameControlBackdrop
+        homePagePath={homePagePath}
         startGameHandler={viewModel.requestStartGame.bind(viewModel)}
         switchPauseGameHandler={viewModel.switchPauseGame.bind(viewModel)}
       />
@@ -70,3 +76,28 @@ const App = () => {
 export default App
 
 export const Head = CommonHead
+
+export const query = graphql`
+  query GamePage($language: String!) {
+    site {
+      siteMetadata {
+        navRoutes {
+          id
+          path
+        }
+      }
+    }
+
+    locales: allLocale(
+      filter: { ns: { in: ["index"] }, language: { eq: $language } }
+    ) {
+      edges {
+        node {
+          ns
+          data
+          language
+        }
+      }
+    }
+  }
+`

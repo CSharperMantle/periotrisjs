@@ -28,12 +28,15 @@ import HomeIcon from "@mui/icons-material/Home"
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
 import Button from "@mui/material/Button"
 import Container from "@mui/material/Container"
+import Divider from "@mui/material/Divider"
 import FormControl from "@mui/material/FormControl"
+import FormControlLabel from "@mui/material/FormControlLabel"
 import FormHelperText from "@mui/material/FormHelperText"
 import IconButton from "@mui/material/IconButton"
 import InputAdornment from "@mui/material/InputAdornment"
 import MenuItem from "@mui/material/MenuItem"
 import Stack from "@mui/material/Stack"
+import Switch from "@mui/material/Switch"
 import TextField from "@mui/material/TextField"
 import Tooltip from "@mui/material/Tooltip"
 import Typography from "@mui/material/Typography"
@@ -55,21 +58,13 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
   const homePagePath = queryPath(routes, PageID.PAGE_HOME)
   const gamePagePath = queryPath(routes, PageID.PAGE_GAME)
 
-  const assistanceGridAppearanceOptions = [
-    {
-      value: "visible",
-      label: t("lbl_option_assistance_grid_visible"),
-    },
-    {
-      value: "hidden",
-      label: t("lbl_option_assistance_grid_hidden"),
-    },
-  ]
-
   const { enqueueSnackbar } = useSnackbar()
 
-  const [assistanceGridMode, setAssistanceGridMode] = React.useState(
-    customizationFacade.settings.showGridLine ? "visible" : "hidden"
+  const [assistanceGrisVisible, setAssistanceGridVisible] = React.useState(
+    customizationFacade.settings.showGridLine
+  )
+  const [colorEnabled, setColorEnabled] = React.useState(
+    customizationFacade.settings.colorEnabled
   )
 
   const jsonMinifyPreprocessor = (json: string): string => {
@@ -118,6 +113,7 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
         <Typography variant="body1" paragraph>
           {t("typ_helper_save")}
         </Typography>
+        <Divider variant="fullWidth" />
         <Stack direction="column" spacing={3}>
           <Typography
             variant="h5"
@@ -127,64 +123,51 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
           >
             {t("typ_category_appearance")}
           </Typography>
-          <FormControl>
-            <TextField
-              id="lang-input"
-              select
-              value={language}
-              label={t("lbl_lang")}
-              aria-describedby="lang-input-helper-text"
-              onChange={async (ev) => {
-                await changeLanguage(ev.target.value)
-              }}
-            >
-              {languages.map((lang) => (
-                <MenuItem key={lang} value={lang}>
-                  {lang}
-                </MenuItem>
-              ))}
-            </TextField>
-            <FormHelperText id="lang-input-helper-text">
-              {t("typ_lang_helper")}
-            </FormHelperText>
-          </FormControl>
-          <FormControl>
-            <TextField
-              id="assistance-grid-input"
-              select
-              value={assistanceGridMode}
-              label={t("lbl_assistance_grid")}
-              aria-describedby="assistance-grid-input-helper-text"
-              onChange={(ev) => {
-                const v = ev.target.value
-                customizationFacade.settings.showGridLine = v === "visible"
-                setAssistanceGridMode(v)
-              }}
-            >
-              {assistanceGridAppearanceOptions.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-            <FormHelperText id="assistance-grid-input-helper-text">
-              {t("typ_assistance_grid_helper")}
-            </FormHelperText>
-          </FormControl>
+          <TextField
+            select
+            id="lang-select"
+            value={language}
+            label={t("lbl_lang")}
+            helperText={t("typ_lang_helper")}
+            onChange={async (ev) => {
+              await changeLanguage(ev.target.value)
+            }}
+          >
+            {languages.map((lang) => (
+              <MenuItem key={lang} value={lang}>
+                {lang}
+              </MenuItem>
+            ))}
+          </TextField>
+          <FormControlLabel
+            id="assistance-grid-enable-switch"
+            control={
+              <Switch
+                defaultChecked={assistanceGrisVisible}
+                onChange={(ev) => {
+                  const v = ev.target.checked
+                  customizationFacade.settings.showGridLine = v
+                  setAssistanceGridVisible(v)
+                }}
+              />
+            }
+            label={t("lbl_assistance_grid")}
+          />
           <NumberFormControl
-            id="border-thickness-input"
-            label={t("lbl_border_thickness")}
-            initialContent={customizationFacade.settings.borderThickness.toString()}
-            helperText={t("typ_border_thickness_helper")}
+            id="grid-line-thickness-input"
+            label={t("lbl_grid_line_thickness")}
+            initialContent={customizationFacade.settings.gridLineThickness.toString()}
+            helperText={t("typ_grid_line_thickness_helper")}
             min={0}
             step={1}
+            disabled={!assistanceGrisVisible}
             adornments={{
               endAdornment: <InputAdornment position="end">px</InputAdornment>,
             }}
             onChange={(newContent) => {
               const [isValid, value] = tryParseInt(newContent)
               if (isValid) {
-                customizationFacade.settings.borderThickness = value
+                customizationFacade.settings.gridLineThickness = value
                 return true
               } else {
                 enqueueSnackbar(t("msg_int_expected"), {
@@ -193,6 +176,20 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
                 return false
               }
             }}
+          />
+          <FormControlLabel
+            id="color-enable-switch"
+            control={
+              <Switch
+                defaultChecked={colorEnabled}
+                onChange={(ev) => {
+                  const v = ev.target.checked
+                  customizationFacade.settings.colorEnabled = v
+                  setColorEnabled(v)
+                }}
+              />
+            }
+            label={t("lbl_color_enabled")}
           />
           <FileFormControl
             id="color-scheme-input"
@@ -204,6 +201,7 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
             label={t("lbl_color_scheme")}
             helperText={t("typ_color_scheme_helper")}
             tooltipCaption={t("cap_open_button")}
+            disabled={!colorEnabled}
             onFileChange={(newContent) => {
               const obj = JSON.parse(newContent)
               if (validateColorScheme(obj)) {
@@ -219,6 +217,7 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
             contentPreprocessor={jsonMinifyPreprocessor}
           />
         </Stack>
+        <Divider variant="fullWidth" />
         <Stack direction="column" spacing={3}>
           <Typography
             variant="h5"
@@ -277,6 +276,7 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
             }}
           />
         </Stack>
+        <Divider variant="fullWidth" />
         <Stack direction="column" spacing={3}>
           <Typography
             variant="h5"
@@ -379,6 +379,7 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
             }}
           />
         </Stack>
+        <Divider variant="fullWidth" />
         <Stack direction="column" spacing={3}>
           <Typography
             variant="h5"

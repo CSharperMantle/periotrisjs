@@ -15,6 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import { navigate } from "gatsby"
 import React from "react"
 
 import Backdrop from "@mui/material/Backdrop"
@@ -27,6 +28,7 @@ import { useAppSelector } from "../../viewmodel"
 import { DelayedIndefProgress } from "./DelayedIndefProgress"
 
 interface IGameNotStartedContentProps {
+  readonly homePagePath: string
   readonly startGameHandler: () => void
 }
 
@@ -39,13 +41,24 @@ const GameNotStartedContent = (props: IGameNotStartedContentProps) => {
       <Typography align="center" maxWidth="md" variant="body1">
         A/D/S/Swipe: move by one. W/Tap: rotate. Space/Long press: drop.
       </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={props.startGameHandler}
-      >
-        I&apos;M READY
-      </Button>
+      <Stack direction="row" spacing={5}>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => {
+            navigate(props.homePagePath)
+          }}
+        >
+          HOME
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={props.startGameHandler}
+        >
+          START
+        </Button>
+      </Stack>
     </>
   )
 }
@@ -65,6 +78,7 @@ const GamePreparingContent = () => {
 }
 
 interface IGameLostContentProps {
+  readonly homePagePath: string
   readonly startGameHandler: () => void
 }
 
@@ -77,18 +91,30 @@ const GameLostContent = (props: IGameLostContentProps) => {
       <Typography align="center" maxWidth="md" variant="body1">
         This does not seem to be right. Ready to give it another shot?
       </Typography>
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={props.startGameHandler}
-      >
-        TRY AGAIN
-      </Button>
+      <Stack direction="row" spacing={5}>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => {
+            navigate(props.homePagePath)
+          }}
+        >
+          HOME
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={props.startGameHandler}
+        >
+          RETRY
+        </Button>
+      </Stack>
     </>
   )
 }
 
 interface IGameWonContentProps {
+  readonly homePagePath: string
   readonly startGameHandler: () => void
 }
 
@@ -101,18 +127,30 @@ const GameWonContent = (props: IGameWonContentProps) => {
       <Typography align="center" maxWidth="md" variant="body1">
         You finished the game! Don&apos;t hesitate to brag about it.
       </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={props.startGameHandler}
-      >
-        START NEW
-      </Button>
+      <Stack direction="row" spacing={5}>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => {
+            navigate(props.homePagePath)
+          }}
+        >
+          HOME
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={props.startGameHandler}
+        >
+          START
+        </Button>
+      </Stack>
     </>
   )
 }
 
 interface IGameStatusBackdropProps {
+  readonly homePagePath: string
   readonly startGameHandler: () => void
   readonly switchPauseGameHandler: () => void
 }
@@ -126,7 +164,10 @@ export const GameControlBackdrop = (props: IGameStatusBackdropProps) => {
   switch (gameState) {
     case GameState.NotStarted:
       content = (
-        <GameNotStartedContent startGameHandler={props.startGameHandler} />
+        <GameNotStartedContent
+          homePagePath={props.homePagePath}
+          startGameHandler={props.startGameHandler}
+        />
       )
       break
     case GameState.Preparing:
@@ -136,10 +177,20 @@ export const GameControlBackdrop = (props: IGameStatusBackdropProps) => {
       content = <></>
       break
     case GameState.Won:
-      content = <GameWonContent startGameHandler={props.startGameHandler} />
+      content = (
+        <GameWonContent
+          homePagePath={props.homePagePath}
+          startGameHandler={props.startGameHandler}
+        />
+      )
       break
     case GameState.Lost:
-      content = <GameLostContent startGameHandler={props.startGameHandler} />
+      content = (
+        <GameLostContent
+          homePagePath={props.homePagePath}
+          startGameHandler={props.startGameHandler}
+        />
+      )
       break
     default:
       throw new Error("GameControlBackdrop: unknown game state")

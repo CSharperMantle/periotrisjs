@@ -15,6 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import { PageProps, graphql } from "gatsby"
 import { throttle } from "lodash"
 import React, { useEffect } from "react"
 
@@ -22,12 +23,16 @@ import { useDrag } from "@use-gesture/react"
 
 import Box from "@mui/material/Box"
 
-import { flushed } from "../common"
+import { PageID } from "../PageID"
+import { flushed, queryPath } from "../common"
 import { BlocksGrid, CommonHead, GameControlBackdrop } from "../components"
-import { GameViewModel } from "../viewmodel"
 import { customizationFacade } from "../customization"
+import { GameViewModel } from "../viewmodel"
 
-const App = () => {
+const App = ({ data }: PageProps<Queries.GamePageQuery>) => {
+  const routes = data.site?.siteMetadata?.navRoutes
+  const homePagePath = queryPath(routes, PageID.PAGE_HOME)
+
   const viewModel = new GameViewModel()
 
   const onKeyDownThrottled = throttle(
@@ -89,6 +94,7 @@ const App = () => {
       }}
     >
       <GameControlBackdrop
+        homePagePath={homePagePath}
         startGameHandler={viewModel.requestStartGame.bind(viewModel)}
         switchPauseGameHandler={viewModel.switchPauseGame.bind(viewModel)}
       />
@@ -108,3 +114,28 @@ const App = () => {
 export default App
 
 export const Head = CommonHead
+
+export const query = graphql`
+  query GamePage($language: String!) {
+    site {
+      siteMetadata {
+        navRoutes {
+          id
+          path
+        }
+      }
+    }
+
+    locales: allLocale(
+      filter: { ns: { in: ["index"] }, language: { eq: $language } }
+    ) {
+      edges {
+        node {
+          ns
+          data
+          language
+        }
+      }
+    }
+  }
+`

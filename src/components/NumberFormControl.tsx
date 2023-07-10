@@ -17,8 +17,6 @@
 
 import React from "react"
 
-import FormControl from "@mui/material/FormControl"
-import FormHelperText from "@mui/material/FormHelperText"
 import TextField from "@mui/material/TextField"
 
 import { isNil } from "../common"
@@ -35,6 +33,7 @@ interface INumberFormControlProps {
   readonly step?: number
   readonly min?: number
   readonly max?: number
+  readonly disabled?: boolean
   readonly onChange: (newContent: string) => boolean | void
   readonly contentPreprocessor?: (content: string) => string
 }
@@ -43,32 +42,28 @@ export const NumberFormControl = (props: INumberFormControlProps) => {
   const [content, setContent] = React.useState(props.initialContent)
 
   return (
-    <FormControl>
-      <TextField
-        id={`${props.id}`}
-        value={content}
-        label={props.label}
-        type="number"
-        aria-describedby={`${props.id}-helper-text`}
-        InputProps={{ ...props.adornments }}
-        inputProps={{
-          step: props.step,
-          min: props.min,
-          max: props.max,
-        }}
-        onChange={(event) => {
-          const content = isNil(props.contentPreprocessor)
-            ? event.target.value
-            : props.contentPreprocessor(event.target.value)
+    <TextField
+      id={props.id}
+      value={content}
+      label={props.label}
+      type="number"
+      helperText={props.helperText}
+      InputProps={{ ...props.adornments }}
+      inputProps={{
+        step: props.step,
+        min: props.min,
+        max: props.max,
+      }}
+      disabled={props.disabled ?? false}
+      onChange={(event) => {
+        const content = isNil(props.contentPreprocessor)
+          ? event.target.value
+          : props.contentPreprocessor(event.target.value)
 
-          if (props.onChange(content)) {
-            setContent(content)
-          }
-        }}
-      />
-      <FormHelperText id={`${props.id}-helper-text`}>
-        {props.helperText}
-      </FormHelperText>
-    </FormControl>
+        if (props.onChange(content)) {
+          setContent(content)
+        }
+      }}
+    />
   )
 }

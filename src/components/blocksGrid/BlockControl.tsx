@@ -21,6 +21,7 @@ import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 
 import { customizationFacade } from "../../customization"
+
 import defaultPeriodicTable from "../../json/DefaultPeriodicTable.json"
 
 import type { IBlockDisplay } from "./IBlockDisplay"
@@ -64,10 +65,12 @@ interface IBlockControlProps {
 
 export const BlockControl = ({ block }: IBlockControlProps) => {
   const backgroundColor = block.hasContent
-    ? getBackgroundColorByAtomicNumber(block.atomicNumber)
+    ? getBgColorByAtomicNumber(block.atomicNumber)
     : "black"
-  const borderThickness = customizationFacade.settings.borderThickness
-  const border = block.hasBorder ? `${borderThickness}px solid #393939` : "none"
+  const gridLineThickness = customizationFacade.settings.gridLineThickness
+  const border = block.hasBorder
+    ? `${gridLineThickness}px solid #393939`
+    : "none"
   return (
     <Box
       sx={{
@@ -96,7 +99,11 @@ export const BlockControl = ({ block }: IBlockControlProps) => {
   )
 }
 
-export function getBackgroundColorByAtomicNumber(atomicNumber: number): string {
+function getBgColorByAtomicNumber(atomicNumber: number): string {
+  if (!customizationFacade.settings.colorEnabled) {
+    return "white"
+  }
+
   const colorScheme = customizationFacade.settings.colorScheme
 
   for (let i = 0; i < colorScheme.rules.length; i++) {

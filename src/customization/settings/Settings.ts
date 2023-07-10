@@ -19,9 +19,10 @@ import defaultColorScheme from "../../json/DefaultColorScheme.json"
 import defaultMap from "../../json/DefaultMap.json"
 
 import {
-  DefaultBorderThickness,
+  DefaultColorEnabled,
   DefaultConcurrency,
   DefaultGameUpdateIntervalMilliseconds,
+  DefaultGridLineThickness,
   DefaultPressThreshold,
   DefaultShowGridLines,
   DefaultSwipeDeltaX,
@@ -70,6 +71,15 @@ export class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
+  private _colorEnabled: boolean | undefined
+  public get colorEnabled(): boolean {
+    return this._colorEnabled ?? DefaultColorEnabled
+  }
+  public set colorEnabled(v) {
+    this._colorEnabled = v
+    this.toLocalStorage()
+  }
+
   private _colorScheme: IColorScheme | undefined
   public get colorScheme(): IColorScheme {
     return this._colorScheme ?? defaultColorScheme
@@ -79,12 +89,12 @@ export class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
-  private _borderThickness: number | undefined
-  public get borderThickness(): number {
-    return this._borderThickness ?? DefaultBorderThickness
+  private _gridLineThickness: number | undefined
+  public get gridLineThickness(): number {
+    return this._gridLineThickness ?? DefaultGridLineThickness
   }
-  public set borderThickness(v) {
-    this._borderThickness = v
+  public set gridLineThickness(v) {
+    this._gridLineThickness = v
     this.toLocalStorage()
   }
 
