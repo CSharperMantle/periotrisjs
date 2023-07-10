@@ -42,7 +42,7 @@ import Tooltip from "@mui/material/Tooltip"
 import Typography from "@mui/material/Typography"
 
 import { PageID } from "../PageID"
-import { queryPath } from "../common"
+import { getLocalizedLangName, queryPath } from "../common"
 import { CommonHead, FileFormControl, NumberFormControl } from "../components"
 import { customizationFacade } from "../customization"
 
@@ -142,7 +142,7 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
           >
             {languages.map((lang) => (
               <MenuItem key={lang} value={lang}>
-                {lang}
+                {`${lang} - ${getLocalizedLangName(lang)}`}
               </MenuItem>
             ))}
           </TextField>

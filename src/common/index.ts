@@ -33,6 +33,7 @@ import {
 import { flushed } from "./flushed"
 import { formatDuration } from "./formatDuration"
 import { isNil } from "./isNil"
+import { getLocalizedLangName } from "./localize"
 import { queryPath } from "./queryPath"
 import { rearrange } from "./rearrange"
 import { waitForEvent } from "./waitForEvent"
@@ -57,6 +58,7 @@ export {
   StopwatchUpdateIntervalMilliseconds,
   flushed,
   formatDuration,
+  getLocalizedLangName,
   isNil,
   queryPath,
   rearrange,

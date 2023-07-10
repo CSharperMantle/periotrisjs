@@ -15,6 +15,14 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { defaultLang, langs } from "./lang"
+export function getLocalizedLangName(lang: string): string {
+  switch (lang) {
+    case "zh":
+      return "中文"
+    case "en":
+      return "English"
 
-export { defaultLang, langs }
+    default:
+      throw new RangeError(`getLocalizedLangName: unknown language ${lang}`)
+  }
+}
