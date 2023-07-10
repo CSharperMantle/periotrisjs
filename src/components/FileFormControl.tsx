@@ -26,6 +26,8 @@ import TextField from "@mui/material/TextField"
 import Tooltip from "@mui/material/Tooltip"
 import styled from "@mui/system/styled"
 
+import { isNil } from "../common"
+
 const HiddenInput = styled("input")({
   display: "none",
 })
@@ -83,6 +85,7 @@ interface IFileFormControlProps {
 
 export const FileFormControl = (props: IFileFormControlProps) => {
   const [fileContent, setFileContent] = React.useState(props.initialFileContent)
+  const [error, setError] = React.useState(false)
 
   return (
     <Grid container spacing={0} direction="row" alignItems="center">
@@ -94,6 +97,7 @@ export const FileFormControl = (props: IFileFormControlProps) => {
           label={props.label}
           helperText={props.helperText}
           disabled={props.disabled ?? false}
+          error={error}
           InputProps={{
             readOnly: props.readOnly ?? false,
           }}
@@ -108,9 +112,10 @@ export const FileFormControl = (props: IFileFormControlProps) => {
           onFileChange={async (event) => {
             let content = (await head(event.target.files)?.text()) ?? ""
             content = props.contentPreprocessor?.(content) ?? content
-            if (props.onFileChange(content)) {
-              setFileContent(content)
-            }
+            const result = props.onFileChange(content)
+            const isSuccessful = isNil(result) || result
+            setFileContent(content)
+            setError(!isSuccessful)
           }}
         />
       </Grid>

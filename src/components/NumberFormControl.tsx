@@ -40,6 +40,7 @@ interface INumberFormControlProps {
 
 export const NumberFormControl = (props: INumberFormControlProps) => {
   const [content, setContent] = React.useState(props.initialContent)
+  const [error, setError] = React.useState(false)
 
   return (
     <TextField
@@ -55,14 +56,15 @@ export const NumberFormControl = (props: INumberFormControlProps) => {
         max: props.max,
       }}
       disabled={props.disabled ?? false}
+      error={error}
       onChange={(event) => {
         const content = isNil(props.contentPreprocessor)
           ? event.target.value
           : props.contentPreprocessor(event.target.value)
-
-        if (props.onChange(content)) {
-          setContent(content)
-        }
+        const result = props.onChange(content)
+        const isSuccessful = isNil(result) || result
+        setContent(content)
+        setError(!isSuccessful)
       }}
     />
   )

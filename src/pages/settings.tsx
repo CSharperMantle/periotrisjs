@@ -68,7 +68,11 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
   )
 
   const jsonMinifyPreprocessor = (json: string): string => {
-    return JSON.stringify(JSON.parse(json))
+    try {
+      return JSON.stringify(JSON.parse(json))
+    } catch (ex) {
+      return "{}"
+    }
   }
 
   return (
