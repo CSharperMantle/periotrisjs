@@ -15,89 +15,124 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { graphql, PageProps } from "gatsby"
+import { Link as GatsbyLink, PageProps, graphql } from "gatsby"
+import { useI18next } from "gatsby-plugin-react-i18next"
 import React from "react"
 
+import GitHubIcon from "@mui/icons-material/GitHub"
+import HomeIcon from "@mui/icons-material/Home"
 import Container from "@mui/material/Container"
 import Divider from "@mui/material/Divider"
-import Link from "@mui/material/Link"
+import IconButton from "@mui/material/IconButton"
+import MuiLink from "@mui/material/Link"
 import Stack from "@mui/material/Stack"
+import Tooltip from "@mui/material/Tooltip"
 import Typography from "@mui/material/Typography"
 
+import { PageID } from "../PageID"
+import { queryPath } from "../common"
 import { CommonHead } from "../components"
 
-const App = ({
-  data,
-}: PageProps<Queries.AboutPageQuery>): React.ReactElement => {
+const App = ({ data }: PageProps<Queries.AboutPageQuery>) => {
+  const routes = data.site?.siteMetadata?.navRoutes
+  const homePagePath = queryPath(routes, PageID.PAGE_HOME)
+
+  const { t } = useI18next()
+
   return (
     <Container
-      maxWidth="lg"
+      maxWidth="md"
       sx={{
         flex: "1 1 auto",
-        paddingTop: 2,
-        paddingBottom: 2,
+        ml: "auto",
+        mr: "auto",
+        pt: 4,
+        pb: 4,
       }}
     >
       <Stack spacing={1}>
-        <Typography variant="h2">About Periotris.js</Typography>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Tooltip title={t("cap_home")}>
+            <IconButton
+              size="large"
+              aria-label="home"
+              component={GatsbyLink}
+              to={homePagePath}
+            >
+              <HomeIcon />
+            </IconButton>
+          </Tooltip>
+          <Typography variant="h4">{t("typ_h_about")}</Typography>
+          <Tooltip title={t("cap_github")}>
+            <IconButton
+              size="large"
+              aria-label="github"
+              href="https://github.com/CSharperMantle/periotrisjs"
+              target="_blank"
+              rel="noopener"
+            >
+              <GitHubIcon />
+            </IconButton>
+          </Tooltip>
+        </Stack>
         <Typography variant="body1" paragraph>
-          Version: {data.package?.version}
+          {t("typ_version", { version: data.package?.version })}
         </Typography>
         <Typography variant="body1" paragraph>
-          Revision: {data.gitCommit?.hash?.slice(0, 8)}@{data.gitBranch?.name}
+          {t("typ_revision", {
+            rev: data.gitCommit?.hash?.slice(0, 8),
+            branch: data.gitBranch?.name,
+          })}
         </Typography>
         <Typography variant="body1" paragraph>
-          License: {data.package?.license}
+          {t("typ_license", { license: data.package?.license })}
         </Typography>
         <Divider variant="middle" />
         <Typography variant="body1" paragraph>
-          Periotris.js is your best companion for learning and memorizing the
-          Periodic Table of Elements.
+          {t("typ_p_intro_1")}
         </Typography>
         <Typography variant="body1" paragraph>
-          Combining the classic game experience of Tetris with the periodic
-          table, Periotris.js is a successful attempt of breathing vitality into
-          the boredom of chemistry learning.
+          {t("typ_p_intro_2")}
         </Typography>
         <Typography variant="body1" paragraph>
-          The rumor that periodic table is constructed out of a game of Tetris
-          has been brought to reality. By playing Periotris.js you can
-          experience the thrill of fitting elements into right slots like a real
-          chemist. Despite its simplicity, Periotris.js is a challenging game
-          that puts the player&apos;s knowledge of descriptive chemistry to the
-          test. Try finish the game in the shortest time possible and experience
-          the excitement of completing another brick in the wall of chemistry.
+          {t("typ_p_intro_3")}
         </Typography>
         <Typography variant="body1" paragraph>
-          Built with ❤ by{" "}
-          <Link href="https://github.com/CSharperMantle">CSharperMantle</Link>.
-          Special thanks to Mr. Longdi Xu, my high school chemistry teacher, for
-          sparking the idea that finally went so far as this.
+          {t("typ_p_intro_4_1")}
+          <MuiLink
+            href="https://github.com/CSharperMantle"
+            target="_blank"
+            rel="noopener"
+          >
+            CSharperMantle
+          </MuiLink>
+          {t("typ_p_intro_4_2")}
         </Typography>
         <Divider variant="middle" />
-        <Typography variant="h4">License</Typography>
+        <Typography variant="h5">{t("typ_h_license")}</Typography>
         <Typography variant="body1" paragraph>
-          Copyright (C) 2021-present Rong &quot;Mantle&quot; Bao
+          {t("typ_p_license_1")}
         </Typography>
         <Typography variant="body1" paragraph>
-          This program is free software: you can redistribute it and/or modify
-          it under the terms of the GNU General Public License as published by
-          the Free Software Foundation, either version 3 of the License, or (at
-          your option) any later version.
+          {t("typ_p_license_2")}
         </Typography>
         <Typography variant="body1" paragraph>
-          This program is distributed in the hope that it will be useful, but
-          WITHOUT ANY WARRANTY; without even the implied warranty of
-          MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-          General Public License for more details.
+          {t("typ_p_license_3")}
         </Typography>
         <Typography variant="body1" paragraph>
-          You should have received a copy of the GNU General Public License
-          along with this program. If not, see{" "}
-          <Link href="https://www.gnu.org/licenses/">
+          {t("typ_p_license_4_1")}
+          <MuiLink
+            href="https://www.gnu.org/licenses/"
+            target="_blank"
+            rel="noopener"
+          >
             {"https://www.gnu.org/licenses/"}
-          </Link>
-          .
+          </MuiLink>
+          {t("typ_p_license_4_2")}
         </Typography>
       </Stack>
     </Container>
@@ -109,16 +144,39 @@ export default App
 export const Head = CommonHead
 
 export const query = graphql`
-  query AboutPage {
+  query AboutPage($language: String!) {
+    site {
+      siteMetadata {
+        navRoutes {
+          id
+          path
+        }
+      }
+    }
+
     gitCommit(latest: { eq: true }) {
       hash
     }
+
     gitBranch(current: { eq: true }) {
       name
     }
+
     package {
       version
       license
+    }
+
+    locales: allLocale(
+      filter: { ns: { in: ["about"] }, language: { eq: $language } }
+    ) {
+      edges {
+        node {
+          ns
+          data
+          language
+        }
+      }
     }
   }
 `

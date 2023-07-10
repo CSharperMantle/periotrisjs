@@ -15,9 +15,15 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+export const DefaultShowGridLines = true
 export const DefaultGameUpdateIntervalMilliseconds = 1000
 export const StopwatchUpdateIntervalMilliseconds = 500
 export const HistoryLocalStorageKey = "history"
 export const SettingsLocalStorageKey = "settings"
-export const DefaultBorderThickness = 1
+export const DefaultGridLineThickness = 1
 export const DefaultConcurrency = 0
+export const DefaultSwipeThreshold = 500
+export const DefaultSwipeDeltaX = 15
+export const DefaultSwipeDeltaY = 15
+export const DefaultPressThreshold = 300
+export const DefaultColorEnabled = true

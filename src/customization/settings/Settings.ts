@@ -15,16 +15,23 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import defaultColorScheme from "../../json/DefaultColorScheme.json"
+import defaultMap from "../../json/DefaultMap.json"
+
 import {
-  DefaultBorderThickness,
+  DefaultColorEnabled,
+  DefaultConcurrency,
   DefaultGameUpdateIntervalMilliseconds,
+  DefaultGridLineThickness,
+  DefaultPressThreshold,
+  DefaultShowGridLines,
+  DefaultSwipeDeltaX,
+  DefaultSwipeDeltaY,
+  DefaultSwipeThreshold,
   isNil,
   SettingsLocalStorageKey,
 } from "../../common"
-import { DefaultConcurrency } from "../../common/PeriotrisConst"
-import defaultColorScheme from "../../json/DefaultColorScheme.json"
-import defaultMap from "../../json/DefaultMap.json"
-import { retrieve, store } from "../../localstorage"
+import { remove, retrieve, store } from "../../localstorage"
 
 import type { IColorScheme } from "../color_scheme"
 import type { ILocalStorageSerializable } from "../ILocalStorageSerializable"
@@ -36,7 +43,7 @@ import type { IMap } from "../map"
 export class Settings implements ILocalStorageSerializable {
   private _showGridLine: boolean | undefined
   public get showGridLine(): boolean {
-    return this._showGridLine ?? true
+    return this._showGridLine ?? DefaultShowGridLines
   }
   public set showGridLine(v) {
     this._showGridLine = v
@@ -64,6 +71,15 @@ export class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
+  private _colorEnabled: boolean | undefined
+  public get colorEnabled(): boolean {
+    return this._colorEnabled ?? DefaultColorEnabled
+  }
+  public set colorEnabled(v) {
+    this._colorEnabled = v
+    this.toLocalStorage()
+  }
+
   private _colorScheme: IColorScheme | undefined
   public get colorScheme(): IColorScheme {
     return this._colorScheme ?? defaultColorScheme
@@ -73,12 +89,12 @@ export class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
-  private _borderThickness: number | undefined
-  public get borderThickness(): number {
-    return this._borderThickness ?? DefaultBorderThickness
+  private _gridLineThickness: number | undefined
+  public get gridLineThickness(): number {
+    return this._gridLineThickness ?? DefaultGridLineThickness
   }
-  public set borderThickness(v) {
-    this._borderThickness = v
+  public set gridLineThickness(v) {
+    this._gridLineThickness = v
     this.toLocalStorage()
   }
 
@@ -91,21 +107,52 @@ export class Settings implements ILocalStorageSerializable {
     this.toLocalStorage()
   }
 
-  public clear(flush = true): void {
-    this._showGridLine = undefined
-    this._gameUpdateIntervalMilliseconds = undefined
-    this._gameMap = undefined
-    this._colorScheme = undefined
-    this._borderThickness = undefined
-    this._concurrency = undefined
-    if (flush) {
-      this.toLocalStorage()
-    }
+  private _swipeThreshold: number | undefined
+  public get swipeThreshold(): number {
+    return this._swipeThreshold ?? DefaultSwipeThreshold
+  }
+  public set swipeThreshold(v) {
+    this._swipeThreshold = v
+    this.toLocalStorage()
   }
 
-  private constructor() {
-    this.clear(false)
+  private _swipeDeltaX: number | undefined
+  public get swipeDeltaX(): number {
+    return this._swipeDeltaX ?? DefaultSwipeDeltaX
   }
+  public set swipeDeltaX(v) {
+    this._swipeDeltaX = v
+    this.toLocalStorage()
+  }
+
+  private _swipeDeltaY: number | undefined
+  public get swipeDeltaY(): number {
+    return this._swipeDeltaY ?? DefaultSwipeDeltaY
+  }
+  public set swipeDeltaY(v) {
+    this._swipeDeltaY = v
+    this.toLocalStorage()
+  }
+
+  private _pressThreshold: number | undefined
+  public get pressThreshold(): number {
+    return this._pressThreshold ?? DefaultPressThreshold
+  }
+  public set pressThreshold(v) {
+    this._pressThreshold = v
+    this.toLocalStorage()
+  }
+
+  public clear(): void {
+    Object.defineProperties(
+      this,
+      Object.getOwnPropertyDescriptors(Settings.Default)
+    )
+    remove(SettingsLocalStorageKey)
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private constructor() {}
 
   public static fromLocalStorage(): Settings {
     const result = retrieve<Settings>(SettingsLocalStorageKey)

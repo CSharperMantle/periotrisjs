@@ -22,7 +22,7 @@ import Grid from "@mui/material/Grid"
 import Typography from "@mui/material/Typography"
 import useMediaQuery from "@mui/material/useMediaQuery"
 
-export const PortraitWarningBackdrop = (): React.ReactElement => {
+export const PortraitWarningBackdrop = () => {
   const isPortrait = useMediaQuery("(orientation: portrait)")
 
   return (

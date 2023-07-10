@@ -16,9 +16,9 @@
  */
 
 import { MessageType } from "./IGeneratorMessage"
-import { getPlayablePattern } from "./internal"
+import { createTiledTetriminos, primeTetriminos } from "./internal"
 
 import type { IGeneratorMessage } from "./IGeneratorMessage"
 
-export { getPlayablePattern, MessageType }
+export { createTiledTetriminos, MessageType, primeTetriminos }
 export type { IGeneratorMessage }

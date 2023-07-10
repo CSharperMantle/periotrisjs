@@ -15,18 +15,4 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { TetriminoKind } from "./TetriminoKind"
-
-import type { TPosition } from "../common"
-
-/**
- * The block, the most basic unit of the game.
- */
-export class Block {
-  public constructor(
-    public readonly filledBy: TetriminoKind,
-    public readonly position: TPosition,
-    public /* readonly */ atomicNumber = 0,
-    public readonly id = 0
-  ) {}
-}
+export const AutoplaySentinel = "!AUTOPLAY_SENTINEL!"

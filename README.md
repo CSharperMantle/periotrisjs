@@ -65,10 +65,10 @@ A game map is represented in a text file in the format named [JavaScript Object 
 
 1. The map file (designated as "map") is a JSON file containing an object as its root (designated as "map object").
 2. The map object should contain following properties:
+   - `id`: A string used as the unique identifier for this map.
    - `map`: A row-major 2D array containing all blocks. Each block is represented by an object with these properties:
      - `atomicNumber`: An integer indicating the element the cell represents
-     - `filledBy`: An integer. `7` for a free block, `8` for an unavailable block.
-   - `totalAvailableBlocksCount`: An integer representing the total number of blocks that can be filled in the map, that is, the number of blocks where `filledBy` equals `7`.
+     - `filled`: A boolean value indicating whether the cell is filled.
    - `playAreaSize`: An object It representing the visible size of the map with two properties:
      - `width`: An integer.
      - `height`: An integer.
@@ -85,8 +85,9 @@ A color theme file is also represented in JSON. You will need to write your own 
 
 1. The color theme file (designated as "color theme") is a JSON file containing an object as its root (designated as "color theme object").
 2. The color theme object should contain the following properties:
+   - `id`: A string used as the unique identifier for this theme.
    - `rules`: An array of objects. Each object represents a rule. Each rule is represented by an object with these properties:
-     - `atomicNumberRange`: An object indicating the range of elements the rule applies to from `from` to `to` (both inclusive).
+     - `range`: An object indicating the range of elements the rule applies to from `from` to `to` (both inclusive).
      - `color`: A valid CSS color.
 
 For an example file, which is also the default color theme in the game, see [DefaultColorScheme.json](src/json/DefaultColorScheme.json).

@@ -15,17 +15,15 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import React from "react"
-import { Provider as ReduxProvider } from "react-redux"
+import { filter, head } from "lodash"
 
-import { appStore } from "../viewmodel"
+export type TRoute = {
+  readonly id: number | null
+  readonly path: string | null
+} | null
 
-export interface ICommonProvidersProps {
-  readonly children: React.ReactNode
-}
+export type TRoutes = readonly TRoute[] | null | undefined
 
-export const CommonProviders = ({
-  children,
-}: ICommonProvidersProps): React.ReactElement => {
-  return <ReduxProvider store={appStore}>{children}</ReduxProvider>
+export function queryPath(routes: TRoutes, id: number): string {
+  return head(filter(routes, (r) => r?.id === id))?.path ?? "#"
 }

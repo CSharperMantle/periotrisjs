@@ -39,7 +39,7 @@ function getIBlockDisplayHash(blockDisplay: IBlockDisplay): string {
 /**
  * Represents the main play area grid.
  */
-export const BlocksGrid = (): React.ReactElement => {
+export const BlocksGrid = () => {
   const playAreaSize = customizationFacade.settings.gameMap.playAreaSize
   const showGridLine = customizationFacade.settings.showGridLine
 

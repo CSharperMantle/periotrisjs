@@ -15,6 +15,10 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import { countFreeBlocks } from "./IMap"
+
 import type { IMapCell, TMapRow, IMap } from "./IMap"
+
+export { countFreeBlocks }
 
 export type { IMapCell, TMapRow, IMap }

@@ -20,7 +20,7 @@ import "./RootLayoutStyles.css"
 
 import React from "react"
 
-import { CommonLayout, CommonProviders } from "./src/components"
+import { CommonPageLayout, CommonRootLayout } from "./src/components"
 
 import type { GatsbyBrowser } from "gatsby"
 
@@ -28,11 +28,11 @@ export const wrapPageElement: GatsbyBrowser["wrapPageElement"] = ({
   element,
   props,
 }) => {
-  return <CommonLayout {...props}>{element}</CommonLayout>
+  return <CommonPageLayout {...props}>{element}</CommonPageLayout>
 }
 
 export const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({
   element,
 }) => {
-  return <CommonProviders>{element}</CommonProviders>
+  return <CommonRootLayout>{element}</CommonRootLayout>
 }

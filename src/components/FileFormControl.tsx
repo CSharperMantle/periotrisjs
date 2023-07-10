@@ -19,11 +19,9 @@ import { head } from "lodash"
 import React, { useRef } from "react"
 
 import FileOpenIcon from "@mui/icons-material/FileOpen"
-import Container from "@mui/material/Container"
-import FormControl from "@mui/material/FormControl"
-import FormHelperText from "@mui/material/FormHelperText"
 import Grid from "@mui/material/Grid"
 import IconButton from "@mui/material/IconButton"
+import Stack from "@mui/material/Stack"
 import TextField from "@mui/material/TextField"
 import Tooltip from "@mui/material/Tooltip"
 import styled from "@mui/system/styled"
@@ -39,39 +37,36 @@ interface IFileUploadButtonProps {
   readonly accept: string
   readonly multiple?: boolean
   readonly tooltipCaption: string
+  readonly disabled?: boolean
   readonly onFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const FileUploadButton = ({
-  id,
-  accept,
-  multiple,
-  tooltipCaption,
-  onFileChange,
-}: IFileUploadButtonProps): React.ReactElement => {
+const FileUploadButton = (props: IFileUploadButtonProps) => {
   const hiddenFileInputRef = useRef<HTMLInputElement>(null)
 
   return (
-    <>
-      <HiddenInput
-        type="file"
-        accept={accept}
-        multiple={multiple}
-        id={id}
-        onChange={onFileChange}
-        ref={hiddenFileInputRef}
-      />
-      <Tooltip title={tooltipCaption}>
+    <Stack direction="row" justifyItems="center" alignItems="center">
+      <Tooltip title={props.tooltipCaption}>
         <IconButton
           size="large"
+          disabled={props.disabled ?? false}
           onClick={() => {
             hiddenFileInputRef?.current?.click()
           }}
+          sx={{ margin: "0 auto" }}
         >
           <FileOpenIcon />
         </IconButton>
       </Tooltip>
-    </>
+      <HiddenInput
+        type="file"
+        accept={props.accept}
+        multiple={props.multiple}
+        id={props.id}
+        onChange={props.onFileChange}
+        ref={hiddenFileInputRef}
+      />
+    </Stack>
   )
 }
 
@@ -83,63 +78,47 @@ interface IFileFormControlProps {
   readonly label: string
   readonly helperText: string
   readonly readOnly?: boolean
+  readonly disabled?: boolean
   readonly onFileChange: (newContent: string) => boolean | void
   readonly contentPreprocessor?: (content: string) => string
 }
 
-export const FileFormControl = ({
-  id,
-  initialFileContent,
-  accept,
-  tooltipCaption,
-  label,
-  helperText,
-  readOnly,
-  onFileChange,
-  contentPreprocessor,
-}: IFileFormControlProps): React.ReactElement => {
-  const [fileContent, setFileContent] = React.useState(initialFileContent)
-
-  const onFileChangeHandler = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    let content = (await head(event.target.files)?.text()) ?? ""
-    content = contentPreprocessor?.(content) ?? content
-    const result = onFileChange(content)
-    if (isNil(result) || result) {
-      setFileContent(content)
-    }
-  }
+export const FileFormControl = (props: IFileFormControlProps) => {
+  const [fileContent, setFileContent] = React.useState(props.initialFileContent)
+  const [error, setError] = React.useState(false)
 
   return (
-    <FormControl>
-      <Grid container spacing={0} direction="row" alignItems="center">
-        <Grid item xs={10}>
-          <TextField
-            id={`${id}-string`}
-            fullWidth
-            value={fileContent}
-            label={label}
-            InputProps={{
-              readOnly: readOnly ?? false,
-            }}
-            aria-describedby={`${id}-string-helper-text`}
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <Container maxWidth="sm">
-            <FileUploadButton
-              id={`${id}-upload`}
-              accept={accept}
-              tooltipCaption={tooltipCaption}
-              onFileChange={onFileChangeHandler}
-            />
-          </Container>
-        </Grid>
+    <Grid container spacing={0} direction="row" alignItems="center">
+      <Grid item xs={10}>
+        <TextField
+          id={`${props.id}-string`}
+          fullWidth
+          value={fileContent}
+          label={props.label}
+          helperText={props.helperText}
+          disabled={props.disabled ?? false}
+          error={error}
+          InputProps={{
+            readOnly: props.readOnly ?? false,
+          }}
+        />
       </Grid>
-      <FormHelperText id={`${id}-string-helper-text`}>
-        {helperText}
-      </FormHelperText>
-    </FormControl>
+      <Grid item xs={2}>
+        <FileUploadButton
+          id={`${props.id}-upload`}
+          accept={props.accept}
+          tooltipCaption={props.tooltipCaption}
+          disabled={props.disabled ?? false}
+          onFileChange={async (event) => {
+            let content = (await head(event.target.files)?.text()) ?? ""
+            content = props.contentPreprocessor?.(content) ?? content
+            const result = props.onFileChange(content)
+            const isSuccessful = isNil(result) || result
+            setFileContent(content)
+            setError(!isSuccessful)
+          }}
+        />
+      </Grid>
+    </Grid>
   )
 }

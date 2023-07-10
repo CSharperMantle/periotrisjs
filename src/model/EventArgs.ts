@@ -15,9 +15,9 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { Block } from "./Block"
+import type { IBlock } from "./IBlock"
 
 export interface IBlocksChangedEventArgs {
-  readonly blocks: Block[]
+  readonly blocks: IBlock[]
   readonly disappeared: boolean
 }

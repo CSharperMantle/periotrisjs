@@ -26,9 +26,9 @@ export class CustomizationFacade {
 
   public readonly settings = Settings.fromLocalStorage()
 
-  public clear(flush = true): void {
-    this.history.clear(flush)
-    this.settings.clear(flush)
+  public clear(): void {
+    this.history.clear()
+    this.settings.clear()
   }
 }
 

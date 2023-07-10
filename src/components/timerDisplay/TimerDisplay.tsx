@@ -23,7 +23,7 @@ import Typography from "@mui/material/Typography"
 import { formatDuration } from "../../common"
 import { useAppSelector } from "../../viewmodel"
 
-export const TimerDisplay = (): React.ReactElement => {
+export const TimerDisplay = () => {
   const elapsedTime = useAppSelector(
     (state) => state.game.timerDisplay.elapsedTime
   )

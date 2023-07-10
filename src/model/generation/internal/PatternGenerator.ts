@@ -18,7 +18,7 @@
 import { range, shuffle } from "lodash"
 
 import { isNil } from "../../../common"
-import { Block } from "../../Block"
+import { countFreeBlocks } from "../../../customization"
 import { Direction, RotationDirection } from "../../Direction"
 import { Tetrimino, repairBrokenTetriminos } from "../../Tetrimino"
 import {
@@ -28,8 +28,9 @@ import {
 import { TetriminoKind } from "../../TetriminoKind"
 import { sort } from "./TetriminoSorter"
 
-import type { TPosition, ISize } from "../../../common"
+import type { ISize, TPosition } from "../../../common"
 import type { IMap } from "../../../customization"
+import type { IBlock } from "../../IBlock"
 
 type TPropPair = readonly [TetriminoKind, Direction]
 
@@ -49,7 +50,7 @@ export type TProgressCallback = (progress: number) => void
 
 export class NoSolutionError extends Error {}
 
-export async function getPlayablePattern(
+export async function createTiledTetriminos(
   gameMap: IMap,
   progressCallback?: TProgressCallback
 ): Promise<Tetrimino[]> {
@@ -57,23 +58,19 @@ export async function getPlayablePattern(
   const atomicNumberMap = template.map((row) =>
     row.map((block) => block.atomicNumber)
   )
-  const freeBlockMap = template.map((row) =>
-    row.map((block) => block.filledBy === TetriminoKind.Free)
-  )
+  const freeBlockMap = template.map((row) => row.map((block) => !block.filled))
 
   const ordered = sort(
     await getPossibleTetriminoPattern(
       freeBlockMap,
       atomicNumberMap,
-      gameMap.totalAvailableBlocksCount,
+      countFreeBlocks(gameMap),
       progressCallback
     ),
     gameMap.playAreaSize
   )
 
-  const fixedTetriminos = repairBrokenTetriminos(ordered)
-  primeTetriminos(fixedTetriminos, gameMap.playAreaSize)
-  return fixedTetriminos
+  return repairBrokenTetriminos(ordered)
 }
 
 const AllPropPairPermutation = [
@@ -165,7 +162,7 @@ async function getPossibleTetriminoPattern(
   return settledTetriminos
 }
 
-function collisionChecker(freeBlockMap: boolean[][], block: Block): boolean {
+function collisionChecker(freeBlockMap: boolean[][], block: IBlock): boolean {
   const nRow = block.position[1]
   const nCol = block.position[0]
   if (
@@ -197,28 +194,32 @@ function getFirstFreeBlockCoord(freeBlockMap: boolean[][]): TPosition {
  *
  * @param tetriminos The tetriminos to prime.
  * @param playAreaSize Size of play area.
+ * @param trivial Whether to prime tetriminos "trivially", that is, adjust Y only.
  */
-function primeTetriminos(tetriminos: Tetrimino[], playAreaSize: ISize) {
+export function primeTetriminos(
+  tetriminos: Tetrimino[],
+  playAreaSize: ISize,
+  trivial = false
+) {
   // Move to initial position and rotate randomly
   tetriminos.forEach((tetrimino) => {
     const originalPos = tetrimino.position
     const newPos = getInitialPosition(tetrimino.kind, playAreaSize)
-    const deltaX = newPos[0] - originalPos[0]
+    const deltaX = trivial ? 0 : newPos[0] - originalPos[0]
     const deltaY = newPos[1] - originalPos[1]
 
-    tetrimino.blocks = tetrimino.blocks.map(
-      (block) =>
-        new Block(
-          block.filledBy,
-          [block.position[0] + deltaX, block.position[1] + deltaY],
-          block.atomicNumber,
-          block.id
-        )
-    )
+    tetrimino.blocks = tetrimino.blocks.map((block) => ({
+      filledBy: block.filledBy,
+      position: [block.position[0] + deltaX, block.position[1] + deltaY],
+      atomicNumber: block.atomicNumber,
+      id: block.id,
+    }))
     tetrimino.position = newPos
 
-    const rotationCount = fastRandom(0, Math.floor(Direction.LENGTH / 2) + 1)
-    for (let i = 0; i < rotationCount; i++) {
+    const rotCount = trivial
+      ? 0
+      : fastRandom(0, Math.floor(Direction.LENGTH / 2) + 1)
+    for (let i = 0; i < rotCount; i++) {
       tetrimino.tryRotate(RotationDirection.Right, () => false)
     }
   })

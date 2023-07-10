@@ -15,18 +15,16 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { AutoplayGameViewModel } from "./AutoplayGameViewModel"
-import { GameViewModel } from "./GameViewModel"
-import { useAppDispatch, useAppSelector } from "./appHooks"
-import { appStore } from "./appStore"
+import { TetriminoKind } from "./TetriminoKind"
 
-import type { IBlockSprite } from "./IBlockSprite"
+import type { TPosition } from "../common"
 
-export {
-  AutoplayGameViewModel,
-  GameViewModel,
-  useAppDispatch,
-  useAppSelector,
-  appStore,
+/**
+ * The block, the most basic unit of the game.
+ */
+export interface IBlock {
+  readonly filledBy: TetriminoKind
+  readonly position: TPosition
+  atomicNumber: number | null
+  readonly id: number
 }
-export type { IBlockSprite }

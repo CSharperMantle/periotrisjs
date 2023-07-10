@@ -82,6 +82,10 @@ const config: GatsbyConfig = {
         path: "/game",
       },
       {
+        id: PageID.PAGE_AUTOPLAY,
+        path: "/autoplay",
+      },
+      {
         id: PageID.PAGE_SETTINGS,
         path: "/settings",
       },

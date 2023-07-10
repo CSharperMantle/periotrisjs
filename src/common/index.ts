@@ -15,9 +15,17 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import { AutoplaySentinel } from "./AutoplaySentinel"
 import {
-  DefaultBorderThickness,
+  DefaultColorEnabled,
+  DefaultConcurrency,
   DefaultGameUpdateIntervalMilliseconds,
+  DefaultGridLineThickness,
+  DefaultPressThreshold,
+  DefaultShowGridLines,
+  DefaultSwipeDeltaX,
+  DefaultSwipeDeltaY,
+  DefaultSwipeThreshold,
   HistoryLocalStorageKey,
   SettingsLocalStorageKey,
   StopwatchUpdateIntervalMilliseconds,
@@ -25,6 +33,7 @@ import {
 import { flushed } from "./flushed"
 import { formatDuration } from "./formatDuration"
 import { isNil } from "./isNil"
+import { queryPath } from "./queryPath"
 import { rearrange } from "./rearrange"
 import { waitForEvent } from "./waitForEvent"
 
@@ -32,15 +41,24 @@ import type { ISize } from "./ISize"
 import type { TPosition } from "./TPosition"
 
 export {
+  AutoplaySentinel,
+  DefaultColorEnabled,
+  DefaultConcurrency,
   DefaultGameUpdateIntervalMilliseconds,
-  StopwatchUpdateIntervalMilliseconds,
+  DefaultGridLineThickness,
+  DefaultPressThreshold,
+  DefaultShowGridLines,
+  DefaultSwipeDeltaX,
+  DefaultSwipeDeltaY,
+  DefaultSwipeThreshold,
   HistoryLocalStorageKey,
   SettingsLocalStorageKey,
-  DefaultBorderThickness,
-  rearrange,
+  StopwatchUpdateIntervalMilliseconds,
   flushed,
-  waitForEvent,
-  isNil,
   formatDuration,
+  isNil,
+  queryPath,
+  rearrange,
+  waitForEvent,
 }
 export type { ISize, TPosition }

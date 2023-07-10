@@ -16,7 +16,7 @@
  */
 
 export interface IColorSchemeRule {
-  readonly atomicNumberRange: { readonly from: number; readonly to: number }
+  readonly range: { readonly from: number; readonly to: number }
   readonly color: string
 }
 

@@ -16,9 +16,10 @@
  */
 
 import { CustomizationFacade, customizationFacade } from "./CustomizationFacade"
+import { countFreeBlocks } from "./map"
 
-import type { IMapCell, TMapRow, IMap } from "./map"
 import type { IColorScheme } from "./color_scheme"
+import type { IMap, IMapCell, TMapRow } from "./map"
 
+export { CustomizationFacade, customizationFacade, countFreeBlocks }
 export type { IMapCell, TMapRow, IMap, IColorScheme }
-export { CustomizationFacade, customizationFacade }

@@ -15,9 +15,8 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { graphql, Link, PageProps } from "gatsby"
+import { graphql, Link as GatsbyLink, PageProps } from "gatsby"
 import { useI18next } from "gatsby-plugin-react-i18next"
-import { filter, head } from "lodash"
 import React from "react"
 
 import FavoriteIcon from "@mui/icons-material/Favorite"
@@ -32,19 +31,16 @@ import Stack from "@mui/material/Stack"
 import Tooltip from "@mui/material/Tooltip"
 import Typography from "@mui/material/Typography"
 
+import { queryPath } from "../common"
 import { CommonHead } from "../components"
 import { PageID } from "../PageID"
 
-const App = ({
-  data,
-}: PageProps<Queries.IndexPageQuery>): React.ReactElement => {
+const App = ({ data }: PageProps<Queries.IndexPageQuery>) => {
   const routes = data.site?.siteMetadata?.navRoutes
-  const gamePagePath =
-    head(filter(routes, (r) => r?.id === PageID.PAGE_GAME))?.path ?? "#"
-  const settingsPagePath =
-    head(filter(routes, (r) => r?.id === PageID.PAGE_SETTINGS))?.path ?? "#"
-  const aboutPagePath =
-    head(filter(routes, (r) => r?.id === PageID.PAGE_ABOUT))?.path ?? "#"
+  const gamePagePath = queryPath(routes, PageID.PAGE_GAME)
+  const autoplayPagePath = queryPath(routes, PageID.PAGE_AUTOPLAY)
+  const settingsPagePath = queryPath(routes, PageID.PAGE_SETTINGS)
+  const aboutPagePath = queryPath(routes, PageID.PAGE_ABOUT)
 
   const { t } = useI18next()
 
@@ -59,6 +55,7 @@ const App = ({
       sx={{
         flex: "1 1 auto",
       }}
+      maxWidth="xs"
     >
       <Grid item xs={5}>
         <Stack
@@ -76,15 +73,26 @@ const App = ({
       </Grid>
       <Grid item xs={4}>
         <Container maxWidth="xs">
-          <Button
-            variant="contained"
-            size="large"
-            fullWidth
-            component={Link}
-            to={gamePagePath}
-          >
-            {t("cap_start")}
-          </Button>
+          <Stack direction="column" justifyItems="center" spacing={3}>
+            <Button
+              variant="contained"
+              size="large"
+              fullWidth
+              component={GatsbyLink}
+              to={gamePagePath}
+            >
+              {t("cap_start")}
+            </Button>
+            <Button
+              variant="outlined"
+              size="large"
+              fullWidth
+              component={GatsbyLink}
+              to={autoplayPagePath}
+            >
+              {t("cap_autoplay")}
+            </Button>
+          </Stack>
         </Container>
       </Grid>
       <Grid item xs={3}>
@@ -98,7 +106,7 @@ const App = ({
             <IconButton
               size="large"
               aria-label="settings"
-              component={Link}
+              component={GatsbyLink}
               to={settingsPagePath}
             >
               <SettingsIcon />
@@ -108,7 +116,7 @@ const App = ({
             <IconButton
               size="large"
               aria-label="about"
-              component={Link}
+              component={GatsbyLink}
               to={aboutPagePath}
             >
               <InfoIcon />
@@ -156,9 +164,11 @@ export const query = graphql`
         }
       }
     }
+
     package {
       version
     }
+
     locales: allLocale(
       filter: { ns: { in: ["index"] }, language: { eq: $language } }
     ) {

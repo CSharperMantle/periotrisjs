@@ -15,6 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import { AutoplaySentinel } from "../AutoplaySentinel"
 import { formatDuration } from "../formatDuration"
 
 describe("formatDuration", () => {
@@ -62,5 +63,9 @@ describe("formatDuration", () => {
       const datum = data[i]
       expect(formatDuration(datum.input)).toEqual(datum.expected)
     }
+  })
+
+  it("should handle sentinel values properly", () => {
+    expect(formatDuration(AutoplaySentinel)).toEqual("AUTOPLAY")
   })
 })

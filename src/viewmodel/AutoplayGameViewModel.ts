@@ -15,18 +15,22 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { AutoplayGameViewModel } from "./AutoplayGameViewModel"
+import { AutoplaySentinel } from "../common"
+import { setGameState } from "../components/gameControlBackdrop/gameControlBackdropSlice"
+import {
+  setFastestRecord,
+  setIsNewRecord,
+} from "../components/timerDisplay/timerDisplaySlice"
+import { AutoplayGameModel } from "../model"
 import { GameViewModel } from "./GameViewModel"
-import { useAppDispatch, useAppSelector } from "./appHooks"
 import { appStore } from "./appStore"
 
-import type { IBlockSprite } from "./IBlockSprite"
+export class AutoplayGameViewModel extends GameViewModel {
+  protected override _model: AutoplayGameModel = new AutoplayGameModel()
 
-export {
-  AutoplayGameViewModel,
-  GameViewModel,
-  useAppDispatch,
-  useAppSelector,
-  appStore,
+  protected override refreshGameStatus(): void {
+    appStore.dispatch(setGameState(this._model.gameState))
+    appStore.dispatch(setIsNewRecord(this._model.isNewHighRecord))
+    appStore.dispatch(setFastestRecord(AutoplaySentinel))
+  }
 }
-export type { IBlockSprite }

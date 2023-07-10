@@ -20,18 +20,22 @@ import { isBrowser } from "is-in-browser"
 import { isEqual, range } from "lodash"
 
 import { isNil, waitForEvent } from "../common"
-import { customizationFacade } from "../customization"
-import { Block } from "./Block"
+import { countFreeBlocks, customizationFacade } from "../customization"
 import { MoveDirection, RotationDirection } from "./Direction"
 import { GameState } from "./GameState"
-import { getPlayablePattern, MessageType } from "./generation"
+import {
+  createTiledTetriminos,
+  MessageType,
+  primeTetriminos,
+} from "./generation"
 import { repairBrokenTetriminos, Tetrimino } from "./Tetrimino"
 
 import type { IGeneratorMessage } from "./generation"
+import type { IBlock } from "./IBlock"
 
-async function generatePattern(): Promise<Tetrimino[]> {
+export async function generateTetriminos(): Promise<Tetrimino[]> {
   if (!isBrowser) {
-    return await getPlayablePattern(customizationFacade.settings.gameMap)
+    return await createTiledTetriminos(customizationFacade.settings.gameMap)
   }
   const maxWorkersCount =
     customizationFacade.settings.concurrency === 0
@@ -78,20 +82,20 @@ export class GameModel extends EventEmitter {
   /**
    * "Frozen" blocks, that is, blocks that are fallen and not movable.
    */
-  private readonly _frozenBlocks: Block[] = []
+  protected readonly _frozenBlocks: IBlock[] = []
 
   /**
    * Tetriminos yet to be spawned.
    */
-  private readonly _pendingTetriminos: Tetrimino[] = []
+  protected readonly _pendingTetriminos: Tetrimino[] = []
 
   /**
    * "Active" tetrimino, that is, a tetrimino that is currently falling.
    * and controllable by the player.
    */
-  private _activeTetrimino: Tetrimino | null = null
+  protected _activeTetrimino: Tetrimino | null = null
 
-  private _gameState: GameState = GameState.NotStarted
+  protected _gameState: GameState = GameState.NotStarted
   /**
    * The state of the game.
    *
@@ -100,12 +104,12 @@ export class GameModel extends EventEmitter {
   public get gameState(): GameState {
     return this._gameState
   }
-  private set gameState(v) {
+  protected set gameState(v) {
     this._gameState = v
     this.onGameStateChanged()
   }
 
-  private _isNewHighRecord = false
+  protected _isNewHighRecord = false
   /**
    * Whether the user has created a new high record.
    */
@@ -116,12 +120,12 @@ export class GameModel extends EventEmitter {
   /**
    * Starting time of the game.
    */
-  private _startDate = Date.now()
+  protected _startDate = Date.now()
 
   /**
    * Ending time of the game.
    */
-  private _endDate = Date.now()
+  protected _endDate = Date.now()
 
   /**
    * Elapsed time of the game in milliseconds.
@@ -147,7 +151,7 @@ export class GameModel extends EventEmitter {
    *
    * @param victory Whether the game is won.
    */
-  private endGame(victory: boolean): void {
+  protected endGame(victory: boolean): void {
     if (this.gameState !== GameState.NotStarted) {
       if (victory) {
         this._isNewHighRecord = customizationFacade.history.add(
@@ -161,6 +165,10 @@ export class GameModel extends EventEmitter {
     this._pendingTetriminos.length = 0
     this._endDate = Date.now()
     this.onGameEnded()
+  }
+
+  public reset(): void {
+    this.endGame(false)
   }
 
   /**
@@ -247,7 +255,11 @@ export class GameModel extends EventEmitter {
     this._activeTetrimino = null
 
     this.gameState = GameState.Preparing
-    const tetriminos = repairBrokenTetriminos(await generatePattern())
+    const tetriminos = repairBrokenTetriminos(await generateTetriminos())
+    primeTetriminos(
+      tetriminos,
+      customizationFacade.settings.gameMap.playAreaSize
+    )
     this.startPreparedGame(tetriminos)
   }
 
@@ -256,7 +268,7 @@ export class GameModel extends EventEmitter {
    *
    * @param tetriminos The tetriminos to start the game with.
    */
-  private startPreparedGame(tetriminos: Tetrimino[]): void {
+  protected startPreparedGame(tetriminos: Tetrimino[]): void {
     const generatedTetrimino = tetriminos.reverse()
     this._pendingTetriminos.push(...generatedTetrimino)
 
@@ -291,7 +303,7 @@ export class GameModel extends EventEmitter {
 
     if (
       this._frozenBlocks.length >=
-      customizationFacade.settings.gameMap.totalAvailableBlocksCount
+      countFreeBlocks(customizationFacade.settings.gameMap)
     ) {
       // The player won.
       this.endGame(true)
@@ -300,19 +312,11 @@ export class GameModel extends EventEmitter {
   }
 
   /**
-   * Create a new instance of {@link GameModel}.
-   */
-  public constructor() {
-    super()
-    this.endGame(false)
-  }
-
-  /**
    * Refresh all frozen blocks.
    *
    * This method works by removing and re-adding all frozen blocks.
    */
-  private updateFrozenBlocks(): void {
+  protected updateFrozenBlocks(): void {
     this.onBlocksChanged(this._frozenBlocks, true)
     this.onBlocksChanged(this._frozenBlocks, false)
   }
@@ -322,7 +326,7 @@ export class GameModel extends EventEmitter {
    *
    * This event informs the subscribers that the game has started.
    */
-  private onGameStarted(): void {
+  protected onGameStarted(): void {
     this.emit("gamestarted")
   }
 
@@ -331,7 +335,7 @@ export class GameModel extends EventEmitter {
    *
    * This event informs the subscribers that the game has ended.
    */
-  private onGameEnded(): void {
+  protected onGameEnded(): void {
     this.emit("gameended")
   }
 
@@ -343,7 +347,7 @@ export class GameModel extends EventEmitter {
    * @param blocks The blocks to update.
    * @param disappeared Whether the block disappeared.
    */
-  private onBlocksChanged(blocks: Block[], disappeared: boolean): void {
+  protected onBlocksChanged(blocks: IBlock[], disappeared: boolean): void {
     this.emit("blockschanged", { blocks, disappeared })
   }
 
@@ -352,7 +356,7 @@ export class GameModel extends EventEmitter {
    *
    * This event informs the subscribers that the game state has changed.
    */
-  private onGameStateChanged(): void {
+  protected onGameStateChanged(): void {
     this.emit("gamestatechanged")
   }
 
@@ -364,7 +368,7 @@ export class GameModel extends EventEmitter {
    * @param block The block to check.
    * @returns Whether the block is valid.
    */
-  private checkBlockValidity(block: Block): boolean {
+  protected checkBlockValidity(block: IBlock): boolean {
     const width = customizationFacade.settings.gameMap.playAreaSize.width
     const height = customizationFacade.settings.gameMap.playAreaSize.height
     if (block.position[0] < 0 || block.position[0] >= width) {
@@ -386,7 +390,7 @@ export class GameModel extends EventEmitter {
    *
    * This method has no effect if {@link _activeTetrimino} is `null`.
    */
-  private freezeActiveTetrimino(): void {
+  protected freezeActiveTetrimino(): void {
     this._frozenBlocks.push(...(this._activeTetrimino?.blocks ?? []))
     this.updateFrozenBlocks()
   }
@@ -401,7 +405,7 @@ export class GameModel extends EventEmitter {
    *
    * @see {@link freezeActiveTetrimino}
    */
-  private spawnNextTetrimino(): void {
+  protected spawnNextTetrimino(): void {
     if (this._pendingTetriminos.length > 0) {
       // We are certain that we have something to pop.
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -419,7 +423,7 @@ export class GameModel extends EventEmitter {
    *
    * @param disappeared Whether the tetrimino disappeared.
    */
-  private updateActiveTetrimino(disappeared: boolean): void {
+  protected updateActiveTetrimino(disappeared: boolean): void {
     if (!isNil(this._activeTetrimino)) {
       this.onBlocksChanged(this._activeTetrimino.blocks, disappeared)
     }

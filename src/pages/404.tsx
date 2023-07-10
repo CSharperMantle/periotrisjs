@@ -19,12 +19,12 @@ import React from "react"
 
 import { CommonHead } from "../components"
 
-const ErrorPage = (): React.ReactElement => {
+const ErrorPage = () => {
   return <main>Placeholder error page</main>
 }
 
 export default ErrorPage
 
-export const Head = (): React.ReactElement => {
+export const Head = () => {
   return <CommonHead />
 }

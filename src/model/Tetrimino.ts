@@ -15,25 +15,25 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { Block } from "./Block"
 import { Direction, MoveDirection, RotationDirection } from "./Direction"
 import { createOffsetBlocks, mapAtomicNumberInto } from "./TetriminoHelper"
 import { TetriminoKind } from "./TetriminoKind"
 
 import type { TPosition } from "../common"
+import type { IBlock } from "./IBlock"
 
 /**
  * The type for block collision checker.
  *
  * @returns 'false' if no collision found. Otherwise 'true'.
  */
-export type TCollisionChecker = (block: Block) => boolean
+export type TCollisionChecker = (block: IBlock) => boolean
 
 /**
  * The tetrimino.
  */
 export class Tetrimino {
-  public blocks: Block[]
+  public blocks: IBlock[]
 
   /**
    * Moves the Tetrimino instance.
@@ -79,10 +79,8 @@ export class Tetrimino {
     collisionChecker: TCollisionChecker
   ): boolean {
     // Find the final direction
-    const count = Direction.LENGTH / 2
-
     const delta = rotationDirection === RotationDirection.Right ? 1 : -1
-    const direction = (this.facingDirection + delta + count) % count
+    const direction = (this.facingDirection + delta) % Direction.LENGTH
 
     const adjustPattern =
       this.kind === TetriminoKind.Linear ? [0, 1, -1, 2, -2] : [0, 1, -1]

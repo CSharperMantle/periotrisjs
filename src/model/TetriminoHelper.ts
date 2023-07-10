@@ -17,11 +17,11 @@
 
 import { filter, head } from "lodash"
 
-import { Block } from "./Block"
 import { Direction } from "./Direction"
 import { TetriminoKind } from "./TetriminoKind"
 
 import type { ISize, TPosition } from "../common"
+import type { IBlock } from "./IBlock"
 
 const CubicDownMask: number[][] = [
   [3, 4],
@@ -449,23 +449,23 @@ export function createOffsetBlocks(
   kind: TetriminoKind,
   offset: TPosition,
   direction: Direction = Direction.Up
-): Block[] {
+): IBlock[] {
   const mask = getBlocksMask(kind, direction)
   // Performance critical with hand-written loops.
-  const offsetBlocks: Block[] = new Array(4)
+  const offsetBlocks: IBlock[] = new Array(4)
   const [x, y] = offset
   let count = 0
   for (let nRow = 0, len_i = mask.length; nRow < len_i; nRow++) {
     const row = mask[nRow]
     for (let nCol = 0, len_j = row.length; nCol < len_j; nCol++) {
-      const identifier = row[nCol]
-      if (identifier !== 0) {
-        offsetBlocks[count] = new Block(
-          kind,
-          [nCol + x, nRow + y],
-          0,
-          identifier
-        )
+      const id = row[nCol]
+      if (id !== 0) {
+        offsetBlocks[count] = {
+          filledBy: kind,
+          position: [nCol + x, nRow + y],
+          atomicNumber: null,
+          id,
+        }
         count += 1
       }
     }
@@ -482,8 +482,8 @@ export function createOffsetBlocks(
  * @throws Error
  */
 export function mapAtomicNumberInto(
-  oldBlocks: Block[],
-  newBlocks: Block[]
+  oldBlocks: IBlock[],
+  newBlocks: IBlock[]
 ): void {
   if (oldBlocks.length !== newBlocks.length) {
     throw new Error(
@@ -492,6 +492,6 @@ export function mapAtomicNumberInto(
   }
   newBlocks.forEach((n) => {
     const o = head(filter(oldBlocks, (b) => n.id === b.id))
-    n.atomicNumber = o?.atomicNumber ?? 0
+    n.atomicNumber = o?.atomicNumber ?? null
   })
 }

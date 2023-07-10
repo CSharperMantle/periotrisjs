@@ -16,63 +16,26 @@
  */
 
 import { PageProps, graphql } from "gatsby"
-import { throttle } from "lodash"
 import React, { useEffect } from "react"
-
-import { useDrag } from "@use-gesture/react"
 
 import Box from "@mui/material/Box"
 
 import { PageID } from "../PageID"
-import { flushed, queryPath } from "../common"
+import { queryPath } from "../common"
 import { BlocksGrid, CommonHead, GameControlBackdrop } from "../components"
-import { customizationFacade } from "../customization"
-import { GameViewModel } from "../viewmodel"
+import { AutoplayGameViewModel } from "../viewmodel"
 
 const App = ({ data }: PageProps<Queries.GamePageQuery>) => {
   const routes = data.site?.siteMetadata?.navRoutes
   const homePagePath = queryPath(routes, PageID.PAGE_HOME)
-
-  const viewModel = new GameViewModel()
-
-  const onKeyDownThrottled = throttle(
-    flushed(viewModel.onKeyDown.bind(viewModel)),
-    50
-  )
-  const onTapThrottled = throttle(flushed(viewModel.onTap.bind(viewModel)), 50)
-  const onSwipeThrottled = throttle(
-    flushed(viewModel.onSwipe.bind(viewModel)),
-    50
-  )
+  const viewModel = new AutoplayGameViewModel()
 
   useEffect(() => {
-    window.addEventListener("keydown", onKeyDownThrottled)
     viewModel.init()
     return () => {
-      window.removeEventListener("keydown", onKeyDownThrottled)
       viewModel.reset(true)
     }
   }, [])
-
-  const gestureBind = useDrag(
-    ({ swipe, tap, elapsedTime }) => {
-      if (tap) {
-        onTapThrottled(elapsedTime)
-      } else {
-        onSwipeThrottled(swipe)
-      }
-    },
-    {
-      filterTaps: true,
-      swipe: {
-        distance: [
-          customizationFacade.settings.swipeDeltaX,
-          customizationFacade.settings.swipeDeltaY,
-        ],
-        duration: customizationFacade.settings.swipeThreshold,
-      },
-    }
-  )
 
   return (
     <Box
@@ -103,7 +66,6 @@ const App = ({ data }: PageProps<Queries.GamePageQuery>) => {
           gridRow: 2,
           position: "relative",
         }}
-        {...gestureBind()}
       >
         <BlocksGrid />
       </Box>

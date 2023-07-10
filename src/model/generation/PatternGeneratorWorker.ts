@@ -16,7 +16,7 @@
  */
 
 import { MessageType } from "./IGeneratorMessage"
-import { getPlayablePattern } from "./internal/PatternGenerator"
+import { createTiledTetriminos } from "./internal/PatternGenerator"
 
 import type { IMap } from "../../customization"
 import type { IGeneratorMessage } from "./IGeneratorMessage"
@@ -36,7 +36,7 @@ ctx.onmessage = async (ev: MessageEvent<IGeneratorMessage<unknown>>) => {
 
 async function handleRequestGeneration(map: IMap): Promise<void> {
   try {
-    const result = await getPlayablePattern(map)
+    const result = await createTiledTetriminos(map)
     ctx.postMessage({
       type: MessageType.ResponseSuccess,
       content: result,

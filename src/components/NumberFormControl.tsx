@@ -17,8 +17,6 @@
 
 import React from "react"
 
-import FormControl from "@mui/material/FormControl"
-import FormHelperText from "@mui/material/FormHelperText"
 import TextField from "@mui/material/TextField"
 
 import { isNil } from "../common"
@@ -35,42 +33,39 @@ interface INumberFormControlProps {
   readonly step?: number
   readonly min?: number
   readonly max?: number
+  readonly disabled?: boolean
   readonly onChange: (newContent: string) => boolean | void
   readonly contentPreprocessor?: (content: string) => string
 }
 
-export const NumberFormControl = (
-  props: INumberFormControlProps
-): React.ReactElement => {
+export const NumberFormControl = (props: INumberFormControlProps) => {
   const [content, setContent] = React.useState(props.initialContent)
+  const [error, setError] = React.useState(false)
 
   return (
-    <FormControl>
-      <TextField
-        id={`${props.id}`}
-        value={content}
-        label={props.label}
-        type="number"
-        aria-describedby={`${props.id}-helper-text`}
-        InputProps={{ ...props.adornments }}
-        inputProps={{
-          step: props.step,
-          min: props.min,
-          max: props.max,
-        }}
-        onChange={(event) => {
-          const content = !isNil(props.contentPreprocessor)
-            ? props.contentPreprocessor(event.target.value)
-            : event.target.value
-          const result = props.onChange(content)
-          if (isNil(result) || result) {
-            setContent(content)
-          }
-        }}
-      />
-      <FormHelperText id={`${props.id}-helper-text`}>
-        {props.helperText}
-      </FormHelperText>
-    </FormControl>
+    <TextField
+      id={props.id}
+      value={content}
+      label={props.label}
+      type="number"
+      helperText={props.helperText}
+      InputProps={{ ...props.adornments }}
+      inputProps={{
+        step: props.step,
+        min: props.min,
+        max: props.max,
+      }}
+      disabled={props.disabled ?? false}
+      error={error}
+      onChange={(event) => {
+        const content = isNil(props.contentPreprocessor)
+          ? event.target.value
+          : props.contentPreprocessor(event.target.value)
+        const result = props.onChange(content)
+        const isSuccessful = isNil(result) || result
+        setContent(content)
+        setError(!isSuccessful)
+      }}
+    />
   )
 }
