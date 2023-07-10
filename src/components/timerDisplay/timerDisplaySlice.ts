@@ -23,7 +23,7 @@ import type { PayloadAction } from "@reduxjs/toolkit"
 
 interface ITimerDisplayState {
   elapsedTime: number
-  fastestRecord: number | AutoplaySentinel | null
+  fastestRecord: number | typeof AutoplaySentinel | null
   isNewRecord: boolean
 }
 
@@ -42,7 +42,7 @@ export const timerDisplaySlice = createSlice({
     },
     setFastestRecord: (
       state,
-      action: PayloadAction<number | AutoplaySentinel | null>
+      action: PayloadAction<number | typeof AutoplaySentinel | null>
     ) => {
       state.fastestRecord = action.payload
     },

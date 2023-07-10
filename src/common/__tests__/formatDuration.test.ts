@@ -66,6 +66,6 @@ describe("formatDuration", () => {
   })
 
   it("should handle sentinel values properly", () => {
-    expect(formatDuration(new AutoplaySentinel())).toEqual("AUTOPLAY")
+    expect(formatDuration(AutoplaySentinel)).toEqual("AUTOPLAY")
   })
 })

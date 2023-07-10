@@ -25,9 +25,9 @@ import { isNil } from "./isNil"
  * provided duration is a special autoplay sentinel value, the string "AUTOPLAY" is returned.
  */
 export function formatDuration(
-  ms: number | AutoplaySentinel | null | undefined
+  ms: number | typeof AutoplaySentinel | null | undefined
 ): string {
-  if (ms instanceof AutoplaySentinel) {
+  if (ms === AutoplaySentinel) {
     return "AUTOPLAY"
   }
 

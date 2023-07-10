@@ -31,6 +31,6 @@ export class AutoplayGameViewModel extends GameViewModel {
   protected override refreshGameStatus(): void {
     appStore.dispatch(setGameState(this._model.gameState))
     appStore.dispatch(setIsNewRecord(this._model.isNewHighRecord))
-    appStore.dispatch(setFastestRecord(new AutoplaySentinel()))
+    appStore.dispatch(setFastestRecord(AutoplaySentinel))
   }
 }
