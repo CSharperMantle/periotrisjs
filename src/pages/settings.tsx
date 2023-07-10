@@ -46,9 +46,12 @@ import { queryPath } from "../common"
 import { CommonHead, FileFormControl, NumberFormControl } from "../components"
 import { customizationFacade } from "../customization"
 
+const INT_REGEX = /^[0-9]+$/
+
 const tryParseInt = (s: string): readonly [boolean, number] => {
-  const v = parseInt(s, 10)
-  return [!isNaN(v), v]
+  const isInt = INT_REGEX.test(s)
+  const v = isInt ? parseInt(s, 10) : Number.NaN
+  return [isInt, v]
 }
 
 const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
@@ -172,12 +175,9 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
               const [isValid, value] = tryParseInt(newContent)
               if (isValid) {
                 customizationFacade.settings.gridLineThickness = value
-                return true
+                return { ok: true }
               } else {
-                enqueueSnackbar(t("msg_int_expected"), {
-                  variant: "error",
-                })
-                return false
+                return { ok: false, err: t("msg_int_expected") }
               }
             }}
           />
@@ -210,12 +210,9 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
               const obj = JSON.parse(newContent)
               if (validateColorScheme(obj)) {
                 customizationFacade.settings.colorScheme = obj
-                return true
+                return { ok: true }
               } else {
-                enqueueSnackbar(t("msg_color_scheme_invalid"), {
-                  variant: "error",
-                })
-                return false
+                return { ok: false, err: t("msg_color_scheme_invalid") }
               }
             }}
             contentPreprocessor={jsonMinifyPreprocessor}
@@ -245,12 +242,9 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
               const obj = JSON.parse(newContent)
               if (validateMap(obj)) {
                 customizationFacade.settings.gameMap = obj
-                return true
+                return { ok: true }
               } else {
-                enqueueSnackbar(t("msg_game_map_invalid"), {
-                  variant: "error",
-                })
-                return false
+                return { ok: false, err: t("msg_game_map_invalid") }
               }
             }}
             contentPreprocessor={jsonMinifyPreprocessor}
@@ -270,12 +264,9 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
               if (isValid) {
                 customizationFacade.settings.gameUpdateIntervalMilliseconds =
                   value
-                return true
+                return { ok: true }
               } else {
-                enqueueSnackbar(t("msg_int_expected"), {
-                  variant: "error",
-                })
-                return false
+                return { ok: false, err: t("msg_int_expected") }
               }
             }}
           />
@@ -304,12 +295,9 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
               const [isValid, value] = tryParseInt(newContent)
               if (isValid) {
                 customizationFacade.settings.swipeThreshold = value
-                return true
+                return { ok: true }
               } else {
-                enqueueSnackbar(t("msg_int_expected"), {
-                  variant: "error",
-                })
-                return false
+                return { ok: false, err: t("msg_int_expected") }
               }
             }}
           />
@@ -327,12 +315,9 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
               const [isValid, value] = tryParseInt(newContent)
               if (isValid) {
                 customizationFacade.settings.swipeDeltaX = value
-                return true
+                return { ok: true }
               } else {
-                enqueueSnackbar(t("msg_int_expected"), {
-                  variant: "error",
-                })
-                return false
+                return { ok: false, err: t("msg_int_expected") }
               }
             }}
           />
@@ -350,12 +335,9 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
               const [isValid, value] = tryParseInt(newContent)
               if (isValid) {
                 customizationFacade.settings.swipeDeltaY = value
-                return true
+                return { ok: true }
               } else {
-                enqueueSnackbar(t("msg_int_expected"), {
-                  variant: "error",
-                })
-                return false
+                return { ok: false, err: t("msg_int_expected") }
               }
             }}
           />
@@ -373,12 +355,9 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
               const [isValid, value] = tryParseInt(newContent)
               if (isValid) {
                 customizationFacade.settings.pressThreshold = value
-                return true
+                return { ok: true }
               } else {
-                enqueueSnackbar(t("msg_int_expected"), {
-                  variant: "error",
-                })
-                return false
+                return { ok: false, err: t("msg_int_expected") }
               }
             }}
           />
@@ -404,12 +383,9 @@ const App = ({ data }: PageProps<Queries.SettingsPageQuery>) => {
               const [isValid, value] = tryParseInt(newContent)
               if (isValid) {
                 customizationFacade.settings.concurrency = value
-                return true
+                return { ok: true }
               } else {
-                enqueueSnackbar(t("msg_int_expected"), {
-                  variant: "error",
-                })
-                return false
+                return { ok: false, err: t("msg_int_expected") }
               }
             }}
           />

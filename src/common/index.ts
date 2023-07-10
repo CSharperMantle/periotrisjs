@@ -39,6 +39,7 @@ import { waitForEvent } from "./waitForEvent"
 
 import type { ISize } from "./ISize"
 import type { TPosition } from "./TPosition"
+import type { TResult } from "./TResult"
 
 export {
   AutoplaySentinel,
@@ -61,4 +62,4 @@ export {
   rearrange,
   waitForEvent,
 }
-export type { ISize, TPosition }
+export type { ISize, TPosition, TResult }

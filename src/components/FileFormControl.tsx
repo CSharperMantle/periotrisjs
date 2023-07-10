@@ -26,7 +26,7 @@ import TextField from "@mui/material/TextField"
 import Tooltip from "@mui/material/Tooltip"
 import styled from "@mui/system/styled"
 
-import { isNil } from "../common"
+import type { TResult } from "../common"
 
 const HiddenInput = styled("input")({
   display: "none",
@@ -79,13 +79,14 @@ interface IFileFormControlProps {
   readonly helperText: string
   readonly readOnly?: boolean
   readonly disabled?: boolean
-  readonly onFileChange: (newContent: string) => boolean | void
+  readonly onFileChange: (newContent: string) => TResult<never, string>
   readonly contentPreprocessor?: (content: string) => string
 }
 
 export const FileFormControl = (props: IFileFormControlProps) => {
   const [fileContent, setFileContent] = React.useState(props.initialFileContent)
   const [error, setError] = React.useState(false)
+  const [helperText, setHelperText] = React.useState(props.helperText)
 
   return (
     <Grid container spacing={0} direction="row" alignItems="center">
@@ -95,7 +96,7 @@ export const FileFormControl = (props: IFileFormControlProps) => {
           fullWidth
           value={fileContent}
           label={props.label}
-          helperText={props.helperText}
+          helperText={helperText}
           disabled={props.disabled ?? false}
           error={error}
           InputProps={{
@@ -113,9 +114,11 @@ export const FileFormControl = (props: IFileFormControlProps) => {
             let content = (await head(event.target.files)?.text()) ?? ""
             content = props.contentPreprocessor?.(content) ?? content
             const result = props.onFileChange(content)
-            const isSuccessful = isNil(result) || result
             setFileContent(content)
-            setError(!isSuccessful)
+            setError(!result.ok)
+            setHelperText(
+              result.ok ? props.helperText : result.err ?? props.helperText
+            )
           }}
         />
       </Grid>

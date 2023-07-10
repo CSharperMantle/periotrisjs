@@ -21,6 +21,8 @@ import TextField from "@mui/material/TextField"
 
 import { isNil } from "../common"
 
+import type { TResult } from "../common"
+
 interface INumberFormControlProps {
   readonly id: string
   readonly initialContent: string
@@ -34,13 +36,14 @@ interface INumberFormControlProps {
   readonly min?: number
   readonly max?: number
   readonly disabled?: boolean
-  readonly onChange: (newContent: string) => boolean | void
+  readonly onChange: (newContent: string) => TResult<never, string>
   readonly contentPreprocessor?: (content: string) => string
 }
 
 export const NumberFormControl = (props: INumberFormControlProps) => {
   const [content, setContent] = React.useState(props.initialContent)
   const [error, setError] = React.useState(false)
+  const [helperText, setHelperText] = React.useState(props.helperText)
 
   return (
     <TextField
@@ -48,9 +51,10 @@ export const NumberFormControl = (props: INumberFormControlProps) => {
       value={content}
       label={props.label}
       type="number"
-      helperText={props.helperText}
+      helperText={helperText}
       InputProps={{ ...props.adornments }}
       inputProps={{
+        inputMode: "numeric",
         step: props.step,
         min: props.min,
         max: props.max,
@@ -62,9 +66,11 @@ export const NumberFormControl = (props: INumberFormControlProps) => {
           ? event.target.value
           : props.contentPreprocessor(event.target.value)
         const result = props.onChange(content)
-        const isSuccessful = isNil(result) || result
         setContent(content)
-        setError(!isSuccessful)
+        setError(!result.ok)
+        setHelperText(
+          result.ok ? props.helperText : result.err ?? props.helperText
+        )
       }}
     />
   )
