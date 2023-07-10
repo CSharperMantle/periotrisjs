@@ -127,7 +127,7 @@ export const query = graphql`
     }
 
     locales: allLocale(
-      filter: { ns: { in: ["index"] }, language: { eq: $language } }
+      filter: { ns: { in: ["game"] }, language: { eq: $language } }
     ) {
       edges {
         node {

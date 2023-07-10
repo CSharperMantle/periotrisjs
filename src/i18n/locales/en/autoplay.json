@@ -1,0 +1,13 @@
+{
+  "typ_h_not_started_intro": "Welcome to Periotris.js AUTOPLAY",
+  "typ_p_not_started_intro": "In AUTOPLAY, the system takes over game input, and all user key presses and gestures are ignored. This session will not be recorded in play history. Apart from those, it is identical to Normal Mode and observes the same user settings, including map, color scheme and game speed.",
+  "cap_home": "HOME",
+  "cap_start": "START",
+  "cap_retry": "RETRY",
+  "typ_h_preparing": "Please wait",
+  "typ_p_preparing": "Generating new unique patterns. The demonstration will start in a few seconds.",
+  "typ_h_lost": "Ouch...",
+  "typ_p_lost": "This should not happen. Please report this to the developer.",
+  "typ_h_won": "Demo complete",
+  "typ_p_won": "This AUTOPLAY session is over. Feel free to start a new one."
+}

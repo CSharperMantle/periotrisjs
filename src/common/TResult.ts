@@ -15,6 +15,4 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { defaultLang, langs } from "./lang"
-
-export { defaultLang, langs }
+export type TResult<T, E> = { ok: true; value?: T } | { ok: false; err?: E }

@@ -73,7 +73,7 @@ const App = ({ data }: PageProps<Queries.IndexPageQuery>) => {
       </Grid>
       <Grid item xs={4}>
         <Container maxWidth="xs">
-          <Stack direction="column" justifyItems="center" spacing={3}>
+          <Stack direction="column" justifyItems="center" spacing={2}>
             <Button
               variant="contained"
               size="large"

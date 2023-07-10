@@ -1,0 +1,13 @@
+{
+  "typ_h_not_started_intro": "欢迎来到 Periotris.js ！你的任务：拼出化学元素周期表",
+  "typ_p_not_started_intro": "A/D/S/触屏滑动：移动一格；W/触屏短按：旋转；Space/触屏长按：立即下落",
+  "cap_home": "首页",
+  "cap_start": "开始",
+  "cap_retry": "重试",
+  "typ_h_preparing": "祝你好运！",
+  "typ_p_preparing": "正在生成全新的分割排列。游戏将马上开始。",
+  "typ_h_lost": "糟糕……",
+  "typ_p_lost": "这种排列方式不正确。再试一次？",
+  "typ_h_won": "祝贺！",
+  "typ_p_won": "你成功完成了这次挑战，请尽情欣赏你的杰作吧！"
+}

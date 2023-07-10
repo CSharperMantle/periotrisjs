@@ -33,12 +33,14 @@ import {
 import { flushed } from "./flushed"
 import { formatDuration } from "./formatDuration"
 import { isNil } from "./isNil"
+import { getLocalizedLangName } from "./localize"
 import { queryPath } from "./queryPath"
 import { rearrange } from "./rearrange"
 import { waitForEvent } from "./waitForEvent"
 
 import type { ISize } from "./ISize"
 import type { TPosition } from "./TPosition"
+import type { TResult } from "./TResult"
 
 export {
   AutoplaySentinel,
@@ -56,9 +58,10 @@ export {
   StopwatchUpdateIntervalMilliseconds,
   flushed,
   formatDuration,
+  getLocalizedLangName,
   isNil,
   queryPath,
   rearrange,
   waitForEvent,
 }
-export type { ISize, TPosition }
+export type { ISize, TPosition, TResult }

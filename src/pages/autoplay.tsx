@@ -89,7 +89,7 @@ export const query = graphql`
     }
 
     locales: allLocale(
-      filter: { ns: { in: ["index"] }, language: { eq: $language } }
+      filter: { ns: { in: ["autoplay"] }, language: { eq: $language } }
     ) {
       edges {
         node {

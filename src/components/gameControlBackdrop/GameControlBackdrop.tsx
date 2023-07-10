@@ -17,6 +17,7 @@
 
 import { navigate } from "gatsby"
 import React from "react"
+import { useI18next } from "gatsby-plugin-react-i18next"
 
 import Backdrop from "@mui/material/Backdrop"
 import Button from "@mui/material/Button"
@@ -33,13 +34,15 @@ interface IGameNotStartedContentProps {
 }
 
 const GameNotStartedContent = (props: IGameNotStartedContentProps) => {
+  const { t } = useI18next()
+
   return (
     <>
-      <Typography align="center" maxWidth="md" variant="h6">
-        Welcome! Your task: complete the Periodic Table.
+      <Typography align="center" maxWidth="sm" variant="h6">
+        {t("typ_h_not_started_intro")}
       </Typography>
-      <Typography align="center" maxWidth="md" variant="body1">
-        A/D/S/Swipe: move by one. W/Tap: rotate. Space/Long press: drop.
+      <Typography align="center" maxWidth="sm" variant="body1" paragraph>
+        {t("typ_p_not_started_intro")}
       </Typography>
       <Stack direction="row" spacing={5}>
         <Button
@@ -49,14 +52,14 @@ const GameNotStartedContent = (props: IGameNotStartedContentProps) => {
             navigate(props.homePagePath)
           }}
         >
-          HOME
+          {t("cap_home")}
         </Button>
         <Button
           variant="contained"
           color="primary"
           onClick={props.startGameHandler}
         >
-          START
+          {t("cap_start")}
         </Button>
       </Stack>
     </>
@@ -64,13 +67,15 @@ const GameNotStartedContent = (props: IGameNotStartedContentProps) => {
 }
 
 const GamePreparingContent = () => {
+  const { t } = useI18next()
+
   return (
     <>
-      <Typography align="center" maxWidth="md" variant="h6">
-        Good luck!
+      <Typography align="center" maxWidth="sm" variant="h6">
+        {t("typ_h_preparing")}
       </Typography>
-      <Typography align="center" maxWidth="md" variant="body1">
-        Generating new map for you. The game will start in a few seconds.
+      <Typography align="center" maxWidth="sm" variant="body1" paragraph>
+        {t("typ_p_preparing")}
       </Typography>
       <DelayedIndefProgress delayMs={800} />
     </>
@@ -83,13 +88,15 @@ interface IGameLostContentProps {
 }
 
 const GameLostContent = (props: IGameLostContentProps) => {
+  const { t } = useI18next()
+
   return (
     <>
-      <Typography align="center" maxWidth="md" variant="h6">
-        Oops...
+      <Typography align="center" maxWidth="sm" variant="h6">
+        {t("typ_h_lost")}
       </Typography>
-      <Typography align="center" maxWidth="md" variant="body1">
-        This does not seem to be right. Ready to give it another shot?
+      <Typography align="center" maxWidth="sm" variant="body1" paragraph>
+        {t("typ_p_lost")}
       </Typography>
       <Stack direction="row" spacing={5}>
         <Button
@@ -99,14 +106,14 @@ const GameLostContent = (props: IGameLostContentProps) => {
             navigate(props.homePagePath)
           }}
         >
-          HOME
+          {t("cap_home")}
         </Button>
         <Button
           variant="contained"
           color="secondary"
           onClick={props.startGameHandler}
         >
-          RETRY
+          {t("cap_retry")}
         </Button>
       </Stack>
     </>
@@ -119,13 +126,15 @@ interface IGameWonContentProps {
 }
 
 const GameWonContent = (props: IGameWonContentProps) => {
+  const { t } = useI18next()
+
   return (
     <>
-      <Typography align="center" maxWidth="md" variant="h6">
-        Congrats!
+      <Typography align="center" maxWidth="sm" variant="h6">
+        {t("typ_h_won")}
       </Typography>
-      <Typography align="center" maxWidth="md" variant="body1">
-        You finished the game! Don&apos;t hesitate to brag about it.
+      <Typography align="center" maxWidth="sm" variant="body1" paragraph>
+        {t("typ_p_won")}
       </Typography>
       <Stack direction="row" spacing={5}>
         <Button
@@ -135,14 +144,14 @@ const GameWonContent = (props: IGameWonContentProps) => {
             navigate(props.homePagePath)
           }}
         >
-          HOME
+          {t("cap_home")}
         </Button>
         <Button
           variant="contained"
           color="primary"
           onClick={props.startGameHandler}
         >
-          START
+          {t("cap_start")}
         </Button>
       </Stack>
     </>
