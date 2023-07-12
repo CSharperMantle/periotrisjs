@@ -19,14 +19,44 @@ import { graphql, useStaticQuery } from "gatsby"
 import { SnackbarProvider } from "notistack"
 import React from "react"
 import { Provider as ReduxProvider } from "react-redux"
+import {} from "lodash"
 
 import Box from "@mui/material/Box"
 import CssBaseline from "@mui/material/CssBaseline"
 import { StyledEngineProvider } from "@mui/material/styles"
 import ThemeProvider from "@mui/material/styles/ThemeProvider"
+import Alert from "@mui/material/Alert"
 
 import { theme } from "../ThemeOptions"
 import { appStore } from "../viewmodel"
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, react/display-name
+const InfoAlert = React.forwardRef(({ message }: any, ref: any) => (
+  <Alert severity="info" variant="filled" ref={ref}>
+    {message}
+  </Alert>
+))
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, react/display-name
+const ErrorAlert = React.forwardRef(({ message }: any, ref: any) => (
+  <Alert severity="error" variant="filled" ref={ref}>
+    {message}
+  </Alert>
+))
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, react/display-name
+const WarningAlert = React.forwardRef(({ message }: any, ref: any) => (
+  <Alert severity="warning" variant="filled" ref={ref}>
+    {message}
+  </Alert>
+))
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, react/display-name
+const SuccessAlert = React.forwardRef(({ message }: any, ref: any) => (
+  <Alert severity="success" variant="filled" ref={ref}>
+    {message}
+  </Alert>
+))
 
 export interface ICommonPageLayoutProps {
   readonly children: React.ReactNode
@@ -37,6 +67,13 @@ export const CommonPageLayout = ({ children }: ICommonPageLayoutProps) => {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <SnackbarProvider
+          Components={{
+            default: InfoAlert,
+            error: ErrorAlert,
+            warning: WarningAlert,
+            success: SuccessAlert,
+            info: InfoAlert,
+          }}
           anchorOrigin={{
             vertical: "bottom",
             horizontal: "center",

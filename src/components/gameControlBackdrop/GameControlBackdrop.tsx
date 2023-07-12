@@ -258,7 +258,7 @@ export const GameControlBackdrop = (props: IGameStatusBackdropProps) => {
         >
           {content}
           <Fade in={isPortrait}>
-            <Typography align="center" variant="body1" paragraph>
+            <Typography align="center" variant="body1" paragraph color="yellow">
               <strong>{t("typ_p_portrait")}</strong>
             </Typography>
           </Fade>
