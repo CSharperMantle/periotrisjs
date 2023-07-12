@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { graphql, Link as GatsbyLink, PageProps } from "gatsby"
+import { Link as GatsbyLink, graphql, PageProps } from "gatsby"
 import { useI18next } from "gatsby-plugin-react-i18next"
 import React from "react"
 
@@ -25,7 +25,6 @@ import InfoIcon from "@mui/icons-material/Info"
 import SettingsIcon from "@mui/icons-material/Settings"
 import Button from "@mui/material/Button"
 import Container from "@mui/material/Container"
-import Grid from "@mui/material/Grid"
 import IconButton from "@mui/material/IconButton"
 import Stack from "@mui/material/Stack"
 import Tooltip from "@mui/material/Tooltip"
@@ -45,108 +44,99 @@ const App = ({ data }: PageProps<Queries.IndexPageQuery>) => {
   const { t } = useI18next()
 
   return (
-    <Grid
-      container
+    <Stack
       direction="column"
       justifyContent="space-evenly"
-      alignItems="stretch"
-      spacing={3}
-      columns={12}
+      alignItems="center"
       sx={{
         flex: "1 1 auto",
       }}
       maxWidth="xs"
     >
-      <Grid item xs={5}>
-        <Stack
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          spacing={1}
-          mt={3}
-        >
-          <Typography variant="h2">Periotris.js</Typography>
-          <Typography variant="body1">
-            {t("typ_version", { version: data.package?.version })}
-          </Typography>
+      <Stack
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        spacing={1}
+        mt={3}
+      >
+        <Typography variant="h2">Periotris.js</Typography>
+        <Typography variant="body1">
+          {t("typ_version", { version: data.package?.version })}
+        </Typography>
+      </Stack>
+      <Container maxWidth="xs">
+        <Stack direction="column" justifyItems="center" spacing={2}>
+          <Button
+            variant="contained"
+            size="large"
+            fullWidth
+            component={GatsbyLink}
+            to={gamePagePath}
+          >
+            {t("cap_start")}
+          </Button>
+          <Button
+            variant="outlined"
+            size="large"
+            fullWidth
+            component={GatsbyLink}
+            to={autoplayPagePath}
+          >
+            {t("cap_autoplay")}
+          </Button>
         </Stack>
-      </Grid>
-      <Grid item xs={4}>
-        <Container maxWidth="xs">
-          <Stack direction="column" justifyItems="center" spacing={2}>
-            <Button
-              variant="contained"
-              size="large"
-              fullWidth
-              component={GatsbyLink}
-              to={gamePagePath}
-            >
-              {t("cap_start")}
-            </Button>
-            <Button
-              variant="outlined"
-              size="large"
-              fullWidth
-              component={GatsbyLink}
-              to={autoplayPagePath}
-            >
-              {t("cap_autoplay")}
-            </Button>
-          </Stack>
-        </Container>
-      </Grid>
-      <Grid item xs={3}>
-        <Stack
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-          spacing={3}
-        >
-          <Tooltip title={t("cap_settings")}>
-            <IconButton
-              size="large"
-              aria-label="settings"
-              component={GatsbyLink}
-              to={settingsPagePath}
-            >
-              <SettingsIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title={t("cap_about")}>
-            <IconButton
-              size="large"
-              aria-label="about"
-              component={GatsbyLink}
-              to={aboutPagePath}
-            >
-              <InfoIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title={t("cap_sponsor")}>
-            <IconButton
-              size="large"
-              aria-label="sponsor"
-              href="https://afdian.net/@CSharperMantle"
-              target="_blank"
-              rel="noopener"
-            >
-              <FavoriteIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title={t("cap_github")}>
-            <IconButton
-              size="large"
-              aria-label="github"
-              href="https://github.com/CSharperMantle/periotrisjs"
-              target="_blank"
-              rel="noopener"
-            >
-              <GitHubIcon />
-            </IconButton>
-          </Tooltip>
-        </Stack>
-      </Grid>
-    </Grid>
+      </Container>
+      <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={3}
+      >
+        <Tooltip title={t("cap_settings")}>
+          <IconButton
+            size="large"
+            aria-label="settings"
+            component={GatsbyLink}
+            to={settingsPagePath}
+          >
+            <SettingsIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={t("cap_about")}>
+          <IconButton
+            size="large"
+            aria-label="about"
+            component={GatsbyLink}
+            to={aboutPagePath}
+          >
+            <InfoIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={t("cap_sponsor")}>
+          <IconButton
+            size="large"
+            aria-label="sponsor"
+            href="https://afdian.net/@CSharperMantle"
+            target="_blank"
+            rel="noopener"
+          >
+            <FavoriteIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={t("cap_github")}>
+          <IconButton
+            size="large"
+            aria-label="github"
+            href="https://github.com/CSharperMantle/periotrisjs"
+            target="_blank"
+            rel="noopener"
+          >
+            <GitHubIcon />
+          </IconButton>
+        </Tooltip>
+      </Stack>
+    </Stack>
   )
 }
 

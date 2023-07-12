@@ -15,16 +15,82 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
+import { PageProps, graphql, navigate } from "gatsby"
+import { useI18next } from "gatsby-plugin-react-i18next"
 import React from "react"
 
+import Button from "@mui/material/Button"
+import Container from "@mui/material/Container"
+import Stack from "@mui/material/Stack"
+import Typography from "@mui/material/Typography"
+
+import { PageID } from "../PageID"
+import { queryPath } from "../common"
 import { CommonHead } from "../components"
 
-const ErrorPage = () => {
-  return <main>Placeholder error page</main>
+const ErrorPage = ({ data }: PageProps<Queries.ErrorPageQuery>) => {
+  const routes = data.site?.siteMetadata?.navRoutes
+  const homePagePath = queryPath(routes, PageID.PAGE_HOME)
+
+  const { t } = useI18next()
+
+  return (
+    <Stack
+      direction="column"
+      justifyContent="space-evenly"
+      alignItems="center"
+      sx={{
+        flex: "1 1 auto",
+      }}
+      maxWidth="xs"
+    >
+      <Typography variant="h3" textAlign="center">
+        {t("typ_h_error")}
+      </Typography>
+      <Typography variant="body1" textAlign="center" paragraph>
+        {t("typ_p_error")}
+      </Typography>
+      <Container maxWidth="xs">
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={() => {
+            navigate(homePagePath)
+          }}
+        >
+          {t("cap_home")}
+        </Button>
+      </Container>
+    </Stack>
+  )
 }
 
 export default ErrorPage
 
-export const Head = () => {
-  return <CommonHead />
-}
+export const Head = CommonHead
+
+export const query = graphql`
+  query ErrorPage($language: String!) {
+    site {
+      siteMetadata {
+        navRoutes {
+          id
+          path
+        }
+      }
+    }
+
+    locales: allLocale(
+      filter: { ns: { in: ["404"] }, language: { eq: $language } }
+    ) {
+      edges {
+        node {
+          ns
+          data
+          language
+        }
+      }
+    }
+  }
+`

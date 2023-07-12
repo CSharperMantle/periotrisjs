@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { filter, head } from "lodash"
+import { filter, head, memoize } from "lodash"
 
 export type TRoute = {
   readonly id: number | null
@@ -24,6 +24,9 @@ export type TRoute = {
 
 export type TRoutes = readonly TRoute[] | null | undefined
 
-export function queryPath(routes: TRoutes, id: number): string {
-  return head(filter(routes, (r) => r?.id === id))?.path ?? "#"
-}
+export const queryPath = memoize(
+  (routes: TRoutes, id: number): string => {
+    return head(filter(routes, (r) => r?.id === id))?.path ?? "#"
+  },
+  (_, id) => id
+)

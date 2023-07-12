@@ -50,7 +50,7 @@ const App = ({ data }: PageProps<Queries.AboutPageQuery>) => {
         pb: 4,
       }}
     >
-      <Stack spacing={1}>
+      <Stack direction="column" spacing={1}>
         <Stack
           direction="row"
           justifyContent="space-between"
