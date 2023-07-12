@@ -1,4 +1,5 @@
 {
+  "typ_p_portrait": "你的设备处于竖屏模式。切换至横屏模式以继续游戏。",
   "typ_h_not_started_intro": "欢迎来到 Periotris.js ！你的任务：拼出化学元素周期表",
   "typ_p_not_started_intro": "A/D/S/触屏滑动：移动一格；W/触屏短按：旋转；Space/触屏长按：立即下落",
   "cap_home": "首页",
