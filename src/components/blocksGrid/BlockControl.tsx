@@ -36,6 +36,7 @@ const BlockControlText = ({ hasContent, atomicNumber }: IBlockControlText) => {
     // This is a block with textual content.
     return (
       <Typography
+        align="center"
         sx={{
           display: "block",
 
@@ -43,7 +44,6 @@ const BlockControlText = ({ hasContent, atomicNumber }: IBlockControlText) => {
           margin: "0 auto",
 
           userSelect: "none",
-          textAlign: "center",
           fontSize: "3vh",
         }}
         color={"black"}

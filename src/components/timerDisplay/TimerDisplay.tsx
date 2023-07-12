@@ -49,10 +49,10 @@ export const TimerDisplay = () => {
       }}
     >
       <Typography
+        align="center"
         sx={{
           margin: "0 auto",
 
-          textAlign: "center",
           fontSize: "3vh",
           color: "white",
         }}
@@ -60,10 +60,10 @@ export const TimerDisplay = () => {
         {formatDuration(fastestRecord)}
       </Typography>
       <Typography
+        align="center"
         sx={{
           margin: "0 auto",
 
-          textAlign: "center",
           fontSize: "3vh",
           color: "yellow",
         }}

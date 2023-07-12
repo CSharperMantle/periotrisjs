@@ -20,14 +20,12 @@ import { CommonHead, CommonPageLayout, CommonRootLayout } from "./CommonLayout"
 import { FileFormControl } from "./FileFormControl"
 import { GameControlBackdrop } from "./gameControlBackdrop/GameControlBackdrop"
 import { NumberFormControl } from "./NumberFormControl"
-import { PortraitWarningBackdrop } from "./PortraitWarningBackdrop"
 
 import type { ICommonPageLayoutProps } from "./CommonLayout"
 
 export {
   BlocksGrid,
   GameControlBackdrop,
-  PortraitWarningBackdrop,
   CommonPageLayout,
   CommonHead,
   CommonRootLayout,

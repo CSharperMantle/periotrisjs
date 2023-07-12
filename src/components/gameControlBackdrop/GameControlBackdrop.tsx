@@ -15,54 +15,65 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { navigate } from "gatsby"
-import React from "react"
+import { Link as GatsbyLink } from "gatsby"
 import { useI18next } from "gatsby-plugin-react-i18next"
+import React from "react"
 
 import Backdrop from "@mui/material/Backdrop"
 import Button from "@mui/material/Button"
+import Container from "@mui/material/Container"
+import Fade from "@mui/material/Fade"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
+import useMediaQuery from "@mui/material/useMediaQuery"
 
 import { GameState } from "../../model"
 import { useAppSelector } from "../../viewmodel"
 import { DelayedIndefProgress } from "./DelayedIndefProgress"
 
-interface IGameNotStartedContentProps {
-  readonly homePagePath: string
-  readonly startGameHandler: () => void
+interface IButtonCommonProps {
+  readonly returnPath: string
+  readonly okHandler: () => void
+  readonly disabled: boolean
 }
 
-const GameNotStartedContent = (props: IGameNotStartedContentProps) => {
+const GameNotStartedContent = () => {
   const { t } = useI18next()
 
   return (
     <>
-      <Typography align="center" maxWidth="sm" variant="h6">
+      <Typography align="center" variant="h6">
         {t("typ_h_not_started_intro")}
       </Typography>
-      <Typography align="center" maxWidth="sm" variant="body1" paragraph>
+      <Typography align="center" variant="body1" paragraph>
         {t("typ_p_not_started_intro")}
       </Typography>
-      <Stack direction="row" spacing={5}>
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={() => {
-            navigate(props.homePagePath)
-          }}
-        >
-          {t("cap_home")}
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={props.startGameHandler}
-        >
-          {t("cap_start")}
-        </Button>
-      </Stack>
     </>
+  )
+}
+
+const GameNotStartedButtons = (props: IButtonCommonProps) => {
+  const { t } = useI18next()
+
+  return (
+    <Stack direction="row" spacing={5}>
+      <Button
+        variant="outlined"
+        color="primary"
+        component={GatsbyLink}
+        to={props.returnPath}
+      >
+        {t("cap_home")}
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        disabled={props.disabled}
+        onClick={props.okHandler}
+      >
+        {t("cap_start")}
+      </Button>
+    </Stack>
   )
 }
 
@@ -71,10 +82,10 @@ const GamePreparingContent = () => {
 
   return (
     <>
-      <Typography align="center" maxWidth="sm" variant="h6">
+      <Typography align="center" variant="h6">
         {t("typ_h_preparing")}
       </Typography>
-      <Typography align="center" maxWidth="sm" variant="body1" paragraph>
+      <Typography align="center" variant="body1" paragraph>
         {t("typ_p_preparing")}
       </Typography>
       <DelayedIndefProgress delayMs={800} />
@@ -82,79 +93,83 @@ const GamePreparingContent = () => {
   )
 }
 
-interface IGameLostContentProps {
-  readonly homePagePath: string
-  readonly startGameHandler: () => void
-}
-
-const GameLostContent = (props: IGameLostContentProps) => {
+const GameLostContent = () => {
   const { t } = useI18next()
 
   return (
     <>
-      <Typography align="center" maxWidth="sm" variant="h6">
+      <Typography align="center" variant="h6">
         {t("typ_h_lost")}
       </Typography>
-      <Typography align="center" maxWidth="sm" variant="body1" paragraph>
+      <Typography align="center" variant="body1" paragraph>
         {t("typ_p_lost")}
       </Typography>
-      <Stack direction="row" spacing={5}>
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={() => {
-            navigate(props.homePagePath)
-          }}
-        >
-          {t("cap_home")}
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={props.startGameHandler}
-        >
-          {t("cap_retry")}
-        </Button>
-      </Stack>
     </>
   )
 }
 
-interface IGameWonContentProps {
-  readonly homePagePath: string
-  readonly startGameHandler: () => void
+const GameLostButtons = (props: IButtonCommonProps) => {
+  const { t } = useI18next()
+
+  return (
+    <Stack direction="row" spacing={5}>
+      <Button
+        variant="outlined"
+        color="primary"
+        component={GatsbyLink}
+        to={props.returnPath}
+      >
+        {t("cap_home")}
+      </Button>
+      <Button
+        variant="contained"
+        color="secondary"
+        disabled={props.disabled}
+        onClick={props.okHandler}
+      >
+        {t("cap_retry")}
+      </Button>
+    </Stack>
+  )
 }
 
-const GameWonContent = (props: IGameWonContentProps) => {
+const GameWonContent = () => {
   const { t } = useI18next()
 
   return (
     <>
-      <Typography align="center" maxWidth="sm" variant="h6">
+      <Typography align="center" variant="h6">
         {t("typ_h_won")}
       </Typography>
-      <Typography align="center" maxWidth="sm" variant="body1" paragraph>
+      <Typography align="center" variant="body1" paragraph>
         {t("typ_p_won")}
       </Typography>
-      <Stack direction="row" spacing={5}>
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={() => {
-            navigate(props.homePagePath)
-          }}
-        >
-          {t("cap_home")}
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={props.startGameHandler}
-        >
-          {t("cap_start")}
-        </Button>
-      </Stack>
     </>
+  )
+}
+
+const GameWonButtons = (props: IButtonCommonProps) => {
+  const { t } = useI18next()
+
+  return (
+    <Stack direction="row" spacing={5}>
+      <Button
+        variant="outlined"
+        color="primary"
+        component={GatsbyLink}
+        to={props.returnPath}
+      >
+        {t("cap_home")}
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        disabled={props.disabled}
+        onClick={props.okHandler}
+      >
+        {t("cap_start")}
+      </Button>
+    </Stack>
   )
 }
 
@@ -165,39 +180,51 @@ interface IGameStatusBackdropProps {
 }
 
 export const GameControlBackdrop = (props: IGameStatusBackdropProps) => {
+  const isPortrait = useMediaQuery("(orientation: portrait)")
+  const { t } = useI18next()
+
   const gameState = useAppSelector(
     (state) => state.game.gameControlBackdrop.gameState
   )
 
   let content: React.ReactElement
+  let buttons: React.ReactElement
   switch (gameState) {
     case GameState.NotStarted:
-      content = (
-        <GameNotStartedContent
-          homePagePath={props.homePagePath}
-          startGameHandler={props.startGameHandler}
+      content = <GameNotStartedContent />
+      buttons = (
+        <GameNotStartedButtons
+          returnPath={props.homePagePath}
+          okHandler={props.startGameHandler}
+          disabled={isPortrait}
         />
       )
       break
     case GameState.Preparing:
       content = <GamePreparingContent />
+      buttons = <></>
       break
     case GameState.InProgress:
       content = <></>
+      buttons = <></>
       break
     case GameState.Won:
-      content = (
-        <GameWonContent
-          homePagePath={props.homePagePath}
-          startGameHandler={props.startGameHandler}
+      content = <GameWonContent />
+      buttons = (
+        <GameWonButtons
+          returnPath={props.homePagePath}
+          okHandler={props.startGameHandler}
+          disabled={isPortrait}
         />
       )
       break
     case GameState.Lost:
-      content = (
-        <GameLostContent
-          homePagePath={props.homePagePath}
-          startGameHandler={props.startGameHandler}
+      content = <GameLostContent />
+      buttons = (
+        <GameLostButtons
+          returnPath={props.homePagePath}
+          okHandler={props.startGameHandler}
+          disabled={isPortrait}
         />
       )
       break
@@ -219,17 +246,25 @@ export const GameControlBackdrop = (props: IGameStatusBackdropProps) => {
       }}
       open={gameState !== GameState.InProgress}
     >
-      <Stack
-        sx={{
-          height: "100%",
-        }}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        spacing={2}
-      >
-        {content}
-      </Stack>
+      <Container maxWidth="sm">
+        <Stack
+          sx={{
+            height: "100%",
+          }}
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          spacing={2}
+        >
+          {content}
+          <Fade in={isPortrait}>
+            <Typography align="center" variant="body1" paragraph color="yellow">
+              <strong>{t("typ_p_portrait")}</strong>
+            </Typography>
+          </Fade>
+          {buttons}
+        </Stack>
+      </Container>
     </Backdrop>
   )
 }

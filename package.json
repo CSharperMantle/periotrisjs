@@ -1,6 +1,6 @@
 {
   "name": "periotrisjs",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "Get familiar with the Periodic Table of Elements in a fun way, directly in your browsers.",
   "scripts": {
     "clean": "yarn run -B rimraf build coverage public && yarn run -B gatsby clean",

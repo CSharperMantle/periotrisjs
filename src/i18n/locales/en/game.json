@@ -1,4 +1,5 @@
 {
+  "typ_p_portrait": "Your device is in portrait orientation. Switch to landscape mode to continue.",
   "typ_h_not_started_intro": "Welcome to Periotris.js! Your task: complete the Periodic Table",
   "typ_p_not_started_intro": "A/D/S/Swipe: move by one; W/Tap: rotate; Space/Long press: drop",
   "cap_home": "HOME",

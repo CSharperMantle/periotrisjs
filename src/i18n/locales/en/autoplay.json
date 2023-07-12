@@ -1,4 +1,5 @@
 {
+  "typ_p_portrait": "Your device is in portrait orientation. Switch to landscape mode to continue.",
   "typ_h_not_started_intro": "Welcome to Periotris.js AUTOPLAY",
   "typ_p_not_started_intro": "In AUTOPLAY, the system takes over game input, and all user key presses and gestures are ignored. This session will not be recorded in play history. Apart from those, it is identical to Normal Mode and observes the same user settings, including map, color scheme and game speed.",
   "cap_home": "HOME",
