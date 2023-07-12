@@ -51,7 +51,6 @@ const App = ({ data }: PageProps<Queries.IndexPageQuery>) => {
       sx={{
         flex: "1 1 auto",
       }}
-      maxWidth="xs"
     >
       <Stack
         direction="column"

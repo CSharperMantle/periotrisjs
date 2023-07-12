@@ -15,7 +15,7 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { PageProps, graphql, navigate } from "gatsby"
+import { Link as GatsbyLink, PageProps, graphql } from "gatsby"
 import { useI18next } from "gatsby-plugin-react-i18next"
 import React from "react"
 
@@ -44,20 +44,19 @@ const ErrorPage = ({ data }: PageProps<Queries.ErrorPageQuery>) => {
       }}
       maxWidth="xs"
     >
-      <Typography variant="h3" textAlign="center">
+      <Typography align="center" variant="h3">
         {t("typ_h_error")}
       </Typography>
-      <Typography variant="body1" textAlign="center" paragraph>
+      <Typography align="center" variant="body1" paragraph>
         {t("typ_p_error")}
       </Typography>
       <Container maxWidth="xs">
         <Button
-          variant="contained"
+          variant="outlined"
           color="primary"
           fullWidth
-          onClick={() => {
-            navigate(homePagePath)
-          }}
+          component={GatsbyLink}
+          to={homePagePath}
         >
           {t("cap_home")}
         </Button>

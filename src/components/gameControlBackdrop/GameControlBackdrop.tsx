@@ -15,12 +15,13 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/ .
  */
 
-import { navigate } from "gatsby"
-import React from "react"
+import { Link as GatsbyLink } from "gatsby"
 import { useI18next } from "gatsby-plugin-react-i18next"
+import React from "react"
 
 import Backdrop from "@mui/material/Backdrop"
 import Button from "@mui/material/Button"
+import Container from "@mui/material/Container"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 
@@ -38,19 +39,18 @@ const GameNotStartedContent = (props: IGameNotStartedContentProps) => {
 
   return (
     <>
-      <Typography align="center" maxWidth="sm" variant="h6">
+      <Typography align="center" variant="h6">
         {t("typ_h_not_started_intro")}
       </Typography>
-      <Typography align="center" maxWidth="sm" variant="body1" paragraph>
+      <Typography align="center" variant="body1" paragraph>
         {t("typ_p_not_started_intro")}
       </Typography>
       <Stack direction="row" spacing={5}>
         <Button
           variant="outlined"
           color="primary"
-          onClick={() => {
-            navigate(props.homePagePath)
-          }}
+          component={GatsbyLink}
+          to={props.homePagePath}
         >
           {t("cap_home")}
         </Button>
@@ -71,10 +71,10 @@ const GamePreparingContent = () => {
 
   return (
     <>
-      <Typography align="center" maxWidth="sm" variant="h6">
+      <Typography align="center" variant="h6">
         {t("typ_h_preparing")}
       </Typography>
-      <Typography align="center" maxWidth="sm" variant="body1" paragraph>
+      <Typography align="center" variant="body1" paragraph>
         {t("typ_p_preparing")}
       </Typography>
       <DelayedIndefProgress delayMs={800} />
@@ -92,19 +92,18 @@ const GameLostContent = (props: IGameLostContentProps) => {
 
   return (
     <>
-      <Typography align="center" maxWidth="sm" variant="h6">
+      <Typography align="center" variant="h6">
         {t("typ_h_lost")}
       </Typography>
-      <Typography align="center" maxWidth="sm" variant="body1" paragraph>
+      <Typography align="center" variant="body1" paragraph>
         {t("typ_p_lost")}
       </Typography>
       <Stack direction="row" spacing={5}>
         <Button
           variant="outlined"
           color="primary"
-          onClick={() => {
-            navigate(props.homePagePath)
-          }}
+          component={GatsbyLink}
+          to={props.homePagePath}
         >
           {t("cap_home")}
         </Button>
@@ -130,19 +129,18 @@ const GameWonContent = (props: IGameWonContentProps) => {
 
   return (
     <>
-      <Typography align="center" maxWidth="sm" variant="h6">
+      <Typography align="center" variant="h6">
         {t("typ_h_won")}
       </Typography>
-      <Typography align="center" maxWidth="sm" variant="body1" paragraph>
+      <Typography align="center" variant="body1" paragraph>
         {t("typ_p_won")}
       </Typography>
       <Stack direction="row" spacing={5}>
         <Button
           variant="outlined"
           color="primary"
-          onClick={() => {
-            navigate(props.homePagePath)
-          }}
+          component={GatsbyLink}
+          to={props.homePagePath}
         >
           {t("cap_home")}
         </Button>
@@ -219,17 +217,19 @@ export const GameControlBackdrop = (props: IGameStatusBackdropProps) => {
       }}
       open={gameState !== GameState.InProgress}
     >
-      <Stack
-        sx={{
-          height: "100%",
-        }}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        spacing={2}
-      >
-        {content}
-      </Stack>
+      <Container maxWidth="sm">
+        <Stack
+          sx={{
+            height: "100%",
+          }}
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          spacing={2}
+        >
+          {content}
+        </Stack>
+      </Container>
     </Backdrop>
   )
 }
