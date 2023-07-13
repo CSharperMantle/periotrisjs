@@ -63,9 +63,9 @@ describe("queryPath", () => {
         id: 1,
       },
     ] as const
-    expect(queryPath(null, 1)).toStrictEqual("#")
-    expect(queryPath(undefined, 1)).toStrictEqual("#")
-    expect(queryPath([], 1)).toStrictEqual("#")
-    expect(queryPath(routes, 1)).toStrictEqual("#")
+    expect(queryPath(null, 1)).toStrictEqual("")
+    expect(queryPath(undefined, 1)).toStrictEqual("")
+    expect(queryPath([], 1)).toStrictEqual("")
+    expect(queryPath(routes, 1)).toStrictEqual("")
   })
 })
