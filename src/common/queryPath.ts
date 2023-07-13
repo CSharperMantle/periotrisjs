@@ -26,7 +26,7 @@ export type TRoutes = readonly TRoute[] | null | undefined
 
 export const queryPath = memoize(
   (routes: TRoutes, id: number): string => {
-    return head(filter(routes, (r) => r?.id === id))?.path ?? "#"
+    return head(filter(routes, (r) => r?.id === id))?.path ?? ""
   },
-  (_, id) => id
+  (routes, id) => [routes, id]
 )
