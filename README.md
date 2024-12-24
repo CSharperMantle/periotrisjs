@@ -15,7 +15,7 @@ _Periotris.js v2.0.1_
 
 Instances of Periotris.js are hosted on GitHub Pages and Vercel.
 
-- GitHub Pages: https://csharpermantle.github.io/periotrisjs
+- GitHub Pages: https://csmantle.top/periotrisjs
 - Vercel: https://periotrisjs.vercel.app/
 - Vercel (develop preview): https://periotrisjs-git-develop-csharpermantle.vercel.app/
 

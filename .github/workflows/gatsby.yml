@@ -7,10 +7,10 @@ jobs:
     strategy:
       matrix:
         os:
-          - ubuntu-20.04
-          - windows-2019
+          - ubuntu-22.04
+          - windows-2022
         node-version:
-          - 18.x
+          - 22.x
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -34,18 +34,18 @@ jobs:
   coverage:
     needs: [build]
     if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/develop' }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: 22.x
           cache: "yarn"
       - name: Set up dependencies
         run: |
           yarn install --immutable
       - name: Coverage
-        uses: paambaati/codeclimate-action@v4.0.0
+        uses: paambaati/codeclimate-action@v9.0.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:

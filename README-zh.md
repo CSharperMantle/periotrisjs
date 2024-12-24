@@ -15,7 +15,7 @@ _Periotris.js v2.0.1_
 
 Periotris.js 在 GitHub Pages 和 Vercel 上都可以访问。
 
-- GitHub Pages: https://csharpermantle.github.io/periotrisjs
+- GitHub Pages: https://csmantle.top/periotrisjs
 - Vercel: https://periotrisjs.vercel.app/
 - Vercel (开发分支预览): https://periotrisjs-git-develop-csharpermantle.vercel.app/
 
