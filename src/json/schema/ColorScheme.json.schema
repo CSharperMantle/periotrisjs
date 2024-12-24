@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://csharpermantle.github.io/periotris/schema/ColorScheme.schema.json",
+  "$id": "http://csmantle.top/periotris/schema/ColorScheme.schema.json",
   "title": "Color Scheme",
   "description": "A color scheme used in Periotris game",
   "type": "object",

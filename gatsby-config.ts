@@ -71,7 +71,7 @@ const config: GatsbyConfig = {
     title: "Periotris.js",
     description:
       "Learn the Periodic Table of Elements in a fun way, directly in your browsers.",
-    url: "https://csharpermantle.github.io/periotrisjs/",
+    url: "https://csmantle.top/periotrisjs/",
     navRoutes: [
       {
         id: PageID.PAGE_HOME,
