@@ -24,7 +24,7 @@ jobs:
           yarn run build --prefix-paths
           yarn run check
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.4.2
+        uses: JamesIves/github-pages-deploy-action@v4.7.3
         with:
           branch: gh-pages
           folder: public
