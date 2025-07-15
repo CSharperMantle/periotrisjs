@@ -95,7 +95,6 @@ const config: GatsbyConfig = {
       },
     ],
   },
-  pathPrefix: process.env.BUILD_ADD_PATH_PREFIX ? "/periotrisjs" : undefined,
   graphqlTypegen: {
     generateOnBuild: true,
   },
