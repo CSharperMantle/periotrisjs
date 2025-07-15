@@ -17,6 +17,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      BUILD_ADD_PATH_PREFIX: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
@@ -25,14 +27,10 @@ jobs:
           cache: yarn
       - name: Configure pages
         uses: actions/configure-pages@v5
-        with:
-          static_site_generator: gatsby
       - name: Set up dependencies
         run: |
           yarn install --immutable
       - name: Build
-        env:
-          PREFIX_PATHS: 'true'
         run: |
           yarn run build --prefix-paths
           yarn run check
