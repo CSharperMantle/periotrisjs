@@ -20,7 +20,7 @@ jobs:
     env:
       BUILD_ADD_PATH_PREFIX: true
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v3
         with:
           node-version: 22.x
