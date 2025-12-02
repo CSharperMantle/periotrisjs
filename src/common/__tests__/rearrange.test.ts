@@ -45,6 +45,6 @@ describe("rearrange", () => {
   it("should handle array and indices of different lengths", () => {
     const array = [1, 2, 3, 4, 5]
     const indices = [3, 0, 4, 1, 2, 6]
-    expect(() => rearrange(array, indices)).toThrowError()
+    expect(() => rearrange(array, indices)).toThrow()
   })
 })

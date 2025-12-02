@@ -89,11 +89,11 @@ describe("History", () => {
 
     const h = History.fromLocalStorage()
 
-    expect(mockedRetrieve).toBeCalledTimes(1)
+    expect(mockedRetrieve).toHaveBeenCalledTimes(1)
     h.add(1000)
     h.add(2000)
     h.add(3000)
     h.add(500)
-    expect(mockedStore).toBeCalledTimes(4)
+    expect(mockedStore).toHaveBeenCalledTimes(4)
   })
 })

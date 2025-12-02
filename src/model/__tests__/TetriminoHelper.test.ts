@@ -47,10 +47,10 @@ describe("createOffsetBlocks", () => {
   it("should handle incorrect arguments gracefully", () => {
     expect(() => {
       createOffsetBlocks(TetriminoKind.Free, [0, 0], Direction.Down)
-    }).toThrowError(new RangeError("getBlocksMask: invalid kind 7"))
+    }).toThrow(new RangeError("getBlocksMask: invalid kind 7"))
     expect(() => {
       createOffsetBlocks(TetriminoKind.Reserved, [0, 0], Direction.Down)
-    }).toThrowError(new RangeError("getBlocksMask: invalid kind 8"))
+    }).toThrow(new RangeError("getBlocksMask: invalid kind 8"))
   })
 })
 
@@ -105,7 +105,7 @@ describe("mapAtomicNumberInto", () => {
           },
         ]
       )
-    }).toThrowError(new Error("mapAtomicNumberInto: length mismatch 0!==1"))
+    }).toThrow(new Error("mapAtomicNumberInto: length mismatch 0!==1"))
     expect(() => {
       mapAtomicNumberInto(
         [
@@ -118,7 +118,7 @@ describe("mapAtomicNumberInto", () => {
         ],
         []
       )
-    }).toThrowError(new Error("mapAtomicNumberInto: length mismatch 1!==0"))
+    }).toThrow(new Error("mapAtomicNumberInto: length mismatch 1!==0"))
     expect(() => {
       mapAtomicNumberInto(
         [
@@ -144,7 +144,7 @@ describe("mapAtomicNumberInto", () => {
           },
         ]
       )
-    }).toThrowError(new Error("mapAtomicNumberInto: length mismatch 1!==2"))
+    }).toThrow(new Error("mapAtomicNumberInto: length mismatch 1!==2"))
     expect(() => {
       mapAtomicNumberInto(
         [
@@ -170,7 +170,7 @@ describe("mapAtomicNumberInto", () => {
           },
         ]
       )
-    }).toThrowError(new Error("mapAtomicNumberInto: length mismatch 2!==1"))
+    }).toThrow(new Error("mapAtomicNumberInto: length mismatch 2!==1"))
   })
 })
 
@@ -213,9 +213,9 @@ describe("getInitialPosition", () => {
 
     expect(() => {
       getInitialPosition(TetriminoKind.Free, size)
-    }).toThrowError(new RangeError("getInitialPosition: invalid kind 7"))
+    }).toThrow(new RangeError("getInitialPosition: invalid kind 7"))
     expect(() => {
       getInitialPosition(TetriminoKind.Reserved, size)
-    }).toThrowError(new RangeError("getInitialPosition: invalid kind 8"))
+    }).toThrow(new RangeError("getInitialPosition: invalid kind 8"))
   })
 })
