@@ -30,23 +30,3 @@ jobs:
       - name: Test
         run: |
           yarn run test
-
-  coverage:
-    needs: [build]
-    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/develop' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 22.x
-          cache: "yarn"
-      - name: Set up dependencies
-        run: |
-          yarn install --immutable
-      - name: Coverage
-        uses: paambaati/codeclimate-action@v9.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        with:
-          coverageCommand: yarn run coverage
