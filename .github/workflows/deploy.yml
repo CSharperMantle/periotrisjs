@@ -30,10 +30,12 @@ jobs:
       - name: Set up dependencies
         run: |
           yarn install --immutable
+      - name: Static type check
+        run: |
+          yarn run check
       - name: Build
         run: |
           yarn run build --prefix-paths
-          yarn run check
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
