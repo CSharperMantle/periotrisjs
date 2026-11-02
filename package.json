@@ -75,7 +75,7 @@
     "@types/webpack-bundle-analyzer": "^4.7.0",
     "@typescript-eslint/eslint-plugin": "^8.48.0",
     "@typescript-eslint/parser": "^8.48.0",
-    "@yarnpkg/sdks": "^3.2.3",
+    "@yarnpkg/sdks": "^3.3.1",
     "ajv-json-loader": "^0.2.0",
     "babel-jest": "^30.2.0",
     "babel-preset-gatsby": "^3.15.0",
@@ -96,7 +96,8 @@
   },
   "resolutions": {
     "lmdb@npm:2.5.2": "npm:3.5.2",
-    "lmdb@npm:2.5.3": "npm:3.5.2"
+    "lmdb@npm:2.5.3": "npm:3.5.2",
+    "@yarnpkg/core@npm:^4.9.1": "npm:4.9.1"
   },
   "packageManager": "yarn@4.12.0"
 }
