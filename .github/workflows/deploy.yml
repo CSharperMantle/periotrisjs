@@ -72,7 +72,7 @@ jobs:
       - name: Deploy
         uses: burnett01/rsync-deployments@v9
         with:
-          switches: -avzr --delete --mkdir
+          switches: -avzr --delete
           path: ./public/
           remote_path: "${{ secrets.REMOTE_PATH }}/periotrisjs"
           remote_host: "${{ secrets.REMOTE_HOST }}"
