@@ -10,11 +10,12 @@ jobs:
           - ubuntu-latest
           - windows-2025
         node-version:
-          - 22.x
+          - 26.x
+          - 24.x
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
@@ -24,29 +25,9 @@ jobs:
       - name: Build
         run: |
           yarn run build
-      - name: Static type check
+      - name: Type check
         run: |
           yarn run check
       - name: Test
         run: |
           yarn run test
-
-  coverage:
-    needs: [build]
-    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/develop' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 22.x
-          cache: "yarn"
-      - name: Set up dependencies
-        run: |
-          yarn install --immutable
-      - name: Coverage
-        uses: paambaati/codeclimate-action@v9.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        with:
-          coverageCommand: yarn run coverage

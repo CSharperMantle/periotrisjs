@@ -29,7 +29,7 @@ describe("LocalStorageManager", () => {
 
     const obj = retrieve("__test_item") as { testProp: number }
 
-    expect(getItemSpy).toBeCalledTimes(1)
+    expect(getItemSpy).toHaveBeenCalledTimes(1)
     expect(obj.testProp).toBe(1)
 
     getItemSpy.mockReset()
@@ -45,7 +45,7 @@ describe("LocalStorageManager", () => {
 
     const result = store("__test_item", { testProp: 2 })
 
-    expect(setItemSpy).toBeCalledTimes(1)
+    expect(setItemSpy).toHaveBeenCalledTimes(1)
     expect(result).toBe(true)
 
     setItemSpy.mockReset()
@@ -60,7 +60,7 @@ describe("LocalStorageManager", () => {
 
     const obj = retrieve("__missing_test_item")
 
-    expect(getItemSpy).toBeCalledTimes(1)
+    expect(getItemSpy).toHaveBeenCalledTimes(1)
     expect(obj).toBeNull()
 
     getItemSpy.mockReset()
@@ -75,7 +75,7 @@ describe("LocalStorageManager", () => {
 
     const result = store("__test_item", { testProp: 1 })
 
-    expect(setItemSpy).toBeCalledTimes(1)
+    expect(setItemSpy).toHaveBeenCalledTimes(1)
     expect(result).toBe(false)
 
     setItemSpy.mockReset()
