@@ -50,9 +50,13 @@ jobs:
           path: ./public
       - name: Configure pages
         uses: actions/configure-pages@v5
+      - name: Package site artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./public
       - name: Deploy
         id: deploy
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
   deploy-self-hosted:
     environment:
       name: self-hosted
