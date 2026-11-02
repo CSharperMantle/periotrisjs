@@ -10,7 +10,8 @@ jobs:
           - ubuntu-latest
           - windows-2025
         node-version:
-          - 22.x
+          - 26.x
+          - 24.x
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
