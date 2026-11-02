@@ -74,7 +74,7 @@ jobs:
         with:
           switches: -avzr --delete
           path: ./public/
-          remote_path: "${{ secrets.REMOTE_PATH }}/periotrisjs"
+          remote_path: "${{ secrets.REMOTE_PATH }}"
           remote_host: "${{ secrets.REMOTE_HOST }}"
           remote_port: "${{ secrets.REMOTE_PORT }}"
           remote_user: "${{ secrets.REMOTE_USER }}"
