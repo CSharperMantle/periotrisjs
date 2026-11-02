@@ -2397,6 +2397,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@harperfast/extended-iterable@npm:^1.0.3":
+  version: 1.0.5
+  resolution: "@harperfast/extended-iterable@npm:1.0.5"
+  checksum: 10/01bb5b0e4598de11bc0d19f2a6d8d4a9d1607d6c40fb1fed946420878c3e9ab51e9bda66a4c580ba00bd6b94d77896b4e94598e081a706a9ddaa21775f6212aa
+  languageName: node
+  linkType: hard
+
 "@humanfs/core@npm:^0.19.1":
   version: 0.19.1
   resolution: "@humanfs/core@npm:0.19.1"
@@ -2876,86 +2883,51 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lmdb/lmdb-darwin-arm64@npm:2.5.2":
-  version: 2.5.2
-  resolution: "@lmdb/lmdb-darwin-arm64@npm:2.5.2"
+"@lmdb/lmdb-darwin-arm64@npm:3.5.2":
+  version: 3.5.2
+  resolution: "@lmdb/lmdb-darwin-arm64@npm:3.5.2"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@lmdb/lmdb-darwin-arm64@npm:2.5.3":
-  version: 2.5.3
-  resolution: "@lmdb/lmdb-darwin-arm64@npm:2.5.3"
-  conditions: os=darwin & cpu=arm64
-  languageName: node
-  linkType: hard
-
-"@lmdb/lmdb-darwin-x64@npm:2.5.2":
-  version: 2.5.2
-  resolution: "@lmdb/lmdb-darwin-x64@npm:2.5.2"
+"@lmdb/lmdb-darwin-x64@npm:3.5.2":
+  version: 3.5.2
+  resolution: "@lmdb/lmdb-darwin-x64@npm:3.5.2"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@lmdb/lmdb-darwin-x64@npm:2.5.3":
-  version: 2.5.3
-  resolution: "@lmdb/lmdb-darwin-x64@npm:2.5.3"
-  conditions: os=darwin & cpu=x64
-  languageName: node
-  linkType: hard
-
-"@lmdb/lmdb-linux-arm64@npm:2.5.2":
-  version: 2.5.2
-  resolution: "@lmdb/lmdb-linux-arm64@npm:2.5.2"
+"@lmdb/lmdb-linux-arm64@npm:3.5.2":
+  version: 3.5.2
+  resolution: "@lmdb/lmdb-linux-arm64@npm:3.5.2"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"@lmdb/lmdb-linux-arm64@npm:2.5.3":
-  version: 2.5.3
-  resolution: "@lmdb/lmdb-linux-arm64@npm:2.5.3"
-  conditions: os=linux & cpu=arm64
-  languageName: node
-  linkType: hard
-
-"@lmdb/lmdb-linux-arm@npm:2.5.2":
-  version: 2.5.2
-  resolution: "@lmdb/lmdb-linux-arm@npm:2.5.2"
+"@lmdb/lmdb-linux-arm@npm:3.5.2":
+  version: 3.5.2
+  resolution: "@lmdb/lmdb-linux-arm@npm:3.5.2"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@lmdb/lmdb-linux-arm@npm:2.5.3":
-  version: 2.5.3
-  resolution: "@lmdb/lmdb-linux-arm@npm:2.5.3"
-  conditions: os=linux & cpu=arm
-  languageName: node
-  linkType: hard
-
-"@lmdb/lmdb-linux-x64@npm:2.5.2":
-  version: 2.5.2
-  resolution: "@lmdb/lmdb-linux-x64@npm:2.5.2"
+"@lmdb/lmdb-linux-x64@npm:3.5.2":
+  version: 3.5.2
+  resolution: "@lmdb/lmdb-linux-x64@npm:3.5.2"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"@lmdb/lmdb-linux-x64@npm:2.5.3":
-  version: 2.5.3
-  resolution: "@lmdb/lmdb-linux-x64@npm:2.5.3"
-  conditions: os=linux & cpu=x64
+"@lmdb/lmdb-win32-arm64@npm:3.5.2":
+  version: 3.5.2
+  resolution: "@lmdb/lmdb-win32-arm64@npm:3.5.2"
+  conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@lmdb/lmdb-win32-x64@npm:2.5.2":
-  version: 2.5.2
-  resolution: "@lmdb/lmdb-win32-x64@npm:2.5.2"
-  conditions: os=win32 & cpu=x64
-  languageName: node
-  linkType: hard
-
-"@lmdb/lmdb-win32-x64@npm:2.5.3":
-  version: 2.5.3
-  resolution: "@lmdb/lmdb-win32-x64@npm:2.5.3"
+"@lmdb/lmdb-win32-x64@npm:3.5.2":
+  version: 3.5.2
+  resolution: "@lmdb/lmdb-win32-x64@npm:3.5.2"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -7638,10 +7610,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"detect-libc@npm:^2.0.0, detect-libc@npm:^2.0.2":
-  version: 2.0.3
-  resolution: "detect-libc@npm:2.0.3"
-  checksum: 10/b4ea018d623e077bd395f168a9e81db77370dde36a5b01d067f2ad7989924a81d31cb547ff764acb2aa25d50bb7fdde0b0a93bec02212b0cb430621623246d39
+"detect-libc@npm:^2.0.0, detect-libc@npm:^2.0.1, detect-libc@npm:^2.0.2":
+  version: 2.1.2
+  resolution: "detect-libc@npm:2.1.2"
+  checksum: 10/b736c8d97d5d46164c0d1bed53eb4e6a3b1d8530d460211e2d52f1c552875e706c58a5376854e4e54f8b828c9cada58c855288c968522eb93ac7696d65970766
   languageName: node
   linkType: hard
 
@@ -12404,21 +12376,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lmdb@npm:2.5.2":
-  version: 2.5.2
-  resolution: "lmdb@npm:2.5.2"
+"lmdb@npm:3.5.2":
+  version: 3.5.2
+  resolution: "lmdb@npm:3.5.2"
   dependencies:
-    "@lmdb/lmdb-darwin-arm64": "npm:2.5.2"
-    "@lmdb/lmdb-darwin-x64": "npm:2.5.2"
-    "@lmdb/lmdb-linux-arm": "npm:2.5.2"
-    "@lmdb/lmdb-linux-arm64": "npm:2.5.2"
-    "@lmdb/lmdb-linux-x64": "npm:2.5.2"
-    "@lmdb/lmdb-win32-x64": "npm:2.5.2"
-    msgpackr: "npm:^1.5.4"
-    node-addon-api: "npm:^4.3.0"
+    "@harperfast/extended-iterable": "npm:^1.0.3"
+    "@lmdb/lmdb-darwin-arm64": "npm:3.5.2"
+    "@lmdb/lmdb-darwin-x64": "npm:3.5.2"
+    "@lmdb/lmdb-linux-arm": "npm:3.5.2"
+    "@lmdb/lmdb-linux-arm64": "npm:3.5.2"
+    "@lmdb/lmdb-linux-x64": "npm:3.5.2"
+    "@lmdb/lmdb-win32-arm64": "npm:3.5.2"
+    "@lmdb/lmdb-win32-x64": "npm:3.5.2"
+    msgpackr: "npm:^1.11.2"
+    node-addon-api: "npm:^6.1.0"
     node-gyp: "npm:latest"
-    node-gyp-build-optional-packages: "npm:5.0.3"
-    ordered-binary: "npm:^1.2.4"
+    node-gyp-build-optional-packages: "npm:5.2.2"
+    ordered-binary: "npm:^1.5.3"
     weak-lru-cache: "npm:^1.2.2"
   dependenciesMeta:
     "@lmdb/lmdb-darwin-arm64":
@@ -12431,42 +12405,13 @@ __metadata:
       optional: true
     "@lmdb/lmdb-linux-x64":
       optional: true
-    "@lmdb/lmdb-win32-x64":
-      optional: true
-  checksum: 10/ed88ebb5ae8a2137d22ed0091ae7b9112dcd5c9e5ed6fce27e547e2395241b8b34a5581307a34dfad930f5b50150524624a1f64a01fb6790baaec051aa18d551
-  languageName: node
-  linkType: hard
-
-"lmdb@npm:2.5.3":
-  version: 2.5.3
-  resolution: "lmdb@npm:2.5.3"
-  dependencies:
-    "@lmdb/lmdb-darwin-arm64": "npm:2.5.3"
-    "@lmdb/lmdb-darwin-x64": "npm:2.5.3"
-    "@lmdb/lmdb-linux-arm": "npm:2.5.3"
-    "@lmdb/lmdb-linux-arm64": "npm:2.5.3"
-    "@lmdb/lmdb-linux-x64": "npm:2.5.3"
-    "@lmdb/lmdb-win32-x64": "npm:2.5.3"
-    msgpackr: "npm:^1.5.4"
-    node-addon-api: "npm:^4.3.0"
-    node-gyp: "npm:latest"
-    node-gyp-build-optional-packages: "npm:5.0.3"
-    ordered-binary: "npm:^1.2.4"
-    weak-lru-cache: "npm:^1.2.2"
-  dependenciesMeta:
-    "@lmdb/lmdb-darwin-arm64":
-      optional: true
-    "@lmdb/lmdb-darwin-x64":
-      optional: true
-    "@lmdb/lmdb-linux-arm":
-      optional: true
-    "@lmdb/lmdb-linux-arm64":
-      optional: true
-    "@lmdb/lmdb-linux-x64":
+    "@lmdb/lmdb-win32-arm64":
       optional: true
     "@lmdb/lmdb-win32-x64":
       optional: true
-  checksum: 10/7e230950c8a544a85cdcc60fa6f3a5650cc62846b8eb3a4badb1f891b2dc64c4794caf020bed4c96df97b1e7c8a4bbf44655445bf1a64a09707616e3e5d7b2c5
+  bin:
+    download-lmdb-prebuilds: bin/download-prebuilds.js
+  checksum: 10/b12ccc72325e5f9a310dd55bd8a59186850e1e9018e31cb6a91787b909c2f30813baa17db1b6fbf298d978449ea2231282faa202309272a0f31717bf1e27d3f2
   languageName: node
   linkType: hard
 
@@ -13220,15 +13165,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msgpackr@npm:^1.5.4":
-  version: 1.9.2
-  resolution: "msgpackr@npm:1.9.2"
+"msgpackr@npm:^1.11.2, msgpackr@npm:^1.5.4":
+  version: 1.12.1
+  resolution: "msgpackr@npm:1.12.1"
   dependencies:
     msgpackr-extract: "npm:^3.0.2"
   dependenciesMeta:
     msgpackr-extract:
       optional: true
-  checksum: 10/13dce74843cf34e76b6d2874adae907bf12f958e15e1759ce580906f4223611505a8bb72b969adbc324e048365afcefcea9b5c0c74e8dcab6587040f1398c2b5
+  checksum: 10/90f5eabb2b059f441714ec0b09cfccea589caf36604598ae44a023e6c113f97889ca6c899beb318bc1a6bb7d6b4d6bef75a6fc13a01aa49c3111ae08da2c6db5
   languageName: node
   linkType: hard
 
@@ -13342,15 +13287,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-addon-api@npm:^4.3.0":
-  version: 4.3.0
-  resolution: "node-addon-api@npm:4.3.0"
-  dependencies:
-    node-gyp: "npm:latest"
-  checksum: 10/d3b38d16cb9ad0714d965331d0e38cef1c27750c2c3343cd3464a9ed8158501a2910ccbf2fd9fdc476e806a19dbc9e0524ff9d66a7c779d42a9752a63ba30b80
-  languageName: node
-  linkType: hard
-
 "node-addon-api@npm:^6.1.0":
   version: 6.1.0
   resolution: "node-addon-api@npm:6.1.0"
@@ -13374,17 +13310,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-gyp-build-optional-packages@npm:5.0.3":
-  version: 5.0.3
-  resolution: "node-gyp-build-optional-packages@npm:5.0.3"
-  bin:
-    node-gyp-build-optional-packages: bin.js
-    node-gyp-build-optional-packages-optional: optional.js
-    node-gyp-build-optional-packages-test: build-test.js
-  checksum: 10/b407da0d3de637869a3c6920826e4033b78daba3db4c28459469f3a3f09b41d99d745c4318d09c7fdc1d147d875b440642dc043697bc932bed6beaa6bb1729ec
-  languageName: node
-  linkType: hard
-
 "node-gyp-build-optional-packages@npm:5.0.7":
   version: 5.0.7
   resolution: "node-gyp-build-optional-packages@npm:5.0.7"
@@ -13393,6 +13318,19 @@ __metadata:
     node-gyp-build-optional-packages-optional: optional.js
     node-gyp-build-optional-packages-test: build-test.js
   checksum: 10/f61780b83ee665d88a1b2d0f5375d3455fabed1af4a009fd4396ed0b19ed6ad2215d4adbc76bd6eea0aafde0c72990e2cee9c888eeb28d6da2c8e5f8bce3ca0f
+  languageName: node
+  linkType: hard
+
+"node-gyp-build-optional-packages@npm:5.2.2":
+  version: 5.2.2
+  resolution: "node-gyp-build-optional-packages@npm:5.2.2"
+  dependencies:
+    detect-libc: "npm:^2.0.1"
+  bin:
+    node-gyp-build-optional-packages: bin.js
+    node-gyp-build-optional-packages-optional: optional.js
+    node-gyp-build-optional-packages-test: build-test.js
+  checksum: 10/f448a328cf608071dc8cc4426ac5be0daec4788e4e1759e9f7ffcd286822cc799384edce17a8c79e610c4bbfc8e3aff788f3681f1d88290e0ca7aaa5342a090f
   languageName: node
   linkType: hard
 
@@ -13749,10 +13687,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ordered-binary@npm:^1.2.4":
-  version: 1.4.0
-  resolution: "ordered-binary@npm:1.4.0"
-  checksum: 10/cdcc5f174736ee54871e954f7c23b6a0fbd9cfb3e861da6689e02675481f054e59bde2415fe8fe5ce217a7f709a6435f868c91e05f66c62f70902130055d0b85
+"ordered-binary@npm:^1.5.3":
+  version: 1.6.3
+  resolution: "ordered-binary@npm:1.6.3"
+  checksum: 10/6aaa0eb4645506bad855089fb106510f6cc143b645cf4e1fde3fa508aea7ffb408c1c186ef1cf9a22f915fed61d475efed3150f2509feb049f8f2497b0bbf61d
   languageName: node
   linkType: hard
 
